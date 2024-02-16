@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en" theme-mode="auto"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>OpenGL的缓冲位 | Asuka24601_Site</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light' || window.matchMedia('(prefers-color-scheme:light)').matches)
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark' || window.matchMedia('(prefers-color-scheme:dark)').matches)
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+  menuSettings: {
+    zoom: "None"
+  },
+  showMathMenu: false,
+  jax: ["input/TeX","output/CommonHTML"],
+  extensions: ["tex2jax.js"],
+  TeX: {
+    extensions: ["AMSmath.js","AMSsymbols.js"],
+    equationNumbers: {
+      autoNumber: "AMS"
+    }
+  },
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]]
+  }
+});
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);document.addEventListener('pjax:success', _ => bszCaller.fetch(
+ "//busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback", a => {
+  bszTag.texts(a),
+  bszTag.shows()
+}));reset()})</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>OpenGL的缓冲位</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2022-05-01T12:27:48.000Z" id="date"> 2022-05-01</time></div></span><br><span>Last Update: <div class="control"><time datetime="2024-02-16T11:33:18.962Z" id="updated"> 2024-02-16</time></div></span><br><span>Word Count: <div class="control">1k</div></span><br><span>Read Time: <div class="control">3 min</div></span><br><span id="busuanzi_container_page_pv">Page View: <span class="control" id="busuanzi_value_page_pv">loading...</span></span></div></div><hr><div id="post-content"><p>OpenGL有多个缓冲位（Buffer Bit），这些缓冲位又称缓冲区。</p>
+<h2 id="GL-COLOR-BUFFER-BIT，颜色缓冲区"><a href="#GL-COLOR-BUFFER-BIT，颜色缓冲区" class="headerlink" title="GL_COLOR_BUFFER_BIT，颜色缓冲区"></a>GL_COLOR_BUFFER_BIT，颜色缓冲区</h2><p>OpenGL在绘制图元时，先是在一个缓冲区中完成渲染，然后再把渲染结果交换到屏幕上。我们把这两个缓冲区称为前颜色缓冲区（屏幕）和后颜色缓冲区。在默认情况下，OpenGL命令是在后颜色缓冲区进行渲染的。当然，也可以直接在前颜色缓冲区中进行渲染。</p>
+<p>若要在前颜色缓冲区中进行渲染，第一种方法是直接告诉OpenGL希望在前颜色缓冲区中进行绘图，可以调用下面这个函数来实现这个目的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">void</span> glDrawBuffer（Glenum mode）;<br></code></pre></td></tr></table></figure>
+
+<p>如果参数 <strong>mode</strong> 指定为 <strong>GL_FRONT</strong> ，OpenGL就会在前颜色缓冲区中进行渲染；</p>
+<p>如果参数 <strong>mode</strong> 指定为 <strong>GL_BACK</strong> ，那么渲染将在后颜色缓冲区中进行。</p>
+<p>在前颜色缓冲区进行渲染的第二种方法是在OpenGL被初始化时简单地不要求进行双缓冲区渲染。进行单缓冲区渲染时，如果希望把渲染结果实际绘制到屏幕上，需要调用 <strong>glFlush()</strong> 或 <strong>glFinsh()</strong> ，这点非常重要。</p>
+<p>OpenGL实现除了支持单纯的前颜色缓冲区和后颜色缓冲区之外，还支持其他模式，如用于立体渲染的左和右缓冲区以及辅助缓冲区。</p>
+<h2 id="GL-DEPTH-BUFFER-BIT，深度缓冲区"><a href="#GL-DEPTH-BUFFER-BIT，深度缓冲区" class="headerlink" title="GL_DEPTH_BUFFER_BIT，深度缓冲区"></a>GL_DEPTH_BUFFER_BIT，深度缓冲区</h2><p>与颜色缓冲区不同的是，深度缓冲区中所填充的是深度值而不是颜色值。</p>
+<p>为了启用深度缓冲区进行深度测试，只需要调用：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">glEnable（GL_DEPTH_TEST）;<br></code></pre></td></tr></table></figure>
+
+
+<p>另外，即使深度缓冲区未被启用，如果深度缓冲区被创建，OpenGL也会把所有写入到颜色缓冲区的颜色片段对应的深度值写入到深度缓冲区中。但是，如果我们希望在进行深度测试时临时禁止把值写入到深度缓冲区，我们可以使用函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">void</span> glDepthMask（GLboolean mask）;<br></code></pre></td></tr></table></figure>
+
+<p>把 <strong>GL_FALSE</strong> 作为参数，经禁止写入深度值，但并不禁止用已经写入到深度缓冲区的值进行深度测试。</p>
+<p>把 <strong>GL_TRUE</strong> 作为参数，可以重新启用深度缓冲区的写入。同时，这也是默认的设置。</p>
+<h2 id="GL-STENCIL-BUFFER-BIT，模板缓冲区"><a href="#GL-STENCIL-BUFFER-BIT，模板缓冲区" class="headerlink" title="GL_STENCIL_BUFFER_BIT，模板缓冲区"></a>GL_STENCIL_BUFFER_BIT，模板缓冲区</h2><p>与颜色缓冲区和深度缓冲区类似，模板缓冲区可以为屏幕上的每个像素点保存一个无符号整数值。这个值的具体意义视程序的具体应用而定。在渲染的过程中，可以用这个值与一个预先设定的参考值相比较，根据比较的结果来决定是否更新相应的像素点的颜色值。这个比较的过程被称为模板测试。</p>
+<p>模板测试发生在 <strong>透明度测试（alpha test）</strong> 之后， <strong>深度测试（depth test）</strong> 之前。如果模板测试通过，则相应的像素点更新，否则不更新。就像使用纸板和喷漆一样精确的混图一样，当启动 <strong>模板测试（stencil test）</strong> 时，通过模板测试的片段像素点会被替换到颜色缓冲区中，从而显示出来，未通过的则不会保存到颜色缓冲区中，从而达到了过滤的功能。</p>
+<div align="center"  class='item-img' data-src='https://s2.loli.net/2024/02/16/jqNyVEmPJoaTkvf.png'><img src="https://s2.loli.net/2024/02/16/jqNyVEmPJoaTkvf.png" width=35% hight=auto>
+</div>
+
+<p>为了启用模板缓冲区进行模板测试，只需要调用：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">glEnable</span>(GL_STENCIL_TEST);<br></code></pre></td></tr></table></figure>
+
+<h2 id="GL-ACCUM-BUFFER-BIT，积累缓冲区"><a href="#GL-ACCUM-BUFFER-BIT，积累缓冲区" class="headerlink" title="GL_ACCUM_BUFFER_BIT，积累缓冲区"></a>GL_ACCUM_BUFFER_BIT，积累缓冲区</h2><p>累积缓冲区允许你把渲染到颜色缓冲区的值，拷贝到累积缓冲区。在多次拷贝操作到累积缓冲区时，可以用不同方式的把颜色缓冲区内容和当前累积缓冲区的内容进行重复混合。当在累积缓冲区完成一幅图像之后，可以拷回颜色缓冲区，然后通过SwapBuffers显示到屏幕上。</p>
+<p>可以用 <strong>glClearAccum()</strong> 来设置红、绿和蓝色分量的清空值，按位顺序清空累积缓存或以 <strong>GL_ACCUM_BUFFER_BIT</strong> 调用 <strong>glClear()</strong> 命令。</p>
+<p align="center">Create By Asuka24601</p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2022/07/25/%E7%90%86%E8%A7%A3CSS/">← Next 理解CSS</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2022/04/28/%E5%9C%A8Windows%E4%B8%8A%E9%85%8D%E7%BD%AE%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84OpenGL%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">在Windows上配置轻量级的OpenGL开发环境 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Asuka24601</a></h1><div id="description"><p>你很少能赢，但有时也会。</p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/asuka24601"><i class="fab fa-github" alt="GitHub"></i></a><a class="social" href="mailto:asuka24601@gmail.com"><i class="fa fa-envelope" alt="E-Mail"></i></a><a class="social" target="_blank" rel="noopener" href="https://space.bilibili.com/2724463"><i class="fa-brands fa-bilibili" alt="BiliBili"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GL-COLOR-BUFFER-BIT%EF%BC%8C%E9%A2%9C%E8%89%B2%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">1.</span> <span class="toc-text">GL_COLOR_BUFFER_BIT，颜色缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GL-DEPTH-BUFFER-BIT%EF%BC%8C%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">2.</span> <span class="toc-text">GL_DEPTH_BUFFER_BIT，深度缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GL-STENCIL-BUFFER-BIT%EF%BC%8C%E6%A8%A1%E6%9D%BF%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">3.</span> <span class="toc-text">GL_STENCIL_BUFFER_BIT，模板缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GL-ACCUM-BUFFER-BIT%EF%BC%8C%E7%A7%AF%E7%B4%AF%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">4.</span> <span class="toc-text">GL_ACCUM_BUFFER_BIT，积累缓冲区</span></a></li></ol></div></div><footer><nobr><span class="icp-title">ICP</span><a class="icp-content" target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">不需要备案</a></nobr><br><nobr><span class="icp-title">CC BY-NC-SA 4.0</span><span class="icp-content">1999 to 2077</span></nobr><br><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>
