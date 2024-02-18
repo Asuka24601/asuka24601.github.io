@@ -170,36 +170,36 @@ mjx-container[display="true"] {
 mjx-container[display="true"] + br {
   display: none;
 }
-</style></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>西瓜书学习笔记(1)</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2024-02-18T06:30:13.000Z" id="date"> 2024-02-18</time></div></span><br><span>Last Update: <div class="control"><time datetime="2024-02-18T06:30:13.905Z" id="updated"> 2024-02-18</time></div></span><br><span>Word Count: <div class="control">2.5k</div></span><br><span>Read Time: <div class="control">8 min</div></span><br><span id="busuanzi_container_page_pv">Page View: <span class="control" id="busuanzi_value_page_pv">loading...</span></span></div></div><hr><div id="post-content"><p class='item-img' data-src='https://s2.loli.net/2024/02/18/Z7JgBtQlzrqcueM.png'><img src="https://s2.loli.net/2024/02/18/Z7JgBtQlzrqcueM.png" alt="EVA3.png"></p>
+</style></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>西瓜书学习笔记(1)</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-12-18T06:30:13.000Z" id="date"> 2023-12-18</time></div></span><br><span>Last Update: <div class="control"><time datetime="2024-02-18T06:35:46.453Z" id="updated"> 2024-02-18</time></div></span><br><span>Word Count: <div class="control">2.4k</div></span><br><span>Read Time: <div class="control">8 min</div></span><br><span id="busuanzi_container_page_pv">Page View: <span class="control" id="busuanzi_value_page_pv">loading...</span></span></div></div><hr><div id="post-content"><p class='item-img' data-src='https://s2.loli.net/2024/02/18/Z7JgBtQlzrqcueM.png'><img src="https://s2.loli.net/2024/02/18/Z7JgBtQlzrqcueM.png" alt="EVA3.png"></p>
 <span id="more"></span>
 
 <h2 id="机器学习的定义"><a href="#机器学习的定义" class="headerlink" title="机器学习的定义"></a>机器学习的定义</h2><p>正如我们根据过去的经验来判断明天的天气，人们希望从购买经验中挑选一个好瓜，那能不能让计算机帮助人类来实现这个呢？机器学习正是这样的一门学科，人的”经验”对应计算机中的”数据”， <strong>让计算机来学习这些经验数据，生成一个算法模型，在面对新的情况中，计算机便能作出有效的判断，这便是机器学习</strong> 。</p>
 <p>另一本经典教材的作者 <a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/~tom/">Mitchell</a> 给出了一个形式化的定义，假设：</p>
 <ul>
-<li>__P__：计算机程序在某任务类T上的性能。</li>
-<li>__T__：计算机程序希望实现的任务类。</li>
-<li>__E__：表示经验，即历史的数据集。</li>
+<li><strong>P</strong> ：计算机程序在某任务类T上的性能。</li>
+<li><strong>T</strong> ：计算机程序希望实现的任务类。</li>
+<li><strong>E</strong> ：表示经验，即历史的数据集。</li>
 </ul>
 <p>若该计算机程序通过利用经验E在任务T上获得了性能P的改善，则称该程序对E进行了学习。</p>
 <h2 id="机器学习的一些基本术语"><a href="#机器学习的一些基本术语" class="headerlink" title="机器学习的一些基本术语"></a>机器学习的一些基本术语</h2><p>假设我们收集了一批西瓜的数据，例如：(色泽=青绿;根蒂=蜷缩;敲声=浊响) ， (色泽=乌黑;根蒂=稍蜷;敲声=沉闷)， (色泽=浅自;根蒂=硬挺;敲声=清脆)……每对括号内是一个西瓜的记录。定义：</p>
 <ul>
-<li><p>所有记录的集合为：__数据集__。</p>
+<li><p>所有记录的集合为： <strong>数据集</strong> 。</p>
 </li>
 <li><p>每一条记录为：一个 <strong>示例（instance）或样本（sample）</strong> 。</p>
 </li>
-<li><p>单个的特点(例如西瓜的色泽或敲声)：为 __特征（feature）或属性（attribute）__。</p>
+<li><p>单个的特点(例如西瓜的色泽或敲声)：为 <strong>特征（feature）或属性（attribute）</strong> 。</p>
 </li>
 </ul>
-<p>对于一条记录，如果在坐标轴上表示，每个西瓜都可以用坐标轴中的一个点表示，一个点也是一个向量，例如（青绿，蜷缩，浊响），即每个西瓜为：一个 __特征向量（feature vector）__。</p>
-<p>一个样本的特征数为：__维数（dimensionality）__，该西瓜的例子维数为3，当维数非常大时会产生”维数灾难”。</p>
+<p>对于一条记录，如果在坐标轴上表示，每个西瓜都可以用坐标轴中的一个点表示，一个点也是一个向量，例如（青绿，蜷缩，浊响），即每个西瓜为：一个 <strong>特征向量（feature vector）</strong> 。</p>
+<p>一个样本的特征数为：<strong>维数（dimensionality）</strong> ，该西瓜的例子维数为3，当维数非常大时会产生”维数灾难”。</p>
 <p>计算机程序学习经验数据生成算法模型的过程中，每一条记录称为一个”训练样本”，同时在训练好模型后，我们希望使用新的样本来测试模型的效果，则每一个新的样本称为一个”测试样本”。定义：</p>
 <ul>
-<li><p>所有 <strong>训练样本</strong> 的集合为：__训练集（trainning set）__，[<strong>特殊</strong>]。</p>
+<li><p>所有 <strong>训练样本</strong> 的集合为： __训练集（trainning set）__，[<strong>特殊</strong>] 。</p>
 </li>
-<li><p>所有 <strong>测试样本</strong> 的集合为：__测试集（test set）__，[<strong>一般</strong>]。</p>
+<li><p>所有 <strong>测试样本</strong> 的集合为： __测试集（test set）__，[<strong>一般</strong>] 。</p>
 </li>
 </ul>
-<p>机器学习出来的模型适用于新样本的能力为： __泛化能力（generalization）__，即从特殊到一般。</p>
+<p>机器学习出来的模型适用于新样本的能力为： <strong>泛化能力（generalization）</strong> ，即从特殊到一般。</p>
 <blockquote>
 <p>用一个实际例子来说明一下，就像考试之前我们肯定是要反复做题的，为的就是考试能考个好点的成绩。但是考试大多数都是新题，谁也没做过，考前的刷题是为了掌握试题的规律，能够举一反三、学以致用，这样我们在做新题的时候也能够从容面对。这种规律的掌握便是泛化能力，有的同学就能很好掌握这种规律，考试考个高分，也就是说他的”泛化能力”好。<br>考试考的不好的同学，无非是这三个原因：</p>
 <ol>
@@ -211,16 +211,16 @@ mjx-container[display="true"] + br {
 </blockquote>
 <p>西瓜的例子中，我们是想计算机通过学习西瓜的特征数据，训练出一个决策模型，来判断一个新的西瓜是否是好瓜。可以得知我们预测的是：西瓜是好是坏，即好瓜与差瓜两种，是离散值。同样地，也有通过历年的人口数据，来预测未来的人口数量，人口数量则是连续值。定义：</p>
 <ul>
-<li><p>预测值为 <strong>离散</strong> 值的问题为：__分类（classification）__。</p>
+<li><p>预测值为 <strong>离散</strong> 值的问题为： <strong>分类（classification）</strong> 。</p>
 </li>
-<li><p>预测值为 <strong>连续</strong> 值的问题为：__回归（regression）__。</p>
+<li><p>预测值为 <strong>连续</strong> 值的问题为： <strong>回归（regression）</strong> 。</p>
 </li>
 </ul>
 <p>我们预测西瓜是否是好瓜的过程中，很明显对于训练集中的西瓜，我们事先已经知道了该瓜是否是好瓜，学习器通过学习这些好瓜或差瓜的特征，从而总结出规律，即训练集中的西瓜我们都做了标记，称为标记信息。但也有没有标记信息的情形，例如：我们想将一堆西瓜根据特征分成两个小堆，使得某一堆的西瓜尽可能相似，即都是好瓜或差瓜，对于这种问题，我们事先并不知道西瓜的好坏，样本没有标记信息。定义：</p>
 <ul>
-<li><p>训练数据 <strong>有标记信息</strong> 的学习任务为：__监督学习（supervised learning）__，容易知道上面所描述的分类和回归都是监督学习的范畴。</p>
+<li><p>训练数据 <strong>有标记信息</strong> 的学习任务为： <strong>监督学习（supervised learning）</strong> ，容易知道上面所描述的分类和回归都是监督学习的范畴。</p>
 </li>
-<li><p>训练数据 <strong>没有标记信息</strong> 的学习任务为：__无监督学习（unsupervised learning）__，常见的有聚类和关联规则。</p>
+<li><p>训练数据 <strong>没有标记信息</strong> 的学习任务为： <strong>无监督学习（unsupervised learning）</strong> ，常见的有聚类和关联规则。</p>
 </li>
 </ul>
 <h2 id="假设空间"><a href="#假设空间" class="headerlink" title="假设空间"></a>假设空间</h2><p>我们可以把学习过程看作一个在所有 <strong>假设(hypothesis)组成的空间</strong> 中进行搜索的过程，搜索目标是找到与训练集”匹配”(fit)的假设，即能够将训练集中的瓜判断正确的假设。</p>
