@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en" theme-mode="auto"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>redis持久化的三种方式 | Asuka24601_Site</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light' || window.matchMedia('(prefers-color-scheme:light)').matches)
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark' || window.matchMedia('(prefers-color-scheme:dark)').matches)
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+  menuSettings: {
+    zoom: "None"
+  },
+  showMathMenu: false,
+  jax: ["input/TeX","output/CommonHTML"],
+  extensions: ["tex2jax.js"],
+  TeX: {
+    extensions: ["AMSmath.js","AMSsymbols.js"],
+    equationNumbers: {
+      autoNumber: "AMS"
+    }
+  },
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]]
+  }
+});
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);document.addEventListener('pjax:success', _ => bszCaller.fetch(
+ "//busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback", a => {
+  bszTag.texts(a),
+  bszTag.shows()
+}));reset()})</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>redis持久化的三种方式</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2024-02-19T08:24:41.000Z" id="date"> 2024-02-19</time></div></span><br><span>Last Update: <div class="control"><time datetime="2024-02-20T10:48:07.728Z" id="updated"> 2024-02-20</time></div></span><br><span>Word Count: <div class="control">2.1k</div></span><br><span>Read Time: <div class="control">7 min</div></span><br><span id="busuanzi_container_page_pv">Page View: <span class="control" id="busuanzi_value_page_pv">loading...</span></span></div></div><hr><div id="post-content"><p>Redis 是基于内存的数据库，而内存又是易失性的，一旦遇到断电或异常重启等问题时，内存中的数据就会丢失。所以 Redis 为了保证数据的可靠性花了不少功夫。</p>
+<span id="more"></span>
+
+<p>Redis 主要是通过 AOF 日志和 RDB 快照来实现持久化的。</p>
+<p>Redis 共有三种数据持久化的方式：</p>
+<ul>
+<li><strong>AOF</strong> 日志 ：每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里；</li>
+<li><strong>RDB</strong> 快照 ：将某一时刻的内存数据，以二进制的方式写入磁盘；</li>
+<li><strong>混合持久化</strong> ：Redis 4.0 新增的方式，集成了 AOF 和 RBD 的优点；</li>
+</ul>
+<h2 id="AOF-Append-Only-File"><a href="#AOF-Append-Only-File" class="headerlink" title="AOF (Append Only File)"></a>AOF (Append Only File)</h2><p>Redis 的 AOF 是一种为了数据持久化而设计的日志系统。AOF 持久化会记录每个写操作命令到一个日志文件中，这些命令会在 Redis 重启时被重新执行来重建整个数据集。AOF 持久化提供了一种更加可靠的方式来确保数据不会因为故障而丢失。</p>
+<h3 id="AOF-持久化的工作原理"><a href="#AOF-持久化的工作原理" class="headerlink" title="AOF 持久化的工作原理"></a>AOF 持久化的工作原理</h3><ol>
+<li><p><strong>记录命令</strong> ：每当 Redis 执行一个写命令（比如 <code>SET</code>, <code>HSET</code> 等），这个命令会被追加到 AOF 文件的末尾。这确保了所有对数据的更改都会被记录下来。</p>
+</li>
+<li><p><strong>文件同步策略</strong> ：Redis 提供了几种不同的文件同步策略，让你可以在性能和数据安全性之间做出权衡。这些策略包括：</p>
+<ul>
+<li><strong>always</strong> ：每次写操作后都会同步文件，这提供了最高的数据安全性，但可能会因为磁盘 I&#x2F;O 的频繁操作而导致性能问题。</li>
+<li><strong>everysec</strong> （默认）：每秒同步一次文件。这提供了一个平衡的选择，既保证了较好的数据安全性，又避免了过多的性能损失。</li>
+<li><strong>no</strong> ：不主动同步文件，只依赖操作系统的缓存策略和周期。这种策略提供了最高的性能，但在系统崩溃的情况下可能会丢失最近一秒钟的数据。</li>
+</ul>
+</li>
+<li><p><strong>文件重写</strong> ：随着时间的推移，AOF 文件可能会变得非常大，因为它记录了所有的写操作。Redis 提供了 AOF 重写的功能，这个过程会创建一个新的 AOF 文件，其中只包含达到当前数据集状态所需的最小命令集。这有助于减少磁盘空间的占用并提高 Redis 启动时的恢复速度。</p>
+</li>
+<li><p><strong>恢复数据</strong> ：当 Redis 重启时，它会读取 AOF 文件中的所有命令并重新执行它们，以此来重建整个数据集。这个过程可能需要一些时间，取决于 AOF 文件的大小。</p>
+</li>
+</ol>
+<p>使用 AOF 持久化的优点包括：</p>
+<ul>
+<li><strong>数据安全性</strong> ：通过记录每个写操作，AOF 提供了很高的数据安全性。</li>
+<li><strong>灵活性</strong> ：提供了不同的文件同步策略，让用户可以根据自己的需求选择最合适的设置。</li>
+<li><strong>可读性</strong> ：AOF 文件是纯文本格式的，可以很容易地进行查看和编辑。</li>
+</ul>
+<p>但是存在两个风险：</p>
+<ul>
+<li>执行写操作命令和记录日志是两个过程，如果 Redis 还没来得及将命令写入到硬盘，服务器发生宕机，这个数据就会有 <strong>丢失的风险</strong> 。</li>
+<li>由于写操作命令执行成功后才记录到 AOF 日志，所以不会阻塞当前写操作命令的执行，但是 <strong>可能会给下一个命令带来阻塞风险</strong> 。</li>
+</ul>
+<p>然而，使用 AOF 也有一些潜在的缺点，比如可能会对性能产生影响（尤其是在 <code>always</code> 同步模式下），并且在数据集很大时，AOF 文件的重写可能需要较长时间。因此，在使用 AOF 时，合理配置和定期监控是很重要的。</p>
+<h2 id="RDB-Redis-Database"><a href="#RDB-Redis-Database" class="headerlink" title="RDB (Redis Database)"></a>RDB (Redis Database)</h2><p>Redis Database，即快照&#x2F;内存快照，RDB 快照就是记录某一个瞬间的内存数据，记录的是实际数据（二进制数据，使用 LZF 算法进行压缩），因此在 Redis 恢复数据时， RDB 恢复数据的效率会比 AOF 高些，因为直接将 RDB 文件读入内存就可以，不需要像 AOF 那样还需要额外执行操作命令的步骤才能恢复数据。</p>
+<p>RDB持久化通过创建数据集的快照来实现，在指定的时间间隔内执行快照操作，将Redis的某一时刻的数据状态保存到磁盘上的一个文件中（通常是dump.rdb文件）。</p>
+<h3 id="RDB的工作原理"><a href="#RDB的工作原理" class="headerlink" title="RDB的工作原理"></a>RDB的工作原理</h3><ol>
+<li><p><strong>触发时机</strong> ：RDB持久化可以通过两种方式触发：</p>
+<ul>
+<li>根据配置文件中的规则自动触发。例如，可以设定”在900秒内至少有1个键被修改”或”在300秒内至少有10个键被修改”等规则。<blockquote>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs INI"><span class="hljs-comment"># 在配置文件中使用如&quot;save m n&quot;，表示m秒内数据修改n次,自动触发bgsave。</span><br>save 900 1<br>save 300 10<br>save 60 10000<br></code></pre></td></tr></table></figure></blockquote>
+</li>
+<li>手动触发，通过执行SAVE或BGSAVE命令。SAVE命令会阻塞当前Redis服务器直到RDB文件创建完毕，而BGSAVE命令会在后台异步创建RDB文件，这样就不会阻塞主服务器。</li>
+</ul>
+</li>
+<li><p><strong>创建快照</strong> ：当RDB持久化被触发时，Redis会创建一个数据集的快照。如果是BGSAVE命令，Redis会fork一个子进程来创建这个快照，父进程则可以继续处理客户端的请求。</p>
+</li>
+<li><p><strong>写入磁盘</strong> ：快照数据会被写入到一个临时RDB文件中。写入过程中，会使用一种高效的压缩算法来减少磁盘空间的占用。一旦整个数据集被成功写入临时文件，这个临时文件会替换掉之前的RDB文件。</p>
+</li>
+</ol>
+<p>RDB的优点包括：</p>
+<ul>
+<li><strong>快速重启</strong> ：使用RDB恢复数据比使用AOF（Append Only File，另一种Redis持久化机制）的方式要快得多。</li>
+<li><strong>数据压缩</strong> ：RDB文件是压缩的，占用磁盘空间较小。<br>简单性：RDB是一个非常简单的持久化方式，只需要一个文件就能完成数据的恢复。</li>
+</ul>
+<p>然而，RDB也有一些缺点：</p>
+<ul>
+<li>数据丢失风险：如果Redis崩溃，自上次快照以来的所有修改都会丢失。</li>
+<li>在大数据集上保存快照可能会导致延迟：尽管使用BGSAVE可以减少这种影响，但在快照过程中仍然可能会出现短暂的延迟。</li>
+<li>主线程修改数据需要复制物理内存，如果所有的共享内存都被修改，则此时的内存占用是原先的两倍。</li>
+</ul>
+<p>总的来说，RDB提供了一种快速、高效的方式来恢复Redis数据，但在对数据丢失的容忍度较低的应用中，可能需要与AOF等其他持久化机制结合使用。</p>
+<h2 id="混合持久化"><a href="#混合持久化" class="headerlink" title="混合持久化"></a>混合持久化</h2><p>Redis 4.0 开始支持混合使用 AOF 日志和内存快照，也叫混合持久化。简单来说就是，内存快照以一定的频率执行，在两次快照之间，使用 AOF 日志记录这期间的所有命令操作。</p>
+<p>当开启了混合持久化时，在 AOF 重写日志时，重写子进程会先将与主线程共享的内存数据以 RDB 方式写入到 AOF 文件，然后主线程处理的操作命令会被记录在重写缓冲区里，重写缓冲区里的增量命令会以 AOF 方式写入到 AOF 文件，写入完成后通知主进程将新的含有 RDB 格式和 AOF 格式的 AOF 文件替换旧的的 AOF 文件。</p>
+<p>也就是说，使用了混合持久化，AOF 文件的前半部分是 RDB 格式的全量数据，后半部分是 AOF 格式的增量数据。</p>
+<p>这样的好处在于，重启 Redis 加载数据的时候，由于前半部分是 RDB 内容，这样加载的时候速度会很快。</p>
+<p align="center">Create By Asuka24601</p>
+
+
+
+
+
+
+<p align="center" style="padding:2.5px">你可以在这里:[<a href='https://asuka24601.github.io/2024/02/19/redis持久化的三种方式/'>https://asuka24601.github.io/2024/02/19/redis持久化的三种方式/</a>]找到这篇文章，如有问题，请通过邮件联系。</p><div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2024/02/20/%E4%B8%BA%E4%BB%80%E4%B9%88chrom%E9%87%87%E5%8F%96%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%96%B9%E5%BC%8F%EF%BC%9F/">← Next 为什么chrom采取多进程方式？</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2023/12/19/%E8%A5%BF%E7%93%9C%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-2/">西瓜书学习笔记(2) Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Asuka24601</a></h1><div id="description"><p>你很少能赢，但有时也会。</p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/asuka24601"><i class="fab fa-github" alt="GitHub"></i></a><a class="social" href="mailto:asuka24601@gmail.com"><i class="fa fa-envelope" alt="E-Mail"></i></a><a class="social" target="_blank" rel="noopener" href="https://space.bilibili.com/2724463"><i class="fa-brands fa-bilibili" alt="BiliBili"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF-Append-Only-File"><span class="toc-number">1.</span> <span class="toc-text">AOF (Append Only File)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF-%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">AOF 持久化的工作原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB-Redis-Database"><span class="toc-number">2.</span> <span class="toc-text">RDB (Redis Database)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RDB%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">RDB的工作原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">混合持久化</span></a></li></ol></div></div><footer><nobr><span class="icp-title">ICP</span><a class="icp-content" target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">不需要备案</a></nobr><br><nobr><span class="icp-title">CC BY-NC-SA 4.0</span><span class="icp-content">1999 to 2077</span></nobr><br><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>
