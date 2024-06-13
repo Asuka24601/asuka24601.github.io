@@ -16,26 +16,26 @@
   <meta name="author" content="Asuka24601">
   <meta name="keywords" content="Anything,Everything">
   
-    <meta name="description" content="Redis 是基于内存的数据库，而内存又是易失性的，一旦遇到断电或异常重启等问题时，内存中的数据就会丢失。所以 Redis 为了保证数据的可靠性花了不少功夫。">
+    <meta name="description" content="不知道从什么时候开始，我觉得自己没以前那么爱你了。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="redis持久化的三种方式">
-<meta property="og:url" content="https://asuka24601.github.io/2024/02/19/redis%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:title" content="《短篇》（二）">
+<meta property="og:url" content="https://asuka24601.github.io/2024/06/13/%E3%80%8A%E7%9F%AD%E7%AF%87%E3%80%8B%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="Asuka24601_Site">
-<meta property="og:description" content="Redis 是基于内存的数据库，而内存又是易失性的，一旦遇到断电或异常重启等问题时，内存中的数据就会丢失。所以 Redis 为了保证数据的可靠性花了不少功夫。">
+<meta property="og:description" content="不知道从什么时候开始，我觉得自己没以前那么爱你了。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-02-19T08:24:41.000Z">
-<meta property="article:modified_time" content="2024-02-27T19:53:45.214Z">
+<meta property="og:image" content="https://s2.loli.net/2024/06/13/Q7qtZk834Rd2Xgo.png">
+<meta property="article:published_time" content="2024-06-13T15:38:58.292Z">
+<meta property="article:modified_time" content="2024-06-13T15:49:24.767Z">
 <meta property="article:author" content="Asuka24601">
-<meta property="article:tag" content="知识">
-<meta property="article:tag" content="java">
-<meta property="article:tag" content="redis">
+<meta property="article:tag" content="小说">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2024/06/13/Q7qtZk834Rd2Xgo.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>redis持久化的三种方式 - Asuka24601_Site</title>
+  <title>《短篇》（二） - Asuka24601_Site</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -222,13 +222,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/longway.png') no-repeat center center; background-size: cover;">
+     style="background: url('https://s2.loli.net/2024/06/13/Q7qtZk834Rd2Xgo.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="redis持久化的三种方式"></span>
+            <span id="subtitle" data-typed-text="《短篇》（二）"></span>
           
         </div>
 
@@ -244,8 +244,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-02-19 16:24" pubdate>
-          2024年2月19日 下午
+        <time datetime="2024-06-13 23:38" pubdate>
+          2024年6月13日 晚上
         </time>
       </span>
     
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          855 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          17 分钟
+          8 分钟
         
       </span>
     
@@ -312,83 +312,23 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">redis持久化的三种方式</h1>
+            <h1 id="seo-header">《短篇》（二）</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Redis 是基于内存的数据库，而内存又是易失性的，一旦遇到断电或异常重启等问题时，内存中的数据就会丢失。所以 Redis 为了保证数据的可靠性花了不少功夫。</p>
+                <p>不知道从什么时候开始，我觉得自己没以前那么爱你了。</p>
 <span id="more"></span>
 
-<p>Redis 主要是通过 AOF 日志和 RDB 快照来实现持久化的。</p>
-<p>Redis 共有三种数据持久化的方式：</p>
-<ul>
-<li><strong>AOF</strong> 日志 ：每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里；</li>
-<li><strong>RDB</strong> 快照 ：将某一时刻的内存数据，以二进制的方式写入磁盘；</li>
-<li><strong>混合持久化</strong> ：Redis 4.0 新增的方式，集成了 AOF 和 RBD 的优点；</li>
-</ul>
-<h2 id="AOF-Append-Only-File"><a href="#AOF-Append-Only-File" class="headerlink" title="AOF (Append Only File)"></a>AOF (Append Only File)</h2><p>Redis 的 AOF 是一种为了数据持久化而设计的日志系统。AOF 持久化会记录每个写操作命令到一个日志文件中，这些命令会在 Redis 重启时被重新执行来重建整个数据集。AOF 持久化提供了一种更加可靠的方式来确保数据不会因为故障而丢失。</p>
-<h3 id="AOF-持久化的工作原理"><a href="#AOF-持久化的工作原理" class="headerlink" title="AOF 持久化的工作原理"></a>AOF 持久化的工作原理</h3><ol>
-<li><p><strong>记录命令</strong> ：每当 Redis 执行一个写命令（比如 <code>SET</code>, <code>HSET</code> 等），这个命令会被追加到 AOF 文件的末尾。这确保了所有对数据的更改都会被记录下来。</p>
-</li>
-<li><p><strong>文件同步策略</strong> ：Redis 提供了几种不同的文件同步策略，让你可以在性能和数据安全性之间做出权衡。这些策略包括：</p>
-<ul>
-<li><strong>always</strong> ：每次写操作后都会同步文件，这提供了最高的数据安全性，但可能会因为磁盘 I&#x2F;O 的频繁操作而导致性能问题。</li>
-<li><strong>everysec</strong> （默认）：每秒同步一次文件。这提供了一个平衡的选择，既保证了较好的数据安全性，又避免了过多的性能损失。</li>
-<li><strong>no</strong> ：不主动同步文件，只依赖操作系统的缓存策略和周期。这种策略提供了最高的性能，但在系统崩溃的情况下可能会丢失最近一秒钟的数据。</li>
-</ul>
-</li>
-<li><p><strong>文件重写</strong> ：随着时间的推移，AOF 文件可能会变得非常大，因为它记录了所有的写操作。Redis 提供了 AOF 重写的功能，这个过程会创建一个新的 AOF 文件，其中只包含达到当前数据集状态所需的最小命令集。这有助于减少磁盘空间的占用并提高 Redis 启动时的恢复速度。</p>
-</li>
-<li><p><strong>恢复数据</strong> ：当 Redis 重启时，它会读取 AOF 文件中的所有命令并重新执行它们，以此来重建整个数据集。这个过程可能需要一些时间，取决于 AOF 文件的大小。</p>
-</li>
-</ol>
-<p>使用 AOF 持久化的优点包括：</p>
-<ul>
-<li><strong>数据安全性</strong> ：通过记录每个写操作，AOF 提供了很高的数据安全性。</li>
-<li><strong>灵活性</strong> ：提供了不同的文件同步策略，让用户可以根据自己的需求选择最合适的设置。</li>
-<li><strong>可读性</strong> ：AOF 文件是纯文本格式的，可以很容易地进行查看和编辑。</li>
-</ul>
-<p>但是存在两个风险：</p>
-<ul>
-<li>执行写操作命令和记录日志是两个过程，如果 Redis 还没来得及将命令写入到硬盘，服务器发生宕机，这个数据就会有 <strong>丢失的风险</strong> 。</li>
-<li>由于写操作命令执行成功后才记录到 AOF 日志，所以不会阻塞当前写操作命令的执行，但是 <strong>可能会给下一个命令带来阻塞风险</strong> 。</li>
-</ul>
-<p>然而，使用 AOF 也有一些潜在的缺点，比如可能会对性能产生影响（尤其是在 <code>always</code> 同步模式下），并且在数据集很大时，AOF 文件的重写可能需要较长时间。因此，在使用 AOF 时，合理配置和定期监控是很重要的。</p>
-<h2 id="RDB-Redis-Database"><a href="#RDB-Redis-Database" class="headerlink" title="RDB (Redis Database)"></a>RDB (Redis Database)</h2><p>Redis Database，即快照&#x2F;内存快照，RDB 快照就是记录某一个瞬间的内存数据，记录的是实际数据（二进制数据，使用 LZF 算法进行压缩），因此在 Redis 恢复数据时， RDB 恢复数据的效率会比 AOF 高些，因为直接将 RDB 文件读入内存就可以，不需要像 AOF 那样还需要额外执行操作命令的步骤才能恢复数据。</p>
-<p>RDB持久化通过创建数据集的快照来实现，在指定的时间间隔内执行快照操作，将Redis的某一时刻的数据状态保存到磁盘上的一个文件中（通常是dump.rdb文件）。</p>
-<h3 id="RDB的工作原理"><a href="#RDB的工作原理" class="headerlink" title="RDB的工作原理"></a>RDB的工作原理</h3><ol>
-<li><p><strong>触发时机</strong> ：RDB持久化可以通过两种方式触发：</p>
-<ul>
-<li>根据配置文件中的规则自动触发。例如，可以设定”在900秒内至少有1个键被修改”或”在300秒内至少有10个键被修改”等规则。<blockquote>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs INI"><span class="hljs-comment"># 在配置文件中使用如&quot;save m n&quot;，表示m秒内数据修改n次,自动触发bgsave。</span><br>save 900 1<br>save 300 10<br>save 60 10000<br></code></pre></td></tr></table></figure>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>Ela，我常常有一种感觉，那种感觉就像小时候去吃冰淇淋一样，一个冰淇淋时觉得太少，两个却又负担不起，还总是担心仅有的那个很快就会被吃完。但要是现在给我一支冰淇淋，我会直接把它吃掉，这并不是因为我学到了什么道理，只是因为我很清楚那根本不可能发生。</p>
+<p>那时的我什么都不懂，心里装着各种为什么，各种无法理解，其实现在想起来，那都挺简单的。我总是一厢情愿的认为那个夏天不会在明天结束，又忧心忡忡的等待终会到来的秋冬，问题只会顺其而然的发展下去，直到我们都将它的开始遗忘。我们生活就变成问题本身。我不确定，还是说，一开始便是如此。Ela，我并不相信这世界上有什么东西是完美的，包括你，任何人都一样，我们总是因为各种莫名其妙理由而吵起来，我们养的花也总是见不到一周后的阳光，我不是想说问题在你……只不过，现在，那些都没那么紧要了。</p>
+<p>我记得那一个夏天，很多人死了，很多人在争吵，因为在那个夏天我感受到了生命中少有的美好，即使在往后之后，我和大多数人一样都不会再谈起那天的死亡人数，只是偶尔会回想那时的我们有多幸运。你就是这样来到了波士顿，有些人说，我们不应该接纳外来者，我哥哥也这样说，我也曾经这样认为，但你也知道，即便如此，每年夏天都有很多人抵达波士顿，一些人抗议，然后另一些人也抗议。政治就是这种东西。你以前问我，为什么不离开，而只是接受？我想，或许我生下来就只是为了服从，服从政府，服从上级，服从家庭。是服从使我活到了现在。<br>对不起，Ela。</p>
+<p>我不知道，我真的是否爱你，还是我只是期待某个结果，期待着什么能改变一切的东西……我的自私，我的恶果，在这片鲜血干涸的瓦砾之上，既没有盛夏也没有寒冬，时间变成了一头孤独的野兽，仿佛每一个日夜都在大口地啃食过去的血肉，最后仅留下了记忆的骨架。Ela，关于你的一切，仅有无数枯白的片段，有太多的死亡占据了内心，或许，最后我能接受的，就只有死亡，所有人死亡。</p>
+<p>我很害怕，我害怕自己不再幸运，我想回到你生日的那天晚上，抛开一切，与你一起离开波士顿，我想回到那个夏天，拿起枪，救下我哥哥，我想回到小时候，告诉那时的自己：不要害怕死在冲锋的路上。</p>
+<p>——2147年1月，“夺回西班牙”战役，无名氏</p>
+<blockquote>
+<p>“以前还有人说：婚姻是爱情的坟墓。现在没人说了，因为满世界都是坟墓，没地方留给人们去埋葬爱情。”</p>
 </blockquote>
-</li>
-<li>手动触发，通过执行SAVE或BGSAVE命令。SAVE命令会阻塞当前Redis服务器直到RDB文件创建完毕，而BGSAVE命令会在后台异步创建RDB文件，这样就不会阻塞主服务器。</li>
-</ul>
-</li>
-<li><p><strong>创建快照</strong> ：当RDB持久化被触发时，Redis会创建一个数据集的快照。如果是BGSAVE命令，Redis会fork一个子进程来创建这个快照，父进程则可以继续处理客户端的请求。</p>
-</li>
-<li><p><strong>写入磁盘</strong> ：快照数据会被写入到一个临时RDB文件中。写入过程中，会使用一种高效的压缩算法来减少磁盘空间的占用。一旦整个数据集被成功写入临时文件，这个临时文件会替换掉之前的RDB文件。</p>
-</li>
-</ol>
-<p>RDB的优点包括：</p>
-<ul>
-<li><strong>快速重启</strong> ：使用RDB恢复数据比使用AOF（Append Only File，另一种Redis持久化机制）的方式要快得多。</li>
-<li><strong>数据压缩</strong> ：RDB文件是压缩的，占用磁盘空间较小。<br>简单性：RDB是一个非常简单的持久化方式，只需要一个文件就能完成数据的恢复。</li>
-</ul>
-<p>然而，RDB也有一些缺点：</p>
-<ul>
-<li>数据丢失风险：如果Redis崩溃，自上次快照以来的所有修改都会丢失。</li>
-<li>在大数据集上保存快照可能会导致延迟：尽管使用BGSAVE可以减少这种影响，但在快照过程中仍然可能会出现短暂的延迟。</li>
-<li>主线程修改数据需要复制物理内存，如果所有的共享内存都被修改，则此时的内存占用是原先的两倍。</li>
-</ul>
-<p>总的来说，RDB提供了一种快速、高效的方式来恢复Redis数据，但在对数据丢失的容忍度较低的应用中，可能需要与AOF等其他持久化机制结合使用。</p>
-<h2 id="混合持久化"><a href="#混合持久化" class="headerlink" title="混合持久化"></a>混合持久化</h2><p>Redis 4.0 开始支持混合使用 AOF 日志和内存快照，也叫混合持久化。简单来说就是，内存快照以一定的频率执行，在两次快照之间，使用 AOF 日志记录这期间的所有命令操作。</p>
-<p>当开启了混合持久化时，在 AOF 重写日志时，重写子进程会先将与主线程共享的内存数据以 RDB 方式写入到 AOF 文件，然后主线程处理的操作命令会被记录在重写缓冲区里，重写缓冲区里的增量命令会以 AOF 方式写入到 AOF 文件，写入完成后通知主进程将新的含有 RDB 格式和 AOF 格式的 AOF 文件替换旧的的 AOF 文件。</p>
-<p>也就是说，使用了混合持久化，AOF 文件的前半部分是 RDB 格式的全量数据，后半部分是 AOF 格式的增量数据。</p>
-<p>这样的好处在于，重启 Redis 加载数据的时候，由于前半部分是 RDB 内容，这样加载的时候速度会很快。</p>
-<!-- <p align="center">Create By Asuka24601</p> -->
 
                 
               </div>
@@ -407,7 +347,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%90%8E%E7%AB%AF/" class="category-chain-item">后端</a>
+  <a href="/categories/%E5%B0%8F%E8%AF%B4/" class="category-chain-item">小说</a>
   
   
 
@@ -422,11 +362,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%9F%A5%E8%AF%86/" class="print-no-link">#知识</a>
-      
-        <a href="/tags/java/" class="print-no-link">#java</a>
-      
-        <a href="/tags/redis/" class="print-no-link">#redis</a>
+        <a href="/tags/%E5%B0%8F%E8%AF%B4/" class="print-no-link">#小说</a>
       
     </div>
   
@@ -438,8 +374,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>redis持久化的三种方式</div>
-      <div>https://asuka24601.github.io/2024/02/19/redis持久化的三种方式/</div>
+      <div>《短篇》（二）</div>
+      <div>https://asuka24601.github.io/2024/06/13/《短篇》（二）/</div>
     </div>
     <div class="license-meta">
       
@@ -451,7 +387,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年2月19日</div>
+          <div>2024年6月13日</div>
         </div>
       
       
@@ -483,18 +419,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/02/20/%E4%B8%BA%E4%BB%80%E4%B9%88chrom%E9%87%87%E5%8F%96%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%96%B9%E5%BC%8F%EF%BC%9F/" title="为什么chrom采取多进程方式？">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">为什么chrom采取多进程方式？</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/12/19/%E8%A5%BF%E7%93%9C%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-2/" title="西瓜书学习笔记(2)">
-                        <span class="hidden-mobile">西瓜书学习笔记(2)</span>
+                      <a href="/2024/06/13/%E3%80%8A%E7%9F%AD%E7%AF%87%E3%80%8B%EF%BC%88%E4%B8%80%EF%BC%89/" title="《短篇》（一）">
+                        <span class="hidden-mobile">《短篇》（一）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
