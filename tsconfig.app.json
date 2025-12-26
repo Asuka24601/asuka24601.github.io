@@ -25,7 +25,7 @@
     "noUncheckedSideEffectImports": true,
 
     "rootDirs": [".", "./.react-router/types"],
-    "baseUrl": ".",
+    // "baseUrl": "."
   },
   "include": [
     "app",

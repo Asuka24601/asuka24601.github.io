@@ -1,29 +1,17 @@
-import { Link, Outlet } from "react-router";
-
-// import {Route} from "../../.react-router/types/app/layouts/+types/base";
+import { Outlet } from "react-router";
+import NavBar from "../components/navBar";
+import Footer from "../components/footer";
 
 export default function BaseLayout() {
   return (
     <>
-      <nav >
-        <div >
-          <Link to="/" >
-            MyBlog
-          </Link>
-          <div >
-            <Link to="/" >
-              Home
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <NavBar/>
 
       <main>
         <Outlet />
       </main>
 
-      <footer>
-      </footer>
+      <Footer/>
     </>
   );
 }

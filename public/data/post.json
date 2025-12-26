@@ -1,0 +1,25 @@
+{
+    "creationDate":"2025-12-26T19:35:12Z",
+    "lastUpdateDate":"2025-12-26T19:56:11Z",
+    "posts": [
+        {
+            "title":"love & peace",
+            "author":"asuka24601",
+            "creationDate":"2025-12-26T19:56:11Z",
+            "lastUpdateDate":"2025-12-26T19:56:11Z",
+            "abstract":"Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+            "cover":"https://n.sinaimg.cn/sinakd20108/745/w1012h1333/20210202/e50a-kiksqxh7967370.jpg",
+            "length":800,
+            "keyWord":[
+                "love",
+                "peace"
+            ]
+        },
+        {
+            "title":"love & peace 2",
+            "author":"asuka24601",
+            "creationDate":"2025-12-26T19:56:11Z",
+            "length":800
+        }
+    ]
+}
