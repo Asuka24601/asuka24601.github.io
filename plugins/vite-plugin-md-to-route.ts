@@ -9,6 +9,10 @@ import { compile } from "@mdx-js/mdx";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
+declare global {
+  var __MD_CONTENT_PLUGIN_INITIALIZED__: boolean| undefined;
+}
+
 // ==================== 类型定义 ====================
 export interface FrontMatter {
   title: string;
@@ -664,12 +668,14 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
 
     // 插件配置解析完成时
     configResolved(resolvedConfig) {
-      // config = resolvedConfig;
+      if (resolvedConfig.build.ssr) return;
+      if (globalThis.__MD_CONTENT_PLUGIN_INITIALIZED__) return;
+      globalThis.__MD_CONTENT_PLUGIN_INITIALIZED__ = true;
       isBuild = resolvedConfig.command === "build";
       processor = new MarkdownProcessor(options);
 
       console.log(
-        `📝 ${isBuild ? "构建" : "开发"}模式: Markdown 路由插件已启用`,
+        `📝 vite-plugin-md-to-route@${isBuild ? "构建" : "开发"}模式: 插件已启用`,
       );
       // console.log(`  内容目录: ${options.contentDir}`);
       // console.log(`  输出目录: ${options.outputDir}`);

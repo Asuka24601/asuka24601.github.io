@@ -8,6 +8,10 @@ interface mdRegistry {
   devVirtualModule?: boolean;
 }
 
+declare global {
+  var __MD_REGISTRY_PLUGIN_INITIALIZED__: boolean| undefined;
+}
+
 export function mdRegistry(options: mdRegistry): Plugin {
   let isBuild = false;
 
@@ -20,10 +24,13 @@ export function mdRegistry(options: mdRegistry): Plugin {
 
     // 插件配置解析完成时
     configResolved(resolvedConfig) {
+      if (resolvedConfig.build.ssr) return;
+      if (globalThis.__MD_REGISTRY_PLUGIN_INITIALIZED__) return;
+      globalThis.__MD_REGISTRY_PLUGIN_INITIALIZED__ = true;
       isBuild = resolvedConfig.command === "build";
 
       console.log(
-        `📝 ${isBuild ? "构建" : "开发"}模式: Markdown 注册表插件已启用`,
+        `📝 vite-plugin-md-registry@${isBuild ? "构建" : "开发"}模式: 插件已启用`,
       );
       // console.log(`  内容目录: ${options.contentDir}`);
     },

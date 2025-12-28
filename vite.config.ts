@@ -20,7 +20,6 @@ export default defineConfig({
   plugins: [
     reactRouter(),
     Inspect(),
-    // dynamicImport(),
     // react(),
     tailwindcss(),
     devtoolsJson(),
