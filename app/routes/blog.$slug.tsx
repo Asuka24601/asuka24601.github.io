@@ -1,7 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 // src/routes/blog.$slug.tsx
 // import { useParams, useLoaderData } from 'react-router-dom'
-import type { Route } from './+types/blog.$slug'
+import type { Route } from './+types/blog.$slug';
+import { mdRegistry } from 'virtual:md-registry';
+
 // import PostContent from 'virtual:md-content/hello'
 
 // 只在开发时使用
@@ -10,19 +12,20 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw new Error('此路由仅用于开发模式')
   }
   
-    console.log("loading markdown file: ",params.slug);
-
+  console.log("loading markdown file:",params.slug);
 
   // 通过虚拟模块加载 Markdown 内容
-  const PostContent = await import(`virtual:md-content/${params.slug}`);
-  const module = PostContent;
-  console.log(module);
-  return module;
+  const slug = params.slug;
+  const module = await mdRegistry[slug]();
+  // console.log(module);
+  
+  const { default: PostContent ,frontMatter, meta } = module;
+  return {PostContent ,frontMatter, meta};
 }
 
 export default function DevBlogPostPage({ loaderData }: Route.ComponentProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const module = loaderData
+  // console.log(loaderData);
+  const {PostContent} = loaderData
   
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -34,8 +37,7 @@ export default function DevBlogPostPage({ loaderData }: Route.ComponentProps) {
           生产构建时会替换为预编译的 TypeScript 组件
         </p>
       </div>
-      
-        <PostContent/>
+      <PostContent/>
     </div>
   )
 }

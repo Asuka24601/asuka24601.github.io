@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // plugins/vite-plugin-md-to-route.ts
-import type { Plugin, ResolvedConfig } from "vite";
+import type { Plugin } from "vite";
 import fs from "fs/promises";
 import path from "path";
 import { glob } from "glob";
 import matter from "gray-matter";
-// import { compile } from "@mdx-js/mdx";
-import Markdown from 'react-markdown';
+import { compile } from "@mdx-js/mdx";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
@@ -70,20 +68,20 @@ function toPascalCase(str: string): string {
     .replace(/[^a-zA-Z0-9]/g, "");
 }
 
-function toKebabCase(str: string): string {
-  return str
-    .replace(/([a-z])([A-Z])/g, "$1-$2")
-    .replace(/[\s_]+/g, "-")
-    .toLowerCase();
-}
+// function toKebabCase(str: string): string {
+//   return str
+//     .replace(/([a-z])([A-Z])/g, "$1-$2")
+//     .replace(/[\s_]+/g, "-")
+//     .toLowerCase();
+// }
 
-function escapeTemplateLiteral(content: string): string {
-  return content
-    .replace(/\\/g, "\\\\")
-    .replace(/`/g, "\\`")
-    .replace(/\${/g, "\\${")
-    .replace(/\r\n/g, "\n");
-}
+// function escapeTemplateLiteral(content: string): string {
+//   return content
+//     .replace(/\\/g, "\\\\")
+//     .replace(/`/g, "\\`")
+//     .replace(/\${/g, "\\${")
+//     .replace(/\r\n/g, "\n");
+// }
 
 // ==================== 插件主类 ====================
 class MarkdownProcessor {
@@ -161,7 +159,7 @@ class MarkdownProcessor {
   // 将 Markdown 转换为 TSX 组件
   async convertToTsx(markdownFile: MarkdownFile): Promise<string> {
     const componentName = `Post${toPascalCase(markdownFile.slug.replace(/[/-]/g, "_"))}`;
-    const routePath = `${this.options.routePrefix}/${markdownFile.slug}`;
+    // const routePath = `${this.options.routePrefix}/${markdownFile.slug}`;
 
     // 转换 Markdown 为 MDX
     const mdxCode = await compile(markdownFile.content, {
@@ -518,7 +516,7 @@ const mdxComponents = {
 }
 
 // 主组件
-function PostContent() {
+export default function PostContent() {
   return React.createElement(
     'article',
     { className: 'max-w-3xl mx-auto px-4 py-6' },
@@ -598,8 +596,6 @@ function PostContent() {
   )
 }
 
-export default PostContent
-
 // React Router v7 meta函数
 export function meta() {
   return [
@@ -656,7 +652,7 @@ export const meta = () => [
 // ==================== Vite 插件实现 ====================
 export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
   let processor: MarkdownProcessor;
-  let config: ResolvedConfig;
+  // let config: ResolvedConfig;
   let isBuild = false;
 
   // 虚拟模块 ID 前缀
@@ -668,15 +664,15 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
 
     // 插件配置解析完成时
     configResolved(resolvedConfig) {
-      config = resolvedConfig;
+      // config = resolvedConfig;
       isBuild = resolvedConfig.command === "build";
       processor = new MarkdownProcessor(options);
 
       console.log(
         `📝 ${isBuild ? "构建" : "开发"}模式: Markdown 路由插件已启用`,
       );
-      console.log(`  内容目录: ${options.contentDir}`);
-      console.log(`  输出目录: ${options.outputDir}`);
+      // console.log(`  内容目录: ${options.contentDir}`);
+      // console.log(`  输出目录: ${options.outputDir}`);
     },
 
     // 构建开始时
@@ -727,7 +723,7 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
     configureServer(server) {
       if (!options.devVirtualModule) return;
 
-      console.log("👀 开发模式: 启用虚拟模块和文件监听");
+      console.log(`👀 vite-plugin-md-to-route@开发模式: 启用虚拟模块和文件监听`);
 
       // 监听 content 目录变化
       const watcher = server.watcher;
@@ -762,12 +758,13 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
 
     // 解析虚拟模块 ID
     resolveId(id: string) {
+      // console.log(id);
       if (id.startsWith(VIRTUAL_MODULE_PREFIX)) {
-        console.log(
-          "解析虚拟模块 ID: " +
-            RESOLVED_VIRTUAL_MODULE_PREFIX +
-            id.slice(VIRTUAL_MODULE_PREFIX.length),
-        );
+        // console.log(
+        //   "解析虚拟模块 ID: " +
+        //     RESOLVED_VIRTUAL_MODULE_PREFIX +
+        //     id.slice(VIRTUAL_MODULE_PREFIX.length),
+        // );
         const slug = id.slice(VIRTUAL_MODULE_PREFIX.length);
         return `${RESOLVED_VIRTUAL_MODULE_PREFIX}${slug}.tsx`;
       }
@@ -776,14 +773,13 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
         return id;
       }
 
-      return null;
+      // return null;
     },
 
     // 加载虚拟模块（开发时使用）
     async load(id: string) {
-      console.log("虚拟模块 ID: " + id);
       if (!id.startsWith(RESOLVED_VIRTUAL_MODULE_PREFIX)) return null;
-
+      // console.log("虚拟模块 ID: " + id);
       if (!options.devVirtualModule) {
         return "export default () => <div>开发虚拟模块已禁用</div>";
       }
