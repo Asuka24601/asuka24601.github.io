@@ -26,6 +26,7 @@ export default defineConfig({
     babel({
       babelConfig: {
         plugins: ["babel-plugin-react-compiler"],
+        presets: ["@babel/preset-react", "@babel/preset-typescript"]
       },
     }),
     mdRegistry({

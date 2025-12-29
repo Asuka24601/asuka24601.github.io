@@ -8,26 +8,28 @@ import matter from "gray-matter";
 import { compile } from "@mdx-js/mdx";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
+import type {FrontMatter, MarkdownFile} from "../app/interfaces/post";
+import { generateVirtualModuleCode } from "../templates/virtualModuleCode";
 
 declare global {
   var __MD_CONTENT_PLUGIN_INITIALIZED__: boolean| undefined;
 }
 
 // ==================== 类型定义 ====================
-export interface FrontMatter {
-  title: string;
-  date: string;
-  tags?: string[];
-  description?: string;
-  [key: string]: any;
-}
+// export interface FrontMatter {
+//   title: string;
+//   date: string;
+//   tags?: string[];
+//   description?: string;
+//   [key: string]: any;
+// }
 
-export interface MarkdownFile {
-  slug: string;
-  filePath: string;
-  frontMatter: FrontMatter;
-  content: string;
-}
+// export interface MarkdownFile {
+//   slug: string;
+//   filePath: string;
+//   frontMatter: FrontMatter;
+//   content: string;
+// }
 
 export interface RouteComponent {
   componentName: string;
@@ -71,21 +73,6 @@ function toPascalCase(str: string): string {
     .replace(/^./, (chr) => chr.toUpperCase())
     .replace(/[^a-zA-Z0-9]/g, "");
 }
-
-// function toKebabCase(str: string): string {
-//   return str
-//     .replace(/([a-z])([A-Z])/g, "$1-$2")
-//     .replace(/[\s_]+/g, "-")
-//     .toLowerCase();
-// }
-
-// function escapeTemplateLiteral(content: string): string {
-//   return content
-//     .replace(/\\/g, "\\\\")
-//     .replace(/`/g, "\\`")
-//     .replace(/\${/g, "\\${")
-//     .replace(/\r\n/g, "\n");
-// }
 
 // ==================== 插件主类 ====================
 class MarkdownProcessor {
@@ -414,201 +401,201 @@ export function getAdjacentPosts(currentSlug: string) {
   }
 
   // 3. 生成虚拟模块代码的方法
-    generateVirtualModuleCode(slug: string, frontMatter: any, mdxCode: string,): string {
-      // 关键：确保代码是有效的JSX/TSX
-      // 1. 导入React（必需）
-      // 2. 使用正确的JSX语法
-      // 3. 避免语法错误
+//     generateVirtualModuleCode(slug: string, frontMatter: any, mdxCode: string,): string {
+//       // 关键：确保代码是有效的JSX/TSX
+//       // 1. 导入React（必需）
+//       // 2. 使用正确的JSX语法
+//       // 3. 避免语法错误
       
-      return `// =============================================
-// 虚拟模块: ${slug}
-// 生成时间: ${new Date().toISOString()}
-// =============================================
+//       return `// =============================================
+// // 虚拟模块: ${slug}
+// // 生成时间: ${new Date().toISOString()}
+// // =============================================
 
-import React from 'react'
-import { MDXProvider } from '@mdx-js/react'
-// import './markdown.css'
+// import React from 'react'
+// import { MDXProvider } from '@mdx-js/react'
+// // import './markdown.css'
 
-// Front Matter数据
-export const frontMatter = ${JSON.stringify(frontMatter, null, 2)}
+// // Front Matter数据
+// export const frontMatter = ${JSON.stringify(frontMatter, null, 2)}
 
-// MDX编译结果 MDXContent
-const MDXContent = \`${mdxCode}\`
+// // MDX编译结果 MDXContent
+// const MDXContent = \`${mdxCode}\`
 
-// 自定义MDX组件
-const mdxComponents = {
-  // 标题组件
-  h1: (props) => React.createElement('h1', {
-    className: 'text-3xl font-bold my-4 text-gray-900 dark:text-white'
-  }, props.children),
+// // 自定义MDX组件
+// const mdxComponents = {
+//   // 标题组件
+//   h1: (props) => React.createElement('h1', {
+//     className: 'text-3xl font-bold my-4 text-gray-900 dark:text-white'
+//   }, props.children),
   
-  h2: (props) => React.createElement('h2', {
-    className: 'text-2xl font-semibold my-3 text-gray-800 dark:text-gray-200'
-  }, props.children),
+//   h2: (props) => React.createElement('h2', {
+//     className: 'text-2xl font-semibold my-3 text-gray-800 dark:text-gray-200'
+//   }, props.children),
   
-  // 段落
-  p: (props) => React.createElement('p', {
-    className: 'my-2 leading-relaxed text-gray-700 dark:text-gray-300'
-  }, props.children),
+//   // 段落
+//   p: (props) => React.createElement('p', {
+//     className: 'my-2 leading-relaxed text-gray-700 dark:text-gray-300'
+//   }, props.children),
   
-  // 链接
-  a: (props) => {
-    const isInternal = props.href?.startsWith('/') || props.href?.startsWith('#')
+//   // 链接
+//   a: (props) => {
+//     const isInternal = props.href?.startsWith('/') || props.href?.startsWith('#')
     
-    if (isInternal) {
-      return React.createElement('a', {
-        href: props.href,
-        className: 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline',
-        ...props
-      }, props.children)
-    }
+//     if (isInternal) {
+//       return React.createElement('a', {
+//         href: props.href,
+//         className: 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline',
+//         ...props
+//       }, props.children)
+//     }
     
-    return React.createElement('a', {
-      href: props.href,
-      className: 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline',
-      target: '_blank',
-      rel: 'noopener noreferrer',
-      ...props
-    }, props.children)
-  },
+//     return React.createElement('a', {
+//       href: props.href,
+//       className: 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline',
+//       target: '_blank',
+//       rel: 'noopener noreferrer',
+//       ...props
+//     }, props.children)
+//   },
   
-  // 内联代码
-  code: (props) => {
-    const isInline = !props.className?.includes('language-')
+//   // 内联代码
+//   code: (props) => {
+//     const isInline = !props.className?.includes('language-')
     
-    if (isInline) {
-      return React.createElement('code', {
-        className: 'px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-sm font-mono text-gray-800 dark:text-gray-200',
-        ...props
-      }, props.children)
-    }
+//     if (isInline) {
+//       return React.createElement('code', {
+//         className: 'px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-sm font-mono text-gray-800 dark:text-gray-200',
+//         ...props
+//       }, props.children)
+//     }
     
-    return React.createElement('pre', {
-      className: 'my-3 p-3 bg-gray-900 text-gray-100 rounded overflow-auto'
-    }, 
-      React.createElement('code', {
-        className: props.className,
-        ...props
-      }, props.children)
-    )
-  },
+//     return React.createElement('pre', {
+//       className: 'my-3 p-3 bg-gray-900 text-gray-100 rounded overflow-auto'
+//     }, 
+//       React.createElement('code', {
+//         className: props.className,
+//         ...props
+//       }, props.children)
+//     )
+//   },
   
-  // 引用
-  blockquote: (props) => React.createElement('blockquote', {
-    className: 'border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic my-3 text-gray-600 dark:text-gray-400'
-  }, props.children),
+//   // 引用
+//   blockquote: (props) => React.createElement('blockquote', {
+//     className: 'border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic my-3 text-gray-600 dark:text-gray-400'
+//   }, props.children),
   
-  // 列表
-  ul: (props) => React.createElement('ul', {
-    className: 'list-disc pl-5 my-3 space-y-1'
-  }, props.children),
+//   // 列表
+//   ul: (props) => React.createElement('ul', {
+//     className: 'list-disc pl-5 my-3 space-y-1'
+//   }, props.children),
   
-  ol: (props) => React.createElement('ol', {
-    className: 'list-decimal pl-5 my-3 space-y-1'
-  }, props.children),
+//   ol: (props) => React.createElement('ol', {
+//     className: 'list-decimal pl-5 my-3 space-y-1'
+//   }, props.children),
   
-  li: (props) => React.createElement('li', {
-    className: 'my-1'
-  }, props.children),
+//   li: (props) => React.createElement('li', {
+//     className: 'my-1'
+//   }, props.children),
   
-  // 图片
-  img: (props) => React.createElement('img', {
-    ...props,
-    className: 'max-w-full h-auto rounded my-4',
-    loading: 'lazy'
-  })
-}
+//   // 图片
+//   img: (props) => React.createElement('img', {
+//     ...props,
+//     className: 'max-w-full h-auto rounded my-4',
+//     loading: 'lazy'
+//   })
+// }
 
-// 主组件
-export default function PostContent() {
-  return React.createElement(
-    'article',
-    { className: 'max-w-3xl mx-auto px-4 py-6' },
-    // 文章头部
-    React.createElement(
-      'header',
-      { className: 'mb-6 pb-4 border-b border-gray-200 dark:border-gray-700' },
-      [
-        React.createElement(
-          'h1',
-          { 
-            key: 'title',
-            className: 'text-3xl font-bold text-gray-900 dark:text-white mb-3'
-          },
-          frontMatter.title
-        ),
-        React.createElement(
-          'div',
-          { 
-            key: 'meta',
-            className: 'flex items-center text-gray-500 dark:text-gray-400 text-sm'
-          },
-          [
-            React.createElement(
-              'time',
-              { 
-                key: 'date',
-                dateTime: frontMatter.date
-              },
-              new Date(frontMatter.date).toLocaleDateString('zh-CN')
-            ),
-            frontMatter.tags && frontMatter.tags.length > 0 && React.createElement(
-              'div',
-              { key: 'tags', className: 'ml-4 flex flex-wrap gap-2' },
-              frontMatter.tags.map((tag, index) => 
-                React.createElement(
-                  'span',
-                  { 
-                    key: index,
-                    className: 'px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-xs'
-                  },
-                  '#' + tag
-                )
-              )
-            )
-          ]
-        ),
-        frontMatter.description && React.createElement(
-          'p',
-          { 
-            key: 'description',
-            className: 'mt-4 text-gray-600 dark:text-gray-300'
-          },
-          frontMatter.description
-        )
-      ]
-    ),
-    // 文章内容
-    React.createElement(
-      'div',
-      { className: 'prose dark:prose-invert max-w-none' },
-      React.createElement(
-        MDXProvider,
-        { components: mdxComponents },
-        // React.createElement(MDXContent)
-        MDXContent
-      )
-    ),
-    // 文章底部
-    React.createElement(
-      'footer',
-      { 
-        className: 'mt-8 pt-4 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500'
-      },
-      '开发模式 • 最后更新: ' + new Date().toLocaleTimeString()
-    )
-  )
-}
+// // 主组件
+// export default function PostContent() {
+//   return React.createElement(
+//     'article',
+//     { className: 'max-w-3xl mx-auto px-4 py-6' },
+//     // 文章头部
+//     React.createElement(
+//       'header',
+//       { className: 'mb-6 pb-4 border-b border-gray-200 dark:border-gray-700' },
+//       [
+//         React.createElement(
+//           'h1',
+//           { 
+//             key: 'title',
+//             className: 'text-3xl font-bold text-gray-900 dark:text-white mb-3'
+//           },
+//           frontMatter.title
+//         ),
+//         React.createElement(
+//           'div',
+//           { 
+//             key: 'meta',
+//             className: 'flex items-center text-gray-500 dark:text-gray-400 text-sm'
+//           },
+//           [
+//             React.createElement(
+//               'time',
+//               { 
+//                 key: 'date',
+//                 dateTime: frontMatter.date
+//               },
+//               new Date(frontMatter.date).toLocaleDateString('zh-CN')
+//             ),
+//             frontMatter.tags && frontMatter.tags.length > 0 && React.createElement(
+//               'div',
+//               { key: 'tags', className: 'ml-4 flex flex-wrap gap-2' },
+//               frontMatter.tags.map((tag, index) => 
+//                 React.createElement(
+//                   'span',
+//                   { 
+//                     key: index,
+//                     className: 'px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-xs'
+//                   },
+//                   '#' + tag
+//                 )
+//               )
+//             )
+//           ]
+//         ),
+//         frontMatter.description && React.createElement(
+//           'p',
+//           { 
+//             key: 'description',
+//             className: 'mt-4 text-gray-600 dark:text-gray-300'
+//           },
+//           frontMatter.description
+//         )
+//       ]
+//     ),
+//     // 文章内容
+//     React.createElement(
+//       'div',
+//       { className: 'prose dark:prose-invert max-w-none' },
+//       React.createElement(
+//         MDXProvider,
+//         { components: mdxComponents },
+//         // React.createElement(MDXContent)
+//         MDXContent
+//       )
+//     ),
+//     // 文章底部
+//     React.createElement(
+//       'footer',
+//       { 
+//         className: 'mt-8 pt-4 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500'
+//       },
+//       '开发模式 • 最后更新: ' + new Date().toLocaleTimeString()
+//     )
+//   )
+// }
 
-// React Router v7 meta函数
-export function meta() {
-  return [
-    { title: \`\${frontMatter.title} | 我的博客（开发模式）\` },
-    { name: 'description', content: frontMatter.description || frontMatter.title }
-  ]
-}
-`
-    }
+// // React Router v7 meta函数
+// export function meta() {
+//   return [
+//     { title: \`\${frontMatter.title} | 我的博客（开发模式）\` },
+//     { name: 'description', content: frontMatter.description || frontMatter.title }
+//   ]
+// }
+// `
+//     }
 
     // 4. 错误处理模块
     generateErrorModule(slug: string, error: any): string {
@@ -822,7 +809,7 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
         // });
 
         // 3. 生成虚拟模块的代码
-        return processor.generateVirtualModuleCode(
+        return generateVirtualModuleCode(
           slug,
           frontMatter,
           markdownContent,
