@@ -1,4 +1,5 @@
 import type { FrontMatter } from "../app/interfaces/post";
+import {mdxRenderStr} from "../app/lib/mdxRender"
 
 // React Router v7 meta函数
 function meta(frontMatter: FrontMatter): string {
@@ -14,9 +15,28 @@ function meta(frontMatter: FrontMatter): string {
 }
 
 // 主组件
-function postContent(frontMatter: FrontMatter, MDXContent: string): string {
+function postContent(frontMatter: FrontMatter, MDXContent:string): string {
   return `{
-return React.createElement(
+  const fMDXContent = \`${MDXContent}\`
+  // const fMDXContent = ((...arguments)=>{{MDXContent}})({Fragment: runtime.Fragment, jsx: runtime.jsx, jsxs: runtime.jsxs});
+
+  // console.log(runtime);
+  // 创建MDX组件
+// const createMDXComponent = () => {
+//   const mdxModule = new Function('React', fMDXContent)({
+//     Fragment: React.Fragment,
+//     jsx: React.createElement,
+//     jsxs: React.createElement
+//   });
+  
+//   return mdxModule.default;
+// };
+
+// 获取MDX组件
+const MDXContent = fMDXContent;
+
+
+  return React.createElement(
     'article',
     { className: 'max-w-3xl mx-auto px-4 py-6' },
     React.createElement(
@@ -70,7 +90,8 @@ return React.createElement(
       React.createElement(
         MDXProvider,
         { components: mdxComponents },
-        \`${MDXContent}\`
+          // React.createElement(MDXContent,null)
+        MDXContent
       )
     ),
     React.createElement(
@@ -85,16 +106,20 @@ return React.createElement(
 }
 
 // 模块代码生成
-export function generateVirtualModuleCode(
+export async function generateVirtualModuleCode(
   slug: string,
   frontMatter: FrontMatter,
   mdxCode: string,
-): string {
+): Promise<string> {
+
+  const mdxStr = (await mdxRenderStr(mdxCode)).value as string;
   const sFrontMatter =
     "export const frontMatter = " + JSON.stringify(frontMatter, null, 2);
   const sMeta = "export function meta()" + meta(frontMatter);
   const sPostContent =
-    "export default function PostContent()" + postContent(frontMatter, mdxCode);
+    "export default function PostContent()" + postContent(frontMatter, mdxStr);
+
+    
 
   return `
 // =============================================
@@ -105,6 +130,11 @@ export function generateVirtualModuleCode(
 import { MDXProvider } from "@mdx-js/react";
 import React from "react";
 import mdxComponents from "/app/components/mdxComponent.tsx";
+import { mdxRender } from "/app/lib/mdxRender.ts";
+
+// import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+// import {Fragment , jsx , jsxs} from "react/jsx-runtime";
+import * as runtime from 'react/jsx-runtime';
 
 // Front Matter数据
 ${sFrontMatter}

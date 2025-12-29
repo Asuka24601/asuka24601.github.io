@@ -25,7 +25,7 @@ export default function PostIndex({loaderData}:Route.ComponentProps) {
         <p>{creationDate}</p>
         <p>{lastUpdateDate}</p>
         <ul>
-            {items}
+            {...items}
             <li>
                 <NavLink to="test">Test</NavLink> 
             </li>
