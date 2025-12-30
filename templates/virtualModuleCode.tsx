@@ -1,41 +1,28 @@
-import type { FrontMatter } from "../app/interfaces/post";
-import {mdxRenderStr} from "../app/lib/mdxRender"
+import type { FrontMatter } from '../app/interfaces/post'
+import { mdxRenderStr } from '../app/lib/mdxRender'
 
 // React Router v7 meta函数
 function meta(frontMatter: FrontMatter): string {
-  return `{
+    return `{
   return [
-    { title: '${frontMatter.title || "我的博客（开发模式）"}' },
+    { title: '${frontMatter.title || '我的博客（开发模式）'}' },
     {
       name: "description",
       content: '${frontMatter.description || frontMatter.title}',
     },
   ];
-}`;
+}`
+}
+
+// MDX组件
+async function mdxContent(mdxCode: string): Promise<string> {
+    const mdxStr = (await mdxRenderStr(mdxCode)).value as string
+    return `${mdxStr}`
 }
 
 // 主组件
-function postContent(frontMatter: FrontMatter, MDXContent:string): string {
-  return `{
-  const fMDXContent = \`${MDXContent}\`
-  // const fMDXContent = ((...arguments)=>{{MDXContent}})({Fragment: runtime.Fragment, jsx: runtime.jsx, jsxs: runtime.jsxs});
-
-  // console.log(runtime);
-  // 创建MDX组件
-// const createMDXComponent = () => {
-//   const mdxModule = new Function('React', fMDXContent)({
-//     Fragment: React.Fragment,
-//     jsx: React.createElement,
-//     jsxs: React.createElement
-//   });
-  
-//   return mdxModule.default;
-// };
-
-// 获取MDX组件
-const MDXContent = fMDXContent;
-
-
+function postContent(frontMatter: FrontMatter): string {
+    return `{
   return React.createElement(
     'article',
     { className: 'max-w-3xl mx-auto px-4 py-6' },
@@ -64,12 +51,12 @@ const MDXContent = fMDXContent;
                 key: 'date',
                 dateTime: '${frontMatter.date}'
               },
-              '${new Date(frontMatter.date).toLocaleDateString("zh-CN")}'
+              '${new Date(frontMatter.date).toLocaleDateString('zh-CN')}'
             ),
             ${frontMatter.tags && frontMatter.tags.length > 0} && React.createElement(
               'div',
               { key: 'tags', className: 'ml-4 flex flex-wrap gap-2' },
-              ${frontMatter.tags?.map((tag:string, index:number) => `React.createElement('span',{ key: ${index}, className: 'px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-xs'},'#' + '${tag}')`)}
+              ${frontMatter.tags?.map((tag: string, index: number) => `React.createElement('span',{ key: ${index}, className: 'px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-xs'},'#' + '${tag}')`)}
             )
           ]
         ),
@@ -90,8 +77,7 @@ const MDXContent = fMDXContent;
       React.createElement(
         MDXProvider,
         { components: mdxComponents },
-          // React.createElement(MDXContent,null)
-        MDXContent
+        props
       )
     ),
     React.createElement(
@@ -102,26 +88,23 @@ const MDXContent = fMDXContent;
       '开发模式 • 最后更新: ' + '${new Date().toLocaleTimeString()}'
     )
   )
-  }`;
+  }`
 }
 
 // 模块代码生成
 export async function generateVirtualModuleCode(
-  slug: string,
-  frontMatter: FrontMatter,
-  mdxCode: string,
+    slug: string,
+    frontMatter: FrontMatter,
+    mdxCode: string
 ): Promise<string> {
+    const sMDXContent = await mdxContent(mdxCode)
+    const sFrontMatter =
+        'export const frontMatter = ' + JSON.stringify(frontMatter, null, 2)
+    const sMeta = 'export function meta()' + meta(frontMatter)
+    const sPostContent =
+        'export function PostContent( props )' + postContent(frontMatter)
 
-  const mdxStr = (await mdxRenderStr(mdxCode)).value as string;
-  const sFrontMatter =
-    "export const frontMatter = " + JSON.stringify(frontMatter, null, 2);
-  const sMeta = "export function meta()" + meta(frontMatter);
-  const sPostContent =
-    "export default function PostContent()" + postContent(frontMatter, mdxStr);
-
-    
-
-  return `
+    return `
 // =============================================
 // 虚拟模块: ${slug}
 // 生成时间: ${new Date().toISOString()}
@@ -130,11 +113,9 @@ export async function generateVirtualModuleCode(
 import { MDXProvider } from "@mdx-js/react";
 import React from "react";
 import mdxComponents from "/app/components/mdxComponent.tsx";
-import { mdxRender } from "/app/lib/mdxRender.ts";
 
-// import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
-// import {Fragment , jsx , jsxs} from "react/jsx-runtime";
-import * as runtime from 'react/jsx-runtime';
+// MDX组件
+${sMDXContent}
 
 // Front Matter数据
 ${sFrontMatter}
@@ -145,5 +126,5 @@ ${sMeta}
 // 主组件
 ${sPostContent}
 
-`;
+`
 }
