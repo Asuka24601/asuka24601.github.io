@@ -1,32 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface PostInterface {
-    title: string,
-    author: string,
-    creationDate: string,
-    lastUpdateDate?: string,
-    abstract?:string,
-    cover?:string,
-    length:number,
+    title: string
+    author: string
+    creationDate: string
+    lastUpdateDate?: string
+    abstract?: string
+    cover?: string
+    length: number
     keyWord?: string[]
 }
 
 export interface PostListInterface {
-    creationDate:string,
-    lastUpdateDate?: string,
+    creationDate: string
+    lastUpdateDate?: string
     posts: PostInterface[]
 }
 
 export interface FrontMatter {
-  title: string;
-  date: string;
-  tags?: string[];
-  description?: string;
-  [key: string]: any;
+    title: string
+    date: string
+    tags?: string[]
+    description?: string
+    [key: string]: any
 }
 
 export interface MarkdownFile {
-  slug: string;
-  filePath: string;
-  frontMatter: FrontMatter;
-  content: string;
+    slug: string
+    filePath: string
+    frontMatter: FrontMatter
+    content: string
+}
+
+export interface RouteComponent {
+    componentName: string
+    routePath: string
+    filePath: string
+    frontMatter: FrontMatter
+}
+
+export interface RouteManifest {
+    routes: Array<{
+        slug: string
+        path: string
+        component: string
+        frontMatter: FrontMatter
+    }>
+    generatedAt: string
 }

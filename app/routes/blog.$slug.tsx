@@ -2,6 +2,10 @@
 // app/routes/blog.$slug.tsx
 import type { Route } from './+types/blog.$slug'
 import { mdRegistry } from 'virtual:md-registry'
+import AriticleHeader from '../components/articleHeader'
+import AriticleFooter from '../components/articleFooter'
+import AriticleContene from '../components/aritcleContent'
+import ArticleError from '../components/articleError'
 
 // 只在开发时使用
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -9,46 +13,29 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         throw new Error('此路由仅用于开发模式')
     }
 
-    console.log('loading markdown file:', params.slug)
-
     // 通过虚拟模块加载 Markdown 内容
-    const slug = params.slug
-    const modulePath = await mdRegistry[slug]
+    const { '*': slug } = params
+    const modulePath = await mdRegistry[slug as string]
+
     if (!modulePath) {
         return {
-            PostContent: () => (
-                <div className="mx-auto max-w-3xl px-4 py-8">
-                    <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-                        <h2 className="mb-3 text-2xl font-bold text-red-700">
-                            加载文章失败
-                        </h2>
-                        <p className="mb-2 text-red-600">
-                            无法加载文章: <strong>{slug}</strong>
-                        </p>
-                        <div className="mt-4 text-sm text-gray-500">
-                            <p>可能的原因:</p>
-                            <ul className="mt-2 list-disc pl-5">
-                                <li>Markdown文件不存在</li>
-                                <li>文件路径错误</li>
-                                <li>文件权限问题</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            ),
-            frontMatter: null,
-            meta: null,
+            MDXContentComp: null,
+            frontMatter: {
+                title: '加载失败',
+                date: new Date().toISOString().split('T')[0],
+            },
+            meta: [{ title: '文章加载失败 | 我的博客' }],
+            slug: slug,
         }
     }
 
     const module = await modulePath()
-    const { default: MDXContentComp, PostContent, frontMatter, meta } = module
-    // console.log(MDXContentComp, PostContent)
-    return { MDXContentComp, PostContent, frontMatter, meta }
+    const { default: MDXContentComp, frontMatter, meta } = module
+    return { MDXContentComp, frontMatter, meta, slug }
 }
 
 export default function DevBlogPostPage({ loaderData }: Route.ComponentProps) {
-    const { PostContent, MDXContentComp } = loaderData
+    const { MDXContentComp, frontMatter, slug } = loaderData
 
     return (
         <div className="mx-auto max-w-4xl px-4 py-8">
@@ -60,7 +47,20 @@ export default function DevBlogPostPage({ loaderData }: Route.ComponentProps) {
                     生产构建时会替换为预编译的 TypeScript 组件
                 </p>
             </div>
-            {PostContent(<MDXContentComp />)}
+
+            {MDXContentComp ? (
+                <article className="mx-auto max-w-3xl px-4 py-6">
+                    <AriticleHeader {...frontMatter} />
+
+                    <AriticleContene>
+                        <MDXContentComp />
+                    </AriticleContene>
+
+                    <AriticleFooter />
+                </article>
+            ) : (
+                <ArticleError slug={slug as string} />
+            )}
         </div>
     )
 }

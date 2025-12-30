@@ -1,17 +1,21 @@
-import { Outlet } from "react-router";
-import NavBar from "../components/navBar";
-import Footer from "../components/footer";
+import { Outlet } from 'react-router'
+import NavBar from '../components/navBar'
+import Footer from '../components/footer'
 
 export default function BaseLayout() {
-  return (
-    <>
-      <NavBar/>
+    return (
+        <>
+            <header>
+                <NavBar />
+            </header>
 
-      <main>
-        <Outlet />
-      </main>
+            <main>
+                <Outlet />
+            </main>
 
-      <Footer/>
-    </>
-  );
+            <footer>
+                <Footer />
+            </footer>
+        </>
+    )
 }

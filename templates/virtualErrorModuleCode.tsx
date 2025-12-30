@@ -1,20 +1,12 @@
-const frontMatter = () => `
-{
-  title: '加载失败',
-  date: '${new Date().toISOString().split('T')[0]}'
-}
-`;
+import metaCode from './metaCode'
 
-const meta = () => `
-{
-  return [
-    { title: '文章加载失败 | 我的博客' }
-  ]
+const frontMatter = {
+    title: '加载失败',
+    date: new Date().toISOString().split('T')[0],
 }
-`;
 
 function errorPost(slug: string, error: Error): string {
-  return `
+    return `
 {
   return React.createElement(
   'div',
@@ -45,7 +37,7 @@ function errorPost(slug: string, error: Error): string {
           className: 'text-sm text-gray-600',
           key: 'error-detail'
         },
-        '错误信息: ' + '${(error instanceof Error ? error.message : String(error))}'
+        '错误信息: ' + '${error instanceof Error ? error.message : String(error)}'
       ),
       React.createElement(
         'div',
@@ -73,24 +65,27 @@ function errorPost(slug: string, error: Error): string {
   )
 )
 }
-`;
+`
 }
 
 // 模块代码生成
 export function generateVirtualErrorModuleCode(
-  slug: string,
-  error: Error,
+    slug: string,
+    error: Error
 ): string {
-  const sFrontMatter = "export const frontMatter = " + frontMatter();
-  const sMeta = "export function meta()" + meta();
-  const sErrorPost =
-    "export default function ErrorPost()" + errorPost(slug, error);
+    const sFrontMatter =
+        'export const frontMatter = ' + JSON.stringify(frontMatter, null, 2)
+    const sMeta = metaCode(frontMatter)
+    const sErrorPost =
+        'export default function ErrorPost()' + errorPost(slug, error)
 
-  return `
+    return `
+  import React from 'react'
+
   ${sMeta}
 
   ${sFrontMatter}
 
   ${sErrorPost}
-  `;
+  `
 }

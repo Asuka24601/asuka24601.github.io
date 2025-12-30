@@ -1,25 +1,23 @@
-import {Link} from "react-router";
+import { Link } from 'react-router'
 
 export default function NavBar() {
+    const listItems = [
+        ['Home', '/'],
+        ['Post', '/post'],
+        ['About', '/about'],
+        ['___temp___', '/___temp___'],
+    ].map((item) => (
+        <li key={item[0]}>
+            <Link to={item[1]}>{item[0]}</Link>
+        </li>
+    ))
+
     return (
-        <nav className="bg-black text-white p-5">
+        <nav className="m-3 rounded-sm bg-black p-5 text-white shadow-2xs">
             <div>
                 <h1>MyBlog</h1>
             </div>
-            <ul className="flex mt-1 flex-row gap-2">
-                <li>
-                    <Link to='/'>Home</Link>
-                </li>
-                <li>
-                    <Link to='/post'>Post</Link>
-                </li>
-                <li>
-                    <Link to='/about'>About</Link>
-                </li>
-                <li>
-                    <Link to='/__temp__'>___temp___</Link>
-                </li>
-            </ul>
+            <ul className="mt-1 flex flex-row gap-2">{listItems}</ul>
         </nav>
     )
 }
