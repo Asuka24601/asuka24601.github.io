@@ -34,7 +34,7 @@ export default [
     layout('layouts/base.tsx', [
         index('routes/home.tsx'),
         route('about', 'routes/about.tsx'),
-        route('__temp__', 'contents/___temp___.tsx'),
+        route('___temp___', 'contents/___temp___.tsx'),
         ...prefix('post', [
             index('routes/postIndex.tsx'),
             layout('layouts/postContent.tsx', [...devRoutes, ...blogRoutes]),
