@@ -1,3 +1,13 @@
-export default function HeaderBanner({ siteName }: { siteName: string }) {
-    return <h1 className="text-xl">{siteName}</h1>
+import '../styles/baseLayout.css'
+
+export default function HeaderBanner({
+    className,
+}: {
+    className: string | undefined
+}) {
+    return (
+        <div className={className + ' headBannerImg'}>
+            <img src="wallpaper.webp" className="object-cover" />
+        </div>
+    )
 }

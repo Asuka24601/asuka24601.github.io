@@ -1,23 +1,29 @@
 import { Outlet } from 'react-router'
 import NavBar from '../components/navBar'
 import Footer from '../components/footer'
-// import HeaderBanner from '../components/headBanner'
+import '../styles/baseLayout.css'
+import HeaderBanner from '../components/headBanner'
 
 export default function BaseLayout() {
-    // const siteName = "Asuka24601'Site"
+    const siteName = "Asuka24601'Site"
 
     return (
         <>
-            <header className="flex flex-row items-center justify-between">
-                {/* <HeaderBanner siteName={siteName} /> */}
-                <NavBar />
-            </header>
+            <main className="relative">
+                <HeaderBanner className="absolute top-0 h-full max-h-max w-full overflow-hidden" />
 
-            <main className="my-3 min-h-dvh">
-                <Outlet />
+                <header className="sticky top-0 z-10 overflow-visible">
+                    <NavBar className="p-3" siteName={siteName} />
+                </header>
+
+                <section className="relative min-h-dvh px-6 py-3">
+                    <Outlet />
+                </section>
             </main>
 
-            <Footer />
+            <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content relative p-10">
+                <Footer />
+            </footer>
         </>
     )
 }

@@ -1,0 +1,3 @@
+.headBannerImg {
+    mask-image: linear-gradient(to top, transparent, black);
+}
