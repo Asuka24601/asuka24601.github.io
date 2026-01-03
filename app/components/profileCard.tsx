@@ -1,9 +1,10 @@
 import * as LocalIcons from '../components/icons'
+import { Link } from 'react-router'
 
 export default function ProfileCard({
     className,
 }: {
-    className: string | undefined
+    className?: string | undefined
 }) {
     const author = {
         name: 'asuka24601',
@@ -12,14 +13,17 @@ export default function ProfileCard({
             {
                 name: '文章',
                 value: 19,
+                routePath: '/posts',
             },
             {
                 name: '标签',
                 value: 19,
+                routePath: '/tags',
             },
             {
                 name: '留言',
                 value: 19,
+                routePath: 'comments',
             },
         ],
         tags: [
@@ -71,7 +75,7 @@ export default function ProfileCard({
     }
 
     return (
-        <aside className={className}>
+        <div className={className}>
             <div className="card items-center gap-2">
                 <div className="avatar">
                     <div className="w-24 rounded-full border border-white">
@@ -88,9 +92,11 @@ export default function ProfileCard({
                         <li key={index} className="badge h-full flex-1 py-1.5">
                             <div>
                                 <h1 className="text-sm">{item.name}</h1>
-                                <strong className="text-xs">
-                                    {item.value}
-                                </strong>
+                                <Link to={item.routePath}>
+                                    <strong className="text-xs">
+                                        {item.value}
+                                    </strong>
+                                </Link>
                             </div>
                         </li>
                     ))}
@@ -133,6 +139,6 @@ export default function ProfileCard({
                     ))}
                 </ul>
             </div>
-        </aside>
+        </div>
     )
 }

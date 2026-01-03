@@ -9,9 +9,11 @@ export default function NavBar({
 }) {
     const listItems = [
         ['Home', '/'],
-        ['Post', '/post'],
+        ['Posts', '/posts'],
         ['About', '/about'],
         ['___temp___', '/___temp___'],
+        ['Tags', '/tags'],
+        ['Comments', '/comments'],
     ].map((item) => (
         <li key={item[0]}>
             <Link to={item[1]}>{item[0]}</Link>

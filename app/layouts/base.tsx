@@ -12,11 +12,11 @@ export default function BaseLayout() {
             <main className="relative">
                 <HeaderBanner className="absolute top-0 h-full max-h-max w-full overflow-hidden" />
 
-                <header className="sticky top-0 z-10 overflow-visible">
+                <header className="sticky top-0 z-10 overflow-visible opacity-85">
                     <NavBar className="p-3" siteName={siteName} />
                 </header>
 
-                <section className="relative min-h-dvh px-6 py-3">
+                <section className="relative mx-auto min-h-dvh max-w-400 px-6 pt-3 pb-6">
                     <Outlet />
                 </section>
             </main>
