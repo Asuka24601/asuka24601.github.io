@@ -1,3 +1,15 @@
 .headBannerImg {
     mask-image: linear-gradient(to top, transparent, black);
 }
+
+.hover-clone {
+    transition: opacity 0.2s ease;
+    /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); */
+    /* border-radius: inherit; */
+    /* background-color: white; */
+}
+
+.hover-original:hover {
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}

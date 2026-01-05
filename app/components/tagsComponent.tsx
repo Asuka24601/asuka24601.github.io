@@ -26,7 +26,7 @@ export default function TagComponent({
         <>
             <div className={className}>
                 {tags.map((tag, index) => (
-                    <div key={index} className="inline-block">
+                    <div key={index} className="mr-2 inline-block">
                         <TagItemComponent tag={tag} />
                     </div>
                 ))}

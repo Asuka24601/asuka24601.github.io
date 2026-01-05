@@ -23,7 +23,7 @@ export default function ProfileCard({
             {
                 name: '留言',
                 value: 19,
-                routePath: 'comments',
+                routePath: '/comments',
             },
         ],
         tags: [
@@ -76,7 +76,7 @@ export default function ProfileCard({
 
     return (
         <div className={className}>
-            <div className="card items-center gap-2">
+            <div className="card h-full items-center justify-between gap-2">
                 <div className="avatar">
                     <div className="w-24 rounded-full border border-white">
                         <img src="avater.jpg" />

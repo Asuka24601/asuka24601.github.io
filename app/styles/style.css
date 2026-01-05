@@ -1,2 +1,10 @@
-@import "tailwindcss";
-@plugin "daisyui";
+@import 'tailwindcss';
+@plugin 'daisyui';
+
+.bg-base-100-custom {
+    background-color: color-mix(
+        in srgb,
+        var(--color-base-100) 85%,
+        transparent
+    );
+}
