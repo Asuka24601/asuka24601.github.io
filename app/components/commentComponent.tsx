@@ -35,15 +35,17 @@ export function CommentItemComponent({
 
 export default function CommentComponent({
     commentsData,
+    className,
 }: {
     commentsData: CommentDataInterface
+    className?: string | undefined
 }) {
     const comments = commentsData.comments
     return (
         <>
-            <ul className="list">
+            <ul className={className + ' list'}>
                 {comments.map((item, index) => (
-                    <li key={index} className="list-row">
+                    <li key={index} className="list-row px-0">
                         <CommentItemComponent comment={item} />
                     </li>
                 ))}

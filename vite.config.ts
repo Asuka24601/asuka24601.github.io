@@ -7,6 +7,7 @@ import devtoolsJson from 'vite-plugin-devtools-json'
 import Inspect from 'vite-plugin-inspect'
 import { mdToRoutePlugin } from './plugins/vite-plugin-md-to-route'
 import { mdRegistry } from './plugins/vite-plugin-md-registry'
+import mdx from '@mdx-js/rollup'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,10 +19,13 @@ export default defineConfig({
         exclude: ['virtual:md-content/*', 'virtual:md-registry'],
     },
     plugins: [
+        mdx({
+            providerImportSource: '@mdx-js/react',
+        }),
+        tailwindcss(),
         reactRouter(),
         Inspect(),
         // react(),
-        tailwindcss(),
         devtoolsJson(),
         babel({
             babelConfig: {

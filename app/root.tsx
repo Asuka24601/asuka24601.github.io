@@ -5,10 +5,20 @@ import {
     isRouteErrorResponse,
 } from 'react-router'
 import type { Route } from './+types/root'
+import { createHeart } from './lib/mouse'
 
 import appStylesHref from './styles/style.css?url'
+import { useEffect } from 'react'
 
 export default function App() {
+    useEffect(() => {
+        // 注册事件监听器
+        const cleanup = createHeart()
+
+        // 组件卸载时清理
+        return cleanup
+    }, []) // 空依赖数组确保只运行一次
+
     return (
         <>
             <Outlet />
@@ -72,9 +82,8 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
 export function HydrateFallback() {
     return (
-        <div id="loading-splash">
-            <div id="loading-splash-spinner" />
-            <p>Loading, please wait...</p>
+        <div>
+            <span className="loading loading-dots loading-xl absolute top-1/2 left-1/2 translate-1/2"></span>
         </div>
     )
 }

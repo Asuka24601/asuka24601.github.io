@@ -16,8 +16,10 @@ export async function mdxRenderStr(
     fullBody: boolean | undefined
 ) {
     const mdxCompiled = await compile(markdownContent, {
-        outputFormat: fullBody ? 'function-body' : null,
+        outputFormat: fullBody ? 'function-body' : 'program',
+        format: 'md',
         // development: true, // 开发模式
+        providerImportSource: '@mdx-js/react',
         remarkPlugins: [remarkGfm],
         rehypePlugins: [rehypeHighlight],
     })

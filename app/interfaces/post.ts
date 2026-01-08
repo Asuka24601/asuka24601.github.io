@@ -1,13 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface PostInterface {
-    title: string
-    author: string
-    creationDate: string
-    lastUpdateDate?: string
-    abstract?: string
-    cover?: string
-    length: number
-    keyWord?: string[]
+    frontMatter: FrontMatter
+    meta: MetaType
+    path: string
 }
 
 export interface PostListInterface {
@@ -16,11 +11,26 @@ export interface PostListInterface {
     posts: PostInterface[]
 }
 
+export type MetaType = [
+    { title: string },
+    {
+        name: string
+        content: string
+    },
+    { property: 'og:title'; content: string },
+    { property: 'og:description'; content: string },
+    { property: 'article:published_time'; content: string },
+    { property: 'article:tag'; content: string },
+]
+
 export interface FrontMatter {
     title: string
     date: string
+    author?: string
     tags?: string[]
     description?: string
+    length?: number
+    cover?: string
     [key: string]: any
 }
 

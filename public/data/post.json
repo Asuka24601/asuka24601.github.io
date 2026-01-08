@@ -1,25 +1,66 @@
 {
-    "creationDate":"2025-12-26T19:35:12Z",
-    "lastUpdateDate":"2025-12-26T19:56:11Z",
+    "creationDate": "2025-12-26T19:35:12Z",
+    "lastUpdateDate": "2025-12-26T19:56:11Z",
     "posts": [
         {
-            "title":"love & peace",
-            "author":"asuka24601",
-            "creationDate":"2025-12-26T19:56:11Z",
-            "lastUpdateDate":"2025-12-26T19:56:11Z",
-            "abstract":"Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
-            "cover":"https://n.sinaimg.cn/sinakd20108/745/w1012h1333/20210202/e50a-kiksqxh7967370.jpg",
-            "length":800,
-            "keyWord":[
-                "love",
-                "peace"
-            ]
+            "frontMatter": {
+                "title": "love & peace",
+                "author": "asuka24601",
+                "date": "2025-12-26T19:56:11Z",
+                "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+                "cover": "https://n.sinaimg.cn/sinakd20108/745/w1012h1333/20210202/e50a-kiksqxh7967370.jpg",
+                "length": 800,
+                "key": ["love", "peace"]
+            },
+            "meta": [
+                { "title": "love & peace" },
+                {
+                    "name": "description",
+                    "content": "Lorem ipsum, dolor sit ametconsectetur adipisicing elit."
+                },
+                { "property": "og:title", "content": "love & peace" },
+                {
+                    "property": "og:description",
+                    "content": "Lorem ipsum, dolor sit ametconsectetur adipisicing elit."
+                },
+                {
+                    "property": "article:published_time",
+                    "content": "2025-12-26T19:56:11Z"
+                },
+                { "property": "article:tag", "content": "love" },
+                { "property": "article:tag", "content": "peace" }
+            ],
+            "path": "love & peace"
         },
         {
-            "title":"love & peace 2",
-            "author":"asuka24601",
-            "creationDate":"2025-12-26T19:56:11Z",
-            "length":800
+            "frontMatter": {
+                "title": "love & peace 2",
+                "author": "asuka24601",
+                "date": "2026-01-02T19:56:11Z",
+                "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+                "cover": "https://n.sinaimg.cn/sinakd20108/745/w1012h1333/20210202/e50a-kiksqxh7967370.jpg",
+                "length": 800,
+                "key": ["love", "peace"]
+            },
+            "meta": [
+                { "title": "love & peace 2" },
+                {
+                    "name": "description",
+                    "content": "Lorem ipsum, dolor sit ametconsectetur adipisicing elit."
+                },
+                { "property": "og:title", "content": "love & peace 2" },
+                {
+                    "property": "og:description",
+                    "content": "Lorem ipsum, dolor sit ametconsectetur adipisicing elit."
+                },
+                {
+                    "property": "article:published_time",
+                    "content": "2026-01-02T19:56:11Z"
+                },
+                { "property": "article:tag", "content": "love" },
+                { "property": "article:tag", "content": "peace" }
+            ],
+            "path": "love & peace 2"
         }
     ]
 }

@@ -10,7 +10,10 @@ export default function BaseLayout() {
     return (
         <>
             <main className="relative">
-                <HeaderBanner className="absolute top-0 h-full max-h-max w-full overflow-hidden" />
+                <HeaderBanner
+                    src="/wallpaper.webp"
+                    className="absolute top-0 h-full max-h-max w-full overflow-hidden"
+                />
 
                 <header className="sticky top-0 z-10 overflow-visible opacity-85">
                     <NavBar className="p-3" siteName={siteName} />

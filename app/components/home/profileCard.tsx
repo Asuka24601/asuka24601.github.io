@@ -1,4 +1,4 @@
-import * as LocalIcons from '../components/icons'
+import * as LocalIcons from '../icons'
 import { Link } from 'react-router'
 
 export default function ProfileCard({

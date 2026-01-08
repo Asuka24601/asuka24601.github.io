@@ -1,7 +1,7 @@
 import type {
     TodoListDataInterface,
     TodoListItemInterface,
-} from '../interfaces/todo'
+} from '../../interfaces/todo'
 
 export function TodoListItemComponent({
     subject,
@@ -16,7 +16,7 @@ export function TodoListItemComponent({
                 {index ? (
                     <div className="text-base-100 text-3xl font-thin tabular-nums opacity-30">
                         <span className="bg-primary inline-block w-8 p-1">
-                            {index}
+                            {index.toString()}
                         </span>
                     </div>
                 ) : null}

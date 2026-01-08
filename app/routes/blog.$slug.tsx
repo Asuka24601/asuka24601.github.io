@@ -2,10 +2,12 @@
 // app/routes/blog.$slug.tsx
 import type { Route } from './+types/blog.$slug'
 import { mdRegistry } from 'virtual:md-registry'
-import AriticleHeader from '../components/articleHeader'
-import AriticleFooter from '../components/articleFooter'
 import AriticleContene from '../components/aritcleContent'
-import ArticleError from '../components/articleError'
+import {
+    ArticleError,
+    AriticleFooter,
+    AriticleHeader,
+} from '../components/aritcleContent'
 
 // 只在开发时使用
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
