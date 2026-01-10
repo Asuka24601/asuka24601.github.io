@@ -1,85 +1,27 @@
 import * as LocalIcons from '../icons'
 import { Link } from 'react-router'
+import type {
+    ProfileDataInterface,
+    ProfileStatisticsInterface,
+} from '../../interfaces/profile'
 
 export default function ProfileCard({
     className,
+    profileData,
+    profileStatistics,
 }: {
     className?: string | undefined
+    profileData: ProfileDataInterface
+    profileStatistics: ProfileStatisticsInterface
 }) {
-    const author = {
-        name: 'asuka24601',
-        discription: 'Hello World!',
-        info: [
-            {
-                name: '文章',
-                value: 19,
-                routePath: '/posts',
-            },
-            {
-                name: '标签',
-                value: 19,
-                routePath: '/tags',
-            },
-            {
-                name: '留言',
-                value: 19,
-                routePath: '/comments',
-            },
-        ],
-        tags: [
-            { name: 'React', icon: LocalIcons.MdiReact, level: 2 },
-            { name: 'Vuejs', icon: LocalIcons.MdiVuejs, level: 2 },
-            { name: 'Tailwind', icon: LocalIcons.MdiTailwind, level: 2 },
-            {
-                name: 'JavaScript',
-                icon: LocalIcons.MdiLanguageJavascript,
-                level: 2,
-            },
-            {
-                name: 'TypeScript',
-                icon: LocalIcons.MdiLanguageTypescript,
-                level: 2,
-            },
-            { name: 'C', icon: LocalIcons.MdiLanguageC, level: 2 },
-            { name: 'Cpp', icon: LocalIcons.MdiLanguageCpp, level: 2 },
-            { name: 'Java', icon: LocalIcons.MdiLanguageJava, level: 1 },
-            { name: 'Python', icon: LocalIcons.MdiLanguagePython, level: 1 },
-            {
-                name: 'Markdown',
-                icon: LocalIcons.MdiLanguageMarkdown,
-                level: 3,
-            },
-            { name: 'Rust', icon: LocalIcons.MdiLanguageRust, level: 1 },
-            { name: 'CSharp', icon: LocalIcons.MdiLanguageCsharp, level: 1 },
-            { name: 'ArchLinux', icon: LocalIcons.MdiArch, level: 2 },
-            { name: 'Windows', icon: LocalIcons.MdiMicrosoftWindows, level: 2 },
-            { name: 'Android', icon: LocalIcons.MdiAndroid, level: 2 },
-            { name: 'Camera', icon: LocalIcons.MdiCamera, level: 2 },
-            { name: 'Excel', icon: LocalIcons.MdiMicrosoftExcel, level: 1 },
-            { name: 'Dog', icon: LocalIcons.MdiDog, level: 3 },
-        ],
-        socialMedia: [
-            {
-                icon: LocalIcons.StreamlineLogosGithubLogo2Solid,
-                link: 'https://github.com/Asuka24601',
-            },
-            {
-                icon: LocalIcons.StreamlineLogosBilibiliLogoSolid,
-                link: 'https://space.bilibili.com/2724463',
-            },
-            {
-                icon: LocalIcons.StreamlineLogosSteamLogoSolid,
-                link: 'https://steamcommunity.com/id/1099734487',
-            },
-        ],
-    }
+    const author = profileData.data
 
     return (
         <div className={className}>
             <div className="card h-full items-center justify-between gap-2">
                 <div className="avatar">
                     <div className="w-24 rounded-full border border-white">
-                        <img src="avater.jpg" />
+                        <img src={author.avater} />
                     </div>
                 </div>
                 <h1 className="card-title">{author.name}</h1>
@@ -88,7 +30,7 @@ export default function ProfileCard({
                 </q>
 
                 <ul className="flex w-full flex-row flex-nowrap justify-center gap-1 text-center">
-                    {author.info.map((item, index) => (
+                    {profileStatistics.map((item, index) => (
                         <li key={index} className="badge h-full flex-1 py-1.5">
                             <div>
                                 <h1 className="text-sm">{item.name}</h1>
@@ -102,16 +44,16 @@ export default function ProfileCard({
                     ))}
                 </ul>
 
-                {/* <div className="divider my-0"></div> */}
-
                 <ul className="flex w-full flex-row flex-wrap items-center justify-center gap-1 p-2">
                     {author.tags.map((tag, index) => (
-                        <li key={index}>
+                        <li key={index} className="w-min">
                             <div
                                 className="tooltip w-full"
                                 data-tip={`${tag.name} : ${tag.level}/3`}
                             >
-                                <tag.icon />
+                                {LocalIcons[
+                                    tag.icon as keyof typeof LocalIcons
+                                ]?.({})}
 
                                 <progress
                                     className="progress"
@@ -133,7 +75,9 @@ export default function ProfileCard({
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <item.icon />
+                                {LocalIcons[
+                                    item.icon as keyof typeof LocalIcons
+                                ]?.({})}
                             </a>
                         </li>
                     ))}

@@ -7,7 +7,20 @@ import * as runtime from 'react/jsx-runtime'
 
 // 将Markdown编译为React组件
 export async function mdxRender(markdownContent: string) {
-    return run((await mdxRenderStr(markdownContent, true)).value, runtime)
+    return await run(
+        await compile(markdownContent, {
+            outputFormat: 'function-body',
+            format: 'md',
+            // development: true, // 开发模式
+            // providerImportSource: '@mdx-js/react',
+            remarkPlugins: [remarkGfm],
+            rehypePlugins: [rehypeHighlight],
+        }),
+        {
+            ...runtime,
+            baseUrl: import.meta.url,
+        }
+    )
 }
 
 // 将Markdown编译为MDX

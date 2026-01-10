@@ -2,12 +2,7 @@
 // app/routes/blog.$slug.tsx
 import type { Route } from './+types/blog.$slug'
 import { mdRegistry } from 'virtual:md-registry'
-import AriticleContene from '../components/aritcleContent'
-import {
-    ArticleError,
-    AriticleFooter,
-    AriticleHeader,
-} from '../components/aritcleContent'
+import { ArticleError } from '../components/aritcleContent'
 
 // 只在开发时使用
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -32,37 +27,20 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     }
 
     const module = await modulePath()
-    const { default: MDXContentComp, frontMatter, meta } = module
-    return { MDXContentComp, frontMatter, meta, slug }
+    const { default: MDXContentComp } = module
+    return { MDXContentComp, slug }
 }
 
 export default function DevBlogPostPage({ loaderData }: Route.ComponentProps) {
-    const { MDXContentComp, frontMatter, slug } = loaderData
+    const { MDXContentComp, slug } = loaderData
 
     return (
-        <div className="mx-auto max-w-4xl px-4 py-8">
-            <div className="mb-8 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
-                <p className="text-yellow-800">
-                    🚧 开发模式：使用虚拟模块加载 Markdown 内容
-                </p>
-                <p className="mt-1 text-sm text-yellow-600">
-                    生产构建时会替换为预编译的 TypeScript 组件
-                </p>
-            </div>
-
+        <>
             {MDXContentComp ? (
-                <article className="mx-auto max-w-3xl px-4 py-6">
-                    <AriticleHeader {...frontMatter} />
-
-                    <AriticleContene>
-                        <MDXContentComp />
-                    </AriticleContene>
-
-                    <AriticleFooter />
-                </article>
+                <MDXContentComp />
             ) : (
                 <ArticleError slug={slug as string} />
             )}
-        </div>
+        </>
     )
 }

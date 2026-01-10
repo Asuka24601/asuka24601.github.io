@@ -1,10 +1,82 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { isRouteErrorResponse, Outlet } from 'react-router'
 import type { Route } from './+types/postContent'
+import AriticleContene, {
+    AriticleFooter,
+    AriticleHeader,
+    ArticleError,
+} from '../components/aritcleContent'
+import type {
+    FrontMatter,
+    MetaType,
+    ParentContextType,
+} from '../interfaces/post'
+import { useState, useEffect } from 'react'
+import { useImageStore } from '../lib/store'
 
 export default function PostContent() {
+    const [frontMatter, setFrontMatter] = useState<FrontMatter>()
+    const [meta, setMeta] = useState<MetaType>()
+    const [rendered, setRendered] = useState<boolean>(false)
+
+    const handleFrontMatterAction = (data: FrontMatter) => {
+        setFrontMatter(data)
+    }
+
+    const handleMetaAction = (data: MetaType) => {
+        setMeta(data)
+    }
+
+    const handleRenderedAction = (data: boolean) => {
+        setRendered(data)
+    }
+
+    // 构造符合接口的对象
+    const contextValue: ParentContextType = {
+        handleRenderedAction,
+        handleMetaAction,
+        handleFrontMatterAction,
+    }
+
+    const setImageUrl = useImageStore((state) => state.setImageUrl)
+    const resetImage = useImageStore((state) => state.resetImage)
+    const handleImgAction = () => {
+        if (rendered) setImageUrl(frontMatter?.cover as string)
+        else resetImage()
+    }
+
+    useEffect(() => {
+        handleImgAction()
+    }, [rendered])
+
     return (
         <>
-            <Outlet />
+            <div className="mx-auto max-w-full">
+                {import.meta.env.DEV ? (
+                    <div className="mx-auto mb-8 max-w-4xl rounded-lg border border-yellow-200 bg-yellow-50 p-4">
+                        <p className="text-yellow-800">
+                            🚧 开发模式：使用虚拟模块加载 Markdown 内容
+                        </p>
+                        <p className="mt-1 text-sm text-yellow-600">
+                            生产构建时会替换为预编译的 TypeScript 组件
+                        </p>
+                    </div>
+                ) : null}
+
+                <article className="bg-base-100-custom mx-auto max-w-350 rounded-sm p-8 shadow-xl">
+                    {rendered ? (
+                        <AriticleHeader
+                            frontMatter={frontMatter as FrontMatter}
+                        />
+                    ) : null}
+
+                    <AriticleContene>
+                        <Outlet context={contextValue} />
+                    </AriticleContene>
+
+                    <AriticleFooter />
+                </article>
+            </div>
         </>
     )
 }
@@ -17,6 +89,8 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
                 <h1>
                     {error.status} {error.statusText}
                 </h1>
+                <ArticleError slug={error.data} />
+
                 <p>{error.data}</p>
             </>
         )

@@ -57,3 +57,9 @@ export interface RouteManifest {
     }>
     generatedAt: string
 }
+
+export interface ParentContextType {
+    handleRenderedAction: (data: boolean) => void
+    handleMetaAction: (data: MetaType) => void
+    handleFrontMatterAction: (data: FrontMatter) => void
+}

@@ -5,6 +5,12 @@ const frontMatter = {
     date: new Date().toISOString().split('T')[0],
 }
 
+/**
+ * 生成错误页面的React组件代码字符串
+ * @param slug - 文章标识符
+ * @param error - 错误对象
+ * @returns 包含错误信息的React组件代码字符串
+ */
 function errorPost(slug: string, error: Error): string {
     return `
 {
@@ -68,7 +74,12 @@ function errorPost(slug: string, error: Error): string {
 `
 }
 
-// 模块代码生成
+/**
+ * 生成虚拟错误模块的完整代码，包含元数据和错误组件
+ * @param slug - 文章标识符
+ * @param error - 错误对象
+ * @returns 完整的模块代码字符串（包含React导入、元数据导出和默认导出组件）
+ */
 export function generateVirtualErrorModuleCode(
     slug: string,
     error: Error

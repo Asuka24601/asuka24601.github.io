@@ -26,7 +26,9 @@ export default function NavBar({
             <nav className="navbar bg-base-100 rounded shadow-sm">
                 <div className="navbar-center">
                     <Link to="/" className="btn btn-ghost text-xl">
-                        {siteName || 'Blog'}
+                        <p className="first-letter:capitalize">
+                            {siteName || 'Blog'}
+                        </p>
                     </Link>
                 </div>
                 <div className="navbar-start">

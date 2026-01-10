@@ -2,13 +2,43 @@ import type { FrontMatter } from '../app/interfaces/post'
 import { mdxRenderStr } from '../app/lib/mdxRender'
 import metaCode from './metaCode'
 
-// MDX组件
+/**
+ * 将MDX代码字符串转换为包含React Router上下文处理的MDX组件代码
+ * @param mdxCode - 原始的MDX代码字符串
+ * @returns 处理后的MDX组件代码字符串，添加了React Router的上下文调用和副作用钩子
+ */
 async function mdxCode(mdxCode: string): Promise<string> {
     const mdxStr = (await mdxRenderStr(mdxCode, false)).value as string
-    return `${mdxStr}`
+
+    return `${mdxStr.replace(
+        /^export default function MDXContent\(props = {}\) {/gm,
+        `export default function MDXContent(props = {}) {
+    if (useOutletContext()) {
+        const { handleFrontMatterAction,handleMetaAction,handleRenderedAction  } = useOutletContext()
+        useEffect(() => {
+            handleAction();
+        }, []); // 这个effect只会在挂载时运行一次
+
+        function handleAction() {
+            handleFrontMatterAction(frontMatter)
+            handleMetaAction(meta())
+            handleRenderedAction(true)
+        }
+    }
+
+        `
+    )}`
+    // return `${mdxStr}`
 }
 
-// 模块代码生成
+/**
+ * 生成完整的MDX模块代码，包括MDX组件、Front Matter数据和React Router v7的meta函数
+ * @param slug - 文章的唯一标识符
+ * @param frontMatter - 文章的Front Matter数据
+ * @param mdxContent - 文章的MDX内容
+ * @param filePath - 源文件的路径
+ * @returns 完整的模块代码字符串，包含导入、MDX组件、Front Matter导出和meta函数
+ */
 export async function generateMDXModuleCode(
     slug: string,
     frontMatter: FrontMatter,
@@ -26,6 +56,8 @@ export async function generateMDXModuleCode(
 // 模块: ${slug}
 // 生成时间: ${new Date().toISOString()}
 // =============================================
+import { useOutletContext } from "react-router-dom";
+import {useEffect} from "react"
 
 // MDX组件
 ${sMDXCode}

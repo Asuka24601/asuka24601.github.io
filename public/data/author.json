@@ -1,0 +1,72 @@
+{
+    "creationDate": "2025-12-26T19:35:12Z",
+    "lastUpdateDate": "2025-12-26T19:56:11Z",
+    "data": {
+        "name": "asuka24601",
+        "discription": "Hello World!",
+        "avater": "avater.jpg",
+        "info": [
+            {
+                "name": "文章",
+                "value": 19,
+                "routePath": "/posts"
+            },
+            {
+                "name": "标签",
+                "value": 19,
+                "routePath": "/tags"
+            },
+            {
+                "name": "留言",
+                "value": 19,
+                "routePath": "/comments"
+            }
+        ],
+        "tags": [
+            { "name": "React", "icon": "MdiReact", "level": 2 },
+            { "name": "Vuejs", "icon": "MdiVuejs", "level": 2 },
+            { "name": "Tailwind", "icon": "MdiTailwind", "level": 2 },
+            {
+                "name": "JavaScript",
+                "icon": "MdiLanguageJavascript",
+                "level": 2
+            },
+            {
+                "name": "TypeScript",
+                "icon": "MdiLanguageTypescript",
+                "level": 2
+            },
+            { "name": "C", "icon": "MdiLanguageC", "level": 2 },
+            { "name": "Cpp", "icon": "MdiLanguageCpp", "level": 2 },
+            { "name": "Java", "icon": "MdiLanguageJava", "level": 1 },
+            { "name": "Python", "icon": "MdiLanguagePython", "level": 1 },
+            {
+                "name": "Markdown",
+                "icon": "MdiLanguageMarkdown",
+                "level": 3
+            },
+            { "name": "Rust", "icon": "MdiLanguageRust", "level": 1 },
+            { "name": "CSharp", "icon": "MdiLanguageCsharp", "level": 1 },
+            { "name": "ArchLinux", "icon": "MdiArch", "level": 2 },
+            { "name": "Windows", "icon": "MdiMicrosoftWindows", "level": 2 },
+            { "name": "Android", "icon": "MdiAndroid", "level": 2 },
+            { "name": "Camera", "icon": "MdiCamera", "level": 2 },
+            { "name": "Excel", "icon": "MdiMicrosoftExcel", "level": 1 },
+            { "name": "Dog", "icon": "MdiDog", "level": 3 }
+        ],
+        "socialMedia": [
+            {
+                "icon": "StreamlineLogosGithubLogo2Solid",
+                "link": "https://github.com/Asuka24601"
+            },
+            {
+                "icon": "StreamlineLogosBilibiliLogoSolid",
+                "link": "https://space.bilibili.com/2724463"
+            },
+            {
+                "icon": "StreamlineLogosSteamLogoSolid",
+                "link": "https://steamcommunity.com/id/1099734487"
+            }
+        ]
+    }
+}

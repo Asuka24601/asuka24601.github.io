@@ -154,7 +154,7 @@ const mdxComponents = {
     // 图片
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
         <img
-            className="my-4 h-auto max-w-full rounded"
+            className="m-auto my-4 h-auto max-w-4xl rounded"
             loading="lazy"
             {...props}
         />

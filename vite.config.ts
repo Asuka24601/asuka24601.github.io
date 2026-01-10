@@ -19,11 +19,11 @@ export default defineConfig({
         exclude: ['virtual:md-content/*', 'virtual:md-registry'],
     },
     plugins: [
+        tailwindcss(),
         mdx({
             providerImportSource: '@mdx-js/react',
         }),
-        tailwindcss(),
-        reactRouter(),
+
         Inspect(),
         // react(),
         devtoolsJson(),
@@ -49,5 +49,6 @@ export default defineConfig({
                 rehypePlugins: [],
             },
         }),
+        reactRouter(),
     ],
 })

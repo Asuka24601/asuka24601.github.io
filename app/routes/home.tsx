@@ -1,8 +1,20 @@
 /* eslint-disable react-refresh/only-export-components */
 import type { Route } from './+types/home'
+import type {
+    ProfileStatisticsInterface,
+    ProfileDataInterface,
+} from '../interfaces/profile'
+import type { CommentDataInterface } from '../interfaces/comment'
+import type { TodoListDataInterface } from '../interfaces/todo'
+import type { TagDataInterface } from '../interfaces/tags'
+import type { PostListInterface } from '../interfaces/post'
 import ProfileCard from '../components/home/profileCard'
 import type { HomeLoaderDataInterface } from '../interfaces/home'
-import fetchData from '../lib/fetchData'
+import fetchData, {
+    fetchCommentTotalNumber,
+    fetchPostTotalNumber,
+    fetchTagTotalNumber,
+} from '../lib/fetchData'
 import TodoList from '../components/home/todoList'
 import CommentComponent from '../components/commentComponent'
 import TagComponent from '../components/tagsComponent'
@@ -15,37 +27,86 @@ export async function clientLoader(): Promise<HomeLoaderDataInterface> {
     const commentsFilePath = '/data/comments.json'
     const tagsFilePath = '/data/tags.json'
     const postFilePath = '/data/post.json'
-    const loaderTodoData = await fetchData(todosFilePath, 'json')
-    const loaderCommentsData = await fetchData(commentsFilePath, 'json')
-    const loaderTagsData = await fetchData(tagsFilePath, 'json')
-    const loaderPostsData = await fetchData(postFilePath, 'json')
+    const profileFilePath = '/data/author.json'
+    const loaderTodoData: TodoListDataInterface = await fetchData(
+        todosFilePath,
+        'json'
+    )
+    const loaderCommentsData: CommentDataInterface = await fetchData(
+        commentsFilePath,
+        'json'
+    )
+    const loaderTagsData: TagDataInterface = await fetchData(
+        tagsFilePath,
+        'json'
+    )
+    const loaderPostsData: PostListInterface = await fetchData(
+        postFilePath,
+        'json'
+    )
+    const loaderProfileData: ProfileDataInterface = await fetchData(
+        profileFilePath,
+        'json'
+    )
+    const loaderProfileStatistics: ProfileStatisticsInterface = [
+        {
+            name: '文章',
+            value: await fetchPostTotalNumber(),
+            routePath: '/posts',
+        },
+        {
+            name: '标签',
+            value: await fetchTagTotalNumber(),
+            routePath: '/tags',
+        },
+        {
+            name: '留言',
+            value: await fetchCommentTotalNumber(),
+            routePath: '/comments',
+        },
+    ]
 
     // 通过虚拟模块加载 Markdown 内容, 仅为测试用，后续将修改
-    const noticeModulePath = await mdRegistry['pages/notice']
+    const noticeModulePath = import.meta.env.DEV
+        ? await mdRegistry['pages/notice']
+        : import('../contents/pages/notice')
     if (!noticeModulePath) {
         console.log('加载失败')
     }
-    const noticeModule = await noticeModulePath()
+    const noticeModule = (await noticeModulePath()).default
 
     return {
         commentData: loaderCommentsData,
         todoListData: loaderTodoData,
         tagData: loaderTagsData,
-        NoticeModule: noticeModule.default,
+        NoticeModule: noticeModule,
         recentData: loaderPostsData,
+        profileData: loaderProfileData,
+        profileStatistics: loaderProfileStatistics,
     }
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-    const { commentData, todoListData, tagData, NoticeModule, recentData } =
-        loaderData
+    const {
+        commentData,
+        todoListData,
+        tagData,
+        NoticeModule,
+        recentData,
+        profileData,
+        profileStatistics,
+    } = loaderData
 
     return (
         <>
             <div className="grid h-full min-h-full grid-cols-[auto_1fr] gap-5 *:hover:z-1">
                 <aside className="flex h-fit w-60 flex-col gap-5">
                     <div className="bg-base-100-custom h-fit rounded-md px-2 py-4 shadow-xl">
-                        <ProfileCard className="h-full" />
+                        <ProfileCard
+                            className="h-full"
+                            profileData={profileData}
+                            profileStatistics={profileStatistics}
+                        />
                     </div>
 
                     <div className="bg-base-100-custom h-fit rounded-md px-2 py-4 shadow-xl">
