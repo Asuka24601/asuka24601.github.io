@@ -36,7 +36,7 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
                 </section>
             </main>
 
-            <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content relative p-10">
+            <footer className="bg-neutral text-neutral-content relative">
                 <Footer profileData={profileData} />
             </footer>
         </>

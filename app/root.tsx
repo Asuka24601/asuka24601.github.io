@@ -14,10 +14,8 @@ export default function App() {
     useEffect(() => {
         // 注册事件监听器
         const cleanup = createHeart()
-
-        // 组件卸载时清理
         return cleanup
-    }, []) // 空依赖数组确保只运行一次
+    }, [])
 
     return (
         <>
@@ -40,7 +38,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 />
                 <link rel="stylesheet" href={appStylesHref} />
             </head>
-            <body className="bg-white">
+            <body className="min-w-7xl bg-white">
                 {children}
                 <ScrollRestoration />
                 <Scripts />
