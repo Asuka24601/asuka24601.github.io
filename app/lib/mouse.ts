@@ -40,7 +40,7 @@ export const createHeart = (): (() => void) => {
     injectHeartStyle()
 
     const handleClick = (e: PointerEvent) => {
-        e.stopPropagation()
+        // e.stopPropagation()
         // e.preventDefault()
         const posX = e.pageX
         const posY = e.pageY

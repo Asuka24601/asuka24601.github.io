@@ -1,4 +1,5 @@
 import React from 'react'
+import { removeExtension } from '../lib/utils'
 
 // 自定义MDX组件
 const mdxComponents = {
@@ -153,11 +154,18 @@ const mdxComponents = {
 
     // 图片
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-        <img
-            className="m-auto my-4 h-auto max-w-4xl rounded"
-            loading="lazy"
-            {...props}
-        />
+        <>
+            <img
+                className={`m-auto my-3 h-auto max-w-4xl rounded`}
+                loading="lazy"
+                {...props}
+            />
+            {props.alt && (
+                <span className="block text-center text-xs font-light text-gray-500 opacity-70 select-none dark:text-gray-400">
+                    {removeExtension(props.alt)}
+                </span>
+            )}
+        </>
     ),
 }
 

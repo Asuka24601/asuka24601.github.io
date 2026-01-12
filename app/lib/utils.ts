@@ -105,3 +105,12 @@ export function generateTagStyleByWeight(weight: number) {
         '--hover-bg': `hsl(${hue}, ${saturation}%, ${lightness - 10}%)`,
     }
 }
+
+/**
+ *
+ * @param filename
+ * @returns filename without extension
+ */
+export function removeExtension(filename: string) {
+    return filename.replace(/\.[^/.]+$/, '')
+}

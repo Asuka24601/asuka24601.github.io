@@ -29,7 +29,7 @@ export default function App() {
 // For more information, see https://reactrouter.com/explanation/special-files#layout-export
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
+        <html lang="en" className="scroll-smooth">
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -38,7 +38,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 />
                 <link rel="stylesheet" href={appStylesHref} />
             </head>
-            <body className="min-w-7xl bg-white">
+            <body className="min-w-7xl scroll-smooth bg-white">
                 {children}
                 <ScrollRestoration />
                 <Scripts />

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 import type { Route } from './+types/home'
 import type {
@@ -21,6 +22,8 @@ import TagComponent from '../components/tagsComponent'
 import AriticleContene from '../components/aritcleContent'
 import RecentComponent from '../components/home/recentComponent'
 import { mdRegistry } from 'virtual:md-registry'
+import { useImageStore } from '../lib/store'
+import { useEffect, useRef } from 'react'
 
 export async function clientLoader(): Promise<HomeLoaderDataInterface> {
     const todosFilePath = '/data/todos.json'
@@ -97,9 +100,23 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         profileStatistics,
     } = loaderData
 
+    const elementRef = useRef<HTMLDivElement>(null)
+
+    const resetImage = useImageStore((state) => state.resetImage)
+    const handleImgAction = () => {
+        resetImage()
+    }
+
+    useEffect(() => {
+        handleImgAction()
+    }, [])
+
     return (
         <>
-            <div className="grid h-full min-h-full grid-cols-[auto_1fr] gap-5 *:hover:z-1">
+            <div
+                ref={elementRef}
+                className="grid h-full min-h-full grid-cols-[auto_1fr] gap-5 *:hover:z-1"
+            >
                 <aside className="flex h-fit w-60 flex-col gap-5">
                     <div className="bg-base-100-custom h-fit rounded-md px-2 py-4 shadow-xl">
                         <ProfileCard

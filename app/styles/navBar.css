@@ -1,0 +1,29 @@
+.navbar--base {
+    background-color: color-mix(
+        in srgb,
+        color-mix(in srgb, var(--color-primary), white) 90%,
+        transparent
+    );
+
+    color: color-mix(in srgb, var(--color-primary-content), white);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* cubic-bezier 用于更自然的动画 */
+}
+
+.navbar--compact {
+    backdrop-filter: blur(10px);
+}
+
+.navbar__progress {
+    will-change: padding;
+}
+
+.menu-anim {
+    transition: opacity 0.3s;
+    opacity: 1;
+    pointer-events: auto;
+}
+.menu-anim--hidden {
+    opacity: 0;
+    pointer-events: none;
+}

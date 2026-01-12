@@ -2,6 +2,7 @@ import * as localIcons from './icons'
 import type { ProfileDataInterface } from '../interfaces/profile'
 import snap from '../assets/snap.webp'
 import author from '../assets/author.svg'
+import side from '../assets/side.webp'
 
 export default function Footer({
     profileData,
@@ -11,10 +12,13 @@ export default function Footer({
     const profile = profileData.data
     return (
         <>
-            <div className="flex flex-row flex-nowrap justify-between">
+            <div className="w-1/6 select-none">
+                <img src={side} alt="side" />
+            </div>
+            <div className="bg-neutral text-neutral-content flex flex-row flex-nowrap justify-between">
                 <div className="flex flex-1 flex-row flex-nowrap items-center justify-between p-10">
                     <aside>
-                        <img src={author} />
+                        <img src={author} className="select-none" />
                         <div>
                             <p className="text-neutral-content font-semibold opacity-80 first-letter:uppercase">
                                 {profile.name}
@@ -46,7 +50,7 @@ export default function Footer({
                     </nav>
                 </div>
 
-                <div className="aspect-auto h-72 w-auto overflow-hidden">
+                <div className="aspect-auto h-72 w-auto overflow-hidden select-none">
                     <img
                         src={snap}
                         alt="sanp"

@@ -1,5 +1,5 @@
 import '../styles/baseLayout.css'
-import * as wallpaper from '../assets/wallpaper.webp'
+import wallpaper from '../assets/wallpaper.webp'
 import { useImageStore } from '../lib/store'
 
 export default function HeaderBanner({
@@ -10,10 +10,16 @@ export default function HeaderBanner({
     const ImgUrl = useImageStore((state) => state.imageUrl)
 
     return (
-        <div className={className + ' headBannerImg'}>
+        <div
+            className={
+                className +
+                ' headBannerImg flex max-h-full w-full flex-col overflow-hidden'
+            }
+        >
             <img
-                src={ImgUrl ? ImgUrl : wallpaper.default}
-                className="w-full object-cover"
+                src={ImgUrl ? ImgUrl : wallpaper}
+                className="w-full overflow-clip object-cover"
+                alt="banner"
             />
         </div>
     )

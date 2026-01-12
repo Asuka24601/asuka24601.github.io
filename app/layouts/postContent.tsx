@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { isRouteErrorResponse, Outlet } from 'react-router'
 import type { Route } from './+types/postContent'
@@ -51,7 +52,7 @@ export default function PostContent() {
 
     return (
         <>
-            <div className="mx-auto max-w-full">
+            <div className="mx-auto block h-full min-h-[inherit] max-w-full">
                 {import.meta.env.DEV ? (
                     <div className="mx-auto mb-8 max-w-4xl rounded-lg border border-yellow-200 bg-yellow-50 p-4">
                         <p className="text-yellow-800">
@@ -63,7 +64,7 @@ export default function PostContent() {
                     </div>
                 ) : null}
 
-                <article className="bg-base-100-custom mx-auto max-w-350 rounded-sm p-8 shadow-xl">
+                <article className="bg-base-100-custom mx-auto h-full max-w-5xl rounded-sm p-8 shadow-xl">
                     {rendered ? (
                         <AriticleHeader
                             frontMatter={frontMatter as FrontMatter}
