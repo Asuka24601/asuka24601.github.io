@@ -3,6 +3,8 @@ import type { PostListInterface } from '../interfaces/post'
 import type { Route } from './+types/postIndex'
 import fetchData from '../lib/fetchData'
 import { timeToString } from '../lib/utils'
+import { useImageStore } from '../lib/store'
+import { useLayoutEffect } from 'react'
 
 // import type { Route } from "./+types/postIndex";
 
@@ -53,6 +55,16 @@ export default function PostIndex({ loaderData }: Route.ComponentProps) {
             </div>
         </li>
     ))
+
+    // const setImageUrl = useImageStore((state) => state.setImageUrl)
+    const resetImage = useImageStore((state) => state.resetImage)
+    const handleImgAction = () => {
+        resetImage()
+    }
+
+    useLayoutEffect(() => {
+        handleImgAction()
+    }, [])
 
     return (
         <div className="bg-base-100-custom w-full rounded-md p-5 shadow-xl">

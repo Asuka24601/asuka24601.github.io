@@ -156,7 +156,7 @@ const mdxComponents = {
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
         <>
             <img
-                className={`m-auto my-3 h-auto max-w-4xl rounded`}
+                className={`skeleton m-auto my-3 h-auto max-w-4xl rounded`}
                 loading="lazy"
                 {...props}
             />

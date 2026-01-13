@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { Sun, Moon, Search, Menu } from './icons'
 import '../styles/navBar.css'
 import { useEffect, useState } from 'react'
-import { throttle } from 'lodash' // 可选：使用防抖/节流
+import { throttle } from 'lodash' // 防抖/节流
 
 export default function NavBar({
     className,
@@ -23,7 +23,9 @@ export default function NavBar({
         <li key={item[0]}>
             {/* Use Link for navigation */}
 
-            <Link to={item[1]}>{item[0]}</Link>
+            <Link className="btn btn-ghost" to={item[1]}>
+                {item[0]}
+            </Link>
         </li>
     ))
 
@@ -65,24 +67,29 @@ export default function NavBar({
         <div className={`${className}`}>
             <div
                 className={`navbar__progress`}
-                style={{ padding: `${scrollPercent}rem` }}
+                style={{
+                    padding: `${Math.min(scrollPercent * 2, 0.5) * 2}rem`,
+                }}
             >
                 <nav
-                    className={`navbar text-primary-content navbar--base shadow-sm ${scrolled ? 'navbar--compact' : ''}`}
+                    className={`navbar text-primary-content navbar--base ${scrolled ? 'navbar--compact shadow-sm' : ''}`}
                     style={{
-                        borderRadius: `${scrollPercent * 0.5}rem`,
-                        willChange: 'border-radius',
+                        borderRadius: `${Math.min(scrollPercent * 2, 0.5) * 0.5}rem`,
+                        background: `color-mix(in srgb,color-mix(in srgb,
+                         var(--color-primary), white) ${Math.min(scrollPercent * 2, 0.5) * 180}%,transparent)`,
+                        willChange: 'border-radius, background, box-shadow',
                     }}
                 >
-                    <div className="navbar-center">
+                    <div className="navbar-start w-auto">
                         <Link to="/" className="btn btn-ghost text-xl">
                             <p className="first-letter:capitalize">
                                 {siteName || 'Blog'}
                             </p>
                         </Link>
                     </div>
-                    <div className="navbar-start">
+                    <div className="navbar-center flex-1">
                         <button
+                            title="menu"
                             tabIndex={1}
                             type="button"
                             className="btn btn-ghost btn-circle"
@@ -103,7 +110,8 @@ export default function NavBar({
                             {listItems}
                         </ul>
                     </div>
-                    <div className="navbar-end">
+
+                    <div className="navbar-end w-auto px-4">
                         <button className="btn btn-ghost btn-circle">
                             <Search
                                 stroke="currentColor"

@@ -1,5 +1,16 @@
+import { useLayoutEffect } from 'react'
+import { useImageStore } from '../lib/store'
+
 export default function About() {
-    return (
-        <p>about</p>
-    )
+    // const setImageUrl = useImageStore((state) => state.setImageUrl)
+    const resetImage = useImageStore((state) => state.resetImage)
+    const handleImgAction = () => {
+        resetImage()
+    }
+
+    useLayoutEffect(() => {
+        handleImgAction()
+    }, [])
+
+    return <p>about</p>
 }

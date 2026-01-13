@@ -7,7 +7,8 @@ import HeaderBanner from '../components/headBanner'
 import type { ProfileDataInterface } from '../interfaces/profile'
 import fetchData from '../lib/fetchData'
 import type { Route } from './+types/base'
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef, useLayoutEffect } from 'react'
+import { EiArrowDown } from '../components/icons'
 
 export async function clientLoader(): Promise<{
     profileData: ProfileDataInterface
@@ -24,12 +25,16 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
     const siteName = `${profileData.data.name}'Site`
     const location = useLocation()
 
-    const [scrollPercent, setScrollPercent] = useState(0)
+    const wrapperRef = useRef<HTMLDivElement>(null)
     const elementRef = useRef<HTMLDivElement>(null)
+    const sentinelRef = useRef<HTMLDivElement>(null)
     const [bannerHeight, setBannerHeight] = useState(0)
-    const [mTop, setMTop] = useState(false)
+    // 直接根据 location 计算布局模式，确保首屏渲染即正确，避免闪烁
+    const isBannerLayout =
+        location.pathname === '/' ||
+        !!location.pathname.match(/^\/posts\/.+$/gm)
 
-    const [showUp, setShowUp] = useState(true)
+    const [showUp, setShowUp] = useState(isBannerLayout)
     const scrollDown = () => {
         setShowUp(false)
         window.scrollTo({
@@ -46,6 +51,11 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
             for (const entry of entries) {
                 // contentRect 提供了不含 padding 的高度
                 setBannerHeight(entry.contentRect.height)
+                // 同步更新 CSS 变量，供样式计算使用
+                wrapperRef.current?.style.setProperty(
+                    '--banner-height',
+                    `${entry.contentRect.height}`
+                )
             }
         })
 
@@ -53,56 +63,88 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
         return () => observer.disconnect()
     }, [])
 
-    // 2. 抽离计算逻辑，确保能获取最新的 bannerHeight
-    const scrollAction = useCallback(() => {
-        const scrollHeight = document.documentElement.scrollHeight // 内容总高度
-        const clientHeight = window.innerHeight // 视口高度
+    // 2. 使用 IntersectionObserver 优化 showUp 显示逻辑
+    useEffect(() => {
+        if (!isBannerLayout || !sentinelRef.current) return
 
-        const scrollTop = window.scrollY
-        if (scrollTop < 30) setShowUp(true)
-        else setShowUp(false)
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setShowUp(entry.isIntersecting)
+            },
+            { threshold: 0 }
+        )
 
-        if (scrollTop + clientHeight >= scrollHeight - 5) {
-            // 防止重复触发
-            return
+        observer.observe(sentinelRef.current)
+        return () => observer.disconnect()
+    }, [isBannerLayout])
+
+    // 3. 监听滚动 (仅处理视差效果，使用 requestAnimationFrame + 直接 DOM 操作优化性能)
+    useEffect(() => {
+        if (!isBannerLayout) return
+
+        let ticking = false
+        let lastPercent = -1
+
+        const updatePercent = () => {
+            // 关键修改：在计算时实时获取最新的 scrollY，而不是使用事件触发时的旧值
+            const scrollTop = window.scrollY
+            const scrollHeight = document.documentElement.scrollHeight // 内容总高度
+            const clientHeight = window.innerHeight // 视口高度
+
+            // 增加 5px 的容错范围
+            if (scrollTop + clientHeight >= scrollHeight - 5) {
+                return
+            }
+            const maxScroll = bannerHeight
+
+            // 1. 限制范围在 0-1 之间，防止顶部回弹出现负数，并设置“终点区域”（>1 时恒为 1）
+            const percent =
+                maxScroll > 0
+                    ? Math.min(Math.max(scrollTop / maxScroll, 0), 1)
+                    : 0
+
+            // 2. 只有当值真正发生变化时才更新 DOM，避免在底部（percent=1）时重复写入导致闪烁
+            if (percent !== lastPercent) {
+                wrapperRef.current?.style.setProperty(
+                    '--scroll-percent',
+                    `${percent}`
+                )
+                lastPercent = percent
+            }
         }
 
-        const maxScroll = bannerHeight
-        const percent = maxScroll > 0 ? Math.min(scrollTop / maxScroll, 1) : 0
-        // const percent = scrollTop / maxScroll
-        setScrollPercent(percent)
-    }, [bannerHeight]) // 当高度变化时，重新生成滚动逻辑
+        const onScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updatePercent()
+                    ticking = false
+                })
+                ticking = true
+            }
+        }
 
-    // 3. 监听滚动
-    useEffect(() => {
-        if (
-            location.pathname != '/' &&
-            !location.pathname.match(/^\/posts\/.+$/gm)
-        )
-            return
-        window.addEventListener('scroll', scrollAction, { passive: true })
-        return () => window.removeEventListener('scroll', scrollAction)
-    }, [scrollAction, location])
+        window.addEventListener('scroll', onScroll, { passive: true })
+        // 初始化时执行一次，确保刷新后（如果停留在页面中间）位置正确
+        updatePercent()
 
-    // Set scrollPercent to 1 if not on homepage or a post page, to hide the banner
+        return () => {
+            window.removeEventListener('scroll', onScroll)
+        }
+    }, [isBannerLayout, bannerHeight])
+
+    // 使用 useLayoutEffect 在浏览器绘制前重置状态，防止内容位置跳动
+    useLayoutEffect(() => {
+        if (!isBannerLayout) {
+            wrapperRef.current?.style.setProperty('--scroll-percent', '1')
+        } else {
+            wrapperRef.current?.style.setProperty('--scroll-percent', '0')
+        }
+    }, [isBannerLayout])
+
+    // 同步 showUp 状态与 isBannerLayout 变化
     useEffect(() => {
-        if (
-            location.pathname != '/' &&
-            !location.pathname.match(/^\/posts\/.+$/gm)
-        ) {
-            // Use a timeout to avoid synchronous setState in effect, which can cause cascading renders
-            setTimeout(() => {
-                setScrollPercent(1)
-                setShowUp(false)
-                setMTop(false)
-            }, 0)
-        } else
-            setTimeout(() => {
-                setScrollPercent(0)
-                setShowUp(true)
-                setMTop(true)
-            }, 0)
-    }, [location])
+        setShowUp(isBannerLayout)
+    }, [isBannerLayout])
 
     return (
         <>
@@ -111,34 +153,44 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
                     <NavBar siteName={siteName} />
                 </header>
 
-                <div className="relative -top-18">
+                <div className="relative -top-18" ref={wrapperRef}>
                     <div
                         ref={elementRef}
-                        className="relative top-0 left-0 flex h-auto max-h-dvh w-full overflow-hidden"
-                        style={
-                            mTop
-                                ? {}
+                        className={`top-0 left-0 flex h-auto max-h-[calc(100dvh+50px)] w-full overflow-hidden select-none`}
+                        style={{
+                            ...(isBannerLayout
+                                ? {
+                                      position: 'relative',
+                                      background: `color-mix(in srgb, black calc(max(0.125 - var(--scroll-percent, 0), 0) * 800%) , white)`,
+                                  }
                                 : {
                                       position: 'absolute',
                                       top: 0,
                                       left: 0,
-                                  }
-                        }
+                                      background: `linear-gradient(to top,white ,white 50%,black 50%,black)`,
+                                  }),
+                        }}
                     >
+                        {isBannerLayout && (
+                            <div
+                                ref={sentinelRef}
+                                className="pointer-events-none absolute top-0 left-0 h-7.5 w-full bg-transparent"
+                            />
+                        )}
                         <HeaderBanner />
                         <div
                             className={
-                                'absolute bottom-5 left-0 flex w-full justify-center transition-all duration-300 ease-in-out' +
+                                'absolute bottom-20 left-0 flex w-full justify-center transition-all duration-300 ease-in-out' +
                                 (showUp
                                     ? 'opacity-100'
                                     : 'pointer-events-none opacity-0')
                             }
                         >
                             <button
-                                className="btn btn-circle btn-ghost animate-bounce"
+                                className="btn btn-circle btn-ghost text-base-100 animate-bounce bg-transparent opacity-50"
                                 onClick={scrollDown}
                             >
-                                <p>Click</p>
+                                <EiArrowDown width={40} height={40} />
                             </button>
                         </div>
                     </div>
@@ -146,14 +198,13 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
                     <section
                         className="relative z-9 mx-auto max-w-400 px-6 py-6"
                         style={
-                            mTop
+                            isBannerLayout
                                 ? {
-                                      marginTop: `calc(-${scrollPercent * bannerHeight}px + calc(var(--spacing) * 18))`,
+                                      marginTop: `calc(calc(var(--scroll-percent, 0) * var(--banner-height, 0) * -1px) + calc(var(--spacing) * 18))`,
                                   }
                                 : {
                                       top: `calc(var(--spacing) * 18)`,
                                       minHeight: `${bannerHeight}px`,
-                                      //   top: `calc(-${scrollPercent * bannerHeight}px + calc(var(--spacing) * 18))`,
                                   }
                         }
                     >

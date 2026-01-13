@@ -1,5 +1,11 @@
 .headBannerImg {
-    mask-image: linear-gradient(to top, transparent, black 25%);
+    mask-image: linear-gradient(
+        to top,
+        transparent,
+        black 12.5%,
+        black 87.5%,
+        transparent
+    );
 }
 
 .hover-clone {

@@ -19,6 +19,8 @@ export default function PostContent() {
     const [frontMatter, setFrontMatter] = useState<FrontMatter>()
     const [meta, setMeta] = useState<MetaType>()
     const [rendered, setRendered] = useState<boolean>(false)
+    const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+    const [isLightboxVisible, setIsLightboxVisible] = useState(false)
 
     const handleFrontMatterAction = (data: FrontMatter) => {
         setFrontMatter(data)
@@ -50,8 +52,35 @@ export default function PostContent() {
         handleImgAction()
     }, [rendered])
 
+    useEffect(() => {
+        if (lightboxSrc) {
+            // 确保 DOM 挂载后下一帧才添加 opacity-100，触发 transition
+            requestAnimationFrame(() => setIsLightboxVisible(true))
+        }
+    }, [lightboxSrc])
+
+    const closeLightbox = () => {
+        setIsLightboxVisible(false)
+        // 等待 300ms 动画结束后再卸载组件
+        setTimeout(() => setLightboxSrc(null), 300)
+    }
+
     return (
         <>
+            {lightboxSrc && (
+                <div
+                    className={`fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/80 p-4 backdrop-blur-sm transition-opacity duration-300 ${
+                        isLightboxVisible ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    onClick={closeLightbox}
+                >
+                    <img
+                        src={lightboxSrc}
+                        alt="Lightbox Preview"
+                        className="max-h-full max-w-full rounded-md object-contain shadow-2xl"
+                    />
+                </div>
+            )}
             <div className="mx-auto block h-full min-h-[inherit] max-w-full">
                 {import.meta.env.DEV ? (
                     <div className="mx-auto mb-8 max-w-4xl rounded-lg border border-yellow-200 bg-yellow-50 p-4">
@@ -64,7 +93,17 @@ export default function PostContent() {
                     </div>
                 ) : null}
 
-                <article className="bg-base-100-custom mx-auto h-full max-w-5xl rounded-sm p-8 shadow-xl">
+                <article
+                    className="bg-base-100-custom mx-auto h-full max-w-5xl rounded-sm p-8 shadow-xl"
+                    onClick={(e) => {
+                        const target = e.target as HTMLElement
+                        if (target.tagName === 'IMG') {
+                            e.preventDefault() // 防止链接跳转（如果图片被包裹在链接中）
+                            const img = target as HTMLImageElement
+                            setLightboxSrc(img.src)
+                        }
+                    }}
+                >
                     {rendered ? (
                         <AriticleHeader
                             frontMatter={frontMatter as FrontMatter}
