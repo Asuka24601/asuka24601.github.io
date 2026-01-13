@@ -1,14 +1,15 @@
 import type { ReactNode } from 'react'
 import mdxComponents from '../components/mdxComponent'
 import { MDXProvider } from '@mdx-js/react'
-import type { FrontMatter } from '../interfaces/post'
+
+type Tags = string[]
 
 export default function AriticleContene({
     children,
     className,
 }: {
     children: ReactNode
-    className?: string | undefined
+    className?: string | ''
 }) {
     return (
         <main className={'prose dark:prose-invert max-w-none ' + className}>
@@ -17,46 +18,73 @@ export default function AriticleContene({
     )
 }
 
-export function AriticleHeader({ frontMatter }: { frontMatter: FrontMatter }) {
+export function AriticleHeader({
+    title,
+    author,
+    date,
+    description,
+    className,
+    style,
+}: {
+    title: string
+    author: string
+    date: string
+    description?: string
+    className?: string | ''
+    style?: React.CSSProperties | undefined
+}) {
     return (
-        <header className="mb-6 border-b border-gray-200 pb-4 dark:border-gray-700">
-            <h1 className="after:animate-blink relative mb-3 text-3xl font-bold text-gray-900 after:ml-2.5 after:inline-block after:h-1 after:w-5 after:bg-gray-900 dark:text-white">
-                {frontMatter.title}
+        <header
+            className={` ${className} flex flex-col justify-center gap-5 text-center`}
+            style={style}
+        >
+            <h1 className="after:animate-blink text-base-100 after:bg-base-100 relative text-7xl text-shadow-2xs after:ml-2.5 after:inline-block after:h-1 after:w-5">
+                <strong>{title}</strong>
             </h1>
 
-            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                <time dateTime={frontMatter.date}>
-                    {new Date(frontMatter.date).toLocaleDateString('zh-CN')}
+            <div className="text-base-200 flex justify-center text-sm text-shadow-xs">
+                <span className="first-letter:uppercase">
+                    <strong>{author}</strong>
+                </span>
+                <div className="bg-base-100/75 static mx-3 block h-5 w-0.5"></div>
+                <time dateTime={date}>
+                    <strong>
+                        {new Date(date).toLocaleDateString('zh-CN')}
+                    </strong>
                 </time>
-
-                {frontMatter.tags && frontMatter.tags.length > 0 && (
-                    <div className="ml-4 flex flex-wrap gap-2">
-                        {frontMatter.tags.map((tag: string, index: number) => (
-                            <span
-                                key={index}
-                                className="bg-info rounded px-2 py-0.5 text-xs text-teal-50 dark:bg-gray-800"
-                            >
-                                #{tag}
-                            </span>
-                        ))}
-                    </div>
-                )}
             </div>
-
-            {frontMatter.description && (
-                <p className="mt-4 text-gray-600 dark:text-gray-300">
-                    {frontMatter.description}
+            {description && (
+                <p className="text-base-100 text-shadow-2xs">
+                    <strong>{description}</strong>{' '}
                 </p>
             )}
         </header>
     )
 }
 
-export function AriticleFooter() {
+export function AriticleFooter({ tags }: { tags: Tags }) {
     return (
-        <footer className="mt-8 border-t border-gray-200 pt-4 text-sm text-gray-500 dark:border-gray-700">
-            {import.meta.env.DEV ? '开发模式' : '发表模式'} • 最后更新:{' '}
-            {new Date().toLocaleTimeString()}
+        <footer className="flex flex-col gap-3 py-4 text-sm text-gray-500">
+            {tags && tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                    <span className={`after:content-[':']`}>标签</span>
+                    {tags.map((tag: string, index: number) => (
+                        <span
+                            key={index}
+                            className="rounded px-2 py-0.5 text-xs text-teal-50"
+                            style={{
+                                background: `color-mix(in srgb, var(--color-primary), white)`,
+                            }}
+                        >
+                            #{tag}
+                        </span>
+                    ))}
+                </div>
+            )}
+            <p>
+                {import.meta.env.DEV ? '开发模式' : '发表模式'} • 最后更新:{' '}
+                {new Date().toLocaleTimeString()}
+            </p>
         </footer>
     )
 }

@@ -13,12 +13,17 @@ export default function Footer({
     return (
         <>
             <div className="w-1/6 select-none">
-                <img src={side} alt="side" />
+                <img src={side} alt="side" draggable="false" />
             </div>
             <div className="bg-neutral text-neutral-content flex flex-row flex-nowrap justify-between">
                 <div className="flex flex-1 flex-row flex-nowrap items-center justify-between p-10">
                     <aside>
-                        <img src={author} className="select-none" />
+                        <img
+                            src={author}
+                            className="select-none"
+                            alt="author"
+                            draggable="false"
+                        />
                         <div>
                             <p className="text-neutral-content font-semibold opacity-80 first-letter:uppercase">
                                 {profile.name}
@@ -55,6 +60,7 @@ export default function Footer({
                         src={snap}
                         alt="sanp"
                         className="h-full object-cover"
+                        draggable="false"
                     />
                 </div>
             </div>

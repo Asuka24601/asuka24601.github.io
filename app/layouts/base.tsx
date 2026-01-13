@@ -29,6 +29,7 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
     const elementRef = useRef<HTMLDivElement>(null)
     const sentinelRef = useRef<HTMLDivElement>(null)
     const [bannerHeight, setBannerHeight] = useState(0)
+
     // 直接根据 location 计算布局模式，确保首屏渲染即正确，避免闪烁
     const isBannerLayout =
         location.pathname === '/' ||
@@ -149,11 +150,11 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
     return (
         <>
             <main className="relative">
-                <header className="sticky top-0 z-10 h-18 overflow-visible">
+                <header className="sticky top-0 z-2 h-18">
                     <NavBar siteName={siteName} />
                 </header>
 
-                <div className="relative -top-18" ref={wrapperRef}>
+                <div className="relative -top-18 z-0" ref={wrapperRef}>
                     <div
                         ref={elementRef}
                         className={`top-0 left-0 flex h-auto max-h-[calc(100dvh+50px)] w-full overflow-hidden select-none`}
@@ -197,23 +198,23 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
 
                     <section
                         className="relative z-9 mx-auto max-w-400 px-6 py-6"
-                        style={
-                            isBannerLayout
+                        style={{
+                            ...(isBannerLayout
                                 ? {
                                       marginTop: `calc(calc(var(--scroll-percent, 0) * var(--banner-height, 0) * -1px) + calc(var(--spacing) * 18))`,
                                   }
                                 : {
                                       top: `calc(var(--spacing) * 18)`,
                                       minHeight: `${bannerHeight}px`,
-                                  }
-                        }
+                                  }),
+                        }}
                     >
                         <Outlet />
                     </section>
                 </div>
             </main>
 
-            <footer className="relative">
+            <footer className="relative z-1">
                 <Footer profileData={profileData} />
             </footer>
         </>

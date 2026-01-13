@@ -1,14 +1,15 @@
 import { Link } from 'react-router'
 import { Sun, Moon, Search, Menu } from './icons'
 import '../styles/navBar.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { throttle } from 'lodash' // 防抖/节流
+import { useNavStore } from '../lib/store'
 
 export default function NavBar({
     className,
     siteName,
 }: {
-    className?: string | undefined
+    className?: string | ''
     siteName: string | undefined
 }) {
     const listItems = [
@@ -24,7 +25,7 @@ export default function NavBar({
             {/* Use Link for navigation */}
 
             <Link className="btn btn-ghost" to={item[1]}>
-                {item[0]}
+                <p>{item[0]}</p>
             </Link>
         </li>
     ))
@@ -32,6 +33,12 @@ export default function NavBar({
     const [scrolled, setScrolled] = useState(false)
     const [scrollPercent, setScrollPercent] = useState(0)
     const [isMenuOpen, setIsMenuOpen] = useState(true)
+    const navShow = useNavStore((state) => state.navShow)
+    const resetNav = useNavStore((state) => state.resetNav)
+
+    useLayoutEffect(() => {
+        resetNav()
+    }, [])
 
     useEffect(() => {
         const calculateScrollPercent = () => {
@@ -64,7 +71,9 @@ export default function NavBar({
     }, [])
 
     return (
-        <div className={`${className}`}>
+        <div
+            className={`${className} transition-opacity duration-300 ${navShow ? 'opacity-100' : 'pointer-events-none -z-50 opacity-0'}`}
+        >
             <div
                 className={`navbar__progress`}
                 style={{
@@ -105,7 +114,7 @@ export default function NavBar({
                         </button>
                         <ul
                             tabIndex={0}
-                            className={`menu menu-horizontal menu-anim z-1 ${isMenuOpen ? '' : 'menu-anim--hidden'}`}
+                            className={`menu menu-horizontal ${isMenuOpen ? '' : 'menu-anim--hidden'}`}
                         >
                             {listItems}
                         </ul>

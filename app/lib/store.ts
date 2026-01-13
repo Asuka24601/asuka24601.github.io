@@ -2,18 +2,33 @@ import { create } from 'zustand'
 
 export interface ImageStore {
     imageUrl: string
+    blurred: boolean
+    setBlurred: (usr: boolean) => void
+    resetBlurred: () => void
     setImageUrl: (usr: string) => void
     resetImage: () => void
 }
 
+export interface NavStore {
+    navShow: boolean
+    setNavShow: (usr: boolean) => void
+    resetNav: () => void
+}
+
 // 定义一个 Store
 export const useImageStore = create<ImageStore>()((set) => ({
-    // 初始状态：图片 URL 为空
     imageUrl: '',
+    blurred: false,
 
-    // 更新状态的方法
     setImageUrl: (url: string) => set({ imageUrl: url }),
-
-    // 可选：重置方法
     resetImage: () => set({ imageUrl: '' }),
+
+    setBlurred: (usr: boolean) => set({ blurred: usr }),
+    resetBlurred: () => set({ blurred: false }),
+}))
+
+export const useNavStore = create<NavStore>()((set) => ({
+    navShow: true,
+    setNavShow: (usr: boolean) => set({ navShow: usr }),
+    resetNav: () => set({ navShow: true }),
 }))

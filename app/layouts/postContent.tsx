@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { isRouteErrorResponse, Outlet } from 'react-router'
+import { isRouteErrorResponse, Outlet, useLocation } from 'react-router'
 import type { Route } from './+types/postContent'
 import AriticleContene, {
     AriticleFooter,
@@ -13,7 +13,20 @@ import type {
     ParentContextType,
 } from '../interfaces/post'
 import { useState, useEffect } from 'react'
-import { useImageStore } from '../lib/store'
+import { useImageStore, useNavStore } from '../lib/store'
+import { create } from 'zustand'
+
+interface UseSlug {
+    slug: string
+    setSlug: (slug: string) => void
+    resetSlug: () => void
+}
+
+const useSlug = create<UseSlug>()((set) => ({
+    slug: '',
+    setSlug: (slug: string) => set({ slug }),
+    resetSlug: () => set({ slug: '' }),
+}))
 
 export default function PostContent() {
     const [frontMatter, setFrontMatter] = useState<FrontMatter>()
@@ -21,6 +34,12 @@ export default function PostContent() {
     const [rendered, setRendered] = useState<boolean>(false)
     const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
     const [isLightboxVisible, setIsLightboxVisible] = useState(false)
+    const resetNav = useNavStore((state) => state.resetNav)
+    const setNavShow = useNavStore((state) => state.setNavShow)
+    const setBlurred = useImageStore((state) => state.setBlurred)
+    const resetBlurred = useImageStore((state) => state.resetBlurred)
+    const setImageUrl = useImageStore((state) => state.setImageUrl)
+    const resetImage = useImageStore((state) => state.resetImage)
 
     const handleFrontMatterAction = (data: FrontMatter) => {
         setFrontMatter(data)
@@ -41,11 +60,12 @@ export default function PostContent() {
         handleFrontMatterAction,
     }
 
-    const setImageUrl = useImageStore((state) => state.setImageUrl)
-    const resetImage = useImageStore((state) => state.resetImage)
     const handleImgAction = () => {
-        if (rendered) setImageUrl(frontMatter?.cover as string)
-        else resetImage()
+        if (rendered) {
+            setImageUrl(frontMatter?.cover as string)
+            setBlurred(true)
+            useSlug.setState({ slug: frontMatter?.slug as string })
+        }
     }
 
     useEffect(() => {
@@ -55,15 +75,33 @@ export default function PostContent() {
     useEffect(() => {
         if (lightboxSrc) {
             // 确保 DOM 挂载后下一帧才添加 opacity-100，触发 transition
-            requestAnimationFrame(() => setIsLightboxVisible(true))
+            requestAnimationFrame(() => {
+                console.log(useNavStore.getState().navShow)
+
+                setIsLightboxVisible(true)
+            })
         }
     }, [lightboxSrc])
 
     const closeLightbox = () => {
         setIsLightboxVisible(false)
         // 等待 300ms 动画结束后再卸载组件
-        setTimeout(() => setLightboxSrc(null), 300)
+        resetNav()
+        console.log(useNavStore.getState().navShow)
+
+        setTimeout(() => {
+            setLightboxSrc(null)
+        }, 300)
     }
+
+    useEffect(() => {
+        return () => {
+            closeLightbox()
+            resetNav()
+            resetImage()
+            resetBlurred()
+        }
+    }, [])
 
     return (
         <>
@@ -101,12 +139,21 @@ export default function PostContent() {
                             e.preventDefault() // 防止链接跳转（如果图片被包裹在链接中）
                             const img = target as HTMLImageElement
                             setLightboxSrc(img.src)
+                            setNavShow(false)
                         }
                     }}
                 >
                     {rendered ? (
                         <AriticleHeader
-                            frontMatter={frontMatter as FrontMatter}
+                            title={frontMatter?.title as string}
+                            author={frontMatter?.author as string}
+                            date={frontMatter?.date as string}
+                            description={frontMatter?.description as string}
+                            className="absolute left-1/2"
+                            style={{
+                                top: `calc((var(--banner-height) / 2) * -1px)`,
+                                translate: '-50% -50%',
+                            }}
                         />
                     ) : null}
 
@@ -114,7 +161,9 @@ export default function PostContent() {
                         <Outlet context={contextValue} />
                     </AriticleContene>
 
-                    <AriticleFooter />
+                    <div className="divider"></div>
+
+                    <AriticleFooter tags={frontMatter?.tags as string[]} />
                 </article>
             </div>
         </>
@@ -123,13 +172,17 @@ export default function PostContent() {
 
 // error boundary
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+    const location = useLocation()
+    if (useSlug.getState().slug === '') {
+        useSlug.setState({ slug: location.pathname.slice(7) })
+    }
     if (isRouteErrorResponse(error)) {
         return (
             <>
                 <h1>
                     {error.status} {error.statusText}
                 </h1>
-                <ArticleError slug={error.data} />
+                <ArticleError slug={useSlug.getState().slug} />
 
                 <p>{error.data}</p>
             </>

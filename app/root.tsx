@@ -9,6 +9,7 @@ import { createHeart } from './lib/mouse'
 
 import appStylesHref from './styles/style.css?url'
 import { useEffect } from 'react'
+import 'animate.css'
 
 export default function App() {
     useEffect(() => {
