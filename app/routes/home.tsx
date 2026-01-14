@@ -24,6 +24,7 @@ import RecentComponent from '../components/home/recentComponent'
 import { mdRegistry } from 'virtual:md-registry'
 import { useImageStore } from '../lib/store'
 import { useEffect, useRef } from 'react'
+import PrologueComponent from '../components/home/prologue '
 
 export async function clientLoader(): Promise<HomeLoaderDataInterface> {
     const todosFilePath = '/data/todos.json'
@@ -113,6 +114,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
+            <PrologueComponent
+                className="absolute left-1/2 aspect-square w-1/8"
+                style={{
+                    top: `calc((var(--banner-height) / 2) * -1px)`,
+                    translate: '-50% -50%',
+                }}
+            />
+
             <div
                 ref={elementRef}
                 className="grid h-full min-h-full grid-cols-[auto_1fr] gap-5 *:hover:z-1"

@@ -39,7 +39,7 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
     const scrollDown = () => {
         setShowUp(false)
         window.scrollTo({
-            top: bannerHeight / 2,
+            top: bannerHeight / 2 - 8,
             behavior: 'smooth',
         })
     }
@@ -150,14 +150,14 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
     return (
         <>
             <main className="relative">
-                <header className="sticky top-0 z-2 h-18">
+                <header className="sticky top-0 z-2 w-full">
                     <NavBar siteName={siteName} />
                 </header>
 
                 <div className="relative -top-18 z-0" ref={wrapperRef}>
                     <div
                         ref={elementRef}
-                        className={`top-0 left-0 flex h-auto max-h-[calc(100dvh+50px)] w-full overflow-hidden select-none`}
+                        className={`top-0 left-0 h-dvh w-full overflow-hidden select-none`}
                         style={{
                             ...(isBannerLayout
                                 ? {
@@ -168,7 +168,7 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
                                       position: 'absolute',
                                       top: 0,
                                       left: 0,
-                                      background: `linear-gradient(to top,white ,white 50%,black 50%,black)`,
+                                      background: `linear-gradient(to top,white ,white 12.5%,black 12.5%,black)`,
                                   }),
                         }}
                     >
@@ -179,21 +179,19 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
                             />
                         )}
                         <HeaderBanner />
-                        <div
+                        <button
+                            onClick={scrollDown}
                             className={
-                                'absolute bottom-20 left-0 flex w-full justify-center transition-all duration-300 ease-in-out' +
+                                'btn btn-ghost absolute bottom-0 left-0 flex h-20 w-full justify-center border-0 bg-transparent shadow-none transition-all duration-300 ease-in-out' +
                                 (showUp
                                     ? 'opacity-100'
                                     : 'pointer-events-none opacity-0')
                             }
                         >
-                            <button
-                                className="btn btn-circle btn-ghost text-base-100 animate-bounce bg-transparent opacity-50"
-                                onClick={scrollDown}
-                            >
+                            <div className="text-base-100 animate-bounce bg-transparent opacity-50">
                                 <EiArrowDown width={40} height={40} />
-                            </button>
-                        </div>
+                            </div>
+                        </button>
                     </div>
 
                     <section

@@ -12,23 +12,14 @@ export default function NavBar({
     className?: string | ''
     siteName: string | undefined
 }) {
-    const listItems = [
-        ['Home', '/'],
-        // Other items
-        ['Posts', '/posts'],
-        ['About', '/about'],
-        ['___temp___', '/___temp___'],
-        ['Tags', '/tags'],
-        ['Comments', '/comments'],
-    ].map((item) => (
-        <li key={item[0]}>
-            {/* Use Link for navigation */}
-
-            <Link className="btn btn-ghost" to={item[1]}>
-                <p>{item[0]}</p>
-            </Link>
-        </li>
-    ))
+    const navItems = [
+        { name: 'Home', path: '/' },
+        { name: 'Posts', path: '/posts' },
+        { name: 'About', path: '/about' },
+        { name: '___temp___', path: '/___temp___' },
+        { name: 'Tags', path: '/tags' },
+        { name: 'Comments', path: '/comments' },
+    ]
 
     const [scrolled, setScrolled] = useState(false)
     const [scrollPercent, setScrollPercent] = useState(0)
@@ -113,15 +104,32 @@ export default function NavBar({
                             />
                         </button>
                         <ul
-                            tabIndex={0}
                             className={`menu menu-horizontal ${isMenuOpen ? '' : 'menu-anim--hidden'}`}
                         >
-                            {listItems}
+                            {navItems.map((item) => (
+                                <li key={item.name}>
+                                    {/* Use Link for navigation */}
+
+                                    <Link
+                                        className="btn btn-ghost"
+                                        to={item.path}
+                                    >
+                                        <p>{item.name}</p>
+                                    </Link>
+                                </li>
+                            ))}
+
+                            {/* <div className="btn btn-ghost btn-circle">
+                                <span>...</span>
+                            </div> */}
                         </ul>
                     </div>
 
                     <div className="navbar-end w-auto px-4">
-                        <button className="btn btn-ghost btn-circle">
+                        <button
+                            className="btn btn-ghost btn-circle"
+                            title="search"
+                        >
                             <Search
                                 stroke="currentColor"
                                 fill="none"

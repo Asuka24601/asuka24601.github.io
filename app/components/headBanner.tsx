@@ -13,12 +13,12 @@ export default function HeaderBanner({
         <div
             className={
                 className +
-                ' headBannerImg flex max-h-full w-full flex-col overflow-hidden'
+                ' headBannerImg relative h-full w-full overflow-hidden'
             }
         >
             <img
                 src={ImgUrl ? ImgUrl : wallpaper}
-                className="w-full overflow-clip object-cover select-none"
+                className="absolute top-0 left-0 h-full w-full object-cover object-top select-none"
                 alt="banner"
                 draggable="false"
                 style={{
