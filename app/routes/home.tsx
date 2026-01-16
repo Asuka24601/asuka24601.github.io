@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 import type { Route } from './+types/home'
-import type {
-    ProfileStatisticsInterface,
-    ProfileDataInterface,
-} from '../interfaces/profile'
+import type { ProfileStatisticsInterface } from '../interfaces/profile'
 import type { CommentDataInterface } from '../interfaces/comment'
 import type { TodoListDataInterface } from '../interfaces/todo'
 import type { TagDataInterface } from '../interfaces/tags'
@@ -22,8 +19,8 @@ import TagComponent from '../components/tagsComponent'
 import AriticleContene from '../components/aritcleContent'
 import RecentComponent from '../components/home/recentComponent'
 import { mdRegistry } from 'virtual:md-registry'
-import { useImageStore } from '../lib/store'
-import { useEffect, useRef } from 'react'
+import { useBannerStore, useProfileDataStore } from '../lib/store'
+import { useLayoutEffect, useRef } from 'react'
 import PrologueComponent from '../components/home/prologue '
 
 export async function clientLoader(): Promise<HomeLoaderDataInterface> {
@@ -31,7 +28,6 @@ export async function clientLoader(): Promise<HomeLoaderDataInterface> {
     const commentsFilePath = '/data/comments.json'
     const tagsFilePath = '/data/tags.json'
     const postFilePath = '/data/post.json'
-    const profileFilePath = '/data/author.json'
     const loaderTodoData: TodoListDataInterface = await fetchData(
         todosFilePath,
         'json'
@@ -46,10 +42,6 @@ export async function clientLoader(): Promise<HomeLoaderDataInterface> {
     )
     const loaderPostsData: PostListInterface = await fetchData(
         postFilePath,
-        'json'
-    )
-    const loaderProfileData: ProfileDataInterface = await fetchData(
-        profileFilePath,
         'json'
     )
     const loaderProfileStatistics: ProfileStatisticsInterface = [
@@ -85,7 +77,6 @@ export async function clientLoader(): Promise<HomeLoaderDataInterface> {
         tagData: loaderTagsData,
         NoticeModule: noticeModule,
         recentData: loaderPostsData,
-        profileData: loaderProfileData,
         profileStatistics: loaderProfileStatistics,
     }
 }
@@ -97,37 +88,49 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         tagData,
         NoticeModule,
         recentData,
-        profileData,
         profileStatistics,
     } = loaderData
 
     const elementRef = useRef<HTMLDivElement>(null)
 
-    const resetImage = useImageStore((state) => state.resetImage)
-    const handleImgAction = () => {
-        resetImage()
+    const resetImage = useBannerStore((state) => state.resetImage)
+    const resetBannerRelative = useBannerStore(
+        (state) => state.resetBannerRelative
+    )
+    const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
+    const profileData = useProfileDataStore((state) => state.profileData)
+
+    const handleAction = () => {
+        setBannerRelative(true)
     }
 
-    useEffect(() => {
-        handleImgAction()
+    useLayoutEffect(() => {
+        handleAction()
+        return () => {
+            resetBannerRelative()
+            resetImage()
+        }
     }, [])
 
     return (
         <>
             <PrologueComponent
-                className="absolute left-1/2 aspect-square w-1/8"
+                fullText={profileData.data.discription}
+                className="absolute left-1/2 flex h-dvh w-full flex-row items-center justify-center"
                 style={{
-                    top: `calc((var(--banner-height) / 2) * -1px)`,
+                    top: `calc((var(--banner-height) / 2 + 72) * -1px)`,
                     translate: '-50% -50%',
                 }}
-            />
+            >
+                {/* <p className="text-nowrap">{profileData.data.discription}</p> */}
+            </PrologueComponent>
 
             <div
                 ref={elementRef}
-                className="grid h-full min-h-full grid-cols-[auto_1fr] gap-5 *:hover:z-1"
+                className="mx-auto grid h-full min-h-full max-w-400 grid-cols-[auto_1fr] gap-5 *:hover:z-1"
             >
                 <aside className="flex h-fit w-60 flex-col gap-5">
-                    <div className="bg-base-100-custom h-fit rounded-md px-2 py-4 shadow-xl">
+                    <div className="bg-base-100-custom h-fit rounded-md px-4 py-4 shadow-xl">
                         <ProfileCard
                             className="h-full"
                             profileData={profileData}

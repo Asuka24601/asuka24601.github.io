@@ -1,13 +1,13 @@
 import wallpaper from '../assets/wallpaper.webp'
-import { useImageStore } from '../lib/store'
+import { useBannerStore } from '../lib/store'
 
 export default function HeaderBanner({
     className,
 }: {
     className?: string | undefined
 }) {
-    const ImgUrl = useImageStore((state) => state.imageUrl)
-    const blurred = useImageStore((state) => state.blurred)
+    const ImgUrl = useBannerStore((state) => state.imageUrl)
+    const blurred = useBannerStore((state) => state.blurred)
 
     return (
         <div

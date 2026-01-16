@@ -3,25 +3,27 @@
     "lastUpdateDate": "2025-12-26T19:56:11Z",
     "data": {
         "name": "asuka24601",
+        "introduction": "I'm mystery. I'm answer. I'm all i was.",
         "discription": "Hello World!",
-        "avater": "avater.jpg",
-        "info": [
-            {
-                "name": "文章",
-                "value": 19,
-                "routePath": "/posts"
-            },
-            {
-                "name": "标签",
-                "value": 19,
-                "routePath": "/tags"
-            },
-            {
-                "name": "留言",
-                "value": 19,
-                "routePath": "/comments"
-            }
+        "avatar": "avatar.jpg",
+        "gender": "helicopter",
+        "birthday": "around 500 years ago",
+        "death": "not today",
+        "location": "Earth (The third closest planet to the Sun in the solar system)",
+        "sexualOrientation": "intelligent species",
+        "politicalOrientation": "managed democracy",
+        "pronouns": "he/him/it/whatever",
+        "languages": [
+            { "name": "English", "level": 3 },
+            { "name": "Chinese", "level": 4 },
+            { "name": "Japanese", "level": 1 },
+            { "name": "French", "level": 1 },
+            { "name": "German", "level": 0 },
+            { "name": "Russian", "level": 0 }
         ],
+        "ancestor": "human",
+        "marriage": "not",
+
         "tags": [
             { "name": "React", "icon": "MdiReact", "level": 2 },
             { "name": "Vuejs", "icon": "MdiVuejs", "level": 2 },
@@ -56,14 +58,17 @@
         ],
         "socialMedia": [
             {
+                "name": "github",
                 "icon": "StreamlineLogosGithubLogo2Solid",
                 "link": "https://github.com/Asuka24601"
             },
             {
+                "name": "bilibili",
                 "icon": "StreamlineLogosBilibiliLogoSolid",
                 "link": "https://space.bilibili.com/2724463"
             },
             {
+                "name": "steam",
                 "icon": "StreamlineLogosSteamLogoSolid",
                 "link": "https://steamcommunity.com/id/1099734487"
             }

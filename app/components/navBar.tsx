@@ -25,7 +25,7 @@ export default function NavBar({
     const [scrollPercent, setScrollPercent] = useState(0)
     const [isMenuOpen, setIsMenuOpen] = useState(true)
     const navShow = useNavStore((state) => state.navShow)
-    const resetNav = useNavStore((state) => state.resetNav)
+    const resetNav = useNavStore((state) => state.resetNavShow)
 
     useLayoutEffect(() => {
         resetNav()

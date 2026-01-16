@@ -21,12 +21,12 @@ export default function ProfileCard({
             <div className="card h-full items-center justify-between gap-2">
                 <div className="avatar">
                     <div className="w-24 rounded-full border border-white">
-                        <img src={author.avater} />
+                        <img src={author.avatar} />
                     </div>
                 </div>
                 <h1 className="card-title">{author.name}</h1>
-                <q className="text-xs text-wrap text-gray-600">
-                    {author.discription}
+                <q className="text-center text-xs text-wrap wrap-break-word text-gray-600">
+                    {author.introduction}
                 </q>
 
                 <ul className="flex w-full flex-row flex-nowrap justify-center gap-1 text-center">

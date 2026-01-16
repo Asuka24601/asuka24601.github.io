@@ -1,15 +1,23 @@
 import * as localIcons from './icons'
-import type { ProfileDataInterface } from '../interfaces/profile'
 import snap from '../assets/snap.webp'
 import author from '../assets/author.svg'
 import side from '../assets/side.webp'
 
+type socialMediaType = {
+    name: string
+    link: string
+    icon: string
+}[]
+
 export default function Footer({
-    profileData,
+    name,
+    discription,
+    socialMedia,
 }: {
-    profileData: ProfileDataInterface
+    name: string
+    discription: string
+    socialMedia: socialMediaType
 }) {
-    const profile = profileData.data
     return (
         <>
             <div className="w-1/6 select-none">
@@ -26,10 +34,10 @@ export default function Footer({
                         />
                         <div>
                             <p className="text-neutral-content font-semibold opacity-80 first-letter:uppercase">
-                                {profile.name}
+                                {name}
                             </p>
                             <p className="text-sm font-light opacity-50">
-                                {profile.discription}
+                                {discription}
                             </p>
                         </div>
                     </aside>
@@ -37,7 +45,7 @@ export default function Footer({
                         <h6 className="footer-title">Social</h6>
                         <div>
                             <ul className="grid grid-flow-col gap-4">
-                                {profile.socialMedia.map((item, index) => (
+                                {socialMedia.map((item, index) => (
                                     <li key={index}>
                                         <a
                                             href={item.link}

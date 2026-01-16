@@ -1,20 +1,30 @@
 import { useLayoutEffect } from 'react'
-import { useImageStore } from '../lib/store'
+import { useBannerStore } from '../lib/store'
 
 export default function Tags() {
-    // const setImageUrl = useImageStore((state) => state.setImageUrl)
-    const resetImage = useImageStore((state) => state.resetImage)
-    const handleImgAction = () => {
-        resetImage()
+    const resetImage = useBannerStore((state) => state.resetImage)
+    const resetBannerRelative = useBannerStore(
+        (state) => state.resetBannerRelative
+    )
+    const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
+
+    const handleAction = () => {
+        setBannerRelative(false)
     }
 
     useLayoutEffect(() => {
-        handleImgAction()
-    }, [])
+        handleAction()
+        return () => {
+            resetImage()
+            resetBannerRelative()
+        }
+    })
 
     return (
         <>
-            <p>tags</p>
+            <div className="mx-auto max-w-400">
+                <p>tags</p>
+            </div>
         </>
     )
 }

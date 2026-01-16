@@ -12,8 +12,8 @@ import type {
     MetaType,
     ParentContextType,
 } from '../interfaces/post'
-import { useState, useEffect } from 'react'
-import { useImageStore, useNavStore } from '../lib/store'
+import { useState, useEffect, useLayoutEffect } from 'react'
+import { useNavStore, useBannerStore } from '../lib/store'
 import { create } from 'zustand'
 
 interface UseSlug {
@@ -34,12 +34,16 @@ export default function PostContent() {
     const [rendered, setRendered] = useState<boolean>(false)
     const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
     const [isLightboxVisible, setIsLightboxVisible] = useState(false)
-    const resetNav = useNavStore((state) => state.resetNav)
+    const resetNav = useNavStore((state) => state.resetNavShow)
     const setNavShow = useNavStore((state) => state.setNavShow)
-    const setBlurred = useImageStore((state) => state.setBlurred)
-    const resetBlurred = useImageStore((state) => state.resetBlurred)
-    const setImageUrl = useImageStore((state) => state.setImageUrl)
-    const resetImage = useImageStore((state) => state.resetImage)
+    const setBlurred = useBannerStore((state) => state.setBlurred)
+    const resetBlurred = useBannerStore((state) => state.resetBlurred)
+    const setImageUrl = useBannerStore((state) => state.setImageUrl)
+    const resetImage = useBannerStore((state) => state.resetImage)
+    const resetBannerRelative = useBannerStore(
+        (state) => state.resetBannerRelative
+    )
+    const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
 
     const handleFrontMatterAction = (data: FrontMatter) => {
         setFrontMatter(data)
@@ -60,17 +64,32 @@ export default function PostContent() {
         handleFrontMatterAction,
     }
 
-    const handleImgAction = () => {
+    const handleAction = () => {
+        setBannerRelative(true)
+        setBlurred(true)
+    }
+
+    const handleLoaderAction = () => {
         if (rendered) {
             setImageUrl(frontMatter?.cover as string)
-            setBlurred(true)
             useSlug.setState({ slug: frontMatter?.slug as string })
         }
     }
 
     useEffect(() => {
-        handleImgAction()
+        handleLoaderAction()
     }, [rendered])
+
+    useLayoutEffect(() => {
+        handleAction()
+        return () => {
+            resetImage()
+            resetBannerRelative()
+            closeLightbox()
+            resetNav()
+            resetBlurred()
+        }
+    })
 
     useEffect(() => {
         if (lightboxSrc) {
@@ -93,15 +112,6 @@ export default function PostContent() {
             setLightboxSrc(null)
         }, 300)
     }
-
-    useEffect(() => {
-        return () => {
-            closeLightbox()
-            resetNav()
-            resetImage()
-            resetBlurred()
-        }
-    }, [])
 
     return (
         <>
@@ -173,8 +183,11 @@ export default function PostContent() {
 // error boundary
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     const location = useLocation()
-    if (useSlug.getState().slug === '') {
-        useSlug.setState({ slug: location.pathname.slice(7) })
+    const slug = useSlug.getState().slug
+    const setSlug = useSlug.getState().setSlug
+
+    if (slug === '') {
+        setSlug(location.pathname.slice(7))
     }
     if (isRouteErrorResponse(error)) {
         return (
@@ -182,7 +195,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
                 <h1>
                     {error.status} {error.statusText}
                 </h1>
-                <ArticleError slug={useSlug.getState().slug} />
+                <ArticleError slug={slug} />
 
                 <p>{error.data}</p>
             </>
