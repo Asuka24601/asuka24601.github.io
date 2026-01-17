@@ -17,9 +17,7 @@
             { "name": "English", "level": 3 },
             { "name": "Chinese", "level": 4 },
             { "name": "Japanese", "level": 1 },
-            { "name": "French", "level": 1 },
-            { "name": "German", "level": 0 },
-            { "name": "Russian", "level": 0 }
+            { "name": "French", "level": 1 }
         ],
         "ancestor": "human",
         "marriage": "not",
