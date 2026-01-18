@@ -1,6 +1,6 @@
 import type { PostListInterface } from '../../interfaces/post'
 import { timeToString } from '../../lib/utils'
-import { MdiOpenInNew } from '../icons'
+import SvgIcon from '../SvgIcon'
 import { Link } from 'react-router'
 
 export default function RecentComponent({
@@ -47,7 +47,7 @@ export default function RecentComponent({
                             <div>{timeMark(item.frontMatter.date)}</div>
                             <div className="absolute top-0 right-0 scale-60">
                                 <Link to={`posts/${item.path}`} target="_blank">
-                                    <MdiOpenInNew />
+                                    <SvgIcon name="openNew" />
                                 </Link>
                             </div>
                         </div>
