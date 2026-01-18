@@ -1,7 +1,7 @@
-import * as localIcons from './icons'
 import snap from '../assets/snap.webp'
 import author from '../assets/author.svg'
 import side from '../assets/side.webp'
+import SvgIcon from './SvgIcon'
 
 type socialMediaType = {
     name: string
@@ -52,9 +52,7 @@ export default function Footer({
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
-                                            {localIcons[
-                                                item.icon as keyof typeof localIcons
-                                            ]?.({})}
+                                            <SvgIcon name={item.icon} />
                                         </a>
                                     </li>
                                 ))}

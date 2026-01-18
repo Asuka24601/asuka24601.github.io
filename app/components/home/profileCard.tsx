@@ -1,4 +1,4 @@
-import * as LocalIcons from '../icons'
+import SvgIcon from '../SvgIcon'
 import { Link } from 'react-router'
 import type {
     ProfileDataInterface,
@@ -51,9 +51,7 @@ export default function ProfileCard({
                                 className="tooltip w-full"
                                 data-tip={`${tag.name} : ${tag.level}/3`}
                             >
-                                {LocalIcons[
-                                    tag.icon as keyof typeof LocalIcons
-                                ]?.({})}
+                                <SvgIcon name={tag.icon} />
 
                                 <progress
                                     className="progress"
@@ -75,9 +73,7 @@ export default function ProfileCard({
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                {LocalIcons[
-                                    item.icon as keyof typeof LocalIcons
-                                ]?.({})}
+                                <SvgIcon name={item.icon} />
                             </a>
                         </li>
                     ))}

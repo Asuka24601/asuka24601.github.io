@@ -8,6 +8,8 @@ import Inspect from 'vite-plugin-inspect'
 import { mdToRoutePlugin } from './plugins/vite-plugin-md-to-route'
 import { mdRegistry } from './plugins/vite-plugin-md-registry'
 import mdx from '@mdx-js/rollup'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,12 +18,20 @@ export default defineConfig({
     },
     // 解决虚拟模块的警告
     optimizeDeps: {
-        exclude: ['virtual:md-content/*', 'virtual:md-registry'],
+        exclude: [
+            'virtual:md-content/*',
+            'virtual:md-registry',
+            'virtual:svg-icons-register',
+        ],
     },
     plugins: [
         tailwindcss(),
         mdx({
             providerImportSource: '@mdx-js/react',
+        }),
+        createSvgIconsPlugin({
+            iconDirs: [path.resolve(process.cwd(), 'app/assets/icons')],
+            symbolId: 'icon-[dir]-[name]',
         }),
 
         Inspect(),

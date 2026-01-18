@@ -8,8 +8,8 @@ import type { ProfileDataInterface } from '../interfaces/profile'
 import fetchData from '../lib/fetchData'
 import type { Route } from './+types/base'
 import { useEffect, useState, useRef, useLayoutEffect } from 'react'
-import { EiArrowDown } from '../components/icons'
 import { useBannerStore, useProfileDataStore } from '../lib/store'
+import SvgIcon from '../components/SvgIcon'
 
 export async function clientLoader(): Promise<{
     profileData: ProfileDataInterface
@@ -189,7 +189,7 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
                                 }
                             >
                                 <div className="text-base-100 animate-bounce bg-transparent opacity-50">
-                                    <EiArrowDown width={40} height={40} />
+                                    <SvgIcon name="arrowDown" size={40} />
                                 </div>
                             </button>
                         </div>

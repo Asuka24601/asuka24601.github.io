@@ -1,20 +1,20 @@
-import { useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useBannerStore, useProfileDataStore } from '../lib/store'
 import cover from '../assets/cover.webp'
 import camera from '../assets/camera.webp'
-import gender from '../assets/icons/gender.svg'
-import location from '../assets/icons/location.svg'
-import birthday from '../assets/icons/birthday.svg'
-import death from '../assets/icons/death.svg'
-import sexualOrientation from '../assets/icons/sexual.svg'
-import politicalOrientation from '../assets/icons/political.svg'
-import pronouns from '../assets/icons/meh.svg'
-import ancestor from '../assets/icons/resoruces.svg'
-import marriage from '../assets/icons/wedding.svg'
-import language from '../assets/icons/icons/languages.svg'
+import AriticleContene from '../components/aritcleContent'
+import AboutIntroduction from '../contents/pages/about'
+import TimeLine from '../components/about/timeLine'
+import DataItem from '../components/about/dataItem'
 
 export default function About() {
     const elementRef = useRef<HTMLImageElement>(null)
+
+    const [content, setContent] = useState('archive')
+
+    const changeContent = (target: string) => {
+        setContent(target)
+    }
 
     const resetImage = useBannerStore((state) => state.resetImage)
     const resetBannerRelative = useBannerStore(
@@ -24,9 +24,13 @@ export default function About() {
     const resetBannerShow = useBannerStore((state) => state.resetBannerShow)
     const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
 
-    useLayoutEffect(() => {
+    const handleAction = () => {
         setBannerShow(false)
         setBannerRelative(false)
+    }
+
+    useLayoutEffect(() => {
+        handleAction()
         return () => {
             resetImage()
             resetBannerRelative()
@@ -71,6 +75,17 @@ export default function About() {
         }
     }, [])
 
+    const avatarOnClick = (e: React.MouseEvent<HTMLImageElement>) => {
+        const element = e.target
+        if (element instanceof HTMLImageElement) {
+            if (element.classList.contains('animate__swing')) return
+            element.classList.add('animate__swing')
+            setTimeout(() => {
+                element.classList.remove('animate__swing')
+            }, 1000)
+        }
+    }
+
     const profileData = useProfileDataStore((state) => state.profileData)
 
     return (
@@ -97,128 +112,292 @@ export default function About() {
                 <article className="relative -top-43 mx-auto flex max-w-400 flex-col items-center justify-center">
                     <div className="avatar h-50 w-50">
                         <img
+                            onClick={avatarOnClick}
                             src={profileData.data.avatar}
                             alt="avatar"
                             draggable="false"
-                            className="outline-base-content/15 rounded-full shadow-xs outline-1"
+                            className="outline-base-content/15 animate__animated rounded-full shadow-xs outline-1"
                         />
                     </div>
                     <h1 className="mt-3 text-2xl first-letter:uppercase">
                         <strong>{profileData.data.name}</strong>
                     </h1>
-                    <section className="flex flex-col items-start justify-center gap-2">
-                        <p className="self-center">
-                            {profileData.data.introduction}
-                        </p>
-                        <br />
-                        <div>
-                            <img
-                                src={gender}
-                                alt="gender"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.gender}</p>
-                        </div>
+                    <q className="text-base-content/50 text-sm">
+                        {profileData.data.introduction}
+                    </q>
+                    <br />
 
-                        <div>
-                            <img
-                                src={location}
-                                alt="location"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.location}</p>
-                        </div>
-
-                        <div>
-                            <img
-                                src={birthday}
-                                alt="birthday"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.birthday}</p>
-                        </div>
-
-                        <div>
-                            <img
-                                src={death}
-                                alt="death"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.death}</p>
-                        </div>
-
-                        <div>
-                            <img
-                                src={sexualOrientation}
-                                alt="sexualOrientation"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.sexualOrientation}</p>
-                        </div>
-
-                        <div>
-                            <img
-                                src={politicalOrientation}
-                                alt="politicalOrientation"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.politicalOrientation}</p>
-                        </div>
-
-                        <div>
-                            <img
-                                src={pronouns}
-                                alt="pronouns"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.pronouns}</p>
-                        </div>
-
-                        <div>
-                            <img
-                                src={ancestor}
-                                alt="ancestor"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.ancestor}</p>
-                        </div>
-
-                        <div>
-                            <img
-                                src={marriage}
-                                alt="marriage"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <p>{profileData.data.marriage}</p>
-                        </div>
-
-                        <div>
-                            <img
-                                src={language}
-                                alt="language"
-                                draggable="false"
-                                className="aspect-square h-auto w-6"
-                            />
-                            <ul>
-                                {profileData.data.languages?.map(
-                                    (item, index) => (
-                                        <li key={index}>
-                                            {item.name}:{item.level}
+                    <div className="relative -left-24 flex flex-row gap-3">
+                        <aside className="sticky top-28 h-fit w-45">
+                            <ul className="menu bg-base-100 rounded-box sticky top-0 w-full shadow-xl">
+                                <li>
+                                    <h2 className="menu-title">Contents</h2>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                onClick={() =>
+                                                    changeContent('archive')
+                                                }
+                                            >
+                                                Archive
+                                            </a>
                                         </li>
-                                    )
-                                )}
+                                        <li>
+                                            <a
+                                                onClick={() =>
+                                                    changeContent(
+                                                        'introduction'
+                                                    )
+                                                }
+                                            >
+                                                Introduction
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                onClick={() =>
+                                                    changeContent('timeline')
+                                                }
+                                            >
+                                                TimeLine
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
+                        </aside>
+                        <div className="flex max-w-200 flex-col gap-6">
+                            <section
+                                id="archive"
+                                className="bg-base-100 flex flex-col items-start justify-start gap-8 rounded-md p-8 shadow-2xl"
+                                style={{
+                                    ...(content === 'archive'
+                                        ? { order: 1 }
+                                        : { order: 2 }),
+                                }}
+                            >
+                                <div className="text-base-content/50 w-full text-xs">
+                                    <p className="before:content-['#Archive']"></p>
+                                    <div className="divider my-1"></div>
+                                </div>
+                                <DataItem
+                                    name="location"
+                                    question="你来自哪里?"
+                                >
+                                    <text>{profileData.data.location}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="species"
+                                    icon="dna"
+                                    question="你是什么物种?"
+                                >
+                                    <text>{profileData.data.species}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="race"
+                                    question="你是什么种族?"
+                                    icon="skull"
+                                >
+                                    <text>{profileData.data.race}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="gender"
+                                    question="你是GG还是MM?"
+                                >
+                                    <text>{profileData.data.gender}</text>
+                                </DataItem>
+
+                                <DataItem
+                                    name="birthday"
+                                    question="你多少岁了?"
+                                >
+                                    <text>{profileData.data.birthday}</text>
+                                </DataItem>
+                                <DataItem name="death" question="你什么时候死?">
+                                    <text>{profileData.data.death}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="sexual orientation"
+                                    icon="sexual"
+                                    question="你喜欢GG还是MM?"
+                                >
+                                    <text>
+                                        {profileData.data.sexualOrientation}
+                                    </text>
+                                </DataItem>
+                                <DataItem
+                                    name="political orientation"
+                                    icon="political"
+                                    question="你是左还是右?"
+                                >
+                                    <text>
+                                        {profileData.data.politicalOrientation}
+                                    </text>
+                                </DataItem>
+                                <DataItem
+                                    name="religion"
+                                    question="你信仰宗教吗?"
+                                >
+                                    <text>{profileData.data.religion}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="pronouns"
+                                    icon="meh"
+                                    question="你希望别人怎么称呼你?"
+                                >
+                                    <text>{profileData.data.pronouns}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="ancestor"
+                                    icon="human"
+                                    question="你的祖先是谁?"
+                                >
+                                    <text>{profileData.data.ancestor}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="marriage"
+                                    icon="wedding"
+                                    question="你结婚了吗?"
+                                >
+                                    <text>{profileData.data.marriage}</text>
+                                </DataItem>
+
+                                <DataItem
+                                    name="materials"
+                                    question="你是由什么构成的?"
+                                >
+                                    <text>{profileData.data.materials}</text>
+                                </DataItem>
+
+                                <DataItem
+                                    name="halflife"
+                                    question="你的半衰期是多少?"
+                                    icon="physic"
+                                >
+                                    <text>{profileData.data.halflife}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="physical form"
+                                    icon="physic"
+                                    question="你是什么样子?"
+                                >
+                                    <text>{profileData.data.physicalForm}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="health"
+                                    question="你的健康状况怎么样?"
+                                >
+                                    <text>{profileData.data.health}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="blood type"
+                                    icon="blood"
+                                    question="你是什么血型?"
+                                >
+                                    <text>{profileData.data.bloodType}</text>
+                                </DataItem>
+
+                                <DataItem
+                                    name="allergen"
+                                    question="你有对什么东西过敏吗?"
+                                >
+                                    <text>{profileData.data.allergen}</text>
+                                </DataItem>
+                                <DataItem
+                                    name="languages"
+                                    question="你使用哪些语言?"
+                                >
+                                    <table className="border-base-content/15 **:border-base-content/10 mt-2 border-collapse border">
+                                        <thead
+                                            className="text-base-100 border-b"
+                                            style={{
+                                                background: `color-mix(in srgb,color-mix(in srgb,var(--color-primary), white) 90%,transparent)`,
+                                            }}
+                                        >
+                                            <tr>
+                                                <th
+                                                    scope="col"
+                                                    className="border-r p-3"
+                                                >
+                                                    language
+                                                </th>
+                                                <th scope="col" className="p-3">
+                                                    level
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-base-100 text-base-content">
+                                            {profileData.data.languages?.map(
+                                                (item, index) => (
+                                                    <tr
+                                                        key={index}
+                                                        className="even:bg-base-200 border-b last-of-type:border-b-0"
+                                                    >
+                                                        <th
+                                                            scope="row"
+                                                            className="border-r p-2"
+                                                        >
+                                                            {item.name}
+                                                        </th>
+                                                        <td className="p-2 text-center">
+                                                            {item.level}
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </DataItem>
+                                <div className="text-base-content/50 flex w-full flex-col gap-2 text-xs break-all">
+                                    <div className="divider my-1"></div>
+                                    <p className="before:mr-1 before:content-['MD5:']">
+                                        {profileData.data.md5}
+                                    </p>
+                                    <p className="before:mr-1 before:content-['SHA256:']">
+                                        {profileData.data.sha256}
+                                    </p>
+                                    <p className="before:mr-1 before:content-['SHA512:']">
+                                        {profileData.data.sha512}
+                                    </p>
+                                </div>
+                            </section>
+
+                            <section
+                                id="introduction"
+                                className="bg-base-100 flex flex-col items-start justify-start rounded-md p-8 shadow-2xl"
+                                style={{
+                                    ...(content === 'introduction'
+                                        ? { order: 1 }
+                                        : { order: 2 }),
+                                }}
+                            >
+                                <div className="text-base-content/50 w-full text-xs">
+                                    <p className="before:content-['#Introduction']"></p>
+                                    <div className="divider my-1"></div>
+                                </div>
+
+                                <AriticleContene>
+                                    <AboutIntroduction />
+                                </AriticleContene>
+                            </section>
+
+                            <section
+                                id="timeline"
+                                className="bg-base-100 flex flex-col items-start justify-start rounded-md p-8 shadow-2xl"
+                                style={{
+                                    ...(content === 'timeline'
+                                        ? { order: 1 }
+                                        : { order: 2 }),
+                                }}
+                            >
+                                <div className="text-base-content/50 w-full text-xs">
+                                    <p className="before:content-['#TimeLine']"></p>
+                                    <div className="divider my-1"></div>
+                                </div>
+                                <TimeLine />
+                            </section>
                         </div>
-                    </section>
+                    </div>
                 </article>
             </div>
         </>

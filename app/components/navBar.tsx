@@ -1,9 +1,10 @@
 import { Link } from 'react-router'
-import { Sun, Moon, Search, Menu } from './icons'
+// import { Sun, Moon, Search, Menu } from './icons'
 import '../styles/navBar.css'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { throttle } from 'lodash' // 防抖/节流
 import { useNavStore } from '../lib/store'
+import SvgIcon from './SvgIcon'
 
 export default function NavBar({
     className,
@@ -97,19 +98,17 @@ export default function NavBar({
                                 setIsMenuOpen(!isMenuOpen)
                             }}
                         >
-                            <Menu
-                                className="h-5 w-5"
-                                stroke="currentColor"
+                            <SvgIcon
+                                name="menu"
                                 fill="none"
+                                stroke="currentColor"
                             />
                         </button>
                         <ul
-                            className={`menu menu-horizontal ${isMenuOpen ? '' : 'menu-anim--hidden'}`}
+                            className={`menu menu-horizontal transition-opacity delay-75 ${isMenuOpen ? '' : 'menu-anim--hidden'}`}
                         >
                             {navItems.map((item) => (
                                 <li key={item.name}>
-                                    {/* Use Link for navigation */}
-
                                     <Link
                                         className="btn btn-ghost"
                                         to={item.path}
@@ -118,10 +117,6 @@ export default function NavBar({
                                     </Link>
                                 </li>
                             ))}
-
-                            {/* <div className="btn btn-ghost btn-circle">
-                                <span>...</span>
-                            </div> */}
                         </ul>
                     </div>
 
@@ -130,10 +125,10 @@ export default function NavBar({
                             className="btn btn-ghost btn-circle"
                             title="search"
                         >
-                            <Search
-                                stroke="currentColor"
+                            <SvgIcon
+                                name="search"
                                 fill="none"
-                                className="h-5 w-5"
+                                stroke="currentColor"
                             />
                         </button>
 
@@ -144,12 +139,8 @@ export default function NavBar({
                                 className="theme-controller"
                                 value="synthwave"
                             />
-
-                            {/* sun icon */}
-                            <Sun className="swap-off" />
-
-                            {/* moon icon */}
-                            <Moon className="swap-on" />
+                            <SvgIcon name="sun" className="swap-off" />
+                            <SvgIcon name="moon" className="swap-on" />
                         </label>
                     </div>
                 </nav>

@@ -22,6 +22,18 @@ export interface ProfileItemInterface {
     }[]
     ancestor?: string
     marriage?: string
+    species?: string
+    bloodType?: string
+    physicalForm?: string
+    health?: string
+    materials?: string
+    allergen?: string
+    religion?: string
+    race?: string
+    halflife?: string
+    md5?: string
+    sha256?: string
+    sha512?: string
 }
 
 export interface ProfileDataInterface {
