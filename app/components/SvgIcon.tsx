@@ -10,7 +10,7 @@ interface SvgIconProps {
 
 export default function SvgIcon({
     name,
-    fill = 'currentColor',
+    fill,
     size = 24,
     className,
     stroke,
@@ -20,14 +20,18 @@ export default function SvgIcon({
     return (
         <svg
             aria-hidden="true"
-            style={{ width: size, height: size, fill: fill }}
+            style={{
+                width: size,
+                height: size,
+                fill: fill ? fill : 'currentColor',
+            }}
             className={className}
             stroke={stroke}
         >
             {/* 这里的 #icon- 对应 vite.config.ts 中的 symbolId 配置 */}
             <use
                 xlinkHref={`#icon-${name}`}
-                fill={fill}
+                fill={fill ? fill : 'currentColor'}
                 fillRule={fillRule}
                 clipRule={clipRule}
             />

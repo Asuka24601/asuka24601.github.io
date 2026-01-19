@@ -10,18 +10,80 @@
         "race": "高加索/东亚/外星/赛博混血 (主要看滤镜)",
         "birthday": "大爆炸发生前的第二个星期三(大约是负的138亿岁)",
         "death": "通常不是今天，但是需要视天气情况而定",
-        "location": "主宇宙→拉尼亚凯亚超星系团→室女座星系团→本星系群→银河系→猎户臂→古尔德带→本地泡→本星际云→奥尔特云→太阳系第三行星（地球）的『后室』第 9487 层，Wi-Fi 信号尚可 / 127.0.0.1",
+        "location": "【物理地址】主宇宙→拉尼亚凯亚超星系团→室女座星系团→本星系群→银河系→猎户臂→古尔德带→本地泡→本星际云→奥尔特云→太阳系第三行星(地球)的『BackRoom』第 114514 层，Wi-Fi 信号尚可\n【IP地址】127.0.0.1\n【MAC地址】FF-FF-FF-FF-FF-FF",
         "religion": "飞天意大利面神教的不可知论分叉",
         "sexualOrientation": "泛二次元纸片人兼智性恋",
         "politicalOrientation": "第四面墙无政府主义(但拒绝对税收或任何三维政策发表评论)，并主张将所有五仁月饼放逐至虚空",
         "bloodType": "Type-Windows & Type-Linux (如果输入法卡顿，身体会暂时贫血)",
         "pronouns": "他/她/它/祂/🤡/root/su/Administrator/(`ε´ )/某个不愿透露姓名的异常项",
         "allergen": "傻X、不回信息、以及任何形式的“明天早起”",
-        "health": "【总体】极度健康\n【状态】持续存在性危机\n【血压】常年处于'404 Not Found'\n【体温】绝对零度至白热化之间随机波动\n【病历】永久性认知失调、慢性梗囤积症\n【当前HP】???/???",
-        "physicalForm": "一个像素化的等离子体无定形团块，形态变幻不定，时而像渲染不佳的《上古卷轴5》中的低模NPC",
-        "species": "碳基生物(曾用名) / 半透明赛博抽象幽灵",
-        "materials": "35% 的虚无、20% 的过期冷笑话、15% 的高浓度牛奶(血清替代物)、以及 30% 不知道密码的 .7z 压缩包",
-        "halflife": "约等于《 凉宫春日的忧郁 》永无止境的八月循环次数",
+        "health": [
+            {
+                "name": "总体",
+                "value": "Fine",
+                "discription": "极度健康"
+            },
+            {
+                "name": "状态",
+                "value": "#!@&%#^/*()",
+                "discription": "持续存在性危机"
+            },
+            {
+                "name": "病历",
+                "value": "404 Not Found",
+                "discription": "永久性认知失调、慢性梗囤积症"
+            },
+            {
+                "name": "血压",
+                "value": "0~1200mmHg",
+                "discription": "常年处于尸体和海豹之间"
+            },
+            {
+                "name": "体温",
+                "value": "-273.15℃~5500℃",
+                "discription": "在绝对零度至白热化之间随机波动"
+            },
+            {
+                "name": "HP",
+                "value": "???/???",
+                "discription": "???"
+            },
+            {
+                "name": "MP",
+                "value": "???/???",
+                "discription": "???"
+            }
+        ],
+        "physicalForm": "一个像素化的等离子体无定形团块，形态变幻不定，时而像渲染不佳的《老滚5》中的低模NPC",
+        "species": "碳基生物(曾用名)/半透明赛博抽象幽灵",
+        "materials": [
+            {
+                "name": "虚无",
+                "value": 35,
+                "color": "#000000"
+            },
+            {
+                "name": "不知道密码的.7z压缩包",
+                "value": 30,
+                "color": "#32CD32"
+            },
+            {
+                "name": "过期冷笑话",
+                "value": 20,
+                "color": "#B0C4DE"
+            },
+            {
+                "name": "高浓度牛奶(血清替代物)",
+                "value": 15,
+                "color": "#F5F5F5"
+            }
+        ],
+        "halflife": {
+            "discription": "约等于《 凉宫春日的忧郁 》永无止境的八月循环次数的累乘乘以普朗克参数的倒数再乘以个人心情的熵增系数",
+            "formula": "T_{\\frac{1}{2}}\\approx\\frac{\\prod_{i=1}^{n}EndlessAugust}{h}\\varPsi_{Me}"
+        },
+        "ancestor": "理论上由'4399小游戏'和'一部被遗忘的电影'共同演化而来",
+        "marriage": "已婚，配偶是我的贫穷，目前感情稳定且难舍难分",
         "md5": "d41d8cd98f00b204e9800998ecf8427e",
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "sha512": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
@@ -39,9 +101,6 @@
             { "name": "Lorem Ipsum", "level": 5 },
             { "name": "...", "level": 99 }
         ],
-        "ancestor": "理论上由'4399小游戏'和'一部被遗忘的电影'共同演化而来",
-        "marriage": "已婚，配偶是我的贫穷，目前感情稳定且难舍难分",
-
         "tags": [
             { "name": "React", "icon": "react", "level": 2 },
             { "name": "Vuejs", "icon": "vuejs", "level": 2 },

@@ -32,7 +32,7 @@ export default function DataItem({
 
             {/* <div className="after:bg-base-content/25 my-3 after:block after:h-0.5 after:w-6"></div> */}
 
-            <div>{children}</div>
+            <div className="contents">{children}</div>
         </div>
     )
 }

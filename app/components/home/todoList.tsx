@@ -1,7 +1,4 @@
-import type {
-    TodoListDataInterface,
-    TodoListItemInterface,
-} from '../../interfaces/todo'
+import type { TodoListItemInterface } from '../../interfaces/todo'
 
 export function TodoListItemComponent({
     subject,
@@ -38,15 +35,15 @@ export function TodoListItemComponent({
 }
 
 export default function TodoListComponent({
-    todoListData,
+    todoListItems,
     className,
 }: {
-    todoListData: TodoListDataInterface
+    todoListItems: TodoListItemInterface[]
     className?: string | undefined
 }) {
-    const list = todoListData.subjects
+    const list = todoListItems.filter((item) => !item.state)
     return (
-        <div className={className}>
+        <div className={className ? className : ''}>
             <ul className="list p-3">
                 {list.map((subject, index) => (
                     <li

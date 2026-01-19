@@ -15,7 +15,7 @@ import fetchData, {
 } from '../lib/fetchData'
 import TodoList from '../components/home/todoList'
 import CommentComponent from '../components/commentComponent'
-import TagComponent from '../components/tagsComponent'
+import TagComponent from '../components/home/tagsComponent'
 import AriticleContene from '../components/aritcleContent'
 import RecentComponent from '../components/home/recentComponent'
 import { mdRegistry } from 'virtual:md-registry'
@@ -142,7 +142,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         <h1 className="p-4 pb-2 text-xs tracking-wide opacity-60">
                             TODOs
                         </h1>
-                        <TodoList todoListData={todoListData} />
+                        <TodoList
+                            todoListItems={todoListData.subjects.filter(
+                                (item) => !item.state
+                            )}
+                        />
                     </div>
 
                     <div className="bg-base-100-custom h-fit w-full rounded-md p-5 shadow-xl">

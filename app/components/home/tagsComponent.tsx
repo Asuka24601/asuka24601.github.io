@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
-import type { TagItemInterface, TagDataInterface } from '../interfaces/tags'
-import { generateTagStyleByWeight } from '../lib/utils'
+import type { TagItemInterface, TagDataInterface } from '../../interfaces/tags'
+import { generateTagStyleByWeight } from '../../lib/utils'
 
 export function TagItemComponent({
     tag,

@@ -1,3 +1,5 @@
+import { createElement } from 'react'
+
 /**
  * 将时间字符串转换为包含日期、时间及完整日期时间的对象
  * @param time - ISO格式的时间字符串
@@ -108,9 +110,27 @@ export function generateTagStyleByWeight(weight: number) {
 
 /**
  *
- * @param filename
- * @returns filename without extension
+ * @param filename - 文件名
+ * @returns 不带扩展名的文件名
  */
 export function removeExtension(filename: string) {
     return filename.replace(/\.[^/.]+$/, '')
+}
+
+/**
+ *
+ * @param text 未分段的文本
+ * @returns 多个段落（每段2字符缩进）
+ */
+export function generateParagraph(text: string) {
+    if (!text) return null
+    return text
+        .split('\n')
+        .map((paragraph, index) =>
+            createElement(
+                'p',
+                { key: index, className: 'pl-8 -indent-8' },
+                paragraph
+            )
+        )
 }

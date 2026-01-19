@@ -11,6 +11,7 @@ import appStylesHref from './styles/style.css?url'
 import { useEffect } from 'react'
 import 'virtual:svg-icons-register'
 import 'animate.css'
+import 'katex/dist/katex.min.css'
 
 export default function App() {
     useEffect(() => {

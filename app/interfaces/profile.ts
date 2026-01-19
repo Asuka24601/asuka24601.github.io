@@ -25,12 +25,27 @@ export interface ProfileItemInterface {
     species?: string
     bloodType?: string
     physicalForm?: string
-    health?: string
-    materials?: string
+    health?: [
+        healthStatus,
+        healthStatus,
+        healthStatus,
+        healthStatus,
+        healthStatus,
+        healthStatus,
+        healthStatus,
+    ]
+    materials?: {
+        name: string
+        value: number
+        color: string
+    }[]
     allergen?: string
     religion?: string
     race?: string
-    halflife?: string
+    halflife?: {
+        discription: string
+        formula: string
+    }
     md5?: string
     sha256?: string
     sha512?: string
@@ -47,3 +62,9 @@ export type ProfileStatisticsInterface = {
     value: number
     routePath: string
 }[]
+
+export interface healthStatus {
+    name: string
+    discription: string
+    value: string
+}

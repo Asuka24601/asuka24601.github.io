@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-refresh/only-export-components */
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useBannerStore, useProfileDataStore } from '../lib/store'
 import cover from '../assets/cover.webp'
@@ -6,14 +8,101 @@ import AriticleContene from '../components/aritcleContent'
 import AboutIntroduction from '../contents/pages/about'
 import TimeLine from '../components/about/timeLine'
 import DataItem from '../components/about/dataItem'
+import fetchData from '../lib/fetchData'
+import type { TodoListDataInterface } from '../interfaces/todo'
+import type { Route } from './+types/about'
+import { PieChartSvg } from '../components/chart'
+import { BlockMath } from 'react-katex'
+import HealthStatus from '../components/about/healthStatus'
 
-export default function About() {
+export async function clientLoader(): Promise<{
+    todoListData: TodoListDataInterface
+}> {
+    const filePath = '/data/todos.json'
+    const todoListData = await fetchData(filePath, 'json')
+
+    return { todoListData }
+}
+
+const sectionStyle: React.CSSProperties = {
+    position: 'absolute',
+    opacity: '0',
+    pointerEvents: 'none',
+    zIndex: '-99',
+    scale: '0',
+}
+
+const ABOUT_ITEMS_CONFIG = [
+    { key: 'location', name: 'location', question: '你来自哪里?' },
+    { key: 'species', name: 'species', icon: 'dna', question: '你是什么物种?' },
+    { key: 'race', name: 'race', icon: 'skull', question: '你是什么种族?' },
+    { key: 'gender', name: 'gender', question: '你是GG还是MM?' },
+    { key: 'birthday', name: 'birthday', question: '你多少岁了?' },
+    { key: 'death', name: 'death', question: '你什么时候死?' },
+    {
+        key: 'sexualOrientation',
+        name: 'sexual orientation',
+        icon: 'sexual',
+        question: '你喜欢GG还是MM?',
+    },
+    {
+        key: 'politicalOrientation',
+        name: 'political orientation',
+        icon: 'political',
+        question: '你是左还是右?',
+    },
+    { key: 'religion', name: 'religion', question: '你信仰宗教吗?' },
+    {
+        key: 'pronouns',
+        name: 'pronouns',
+        icon: 'meh',
+        question: '你希望别人怎么称呼你?',
+    },
+    {
+        key: 'ancestor',
+        name: 'ancestor',
+        icon: 'human',
+        question: '你的祖先是谁?',
+    },
+    {
+        key: 'marriage',
+        name: 'marriage',
+        icon: 'wedding',
+        question: '你结婚了吗?',
+    },
+    {
+        key: 'physicalForm',
+        name: 'physical form',
+        icon: 'physic',
+        question: '你是什么样子?',
+    },
+    {
+        key: 'bloodType',
+        name: 'blood type',
+        icon: 'blood',
+        question: '你是什么血型?',
+    },
+    {
+        key: 'allergen',
+        name: 'allergen',
+        question: '你有对什么东西过敏吗?',
+    },
+]
+
+export default function About({ loaderData }: Route.ComponentProps) {
+    const { todoListData } = loaderData
+
     const elementRef = useRef<HTMLImageElement>(null)
-
     const [content, setContent] = useState('archive')
+    const articleRef = useRef<HTMLDivElement>(null)
 
     const changeContent = (target: string) => {
+        if (content === target) return
         setContent(target)
+        articleRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        })
     }
 
     const resetImage = useBannerStore((state) => state.resetImage)
@@ -39,15 +128,15 @@ export default function About() {
     }, [])
 
     useEffect(() => {
-        if (!elementRef.current) return
+        const element = elementRef.current
+        if (!element) return
 
         let ticking = false
 
         const handleMouseMove = (event: MouseEvent) => {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
-                    if (!elementRef.current) return
-                    const rect = elementRef.current.getBoundingClientRect()
+                    const rect = element.getBoundingClientRect()
                     const centerX = rect.left + rect.width / 2
                     const centerY = rect.top + rect.height / 2
 
@@ -59,18 +148,27 @@ export default function About() {
                             (180 / Math.PI) +
                         90
 
-                    elementRef.current.style.setProperty(
-                        '--rotate-angle',
-                        `${angle}deg`
-                    )
+                    element.style.setProperty('--rotate-angle', `${angle}deg`)
                     ticking = false
                 })
                 ticking = true
             }
         }
 
-        window.addEventListener('mousemove', handleMouseMove)
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    window.addEventListener('mousemove', handleMouseMove)
+                } else {
+                    window.removeEventListener('mousemove', handleMouseMove)
+                }
+            },
+            { threshold: 0 }
+        )
+        observer.observe(element)
+
         return () => {
+            observer.disconnect()
             window.removeEventListener('mousemove', handleMouseMove)
         }
     }, [])
@@ -111,13 +209,19 @@ export default function About() {
                 </div>
                 <article className="relative -top-43 mx-auto flex max-w-400 flex-col items-center justify-center">
                     <div className="avatar h-50 w-50">
-                        <img
-                            onClick={avatarOnClick}
-                            src={profileData.data.avatar}
-                            alt="avatar"
-                            draggable="false"
-                            className="outline-base-content/15 animate__animated rounded-full shadow-xs outline-1"
-                        />
+                        {profileData.data.avatar && (
+                            <img
+                                onClick={(
+                                    e: React.MouseEvent<HTMLImageElement>
+                                ) => {
+                                    avatarOnClick(e)
+                                }}
+                                src={profileData.data.avatar}
+                                alt="avatar"
+                                draggable="false"
+                                className="outline-base-content/15 animate__animated rounded-full shadow-xs outline-1"
+                            />
+                        )}
                     </div>
                     <h1 className="mt-3 text-2xl first-letter:uppercase">
                         <strong>{profileData.data.name}</strong>
@@ -125,9 +229,11 @@ export default function About() {
                     <q className="text-base-content/50 text-sm">
                         {profileData.data.introduction}
                     </q>
-                    <br />
 
-                    <div className="relative -left-24 flex flex-row gap-3">
+                    <div
+                        className="relative -left-24 mt-5 flex scroll-mt-20 flex-row gap-3"
+                        ref={articleRef}
+                    >
                         <aside className="sticky top-28 h-fit w-45">
                             <ul className="menu bg-base-100 rounded-box sticky top-0 w-full shadow-xl">
                                 <li>
@@ -169,151 +275,136 @@ export default function About() {
                         <div className="flex max-w-200 flex-col gap-6">
                             <section
                                 id="archive"
-                                className="bg-base-100 flex flex-col items-start justify-start gap-8 rounded-md p-8 shadow-2xl"
+                                className="bg-base-100 flex flex-col items-start justify-start gap-8 rounded-md p-8 shadow-2xl transition-opacity ease-in-out"
                                 style={{
+                                    willChange: 'opacity, scale',
                                     ...(content === 'archive'
-                                        ? { order: 1 }
-                                        : { order: 2 }),
+                                        ? { position: 'relative', opacity: '1' }
+                                        : sectionStyle),
                                 }}
                             >
                                 <div className="text-base-content/50 w-full text-xs">
                                     <p className="before:content-['#Archive']"></p>
                                     <div className="divider my-1"></div>
                                 </div>
+                                {ABOUT_ITEMS_CONFIG.map((item) => (
+                                    <DataItem
+                                        key={item.key}
+                                        name={item.name}
+                                        icon={item.icon}
+                                        question={item.question}
+                                    >
+                                        <div>
+                                            {
+                                                (profileData.data as any)[
+                                                    item.key
+                                                ]
+                                            }
+                                        </div>
+                                    </DataItem>
+                                ))}
+
                                 <DataItem
-                                    name="location"
-                                    question="你来自哪里?"
+                                    name="health"
+                                    question="你的健康状况怎么样?"
                                 >
-                                    <text>{profileData.data.location}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="species"
-                                    icon="dna"
-                                    question="你是什么物种?"
-                                >
-                                    <text>{profileData.data.species}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="race"
-                                    question="你是什么种族?"
-                                    icon="skull"
-                                >
-                                    <text>{profileData.data.race}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="gender"
-                                    question="你是GG还是MM?"
-                                >
-                                    <text>{profileData.data.gender}</text>
+                                    <HealthStatus
+                                        status={profileData.data.health}
+                                    />
                                 </DataItem>
 
                                 <DataItem
-                                    name="birthday"
-                                    question="你多少岁了?"
+                                    name="halflife"
+                                    icon="physic"
+                                    question="你的半衰期是多少?"
                                 >
-                                    <text>{profileData.data.birthday}</text>
-                                </DataItem>
-                                <DataItem name="death" question="你什么时候死?">
-                                    <text>{profileData.data.death}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="sexual orientation"
-                                    icon="sexual"
-                                    question="你喜欢GG还是MM?"
-                                >
-                                    <text>
-                                        {profileData.data.sexualOrientation}
-                                    </text>
-                                </DataItem>
-                                <DataItem
-                                    name="political orientation"
-                                    icon="political"
-                                    question="你是左还是右?"
-                                >
-                                    <text>
-                                        {profileData.data.politicalOrientation}
-                                    </text>
-                                </DataItem>
-                                <DataItem
-                                    name="religion"
-                                    question="你信仰宗教吗?"
-                                >
-                                    <text>{profileData.data.religion}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="pronouns"
-                                    icon="meh"
-                                    question="你希望别人怎么称呼你?"
-                                >
-                                    <text>{profileData.data.pronouns}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="ancestor"
-                                    icon="human"
-                                    question="你的祖先是谁?"
-                                >
-                                    <text>{profileData.data.ancestor}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="marriage"
-                                    icon="wedding"
-                                    question="你结婚了吗?"
-                                >
-                                    <text>{profileData.data.marriage}</text>
+                                    {
+                                        <div>
+                                            <BlockMath
+                                                math={
+                                                    profileData.data.halflife
+                                                        ?.formula as string
+                                                }
+                                            />
+                                            <p className="mx-auto block w-fit text-xs">
+                                                {
+                                                    profileData.data.halflife
+                                                        ?.discription
+                                                }
+                                            </p>
+                                        </div>
+                                    }
                                 </DataItem>
 
                                 <DataItem
                                     name="materials"
                                     question="你是由什么构成的?"
+                                    className="overflow-visible"
                                 >
-                                    <text>{profileData.data.materials}</text>
+                                    <div className="flex w-full flex-row gap-8">
+                                        <PieChartSvg
+                                            materials={
+                                                profileData.data.materials
+                                            }
+                                            className="relative aspect-square h-auto flex-1/2"
+                                        />
+                                        <div className="flex aspect-square h-auto flex-1/2 flex-col content-start justify-center gap-3 rounded-2xl text-sm">
+                                            <table className="border-base-content/15 **:border-base-content/10 mt-2 border-collapse border">
+                                                <thead className="text-base-100 border-b bg-[color-mix(in_srgb,var(--color-primary),white)]/90">
+                                                    <tr>
+                                                        <th
+                                                            scope="col"
+                                                            className="border-r p-3"
+                                                        >
+                                                            ingredient
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="p-3"
+                                                        >
+                                                            proportion(%)
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="bg-base-100 text-base-content">
+                                                    {profileData.data.materials?.map(
+                                                        (item, index) => (
+                                                            <tr
+                                                                key={index}
+                                                                className="even:bg-base-200 border-b last-of-type:border-b-0"
+                                                            >
+                                                                <th
+                                                                    scope="row"
+                                                                    className="flex flex-row items-center gap-2 border-r p-2"
+                                                                >
+                                                                    <div
+                                                                        className="border-base-content/15 inline-block aspect-square h-4 w-auto rounded-full border"
+                                                                        style={{
+                                                                            background: `${item.color}`,
+                                                                        }}
+                                                                    ></div>
+                                                                    {item.name}
+                                                                </th>
+                                                                <td className="p-2 text-center">
+                                                                    {item.value.toFixed(
+                                                                        1
+                                                                    )}
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </DataItem>
 
-                                <DataItem
-                                    name="halflife"
-                                    question="你的半衰期是多少?"
-                                    icon="physic"
-                                >
-                                    <text>{profileData.data.halflife}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="physical form"
-                                    icon="physic"
-                                    question="你是什么样子?"
-                                >
-                                    <text>{profileData.data.physicalForm}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="health"
-                                    question="你的健康状况怎么样?"
-                                >
-                                    <text>{profileData.data.health}</text>
-                                </DataItem>
-                                <DataItem
-                                    name="blood type"
-                                    icon="blood"
-                                    question="你是什么血型?"
-                                >
-                                    <text>{profileData.data.bloodType}</text>
-                                </DataItem>
-
-                                <DataItem
-                                    name="allergen"
-                                    question="你有对什么东西过敏吗?"
-                                >
-                                    <text>{profileData.data.allergen}</text>
-                                </DataItem>
                                 <DataItem
                                     name="languages"
                                     question="你使用哪些语言?"
                                 >
                                     <table className="border-base-content/15 **:border-base-content/10 mt-2 border-collapse border">
-                                        <thead
-                                            className="text-base-100 border-b"
-                                            style={{
-                                                background: `color-mix(in srgb,color-mix(in srgb,var(--color-primary), white) 90%,transparent)`,
-                                            }}
-                                        >
+                                        <thead className="text-base-100 border-b bg-[color-mix(in_srgb,var(--color-primary),white)]/90">
                                             <tr>
                                                 <th
                                                     scope="col"
@@ -348,6 +439,7 @@ export default function About() {
                                         </tbody>
                                     </table>
                                 </DataItem>
+
                                 <div className="text-base-content/50 flex w-full flex-col gap-2 text-xs break-all">
                                     <div className="divider my-1"></div>
                                     <p className="before:mr-1 before:content-['MD5:']">
@@ -364,11 +456,12 @@ export default function About() {
 
                             <section
                                 id="introduction"
-                                className="bg-base-100 flex flex-col items-start justify-start rounded-md p-8 shadow-2xl"
+                                className="bg-base-100 flex flex-col items-start justify-start rounded-md p-8 shadow-2xl transition-opacity ease-in-out"
                                 style={{
+                                    willChange: 'opacity, scale',
                                     ...(content === 'introduction'
-                                        ? { order: 1 }
-                                        : { order: 2 }),
+                                        ? { position: 'relative', opacity: '1' }
+                                        : sectionStyle),
                                 }}
                             >
                                 <div className="text-base-content/50 w-full text-xs">
@@ -383,18 +476,21 @@ export default function About() {
 
                             <section
                                 id="timeline"
-                                className="bg-base-100 flex flex-col items-start justify-start rounded-md p-8 shadow-2xl"
+                                className="bg-base-100 flex flex-col items-start justify-start rounded-md p-8 shadow-2xl transition-opacity ease-in-out"
                                 style={{
+                                    willChange: 'opacity, scale',
                                     ...(content === 'timeline'
-                                        ? { order: 1 }
-                                        : { order: 2 }),
+                                        ? { position: 'relative', opacity: '1' }
+                                        : sectionStyle),
                                 }}
                             >
                                 <div className="text-base-content/50 w-full text-xs">
                                     <p className="before:content-['#TimeLine']"></p>
                                     <div className="divider my-1"></div>
                                 </div>
-                                <TimeLine />
+                                <TimeLine
+                                    todoListItems={todoListData.subjects}
+                                />
                             </section>
                         </div>
                     </div>
