@@ -7,6 +7,12 @@ export interface NavStore {
     resetNavShow: () => void
 }
 
+export interface SearchStore {
+    searchShow: boolean
+    setSearchShow: (usr: boolean) => void
+    resetSearchShow: () => void
+}
+
 export interface BannersStore {
     bannerRelative: boolean
     bannerShow: boolean
@@ -31,6 +37,12 @@ export const useNavStore = create<NavStore>()((set) => ({
     navShow: true,
     setNavShow: (usr: boolean) => set({ navShow: usr }),
     resetNavShow: () => set({ navShow: true }),
+}))
+
+export const useSearchStore = create<SearchStore>()((set) => ({
+    searchShow: false,
+    setSearchShow: (usr: boolean) => set({ searchShow: usr }),
+    resetSearchShow: () => set({ searchShow: false }),
 }))
 
 export const useBannerStore = create<BannersStore>()((set) => ({

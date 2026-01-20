@@ -8,8 +8,13 @@ import type { ProfileDataInterface } from '../interfaces/profile'
 import fetchData from '../lib/fetchData'
 import type { Route } from './+types/base'
 import { useEffect, useState, useRef, useLayoutEffect } from 'react'
-import { useBannerStore, useProfileDataStore } from '../lib/store'
+import {
+    useBannerStore,
+    useProfileDataStore,
+    useSearchStore,
+} from '../lib/store'
 import SvgIcon from '../components/SvgIcon'
+import Search from '../components/search'
 
 export async function clientLoader(): Promise<{
     profileData: ProfileDataInterface
@@ -34,11 +39,20 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
     const bannerShow = useBannerStore((state) => state.bannerShow)
     const [showUp, setShowUp] = useState(bannerRelative)
     const setProfileData = useProfileDataStore((state) => state.setProfileData)
+    const searchShow = useSearchStore((state) => state.searchShow)
+    // const resetSearchShow = useSearchStore((state) => state.resetSearchShow)
 
     const scrollDown = () => {
         setShowUp(false)
         window.scrollTo({
             top: bannerHeight / 2 - 8,
+            behavior: 'smooth',
+        })
+    }
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
             behavior: 'smooth',
         })
     }
@@ -148,6 +162,25 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
+            <button
+                className={
+                    'btn btn-ghost btn-circle fixed right-0 bottom-0 z-10 bg-transparent' +
+                    (!showUp
+                        ? ' opacity-100'
+                        : ' pointer-events-none opacity-0')
+                }
+                onClick={() => {
+                    scrollToTop()
+                }}
+            >
+                <SvgIcon
+                    name="arrowDown"
+                    size={40}
+                    fill="white"
+                    className="text-base-content rotate-180 drop-shadow-2xl"
+                />
+            </button>
+
             <main className="relative">
                 <header className="sticky top-0 z-2 w-full">
                     <NavBar siteName={siteName} />
@@ -219,6 +252,7 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
                     socialMedia={profileData.data.socialMedia}
                 />
             </footer>
+            {searchShow && <Search />}
         </>
     )
 }

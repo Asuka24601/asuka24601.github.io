@@ -127,7 +127,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
             <div
                 ref={elementRef}
-                className="mx-auto grid h-full min-h-full max-w-400 grid-cols-[auto_1fr] gap-5 *:hover:z-1"
+                className="mx-auto grid h-full min-h-full max-w-400 grid-cols-[auto_1fr] gap-5 px-5 *:hover:z-1"
             >
                 <aside className="flex h-fit w-60 flex-col gap-5">
                     <div className="bg-base-100-custom h-fit rounded-md px-4 py-4 shadow-xl">

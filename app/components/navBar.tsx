@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import '../styles/navBar.css'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { throttle } from 'lodash' // 防抖/节流
-import { useNavStore } from '../lib/store'
+import { useNavStore, useSearchStore } from '../lib/store'
 import SvgIcon from './SvgIcon'
 
 export default function NavBar({
@@ -27,9 +27,18 @@ export default function NavBar({
     const [isMenuOpen, setIsMenuOpen] = useState(true)
     const navShow = useNavStore((state) => state.navShow)
     const resetNav = useNavStore((state) => state.resetNavShow)
+    const searchShow = useSearchStore((state) => state.searchShow)
+    const setSearchShow = useSearchStore((state) => state.setSearchShow)
+    const resetSearch = useSearchStore((state) => state.resetSearchShow)
+
+    const onSearchClick = () => {
+        if (searchShow) return
+        setSearchShow(true)
+    }
 
     useLayoutEffect(() => {
         resetNav()
+        resetSearch()
     }, [])
 
     useEffect(() => {
@@ -124,6 +133,9 @@ export default function NavBar({
                         <button
                             className="btn btn-ghost btn-circle"
                             title="search"
+                            onClick={() => {
+                                onSearchClick()
+                            }}
                         >
                             <SvgIcon
                                 name="search"

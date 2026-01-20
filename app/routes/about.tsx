@@ -14,6 +14,8 @@ import type { Route } from './+types/about'
 import { PieChartSvg } from '../components/chart'
 import { BlockMath } from 'react-katex'
 import HealthStatus from '../components/about/healthStatus'
+import Table2Col from '../components/about/table'
+import { LocationComponent } from '../components/about/location'
 
 export async function clientLoader(): Promise<{
     todoListData: TodoListDataInterface
@@ -33,7 +35,7 @@ const sectionStyle: React.CSSProperties = {
 }
 
 const ABOUT_ITEMS_CONFIG = [
-    { key: 'location', name: 'location', question: '你来自哪里?' },
+    // { key: 'location', name: 'location', question: '你来自哪里?' },
     { key: 'species', name: 'species', icon: 'dna', question: '你是什么物种?' },
     { key: 'race', name: 'race', icon: 'skull', question: '你是什么种族?' },
     { key: 'gender', name: 'gender', question: '你是GG还是MM?' },
@@ -234,7 +236,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
                         className="relative -left-24 mt-5 flex scroll-mt-20 flex-row gap-3"
                         ref={articleRef}
                     >
-                        <aside className="sticky top-28 h-fit w-45">
+                        <aside className="sticky top-28 z-1 h-fit w-45">
                             <ul className="menu bg-base-100 rounded-box sticky top-0 w-full shadow-xl">
                                 <li>
                                     <h2 className="menu-title">Contents</h2>
@@ -287,6 +289,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
                                     <p className="before:content-['#Archive']"></p>
                                     <div className="divider my-1"></div>
                                 </div>
+
                                 {ABOUT_ITEMS_CONFIG.map((item) => (
                                     <DataItem
                                         key={item.key}
@@ -303,6 +306,16 @@ export default function About({ loaderData }: Route.ComponentProps) {
                                         </div>
                                     </DataItem>
                                 ))}
+                                <DataItem
+                                    name="location"
+                                    question="你来自哪里?"
+                                    className="overflow-visible"
+                                >
+                                    <LocationComponent
+                                        className="mt-3"
+                                        location={profileData.data.location}
+                                    />
+                                </DataItem>
 
                                 <DataItem
                                     name="health"
@@ -310,6 +323,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
                                 >
                                     <HealthStatus
                                         status={profileData.data.health}
+                                        className="mt-2"
                                     />
                                 </DataItem>
 
@@ -349,52 +363,13 @@ export default function About({ loaderData }: Route.ComponentProps) {
                                             className="relative aspect-square h-auto flex-1/2"
                                         />
                                         <div className="flex aspect-square h-auto flex-1/2 flex-col content-start justify-center gap-3 rounded-2xl text-sm">
-                                            <table className="border-base-content/15 **:border-base-content/10 mt-2 border-collapse border">
-                                                <thead className="text-base-100 border-b bg-[color-mix(in_srgb,var(--color-primary),white)]/90">
-                                                    <tr>
-                                                        <th
-                                                            scope="col"
-                                                            className="border-r p-3"
-                                                        >
-                                                            ingredient
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="p-3"
-                                                        >
-                                                            proportion(%)
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody className="bg-base-100 text-base-content">
-                                                    {profileData.data.materials?.map(
-                                                        (item, index) => (
-                                                            <tr
-                                                                key={index}
-                                                                className="even:bg-base-200 border-b last-of-type:border-b-0"
-                                                            >
-                                                                <th
-                                                                    scope="row"
-                                                                    className="flex flex-row items-center gap-2 border-r p-2"
-                                                                >
-                                                                    <div
-                                                                        className="border-base-content/15 inline-block aspect-square h-4 w-auto rounded-full border"
-                                                                        style={{
-                                                                            background: `${item.color}`,
-                                                                        }}
-                                                                    ></div>
-                                                                    {item.name}
-                                                                </th>
-                                                                <td className="p-2 text-center">
-                                                                    {item.value.toFixed(
-                                                                        1
-                                                                    )}
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    )}
-                                                </tbody>
-                                            </table>
+                                            <Table2Col
+                                                t1="ingredient"
+                                                t2="proportion(%)"
+                                                items={
+                                                    profileData.data.materials
+                                                }
+                                            />
                                         </div>
                                     </div>
                                 </DataItem>
@@ -403,41 +378,11 @@ export default function About({ loaderData }: Route.ComponentProps) {
                                     name="languages"
                                     question="你使用哪些语言?"
                                 >
-                                    <table className="border-base-content/15 **:border-base-content/10 mt-2 border-collapse border">
-                                        <thead className="text-base-100 border-b bg-[color-mix(in_srgb,var(--color-primary),white)]/90">
-                                            <tr>
-                                                <th
-                                                    scope="col"
-                                                    className="border-r p-3"
-                                                >
-                                                    language
-                                                </th>
-                                                <th scope="col" className="p-3">
-                                                    level
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="bg-base-100 text-base-content">
-                                            {profileData.data.languages?.map(
-                                                (item, index) => (
-                                                    <tr
-                                                        key={index}
-                                                        className="even:bg-base-200 border-b last-of-type:border-b-0"
-                                                    >
-                                                        <th
-                                                            scope="row"
-                                                            className="border-r p-2"
-                                                        >
-                                                            {item.name}
-                                                        </th>
-                                                        <td className="p-2 text-center">
-                                                            {item.level}
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            )}
-                                        </tbody>
-                                    </table>
+                                    <Table2Col
+                                        t1="language"
+                                        t2="level(0~+∞)"
+                                        items={profileData.data.languages}
+                                    />
                                 </DataItem>
 
                                 <div className="text-base-content/50 flex w-full flex-col gap-2 text-xs break-all">

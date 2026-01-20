@@ -12,28 +12,20 @@ export interface ProfileItemInterface {
     gender?: string
     birthday?: string
     death?: string
-    location?: string
+    location?: LocationInterface
     sexualOrientation?: string
     politicalOrientation?: string
     pronouns?: string
     languages?: {
         name: string
-        level: number
+        value: number
     }[]
     ancestor?: string
     marriage?: string
     species?: string
     bloodType?: string
     physicalForm?: string
-    health?: [
-        healthStatus,
-        healthStatus,
-        healthStatus,
-        healthStatus,
-        healthStatus,
-        healthStatus,
-        healthStatus,
-    ]
+    health?: HealthType
     materials?: {
         name: string
         value: number
@@ -67,4 +59,33 @@ export interface healthStatus {
     name: string
     discription: string
     value: string
+}
+
+export type HealthType = [
+    healthStatus,
+    healthStatus,
+    healthStatus,
+    healthStatus,
+    healthStatus,
+    healthStatus,
+    healthStatus,
+]
+
+export interface LocationInterface {
+    physical: {
+        name: string
+        value: string
+        discription: string
+        mapLink?: string
+    }
+    ip: {
+        name: string
+        value: string
+        discription: string
+    }
+    mac: {
+        name: string
+        value: string
+        discription: string
+    }
 }
