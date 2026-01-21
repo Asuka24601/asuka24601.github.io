@@ -1,5 +1,6 @@
 import SvgIcon from '../SvgIcon'
 import { Link } from 'react-router'
+import ProgressiveImage from '../progressiveImage'
 import type {
     ProfileDataInterface,
     ProfileStatisticsInterface,
@@ -21,7 +22,7 @@ export default function ProfileCard({
             <div className="card h-full items-center justify-between gap-2">
                 <div className="avatar">
                     <div className="w-24 rounded-full border border-white">
-                        <img src={author.avatar} />
+                        <ProgressiveImage src={author.avatar} />
                     </div>
                 </div>
                 <h1 className="card-title">{author.name}</h1>

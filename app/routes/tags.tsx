@@ -18,7 +18,7 @@ export default function Tags() {
             resetImage()
             resetBannerRelative()
         }
-    })
+    }, [])
 
     return (
         <>

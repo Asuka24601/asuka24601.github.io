@@ -34,7 +34,7 @@ export default function PostIndex({ loaderData }: Route.ComponentProps) {
             resetImage()
             resetBannerRelative()
         }
-    })
+    }, [])
 
     return (
         <div className="mx-auto max-w-400 p-5">

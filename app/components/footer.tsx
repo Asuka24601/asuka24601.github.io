@@ -20,8 +20,13 @@ export default function Footer({
 }) {
     return (
         <>
-            <div className="w-1/6 select-none">
-                <img src={side} alt="side" draggable="false" />
+            <div className="absolute top-0 left-0 h-48 w-80 -translate-y-full select-none">
+                <img
+                    src={side}
+                    alt="side"
+                    draggable="false"
+                    className="absolute bottom-0"
+                />
             </div>
             <div className="bg-neutral text-neutral-content flex flex-row flex-nowrap justify-between">
                 <div className="flex flex-1 flex-row flex-nowrap items-center justify-between p-10">

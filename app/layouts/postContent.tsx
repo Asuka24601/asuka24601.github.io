@@ -34,6 +34,7 @@ export default function PostContent() {
     const [rendered, setRendered] = useState<boolean>(false)
     const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
     const [isLightboxVisible, setIsLightboxVisible] = useState(false)
+    const [isImageLoading, setIsImageLoading] = useState(false)
     const resetNav = useNavStore((state) => state.resetNavShow)
     const setNavShow = useNavStore((state) => state.setNavShow)
     const setBlurred = useBannerStore((state) => state.setBlurred)
@@ -89,16 +90,26 @@ export default function PostContent() {
             resetNav()
             resetBlurred()
         }
-    })
+    }, [])
 
     useEffect(() => {
         if (lightboxSrc) {
+            const scrollbarWidth =
+                window.innerWidth - document.documentElement.clientWidth
+            document.body.style.overflow = 'hidden'
+            if (scrollbarWidth > 0) {
+                document.body.style.paddingRight = `${scrollbarWidth}px`
+            }
             // 确保 DOM 挂载后下一帧才添加 opacity-100，触发 transition
             requestAnimationFrame(() => {
                 console.log(useNavStore.getState().navShow)
 
                 setIsLightboxVisible(true)
             })
+        }
+        return () => {
+            document.body.style.overflow = ''
+            document.body.style.paddingRight = ''
         }
     }, [lightboxSrc])
 
@@ -122,10 +133,16 @@ export default function PostContent() {
                     }`}
                     onClick={closeLightbox}
                 >
+                    {isImageLoading && (
+                        <span className="loading loading-spinner loading-lg text-white"></span>
+                    )}
                     <img
                         src={lightboxSrc}
                         alt="Lightbox Preview"
-                        className="max-h-full max-w-full rounded-md object-contain shadow-2xl"
+                        className={`max-h-full max-w-full rounded-md object-contain shadow-2xl transition-opacity duration-300 ${
+                            isImageLoading ? 'opacity-0' : 'opacity-100'
+                        }`}
+                        onLoad={() => setIsImageLoading(false)}
                     />
                 </div>
             )}
@@ -149,6 +166,7 @@ export default function PostContent() {
                             e.preventDefault() // 防止链接跳转（如果图片被包裹在链接中）
                             const img = target as HTMLImageElement
                             setLightboxSrc(img.src)
+                            setIsImageLoading(true)
                             setNavShow(false)
                         }
                     }}

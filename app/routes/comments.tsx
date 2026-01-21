@@ -18,7 +18,7 @@ export default function Comments() {
             resetImage()
             resetBannerRelative()
         }
-    })
+    }, [])
 
     return (
         <>

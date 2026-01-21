@@ -9,15 +9,21 @@ const ProgressiveImage = ({
     lazy = true,
 }: {
     placeholderSrc?: string
-    src: string
+    src: string | undefined
     className?: string
     alt?: string
     lazy?: boolean
 }) => {
-    const [imgSrc, setImgSrc] = useState(placeholderSrc || src)
+    const [imgSrc, setImgSrc] = useState(placeholderSrc || src || errorImg)
     const [isBlur, setIsBlur] = useState(true)
 
     useEffect(() => {
+        if (!src) {
+            setTimeout(() => {
+                setIsBlur(false)
+            }, 500)
+            return
+        }
         const img = new Image()
         img.src = src
         img.onload = () => {
@@ -38,7 +44,9 @@ const ProgressiveImage = ({
         <img
             decoding="async"
             alt={alt || 'img'}
-            className={(isBlur && 'skeleton') + ' w-full ' + (className || '')}
+            className={
+                (isBlur ? 'skeleton ' : '') + ' w-full ' + (className || '')
+            }
             src={imgSrc}
             loading={lazy ? 'lazy' : 'eager'}
             style={{

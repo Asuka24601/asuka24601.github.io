@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { compile } from '@mdx-js/mdx'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeKatex from 'rehype-katex'
 import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
 import { run } from '@mdx-js/mdx'
 import * as runtime from 'react/jsx-runtime'
 
@@ -13,8 +15,8 @@ export async function mdxRender(markdownContent: string) {
             format: 'md',
             // development: true, // 开发模式
             // providerImportSource: '@mdx-js/react',
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [rehypeHighlight],
+            remarkPlugins: [remarkGfm, remarkMath],
+            rehypePlugins: [rehypeHighlight, rehypeKatex],
         }),
         {
             ...runtime,
@@ -33,8 +35,8 @@ export async function mdxRenderStr(
         format: 'md',
         // development: true, // 开发模式
         providerImportSource: '@mdx-js/react',
-        remarkPlugins: [remarkGfm],
-        rehypePlugins: [rehypeHighlight],
+        remarkPlugins: [remarkGfm, remarkMath],
+        rehypePlugins: [rehypeHighlight, rehypeKatex],
     })
 
     return mdxCompiled

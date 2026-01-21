@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 // 1. 引入 R3F 的核心组件
 import { Canvas, useFrame } from '@react-three/fiber'
 
-import { OrbitControls, Stars, useTexture } from '@react-three/drei'
+import { Html, OrbitControls, Stars, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 
 import earth_daymap from '../../assets/2k_earth_daymap.webp'
@@ -12,6 +12,34 @@ import earth_normal_map from '../../assets/2k_earth_normal_map.webp'
 import earth_specular_map from '../../assets/2k_earth_specular_map.webp'
 import earth_nightmap from '../../assets/2k_earth_nightmap.webp'
 import earth_clouds from '../../assets/2k_earth_clouds.webp'
+
+const targetScale = new THREE.Vector3(1, 1, 1)
+
+const Loader = () => {
+    const ref = useRef<THREE.Mesh>(null)
+    // 让加载图标持续旋转
+    useFrame((_state, delta) => {
+        if (!ref.current) return
+        ref.current.rotation.x += delta
+        ref.current.rotation.y += delta
+    })
+    return (
+        <mesh ref={ref}>
+            <icosahedronGeometry args={[1, 0]} />
+            <meshBasicMaterial
+                wireframe
+                color="white"
+                transparent
+                opacity={0.3}
+            />
+            <Html center>
+                <div className="text-xs font-thin text-white/80">
+                    Loading...
+                </div>
+            </Html>
+        </mesh>
+    )
+}
 
 const Earth = () => {
     const hours = new Date().getHours()
@@ -29,13 +57,17 @@ const Earth = () => {
     ])
 
     // 每一帧更新旋转
-    useFrame(({ clock }) => {
+    useFrame(({ clock }, delta) => {
         const elapsedTime = clock.getElapsedTime()
         if (!earthRef.current || !cloudsRef.current) return
         // @ts-ignore
         earthRef.current.rotation.y = elapsedTime / 6
         // @ts-ignore
         cloudsRef.current.rotation.y = elapsedTime / 5 // 云层转速稍快
+        // @ts-ignore
+        earthRef.current.scale.lerp(targetScale, delta * 2.5)
+        // @ts-ignore
+        cloudsRef.current.scale.lerp(targetScale, delta * 2.5)
     })
 
     return (
@@ -45,7 +77,7 @@ const Earth = () => {
             <pointLight position={[10, 5, 5]} intensity={1.5} />
 
             {/* 地球本体 */}
-            <mesh ref={earthRef}>
+            <mesh ref={earthRef} scale={[0, 0, 0]}>
                 <sphereGeometry args={[2, 64, 64]} />
                 <meshPhongMaterial
                     map={hours < 18 && hours > 6 ? colorMap : nightMap}
@@ -56,7 +88,7 @@ const Earth = () => {
             </mesh>
 
             {/* 云层外壳 */}
-            <mesh ref={cloudsRef}>
+            <mesh ref={cloudsRef} scale={[0, 0, 0]}>
                 <sphereGeometry args={[2.02, 64, 64]} />
                 <meshPhongMaterial
                     map={cloudMap}
@@ -119,7 +151,10 @@ export default function PrologueComponent({
                         saturation={0}
                         fade
                     />
-                    <Earth />
+
+                    <Suspense fallback={<Loader />}>
+                        <Earth />
+                    </Suspense>
                     <OrbitControls enableZoom={false} />
                 </Canvas>
             </div>

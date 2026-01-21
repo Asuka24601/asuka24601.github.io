@@ -12,24 +12,14 @@ export function LocationComponent({
 }) {
     const [clicked, setClicked] = useState<boolean>(false)
 
-    const handleClick = (flag: boolean = false) => {
-        if (flag) setClicked(true)
-        else setClicked(flag)
+    const handleClick = () => {
+        setClicked((clicked) => !clicked)
     }
 
     if (!location) return null
     return (
         <>
-            <div
-                className={
-                    (clicked && 'hover-3d transform-3d ') +
-                    (className ? ` ${className}` : '')
-                }
-                onClick={() => {
-                    if (!clicked) return
-                    handleClick()
-                }}
-            >
+            <div className={className ? ` ${className}` : ''}>
                 <div>
                     <div className="mockup-code text-base-100/50 bg-base-content w-full">
                         <pre data-prefix="$" className="text-warning">
@@ -57,21 +47,37 @@ export function LocationComponent({
                                 </pre>
                                 <pre
                                     data-prefix=">"
-                                    className="text-success flex"
+                                    className={'text-success flex'}
                                 >
                                     <button
-                                        className="inline-block aspect-4/3 h-auto w-3/4 cursor-pointer"
+                                        className={
+                                            'w-[calc(100%-64px)] ' +
+                                            (clicked && 'hover-3d transform-3d')
+                                        }
                                         onClick={(e) => {
                                             e.stopPropagation()
-                                            if (clicked) return
-                                            handleClick(true)
+                                            handleClick()
                                         }}
                                     >
-                                        <ProgressiveImage
-                                            src={location.physical.mapLink}
-                                            className="aspect-4/3"
-                                            alt="map"
-                                        />
+                                        <div
+                                            className={
+                                                'aspect-4/3 h-auto w-3/4 cursor-pointer'
+                                            }
+                                        >
+                                            <ProgressiveImage
+                                                src={location.physical.mapLink}
+                                                className="aspect-4/3"
+                                                alt="map"
+                                            />
+                                        </div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
                                     </button>
                                 </pre>
                                 <pre
@@ -121,21 +127,6 @@ export function LocationComponent({
                         </pre>
                     </div>
                 </div>
-
-                <div></div>
-                <div></div>
-
-                <div></div>
-
-                <div></div>
-
-                <div></div>
-
-                <div></div>
-
-                <div></div>
-
-                <div></div>
             </div>
         </>
     )

@@ -12,7 +12,9 @@ export default function AriticleContene({
     className?: string | ''
 }) {
     return (
-        <main className={'prose dark:prose-invert max-w-none ' + className}>
+        <main
+            className={`prose dark:prose-invert max-w-none font-serif ${className}`}
+        >
             <MDXProvider components={mdxComponents}>{children}</MDXProvider>
         </main>
     )
