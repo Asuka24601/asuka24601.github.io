@@ -3,7 +3,6 @@ import type { TodoListDataInterface } from './todo'
 import type { TagDataInterface } from './tags'
 import type { PostListInterface } from './post'
 import type { ProfileStatisticsInterface } from './profile'
-import type { JSX } from 'react'
 
 export interface HomeLoaderDataInterface {
     commentData: CommentDataInterface
@@ -11,5 +10,4 @@ export interface HomeLoaderDataInterface {
     tagData: TagDataInterface
     recentData: PostListInterface
     profileStatistics: ProfileStatisticsInterface
-    NoticeModule: () => JSX.Element
 }

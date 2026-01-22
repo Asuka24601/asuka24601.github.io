@@ -65,26 +65,39 @@ class MarkdownProcessor {
         const pattern = path
             .join(this.options.contentDir, this.options.pattern)
             .replace(/\\/gm, '/')
+        console.log(`🔍 扫描 Markdown 文件\n🔍 pattern: ${pattern}`)
         const files = await glob(pattern)
 
         const markdownFiles: MarkdownFile[] = []
 
         for (const filePath of files) {
             try {
-                const relativePath = path.relative(
-                    this.options.contentDir,
-                    filePath
-                )
-                const slug = this.extractSlug(relativePath)
+                const slug = this.extractSlug(filePath)
+
+                // 读取文件内容
+                console.log(`📄 读取文件: ${filePath}`)
 
                 const content = await fs.readFile(filePath, 'utf-8')
                 const { data: frontMatter, content: markdownContent } =
                     matter(content)
+                const basename = path.basename(filePath, '.md')
+                const basenameLength = basename.length
+                const componentName = toPascalCase(
+                    basename.replace(/[/-]/g, '_')
+                )
+                const exportName = `${toPascalCase(slug.replace(/[/-]/g, '_'))}`
+                const componentFileName = `${slug
+                    .substring(0, slug.length - basenameLength)
+                    .replace(/[\\]/g, '/')}${componentName}.tsx`
 
                 // 验证必要字段
                 if (!frontMatter.title) {
+                    const basename = path.basename(filePath, '.md')
                     console.warn(`⚠️  文件 ${filePath} 缺少 title 字段`)
-                    frontMatter.title = slug
+                    console.warn(
+                        `⚠️  已为文件 ${filePath} 添加 title 字段：${basename}`
+                    )
+                    frontMatter.title = basename
                 }
 
                 if (!frontMatter.date) {
@@ -97,6 +110,8 @@ class MarkdownProcessor {
                     filePath,
                     frontMatter: frontMatter as FrontMatter,
                     content: markdownContent,
+                    exportName,
+                    componentFileName,
                 })
             } catch (error) {
                 console.error(`❌ 读取文件失败 ${filePath}:`, error)
@@ -119,10 +134,10 @@ class MarkdownProcessor {
 
         // 如果文件在子目录中，将目录名包含在 slug 中
         if (dirname !== '.') {
-            return `${dirname}/${basename}`
+            return `${dirname}\\${basename}`
+        } else {
+            return basename
         }
-
-        return basename
     }
 
     // 将 Markdown 转换为 TSX 组件
@@ -140,12 +155,14 @@ class MarkdownProcessor {
 
     // 生成路由清单
     async generateRouteManifest(files: MarkdownFile[]): Promise<RouteManifest> {
-        const routes = files.map((file) => ({
-            slug: file.slug,
-            path: `${this.options.routePrefix}/${file.slug}`,
-            component: `${toPascalCase(file.slug.replace(/[/-]/g, '_'))}`,
-            frontMatter: file.frontMatter,
-        }))
+        const routes = files.map((file) => {
+            return {
+                slug: file.slug.replace(/[\\]/g, '/'),
+                path: `${this.options.routePrefix}/${file.slug.replace(/[\\]/g, '/')}`,
+                component: `./${this.options.outputDir}/${file.componentFileName}`,
+                frontMatter: file.frontMatter,
+            }
+        })
 
         return {
             routes,
@@ -157,29 +174,24 @@ class MarkdownProcessor {
     async generateIndexFile(files: MarkdownFile[], outputDir: string) {
         const imports = files
             .map((file) => {
-                const componentName = toPascalCase(
-                    file.slug.replace(/[/-]/g, '_')
-                )
-                const fileName = file.slug
-                return `import ${componentName}, { frontMatter as ${componentName}FrontMatter } from './${fileName}'`
+                return `import ${file.exportName}, { frontMatter as ${file.exportName}FrontMatter } from './${file.componentFileName}'`
             })
             .join('\n')
 
         const exports = files
             .map((file) => {
-                const componentName = toPascalCase(
-                    file.slug.replace(/[/-]/g, '_')
-                )
-                return `  ${componentName},
-  ${componentName}FrontMatter`
+                return `  ${file.exportName},
+  ${file.exportName}FrontMatter`
             })
             .join(',\n')
 
-        const allPosts = files.map((file) => ({
-            slug: file.slug,
-            componentName: `${toPascalCase(file.slug.replace(/[/-]/g, '_'))}`,
-            frontMatter: file.frontMatter,
-        }))
+        const allPosts = files.map((file) => {
+            return {
+                slug: file.slug.replace(/[\\]/g, '/'),
+                componentName: `${file.exportName}`,
+                frontMatter: file.frontMatter,
+            }
+        })
 
         const indexContent = `
 // =============================================
@@ -259,17 +271,15 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
 
         // 插件配置解析完成时
         configResolved(resolvedConfig) {
-            if (resolvedConfig.build.ssr) return
-            if (globalThis.__MD_CONTENT_PLUGIN_INITIALIZED__) return
-            globalThis.__MD_CONTENT_PLUGIN_INITIALIZED__ = true
+            // if (globalThis.__MD_CONTENT_PLUGIN_INITIALIZED__) return
+            // globalThis.__MD_CONTENT_PLUGIN_INITIALIZED__ = true
             isBuild = resolvedConfig.command === 'build'
             processor = new MarkdownProcessor(options)
 
             console.log(
                 `📝 vite-plugin-md-to-route@${isBuild ? '构建' : '开发'}模式: 插件已启用`
             )
-            // console.log(`  内容目录: ${options.contentDir}`);
-            // console.log(`  输出目录: ${options.outputDir}`);
+            console.log(`  内容目录: ${options.contentDir}`)
         },
 
         // 构建开始时
@@ -281,20 +291,25 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
             try {
                 // 1. 扫描所有 Markdown 文件
                 const markdownFiles = await processor.scanMarkdownFiles()
-                console.log(`  找到 ${markdownFiles.length} 个 Markdown 文件`)
+                console.log(`   找到 ${markdownFiles.length} 个 Markdown 文件`)
 
                 // 2. 确保输出目录存在
                 const outputDir = path.resolve(options.outputDir)
                 await fs.mkdir(outputDir, { recursive: true })
+                console.log(`   输出目录: ${outputDir}`)
 
                 // 3. 为每个文件生成组件
                 for (const file of markdownFiles) {
                     const tsxContent = await processor.convertToTsx(file)
-                    const fileName = `${file.slug.replace(/\//g, '.')}.tsx`
-                    const outputPath = path.join(outputDir, fileName)
 
+                    console.log(`     📄 生成: ${file.componentFileName}`)
+                    const outputPath = path.join(
+                        outputDir,
+                        file.componentFileName
+                    )
+                    console.log(`        目标路径: ${outputPath}`)
                     await fs.writeFile(outputPath, tsxContent, 'utf-8')
-                    console.log(`   ✅ 生成: ${fileName}`)
+                    console.log(`     ✅ 生成: ${outputPath}`)
                 }
 
                 // 4. 生成路由清单

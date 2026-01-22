@@ -18,10 +18,10 @@ import CommentComponent from '../components/commentComponent'
 import TagComponent from '../components/home/tagsComponent'
 import AriticleContene from '../components/aritcleContent'
 import RecentComponent from '../components/home/recentComponent'
-import { mdRegistry } from 'virtual:md-registry'
 import { useBannerStore, useProfileDataStore } from '../lib/store'
 import { useLayoutEffect, useRef } from 'react'
 import PrologueComponent from '../components/home/prologue '
+import NoticeModule from '../contents/pages/Notice'
 
 export async function clientLoader(): Promise<HomeLoaderDataInterface> {
     const todosFilePath = '/data/todos.json'
@@ -62,16 +62,10 @@ export async function clientLoader(): Promise<HomeLoaderDataInterface> {
         },
     ]
 
-    // 通过虚拟模块加载 Markdown 内容, 仅为测试用，后续将修改
-    const noticeModule = import.meta.env.DEV
-        ? (await await mdRegistry['pages/notice']).default()
-        : (await import('../contents/pages/notice')).default
-
     return {
         commentData: loaderCommentsData,
         todoListData: loaderTodoData,
         tagData: loaderTagsData,
-        NoticeModule: noticeModule,
         recentData: loaderPostsData,
         profileStatistics: loaderProfileStatistics,
     }
@@ -82,7 +76,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         commentData,
         todoListData,
         tagData,
-        NoticeModule,
         recentData,
         profileStatistics,
     } = loaderData

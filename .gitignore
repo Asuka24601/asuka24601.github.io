@@ -29,5 +29,6 @@ dist-ssr
 package-lock.json
 
 # External file
-
+app/contents/**/*
+!app/contents/pages/*
 contents/**/*

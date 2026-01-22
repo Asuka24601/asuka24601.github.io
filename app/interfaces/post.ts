@@ -39,6 +39,8 @@ export interface MarkdownFile {
     filePath: string
     frontMatter: FrontMatter
     content: string
+    exportName: string
+    componentFileName: string
 }
 
 export interface RouteComponent {
