@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 // import { Sun, Moon, Search, Menu } from './icons'
 import '../styles/navBar.css'
 import { useEffect, useLayoutEffect, useState } from 'react'
-import { throttle } from 'lodash' // 防抖/节流
+import { throttle } from 'lodash-es' // 防抖/节流
 import { useNavStore, useSearchStore } from '../lib/store'
 import SvgIcon from './SvgIcon'
 

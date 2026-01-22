@@ -1,17 +1,25 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
     Outlet,
     Scripts,
     ScrollRestoration,
     isRouteErrorResponse,
+    Links,
 } from 'react-router'
 import type { Route } from './+types/root'
 import { createHeart } from './lib/mouse'
-
-import appStylesHref from './styles/style.css?url'
 import { useEffect } from 'react'
 import 'virtual:svg-icons-register'
-import 'animate.css'
-import 'katex/dist/katex.min.css'
+
+import animateStylesHref from 'animate.css/animate.min.css?url'
+import katexStylesHref from 'katex/dist/katex.min.css?url'
+import appStylesHref from './styles/style.css?url'
+
+export const links = () => [
+    { rel: 'stylesheet', href: animateStylesHref },
+    { rel: 'stylesheet', href: katexStylesHref },
+    { rel: 'stylesheet', href: appStylesHref },
+]
 
 export default function App() {
     useEffect(() => {
@@ -39,7 +47,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-                <link rel="stylesheet" href={appStylesHref} />
+                <Links />
             </head>
             <body className="min-w-7xl scroll-smooth bg-white">
                 {children}

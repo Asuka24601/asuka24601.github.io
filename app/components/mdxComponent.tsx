@@ -157,7 +157,11 @@ const mdxComponents = {
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
         <>
             <div className="mx-auto my-3 aspect-auto h-auto min-h-24 max-w-4xl min-w-24 rounded">
-                <ProgressiveImage src={props.src} {...props} />
+                <ProgressiveImage
+                    src={props.src}
+                    {...props}
+                    useLightBox={true}
+                />
             </div>
             {props.alt && (
                 <span className="block text-center text-xs font-light text-gray-500 opacity-70 select-none dark:text-gray-400">

@@ -16,8 +16,12 @@ export default defineConfig({
     server: {
         // cors: true,
     },
-    // 解决虚拟模块的警告
+    ssr: {
+        // 强制 Vite 处理这些包，将其转换为 ESM 兼容格式
+        noExternal: ['react-katex'],
+    },
     optimizeDeps: {
+        include: ['react-katex'],
         exclude: [
             'virtual:md-content/*',
             'virtual:md-registry',

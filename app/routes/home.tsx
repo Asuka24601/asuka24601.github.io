@@ -63,13 +63,9 @@ export async function clientLoader(): Promise<HomeLoaderDataInterface> {
     ]
 
     // 通过虚拟模块加载 Markdown 内容, 仅为测试用，后续将修改
-    const noticeModulePath = import.meta.env.DEV
-        ? await mdRegistry['pages/notice']
-        : import('../contents/pages/notice')
-    if (!noticeModulePath) {
-        console.log('加载失败')
-    }
-    const noticeModule = (await noticeModulePath()).default
+    const noticeModule = import.meta.env.DEV
+        ? (await await mdRegistry['pages/notice']).default()
+        : (await import('../contents/pages/notice')).default
 
     return {
         commentData: loaderCommentsData,

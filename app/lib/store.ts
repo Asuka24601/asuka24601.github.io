@@ -33,6 +33,15 @@ export interface ProfileStore {
     setProfileData: (usr: ProfileDataInterface) => void
 }
 
+export interface LightBoxStore {
+    lightboxSrc: string | null
+    isImageLoading: boolean
+    setLightboxSrc: (usr: string | null) => void
+    resetLightboxSrc: () => void
+    setIsImageLoading: (usr: boolean) => void
+    resetIsImageLoading: () => void
+}
+
 export const useNavStore = create<NavStore>()((set) => ({
     navShow: true,
     setNavShow: (usr: boolean) => set({ navShow: usr }),
@@ -74,3 +83,14 @@ export const useProfileDataStore = create<ProfileStore>()((set) => ({
     },
     setProfileData: (usr: ProfileDataInterface) => set({ profileData: usr }),
 }))
+
+export const useLightBoxStore = create<LightBoxStore>()((set) => ({
+    lightboxSrc: '',
+    isImageLoading: false,
+    setIsImageLoading: (usr: boolean) => set({ isImageLoading: usr }),
+    resetIsImageLoading: () => set({ isImageLoading: false }),
+    setLightboxSrc: (usr: string | null) => set({ lightboxSrc: usr }),
+    resetLightboxSrc: () => set({ lightboxSrc: '' }),
+}))
+
+// TODO

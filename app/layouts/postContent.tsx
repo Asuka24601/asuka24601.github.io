@@ -13,7 +13,7 @@ import type {
     ParentContextType,
 } from '../interfaces/post'
 import { useState, useEffect, useLayoutEffect } from 'react'
-import { useNavStore, useBannerStore } from '../lib/store'
+import { useBannerStore } from '../lib/store'
 import { create } from 'zustand'
 
 interface UseSlug {
@@ -32,11 +32,7 @@ export default function PostContent() {
     const [frontMatter, setFrontMatter] = useState<FrontMatter>()
     const [meta, setMeta] = useState<MetaType>()
     const [rendered, setRendered] = useState<boolean>(false)
-    const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
-    const [isLightboxVisible, setIsLightboxVisible] = useState(false)
-    const [isImageLoading, setIsImageLoading] = useState(false)
-    const resetNav = useNavStore((state) => state.resetNavShow)
-    const setNavShow = useNavStore((state) => state.setNavShow)
+
     const setBlurred = useBannerStore((state) => state.setBlurred)
     const resetBlurred = useBannerStore((state) => state.resetBlurred)
     const setImageUrl = useBannerStore((state) => state.setImageUrl)
@@ -86,66 +82,12 @@ export default function PostContent() {
         return () => {
             resetImage()
             resetBannerRelative()
-            closeLightbox()
-            resetNav()
             resetBlurred()
         }
     }, [])
 
-    useEffect(() => {
-        if (lightboxSrc) {
-            const scrollbarWidth =
-                window.innerWidth - document.documentElement.clientWidth
-            document.body.style.overflow = 'hidden'
-            if (scrollbarWidth > 0) {
-                document.body.style.paddingRight = `${scrollbarWidth}px`
-            }
-            // 确保 DOM 挂载后下一帧才添加 opacity-100，触发 transition
-            requestAnimationFrame(() => {
-                console.log(useNavStore.getState().navShow)
-
-                setIsLightboxVisible(true)
-            })
-        }
-        return () => {
-            document.body.style.overflow = ''
-            document.body.style.paddingRight = ''
-        }
-    }, [lightboxSrc])
-
-    const closeLightbox = () => {
-        setIsLightboxVisible(false)
-        // 等待 300ms 动画结束后再卸载组件
-        resetNav()
-        console.log(useNavStore.getState().navShow)
-
-        setTimeout(() => {
-            setLightboxSrc(null)
-        }, 300)
-    }
-
     return (
         <>
-            {lightboxSrc && (
-                <div
-                    className={`fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/80 p-4 backdrop-blur-sm transition-opacity duration-300 ${
-                        isLightboxVisible ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    onClick={closeLightbox}
-                >
-                    {isImageLoading && (
-                        <span className="loading loading-spinner loading-lg text-white"></span>
-                    )}
-                    <img
-                        src={lightboxSrc}
-                        alt="Lightbox Preview"
-                        className={`max-h-full max-w-full rounded-md object-contain shadow-2xl transition-opacity duration-300 ${
-                            isImageLoading ? 'opacity-0' : 'opacity-100'
-                        }`}
-                        onLoad={() => setIsImageLoading(false)}
-                    />
-                </div>
-            )}
             <div className="mx-auto block h-full min-h-[inherit] max-w-full">
                 {import.meta.env.DEV ? (
                     <div className="mx-auto mb-8 max-w-4xl rounded-lg border border-yellow-200 bg-yellow-50 p-4">
@@ -158,19 +100,7 @@ export default function PostContent() {
                     </div>
                 ) : null}
 
-                <article
-                    className="bg-base-100-custom mx-auto h-full max-w-5xl rounded-sm p-8 shadow-xl"
-                    onClick={(e) => {
-                        const target = e.target as HTMLElement
-                        if (target.tagName === 'IMG') {
-                            e.preventDefault() // 防止链接跳转（如果图片被包裹在链接中）
-                            const img = target as HTMLImageElement
-                            setLightboxSrc(img.src)
-                            setIsImageLoading(true)
-                            setNavShow(false)
-                        }
-                    }}
-                >
+                <article className="bg-base-100-custom mx-auto h-full max-w-5xl rounded-sm p-8 shadow-xl">
                     {rendered ? (
                         <AriticleHeader
                             title={frontMatter?.title as string}

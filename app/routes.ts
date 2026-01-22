@@ -18,17 +18,18 @@ const devRoutes = import.meta.env.DEV
     : []
 
 const blogRoutes: ReturnType<typeof route>[] = import.meta.env.PROD
-    ? Object.keys(generatedRoutes).reduce(
-          (acc: ReturnType<typeof route>[], filePath) => {
-              const slug = filePath.match(/blog\.(.+)\.tsx$/)?.[1]
-              console.log(slug)
-              if (!slug) return acc
-              acc.push(route(slug, filePath))
-              return acc
-          },
-          []
-      )
-    : []
+    ? [route('/*', 'routes/404.tsx')]
+    : // Object.keys(generatedRoutes).reduce(
+      //           (acc: ReturnType<typeof route>[], filePath) => {
+      //               const slug = filePath.match(/blog\.(.+)\.tsx$/)?.[1]
+      //               console.log(slug)
+      //               if (!slug) return acc
+      //               acc.push(route(slug, filePath))
+      //               return acc
+      //           },
+      //           []
+      //       )
+      []
 
 export default [
     layout('layouts/base.tsx', [

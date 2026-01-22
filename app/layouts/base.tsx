@@ -17,6 +17,7 @@ import {
 import SvgIcon from '../components/SvgIcon'
 import Search from '../components/search'
 import toUp from '../assets/toUp.webp'
+import LightBox from '../components/lightBox'
 
 export async function clientLoader(): Promise<{
     profileData: ProfileDataInterface
@@ -275,6 +276,7 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
             </footer>
 
             {searchShow && <Search />}
+            <LightBox />
         </>
     )
 }
