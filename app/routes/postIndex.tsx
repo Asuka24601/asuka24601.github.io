@@ -1,22 +1,20 @@
 import { NavLink } from 'react-router'
-import type { PostListInterface } from '../interfaces/post'
-import type { Route } from './+types/postIndex'
-import fetchData from '../lib/fetchData'
 import { timeToString } from '../lib/utils'
 import { useBannerStore } from '../lib/store'
 import { useLayoutEffect } from 'react'
 import ProgressiveImage from '../components/progressiveImage'
 import SvgIcon from '../components/SvgIcon'
+import RouteManifest from '../contents/__manifest.json'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export async function clientLoader(): Promise<PostListInterface> {
-    const filePath = '/data/post.json'
-    const loaderData = await fetchData(filePath, 'json')
-    return loaderData
-}
+// export async function clientLoader(): Promise<PostListInterface> {
+//     const filePath = '/data/post.json'
+//     const loaderData = await fetchData(filePath, 'json')
+//     return loaderData
+// }
 
-export default function PostIndex({ loaderData }: Route.ComponentProps) {
-    const { lastUpdateDate, posts } = loaderData
+export default function PostIndex() {
+    const { generatedAt: lastUpdateDate, routes: posts } = RouteManifest
 
     const resetImage = useBannerStore((state) => state.resetImage)
     const resetBannerRelative = useBannerStore(

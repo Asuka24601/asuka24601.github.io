@@ -7,12 +7,15 @@ type Tags = string[]
 export default function AriticleContene({
     children,
     className,
+    id,
 }: {
     children: ReactNode
     className?: string | ''
+    id?: string
 }) {
     return (
         <main
+            id={id}
             className={`prose dark:prose-invert max-w-none font-serif ${className}`}
         >
             <MDXProvider components={mdxComponents}>{children}</MDXProvider>

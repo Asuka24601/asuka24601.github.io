@@ -1,6 +1,31 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { removeExtension } from '../lib/utils'
 import ProgressiveImage from './progressiveImage'
+
+// 提取文本内容的辅助函数
+const extractText = (children: React.ReactNode): string => {
+    if (typeof children === 'string') return children
+    if (typeof children === 'number') return String(children)
+    if (Array.isArray(children)) return children.map(extractText).join('')
+    if (
+        React.isValidElement(children) &&
+        (children as React.ReactElement<any>).props.children
+    ) {
+        return extractText((children as React.ReactElement<any>).props.children)
+    }
+    return ''
+}
+
+// 生成ID的辅助函数
+const generateId = (children: React.ReactNode) => {
+    const text = extractText(children)
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\u4e00-\u9fa5-]+/g, '')
+}
 
 // 自定义MDX组件
 const mdxComponents = {
@@ -10,28 +35,108 @@ const mdxComponents = {
         ...props
     }: React.HTMLAttributes<HTMLHeadingElement> & {
         children?: React.ReactNode
-    }) => (
-        <h1
-            className="my-4 text-3xl font-bold text-gray-900 dark:text-white"
-            {...props}
-        >
-            {children}
-        </h1>
-    ),
+    }) => {
+        const id = props.id || generateId(children)
+        return (
+            <h1
+                id={id}
+                className="my-4 scroll-mt-24 text-3xl font-bold text-gray-900 dark:text-white"
+                {...props}
+            >
+                {children}
+            </h1>
+        )
+    },
 
     h2: ({
         children,
         ...props
     }: React.HTMLAttributes<HTMLHeadingElement> & {
         children?: React.ReactNode
-    }) => (
-        <h2
-            className="my-3 text-2xl font-semibold text-gray-800 dark:text-gray-200"
-            {...props}
-        >
-            {children}
-        </h2>
-    ),
+    }) => {
+        const id = props.id || generateId(children)
+        return (
+            <h2
+                id={id}
+                className="my-3 scroll-mt-24 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+                {...props}
+            >
+                {children}
+            </h2>
+        )
+    },
+
+    h3: ({
+        children,
+        ...props
+    }: React.HTMLAttributes<HTMLHeadingElement> & {
+        children?: React.ReactNode
+    }) => {
+        const id = props.id || generateId(children)
+        return (
+            <h3
+                id={id}
+                className="my-3 scroll-mt-24 text-xl font-semibold text-gray-800 dark:text-gray-200"
+                {...props}
+            >
+                {children}
+            </h3>
+        )
+    },
+
+    h4: ({
+        children,
+        ...props
+    }: React.HTMLAttributes<HTMLHeadingElement> & {
+        children?: React.ReactNode
+    }) => {
+        const id = props.id || generateId(children)
+        return (
+            <h4
+                id={id}
+                className="my-2 scroll-mt-24 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                {...props}
+            >
+                {children}
+            </h4>
+        )
+    },
+
+    h5: ({
+        children,
+        ...props
+    }: React.HTMLAttributes<HTMLHeadingElement> & {
+        children?: React.ReactNode
+    }) => {
+        const id = props.id || generateId(children)
+        return (
+            <h5
+                id={id}
+                className="my-2 scroll-mt-24 text-base font-semibold text-gray-800 dark:text-gray-200"
+                {...props}
+            >
+                {children}
+            </h5>
+        )
+    },
+
+    h6: ({
+        children,
+        ...props
+    }: React.HTMLAttributes<HTMLHeadingElement> & {
+        children?: React.ReactNode
+    }) => {
+        const id = props.id || generateId(children)
+        return (
+            <h6
+                id={id}
+                className="my-2 scroll-mt-24 text-sm font-semibold text-gray-800 dark:text-gray-200"
+                {...props}
+            >
+                {children}
+            </h6>
+        )
+    },
 
     // 段落
     p: ({
@@ -151,6 +256,11 @@ const mdxComponents = {
         <li className="my-1" {...props}>
             {children}
         </li>
+    ),
+
+    // 分割线
+    hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
+        <hr className="my-6 border-gray-200 dark:border-gray-700" {...props} />
     ),
 
     // 图片

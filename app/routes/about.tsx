@@ -11,11 +11,12 @@ import DataItem from '../components/about/dataItem'
 import fetchData from '../lib/fetchData'
 import type { TodoListDataInterface } from '../interfaces/todo'
 import type { Route } from './+types/about'
-import { PieChartSvg } from '../components/chart'
+import { PieChartSvg } from '../components/chart/pieChart'
 import { BlockMath } from 'react-katex'
 import HealthStatus from '../components/about/healthStatus'
 import Table2Col from '../components/about/table'
 import { LocationComponent } from '../components/about/location'
+import Birthday from '../components/about/birthday'
 
 export async function clientLoader(): Promise<{
     todoListData: TodoListDataInterface
@@ -35,11 +36,9 @@ const sectionStyle: React.CSSProperties = {
 }
 
 const ABOUT_ITEMS_CONFIG = [
-    // { key: 'location', name: 'location', question: '你来自哪里?' },
     { key: 'species', name: 'species', icon: 'dna', question: '你是什么物种?' },
     { key: 'race', name: 'race', icon: 'skull', question: '你是什么种族?' },
     { key: 'gender', name: 'gender', question: '你是GG还是MM?' },
-    { key: 'birthday', name: 'birthday', question: '你多少岁了?' },
     { key: 'death', name: 'death', question: '你什么时候死?' },
     {
         key: 'sexualOrientation',
@@ -289,6 +288,16 @@ export default function About({ loaderData }: Route.ComponentProps) {
                                     <p className="before:content-['#Archive']"></p>
                                     <div className="divider my-1"></div>
                                 </div>
+
+                                <DataItem
+                                    name="birthday"
+                                    question="你多少岁了?"
+                                >
+                                    <Birthday
+                                        birthday={profileData.data.birthday}
+                                        className="mt-2"
+                                    />
+                                </DataItem>
 
                                 {ABOUT_ITEMS_CONFIG.map((item) => (
                                     <DataItem

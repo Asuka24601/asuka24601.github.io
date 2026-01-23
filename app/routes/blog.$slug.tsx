@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
 // app/routes/blog.$slug.tsx
 import type { Route } from './+types/blog.$slug'
 import { mdRegistry } from 'virtual:md-registry'
 import { ArticleError } from '../components/aritcleContent'
+import { useEffect } from 'react' // 保留 import 以防其他地方需要，或者也可以移除
 
 // 只在开发时使用
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -26,9 +29,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         }
     }
 
-    const module = await modulePath()
-    const { default: MDXContentComp } = module
-    return { MDXContentComp, slug }
+    const VirtualModule = await modulePath()
+    const { default: MDXContentComp, frontMatter, meta, handle } = VirtualModule
+    return { MDXContentComp, slug, frontMatter, meta, handle }
 }
 
 export default function DevBlogPostPage({ loaderData }: Route.ComponentProps) {
@@ -43,4 +46,12 @@ export default function DevBlogPostPage({ loaderData }: Route.ComponentProps) {
             )}
         </>
     )
+}
+
+export const meta = ({ loaderData }: Route.MetaArgs) => {
+    // 虚拟模块的 meta 通常是一个函数，需要执行它
+    if (loaderData?.meta && typeof loaderData.meta === 'function') {
+        return loaderData.meta()
+    }
+    return loaderData?.meta || []
 }

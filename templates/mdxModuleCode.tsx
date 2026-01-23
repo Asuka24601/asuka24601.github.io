@@ -10,25 +10,7 @@ import metaCode from './metaCode'
 async function mdxCode(mdxCode: string): Promise<string> {
     const mdxStr = (await mdxRenderStr(mdxCode, false)).value as string
 
-    return `${mdxStr.replace(
-        /^export default function MDXContent\(props = {}\) {/gm,
-        `export default function MDXContent(props = {}) {
-    if (useOutletContext()) {
-        const { handleFrontMatterAction,handleMetaAction,handleRenderedAction  } = useOutletContext()
-        useEffect(() => {
-            handleAction();
-        }, []); // 这个effect只会在挂载时运行一次
-
-        function handleAction() {
-            handleFrontMatterAction(frontMatter)
-            handleMetaAction(meta())
-            handleRenderedAction(true)
-        }
-    }
-
-        `
-    )}`
-    // return `${mdxStr}`
+    return mdxStr
 }
 
 /**
@@ -48,6 +30,7 @@ export async function generateMDXModuleCode(
     const sMDXCode = await mdxCode(mdxContent)
     const sFrontMatter =
         'export const frontMatter = ' + JSON.stringify(frontMatter, null, 2)
+    const sHandle = 'export const handle = { frontMatter }'
     const sMeta = metaCode(frontMatter)
 
     return `
@@ -56,14 +39,15 @@ export async function generateMDXModuleCode(
 // 模块: ${slug}
 // 生成时间: ${new Date().toISOString()}
 // =============================================
-import { useOutletContext } from "react-router-dom";
-import {useEffect} from "react"
 
 // MDX组件
 ${sMDXCode}
 
 // Front Matter数据
 ${sFrontMatter}
+
+// React Router Handle
+${sHandle}
 
 // React Router v7 meta函数
 ${sMeta}

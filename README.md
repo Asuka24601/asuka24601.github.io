@@ -3,12 +3,17 @@
 - React
 - React-router
 - Vite
+    - vite-plugin-babel
+    - vite-plugin-svg-icons
 - Babel
 - TypeScript
 - MDX
     - rehype-highlight
+    - rehype-katex
     - remark-gfm
+    - remark-math
 - Gray-matter
+- highlight.js
 - Tailwind CSS
     - Daisyui
 - Glob
@@ -16,3 +21,4 @@
 - Lodash
 - animate.css
 - three.js
+- katex

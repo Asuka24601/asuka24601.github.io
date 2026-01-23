@@ -25,6 +25,8 @@ export interface MdToRoutePluginOptions {
     contentDir: string
     /** 生成组件输出目录 */
     outputDir: string
+    /** 源代码目录 */
+    srcDir?: string
     /** 路由前缀，如 '/blog' */
     routePrefix?: string
     /** 开发时使用虚拟模块（默认：true） */
@@ -41,9 +43,9 @@ export interface MdToRoutePluginOptions {
 // ==================== 工具函数 ====================
 function toPascalCase(str: string): string {
     return str
-        .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())
-        .replace(/^./, (chr) => chr.toUpperCase())
-        .replace(/[^a-zA-Z0-9]/g, '')
+        .replace(/[^\p{L}\p{N}]+(.)/gu, (_, chr) => chr.toUpperCase())
+        .replace(/^./u, (chr) => chr.toUpperCase())
+        .replace(/[^\p{L}\p{N}]/gu, '')
 }
 
 // ==================== 插件主类 ====================
@@ -52,6 +54,7 @@ class MarkdownProcessor {
 
     constructor(options: MdToRoutePluginOptions) {
         this.options = {
+            srcDir: 'app/',
             routePrefix: '',
             devVirtualModule: true,
             pattern: '**/*.md',
@@ -158,8 +161,13 @@ class MarkdownProcessor {
         const routes = files.map((file) => {
             return {
                 slug: file.slug.replace(/[\\]/g, '/'),
-                path: `${this.options.routePrefix}/${file.slug.replace(/[\\]/g, '/')}`,
-                component: `./${this.options.outputDir}/${file.componentFileName}`,
+                path: `${this.options.routePrefix ? this.options.routePrefix + '/' : ''}${file.slug.replace(/[\\]/g, '/')}`,
+                component: `${path
+                    .relative(
+                        this.options.srcDir,
+                        `${this.options.outputDir}/${file.componentFileName}`
+                    )
+                    .replace(/\\/g, '/')}`,
                 frontMatter: file.frontMatter,
             }
         })

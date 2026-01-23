@@ -17,7 +17,6 @@ export default function NavBar({
         { name: 'Home', path: '/' },
         { name: 'Posts', path: '/posts' },
         { name: 'About', path: '/about' },
-        { name: '___temp___', path: '/___temp___' },
         { name: 'Tags', path: '/tags' },
         { name: 'Comments', path: '/comments' },
     ]

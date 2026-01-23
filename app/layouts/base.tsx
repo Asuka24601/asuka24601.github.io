@@ -18,6 +18,7 @@ import SvgIcon from '../components/SvgIcon'
 import Search from '../components/search'
 import toUp from '../assets/toUp.webp'
 import LightBox from '../components/lightBox'
+import { max } from 'lodash-es'
 
 export async function clientLoader(): Promise<{
     profileData: ProfileDataInterface
@@ -128,12 +129,20 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
             const scrollTop = window.scrollY
             const scrollHeight = document.documentElement.scrollHeight // 内容总高度
             const clientHeight = window.innerHeight // 视口高度
+            const totalHeight = scrollHeight - clientHeight
+            const totalPercent =
+                totalHeight > 10 ? scrollTop / (totalHeight - 10) : 0
 
             // 增加 5px 的容错范围
-            if (scrollTop + clientHeight >= scrollHeight - 5) {
+            if (scrollTop >= totalHeight - 10) {
                 return
             }
-            const maxScroll = bannerHeight
+            wrapperRef.current?.style.setProperty(
+                '--total-percent',
+                `${totalPercent}`
+            )
+
+            const maxScroll = max([0, bannerHeight])
 
             // 1. 限制范围在 0-1 之间，防止顶部回弹出现负数，并设置“终点区域”（>1 时恒为 1）
             const percent =
@@ -173,6 +182,7 @@ export default function BaseLayout({ loaderData }: Route.ComponentProps) {
     // 使用 useLayoutEffect 在浏览器绘制前重置状态，防止内容位置跳动
     useLayoutEffect(() => {
         wrapperRef.current?.style.setProperty('--scroll-percent', '0')
+        wrapperRef.current?.style.setProperty('--total-percent', '0')
     }, [])
 
     return (

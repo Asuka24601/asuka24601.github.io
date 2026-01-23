@@ -6,12 +6,14 @@ import {
     route,
 } from '@react-router/dev/routes'
 
+import RouteManifest from './contents/__manifest.json'
+
 const devRoutes = import.meta.env.DEV
     ? [route('/*', 'routes/blog.$slug.tsx')]
     : []
 
 const blogRoutes: ReturnType<typeof route>[] = import.meta.env.PROD
-    ? [route('/*', 'routes/404.tsx')]
+    ? RouteManifest.routes.map((r) => route(r.path, r.component))
     : []
 
 export default [
@@ -20,7 +22,6 @@ export default [
         route('comments', 'routes/comments.tsx'),
         route('tags', 'routes/tags.tsx'),
         route('about', 'routes/about.tsx'),
-        route('___temp___', 'contents/___temp___.tsx'),
         ...prefix('posts', [
             index('routes/postIndex.tsx'),
             layout('layouts/postContent.tsx', [...devRoutes, ...blogRoutes]),

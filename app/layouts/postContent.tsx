@@ -1,25 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { isRouteErrorResponse, Outlet, useLocation } from 'react-router'
+import {
+    isRouteErrorResponse,
+    Outlet,
+    useLocation,
+    useMatches,
+} from 'react-router'
 import type { Route } from './+types/postContent'
 import AriticleContene, {
     AriticleFooter,
     AriticleHeader,
     ArticleError,
 } from '../components/aritcleContent'
-import type {
-    FrontMatter,
-    MetaType,
-    ParentContextType,
-} from '../interfaces/post'
-import { useState, useEffect, useLayoutEffect } from 'react'
+import type { FrontMatter } from '../interfaces/post'
+import { useEffect, useLayoutEffect } from 'react'
 import { useBannerStore } from '../lib/store'
 import { create } from 'zustand'
+import TOC from '../components/post/toc'
 
 interface UseSlug {
     slug: string
     setSlug: (slug: string) => void
     resetSlug: () => void
+}
+
+function hasFrontMatter(obj: unknown): obj is { frontMatter: FrontMatter } {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'frontMatter' in obj &&
+        !!(obj as Record<string, unknown>).frontMatter
+    )
 }
 
 const useSlug = create<UseSlug>()((set) => ({
@@ -29,9 +40,20 @@ const useSlug = create<UseSlug>()((set) => ({
 }))
 
 export default function PostContent() {
-    const [frontMatter, setFrontMatter] = useState<FrontMatter>()
-    const [meta, setMeta] = useState<MetaType>()
-    const [rendered, setRendered] = useState<boolean>(false)
+    const location = useLocation()
+    const matches = useMatches()
+
+    // 获取当前路由链中包含 frontMatter 的 handle
+    const match = matches.find(
+        (m) => hasFrontMatter(m.handle) || hasFrontMatter(m.loaderData)
+    )
+    const frontMatter = match
+        ? hasFrontMatter(match.handle)
+            ? match.handle.frontMatter
+            : hasFrontMatter(match.loaderData)
+              ? match.loaderData.frontMatter
+              : undefined
+        : undefined
 
     const setBlurred = useBannerStore((state) => state.setBlurred)
     const resetBlurred = useBannerStore((state) => state.resetBlurred)
@@ -42,40 +64,21 @@ export default function PostContent() {
     )
     const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
 
-    const handleFrontMatterAction = (data: FrontMatter) => {
-        setFrontMatter(data)
-    }
-
-    const handleMetaAction = (data: MetaType) => {
-        setMeta(data)
-    }
-
-    const handleRenderedAction = (data: boolean) => {
-        setRendered(data)
-    }
-
-    // 构造符合接口的对象
-    const contextValue: ParentContextType = {
-        handleRenderedAction,
-        handleMetaAction,
-        handleFrontMatterAction,
-    }
-
     const handleAction = () => {
         setBannerRelative(true)
         setBlurred(true)
     }
 
     const handleLoaderAction = () => {
-        if (rendered) {
-            setImageUrl(frontMatter?.cover as string)
-            useSlug.setState({ slug: frontMatter?.slug as string })
+        if (frontMatter) {
+            setImageUrl(frontMatter.cover as string)
+            useSlug.setState({ slug: frontMatter.slug as string })
         }
     }
 
     useEffect(() => {
         handleLoaderAction()
-    }, [rendered])
+    }, [frontMatter])
 
     useLayoutEffect(() => {
         handleAction()
@@ -88,6 +91,12 @@ export default function PostContent() {
 
     return (
         <>
+            <div className="fixed top-0 left-0 z-50 h-1 w-full bg-transparent">
+                <div
+                    className="bg-primary h-full transition-all duration-150 ease-out"
+                    style={{ width: `calc(var(--total-percent)*100%)` }}
+                />
+            </div>
             <div className="mx-auto block h-full min-h-[inherit] max-w-full">
                 {import.meta.env.DEV ? (
                     <div className="mx-auto mb-8 max-w-4xl rounded-lg border border-yellow-200 bg-yellow-50 p-4">
@@ -100,8 +109,8 @@ export default function PostContent() {
                     </div>
                 ) : null}
 
-                <article className="bg-base-100-custom mx-auto h-full max-w-5xl rounded-sm p-8 shadow-xl">
-                    {rendered ? (
+                {frontMatter ? (
+                    <>
                         <AriticleHeader
                             title={frontMatter?.title as string}
                             author={frontMatter?.author as string}
@@ -113,16 +122,31 @@ export default function PostContent() {
                                 translate: '-50% -50%',
                             }}
                         />
-                    ) : null}
+                    </>
+                ) : null}
 
-                    <AriticleContene>
-                        <Outlet context={contextValue} />
-                    </AriticleContene>
+                <div className="w-full">
+                    <article className="mx-auto max-w-5xl">
+                        <div className="bg-base-100/80 relative max-w-5xl rounded-sm p-8 shadow-xl">
+                            <AriticleContene id={location.pathname}>
+                                <Outlet />
+                            </AriticleContene>
 
-                    <div className="divider"></div>
+                            <div className="divider"></div>
 
-                    <AriticleFooter tags={frontMatter?.tags as string[]} />
-                </article>
+                            <AriticleFooter
+                                tags={frontMatter?.tags as string[]}
+                            />
+
+                            <div className="absolute top-0 -right-4 h-full translate-x-full">
+                                <TOC
+                                    queryID={location.pathname}
+                                    className="bg-base-100/80 sticky top-32 left-0 z-40 hidden h-fit w-64 rounded-sm p-4 shadow-xl transition-opacity duration-300 xl:block"
+                                />
+                            </div>
+                        </div>
+                    </article>
+                </div>
             </div>
         </>
     )
