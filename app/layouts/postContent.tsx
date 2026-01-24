@@ -65,6 +65,7 @@ export default function PostContent() {
     const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
 
     const handleAction = () => {
+        window.scrollTo(0, 0)
         setBannerRelative(true)
         setBlurred(true)
     }

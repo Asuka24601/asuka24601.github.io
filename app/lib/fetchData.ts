@@ -18,16 +18,16 @@ export default async function fetchData(path: string, type: 'json' | 'text') {
 }
 
 // TODO
-export async function fetchPostTotalNumber() {
+export function fetchPostTotalNumber() {
     return 18
 }
 
 // TODO
-export async function fetchCommentTotalNumber() {
+export function fetchCommentTotalNumber() {
     return 3
 }
 
 // TODO
-export async function fetchTagTotalNumber() {
+export function fetchTagTotalNumber() {
     return 6
 }

@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import AnimatedNumber from './animatedNumber'
+import { useDiogramDataStore } from '../../lib/store'
+import ElectrocarDiogram from '../chart/electrocardiogram'
 
 interface Status {
     name: string
@@ -14,12 +16,15 @@ export default function HealthStatus({
     status: Status[] | undefined
     className?: string
 }) {
+    const setDiogramValue = useDiogramDataStore((state) => state.setValue)
+
     const [values, setValues] = useState<{
-        bp: number | null
+        rate: number | null
         temp: number | null
-        hp: number | null
-        mp: number | null
-    }>({ bp: null, temp: null, hp: null, mp: null })
+    }>({ rate: null, temp: null })
+
+    const [hp, setHp] = useState<number>(0)
+    const [mp, setMp] = useState<number>(0)
 
     const config = useMemo(() => {
         if (!status || status.length !== 7) return null
@@ -41,7 +46,7 @@ export default function HealthStatus({
         }
 
         return {
-            bp: parseRange(status[3].value),
+            rate: parseRange(status[3].value),
             temp: parseRange(status[4].value),
             hp: parseSlash(status[5].value),
             mp: parseSlash(status[6].value),
@@ -54,24 +59,43 @@ export default function HealthStatus({
         let timer: ReturnType<typeof setTimeout>
         let isMounted = true
 
+        const init = () => {
+            if (!isMounted) return
+            const { hp, mp } = config
+            setHp(
+                hp.valid
+                    ? Number(hp.cur)
+                    : Number((Math.random() * 100).toFixed(0))
+            )
+            setMp(
+                mp.valid
+                    ? Number(mp.cur)
+                    : Number((Math.random() * 100).toFixed(0))
+            )
+        }
+
         const update = () => {
             if (!isMounted) return
-            const { bp, temp, hp, mp } = config
+            const { rate, temp } = config
+
+            const spac = rate.max - rate.min
+            const value = (Math.random() * spac + rate.min) % spac
+            setDiogramValue(value)
 
             setValues({
-                bp: bp.valid
-                    ? Math.random() * (bp.max - bp.min) + bp.min
-                    : null,
+                rate: rate.valid ? value : null,
                 temp: temp.valid
                     ? Math.random() * (temp.max - temp.min) + temp.min
                     : null,
-                hp: hp.valid ? Math.random() * hp.max : null,
-                mp: mp.valid ? Math.random() * mp.max : null,
             })
 
-            timer = setTimeout(update, Math.random() * 2000 + 2000)
+            setHp((hp) => (hp === 0 ? 0 : Math.random() < 0.5 ? hp : hp - 1))
+            setMp((mp) => (mp === 0 ? 0 : Math.random() < 0.5 ? mp : mp - 1))
+
+            timer = setTimeout(update, Math.random() * 3000 + 2000)
         }
 
+        init()
         update()
         return () => {
             isMounted = false
@@ -79,7 +103,7 @@ export default function HealthStatus({
         }
     }, [config])
 
-    if (!status || status.length !== 7 || !config) return null
+    if (!status || status.length < 7 || !config) return null
 
     return (
         <>
@@ -110,15 +134,21 @@ export default function HealthStatus({
                 <div className="stats border-base-content/10 rounded-none border border-dashed">
                     <div className="stat place-items-center">
                         <div className="stat-title">{status[3].name}</div>
-                        <div className={`stat-value text-pink-500`}>
-                            {values.bp !== null ? (
-                                <AnimatedNumber value={values.bp} toFixed={2} />
+                        <div className={`stat-value my-4`}>
+                            {values.rate !== null ? (
+                                <ElectrocarDiogram
+                                    amplitude={150}
+                                    maxPoints={60}
+                                    className="rounded-xl bg-[rgb(59,62,87)] py-3"
+                                />
                             ) : (
                                 status[3].value
                             )}
                         </div>
                         <div className="stat-desc">{status[3].discription}</div>
                     </div>
+                </div>
+                <div className="stats border-base-content/10 rounded-none border border-dashed">
                     <div className="stat place-items-center">
                         <div className="stat-title">{status[4].name}</div>
                         <div className={`stat-value text-orange-500`}>
@@ -138,11 +168,19 @@ export default function HealthStatus({
                     <div className="stat place-items-center">
                         <div className="stat-title">{status[5].name}</div>
                         <div className={`stat-value text-red-500`}>
-                            {values.hp !== null ? (
-                                <AnimatedNumber value={values.hp} toFixed={0} />
-                            ) : (
-                                config.hp.cur
-                            )}
+                            <button
+                                onClick={() => {
+                                    setHp((hp) =>
+                                        hp + 10 > 999999999
+                                            ? 999999999
+                                            : hp + 10
+                                    )
+                                }}
+                                className="cursor-pointer"
+                            >
+                                <AnimatedNumber value={hp} toFixed={0} />
+                            </button>
+
                             {config.hp.maxStr ? `/${config.hp.maxStr}` : ''}
                         </div>
                         <div className="stat-desc">{status[5].discription}</div>
@@ -150,11 +188,19 @@ export default function HealthStatus({
                     <div className="stat place-items-center">
                         <div className="stat-title">{status[6].name}</div>
                         <div className={`stat-value text-blue-500`}>
-                            {values.mp !== null ? (
-                                <AnimatedNumber value={values.mp} toFixed={0} />
-                            ) : (
-                                config.mp.cur
-                            )}
+                            <button
+                                onClick={() => {
+                                    setMp((mp) =>
+                                        mp + 10 > 999999999
+                                            ? 999999999
+                                            : mp + 10
+                                    )
+                                }}
+                                className="cursor-pointer"
+                            >
+                                <AnimatedNumber value={mp} toFixed={0} />
+                            </button>
+
                             {config.mp.maxStr ? `/${config.mp.maxStr}` : ''}
                         </div>
                         <div className="stat-desc">{status[6].discription}</div>

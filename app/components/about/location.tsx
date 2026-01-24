@@ -1,5 +1,4 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useState } from 'react'
 import type { LocationInterface } from '../../interfaces/profile'
 import ProgressiveImage from '../progressiveImage'
 
@@ -10,18 +9,12 @@ export function LocationComponent({
     location: LocationInterface | undefined
     className?: string
 }) {
-    const [clicked, setClicked] = useState<boolean>(false)
-
-    const handleClick = () => {
-        setClicked((clicked) => !clicked)
-    }
-
     if (!location) return null
     return (
         <>
             <div className={className ? ` ${className}` : ''}>
                 <div>
-                    <div className="mockup-code text-base-100/50 bg-base-content w-full">
+                    <div className="mockup-code text-base-100/50 w-full bg-[#3b3e57]">
                         <pre data-prefix="$" className="text-warning">
                             <code>echo "{location.physical.name}"</code>
                         </pre>
@@ -50,13 +43,9 @@ export function LocationComponent({
                                     className={'text-success flex'}
                                 >
                                     <button
-                                        className={
-                                            'w-[calc(100%-64px)] ' +
-                                            (clicked && 'hover-3d transform-3d')
-                                        }
+                                        className={'w-[calc(100%-64px)]'}
                                         onClick={(e) => {
                                             e.stopPropagation()
-                                            handleClick()
                                         }}
                                     >
                                         <div
@@ -68,16 +57,9 @@ export function LocationComponent({
                                                 src={location.physical.mapLink}
                                                 className="aspect-4/3"
                                                 alt="map"
+                                                useLightBox={true}
                                             />
                                         </div>
-                                        <div></div>
-                                        <div></div>
-                                        <div></div>
-                                        <div></div>
-                                        <div></div>
-                                        <div></div>
-                                        <div></div>
-                                        <div></div>
                                     </button>
                                 </pre>
                                 <pre

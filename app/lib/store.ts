@@ -42,6 +42,16 @@ export interface LightBoxStore {
     resetIsImageLoading: () => void
 }
 
+interface DiogramDataStore {
+    value: number
+    setValue: (value: number) => void
+}
+
+export const useDiogramDataStore = create<DiogramDataStore>((set) => ({
+    value: 0,
+    setValue: (value) => set({ value }),
+}))
+
 export const useNavStore = create<NavStore>()((set) => ({
     navShow: true,
     setNavShow: (usr: boolean) => set({ navShow: usr }),

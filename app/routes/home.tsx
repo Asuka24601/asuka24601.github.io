@@ -1,14 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
-import type { Route } from './+types/home'
 import type { ProfileStatisticsInterface } from '../interfaces/profile'
-import type { CommentDataInterface } from '../interfaces/comment'
-import type { TodoListDataInterface } from '../interfaces/todo'
-import type { TagDataInterface } from '../interfaces/tags'
-import type { PostListInterface } from '../interfaces/post'
 import ProfileCard from '../components/home/profileCard'
-import type { HomeLoaderDataInterface } from '../interfaces/home'
-import fetchData, {
+import {
     fetchCommentTotalNumber,
     fetchPostTotalNumber,
     fetchTagTotalNumber,
@@ -22,63 +16,30 @@ import { useBannerStore, useProfileDataStore } from '../lib/store'
 import { useLayoutEffect, useRef } from 'react'
 import PrologueComponent from '../components/home/prologue '
 import NoticeModule from '../contents/pages/Notice'
+import commentData from '../assets/data/comments.json'
+import todoListData from '../assets/data/todos.json'
+import tagData from '../assets/data/tags.json'
+import postsData from '../assets/data/post.json'
+import type { PostListInterface } from '../interfaces/post'
 
-export async function clientLoader(): Promise<HomeLoaderDataInterface> {
-    const todosFilePath = '/data/todos.json'
-    const commentsFilePath = '/data/comments.json'
-    const tagsFilePath = '/data/tags.json'
-    const postFilePath = '/data/post.json'
-    const loaderTodoData: TodoListDataInterface = await fetchData(
-        todosFilePath,
-        'json'
-    )
-    const loaderCommentsData: CommentDataInterface = await fetchData(
-        commentsFilePath,
-        'json'
-    )
-    const loaderTagsData: TagDataInterface = await fetchData(
-        tagsFilePath,
-        'json'
-    )
-    const loaderPostsData: PostListInterface = await fetchData(
-        postFilePath,
-        'json'
-    )
-    const loaderProfileStatistics: ProfileStatisticsInterface = [
+export default function Home() {
+    const profileStatistics: ProfileStatisticsInterface = [
         {
             name: '文章',
-            value: await fetchPostTotalNumber(),
+            value: fetchPostTotalNumber(),
             routePath: '/posts',
         },
         {
             name: '标签',
-            value: await fetchTagTotalNumber(),
+            value: fetchTagTotalNumber(),
             routePath: '/tags',
         },
         {
             name: '留言',
-            value: await fetchCommentTotalNumber(),
+            value: fetchCommentTotalNumber(),
             routePath: '/comments',
         },
     ]
-
-    return {
-        commentData: loaderCommentsData,
-        todoListData: loaderTodoData,
-        tagData: loaderTagsData,
-        recentData: loaderPostsData,
-        profileStatistics: loaderProfileStatistics,
-    }
-}
-
-export default function Home({ loaderData }: Route.ComponentProps) {
-    const {
-        commentData,
-        todoListData,
-        tagData,
-        recentData,
-        profileStatistics,
-    } = loaderData
 
     const elementRef = useRef<HTMLDivElement>(null)
 
@@ -159,7 +120,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         </h1>
                         <br />
                         <RecentComponent
-                            recentData={recentData}
+                            recentData={postsData as PostListInterface}
                             count={10}
                             className="px-2"
                         />

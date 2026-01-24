@@ -33,11 +33,6 @@ export interface MdToRoutePluginOptions {
     devVirtualModule?: boolean
     /** 文件匹配模式（默认：'**\/*.md'） */
     pattern?: string
-    /** Markdown 转换选项 */
-    markdownOptions?: {
-        remarkPlugins?: any[]
-        rehypePlugins?: any[]
-    }
 }
 
 // ==================== 工具函数 ====================
@@ -58,7 +53,6 @@ class MarkdownProcessor {
             routePrefix: '',
             devVirtualModule: true,
             pattern: '**/*.md',
-            markdownOptions: {},
             ...options,
         }
     }

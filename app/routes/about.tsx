@@ -8,24 +8,13 @@ import AriticleContene from '../components/aritcleContent'
 import AboutIntroduction from '../contents/pages/About'
 import TimeLine from '../components/about/timeLine'
 import DataItem from '../components/about/dataItem'
-import fetchData from '../lib/fetchData'
-import type { TodoListDataInterface } from '../interfaces/todo'
-import type { Route } from './+types/about'
 import { PieChartSvg } from '../components/chart/pieChart'
-import { BlockMath } from 'react-katex'
 import HealthStatus from '../components/about/healthStatus'
 import Table2Col from '../components/about/table'
 import { LocationComponent } from '../components/about/location'
 import Birthday from '../components/about/birthday'
-
-export async function clientLoader(): Promise<{
-    todoListData: TodoListDataInterface
-}> {
-    const filePath = '/data/todos.json'
-    const todoListData = await fetchData(filePath, 'json')
-
-    return { todoListData }
-}
+import todoListData from '../assets/data/todos.json'
+import Latex from '../components/latex'
 
 const sectionStyle: React.CSSProperties = {
     position: 'absolute',
@@ -90,9 +79,7 @@ const ABOUT_ITEMS_CONFIG = [
     },
 ]
 
-export default function About({ loaderData }: Route.ComponentProps) {
-    const { todoListData } = loaderData
-
+export default function About() {
     const elementRef = useRef<HTMLImageElement>(null)
     const [content, setContent] = useState('archive')
     const articleRef = useRef<HTMLDivElement>(null)
@@ -343,11 +330,12 @@ export default function About({ loaderData }: Route.ComponentProps) {
                                 >
                                     {
                                         <div>
-                                            <BlockMath
-                                                math={
+                                            <Latex
+                                                formula={
                                                     profileData.data.halflife
                                                         ?.formula as string
                                                 }
+                                                displayMode={true}
                                             />
                                             <p className="mx-auto block w-fit text-xs">
                                                 {

@@ -18,10 +18,8 @@ export default defineConfig({
     },
     ssr: {
         // 强制 Vite 处理这些包，将其转换为 ESM 兼容格式
-        noExternal: ['react-katex'],
     },
     optimizeDeps: {
-        include: ['react-katex'],
         exclude: [
             'virtual:md-content/*',
             'virtual:md-registry',
@@ -57,11 +55,6 @@ export default defineConfig({
             routePrefix: '', // 可选：为所有生成路由添加前缀
             // 可选：是否在开发时使用虚拟模块（默认：true）
             devVirtualModule: true,
-            // 可选：自定义 Markdown 转换选项
-            markdownOptions: {
-                remarkPlugins: [],
-                rehypePlugins: [],
-            },
         }),
         reactRouter(),
     ],

@@ -1,4 +1,5 @@
 import { type Config } from '@react-router/dev/config'
+import { env } from 'process'
 // import manifestjson from './app/contents/__manifest.json'
 
 // function getPrerenderPaths() {
@@ -8,6 +9,7 @@ import { type Config } from '@react-router/dev/config'
 
 export default {
     ssr: false,
+    prerender: env.NODE_ENV === 'production' ? true : false,
     // async prerender() {
     //     return getPrerenderPaths()
     // },

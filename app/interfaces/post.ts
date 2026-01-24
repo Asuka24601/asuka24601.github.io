@@ -17,10 +17,7 @@ export type MetaType = [
         name: string
         content: string
     },
-    { property: 'og:title'; content: string },
-    { property: 'og:description'; content: string },
-    { property: 'article:published_time'; content: string },
-    { property: 'article:tag'; content: string },
+    { property: string; content: string },
 ]
 
 export interface FrontMatter {

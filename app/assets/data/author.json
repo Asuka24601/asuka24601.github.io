@@ -51,9 +51,9 @@
                 "discription": "永久性认知失调、慢性梗囤积症"
             },
             {
-                "name": "血压(mmHg)",
-                "value": "0~1200",
-                "discription": "常年处于尸体和海豹之间"
+                "name": "心率(次/分)",
+                "value": "-150~150",
+                "discription": "Doki Doki!"
             },
             {
                 "name": "体温(℃)",
@@ -63,12 +63,12 @@
             {
                 "name": "HP",
                 "value": "???/???",
-                "discription": "???"
+                "discription": "点击为我回血"
             },
             {
                 "name": "MP",
                 "value": "???/???",
-                "discription": "???"
+                "discription": "点击为我补蓝"
             }
         ],
         "physicalForm": "一个像素化的等离子体无定形团块，形态变幻不定，时而像渲染不佳的《老滚5》中的低模NPC",

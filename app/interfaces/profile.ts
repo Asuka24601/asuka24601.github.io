@@ -61,15 +61,7 @@ export interface healthStatus {
     value: string
 }
 
-export type HealthType = [
-    healthStatus,
-    healthStatus,
-    healthStatus,
-    healthStatus,
-    healthStatus,
-    healthStatus,
-    healthStatus,
-]
+export type HealthType = healthStatus[]
 
 export interface LocationInterface {
     physical: {

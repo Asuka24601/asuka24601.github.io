@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function AnimatedNumber({
     value,
@@ -8,11 +8,16 @@ export default function AnimatedNumber({
     toFixed?: number
 }) {
     const [displayValue, setDisplayValue] = useState(value)
+    const previousValue = useRef(value)
+
+    useEffect(() => {
+        previousValue.current = displayValue
+    }, [displayValue])
 
     useEffect(() => {
         let startTimestamp: number | null = null
         const duration = 1000
-        const startValue = displayValue
+        const startValue = previousValue.current
 
         let animationFrameId: number
 

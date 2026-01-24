@@ -4,9 +4,6 @@ import NavBar from '../components/navBar'
 import Footer from '../components/footer'
 import '../styles/baseLayout.css'
 import HeaderBanner from '../components/headBanner'
-import type { ProfileDataInterface } from '../interfaces/profile'
-import fetchData from '../lib/fetchData'
-import type { Route } from './+types/base'
 import { useEffect, useState, useRef, useLayoutEffect } from 'react'
 import {
     useBannerStore,
@@ -19,20 +16,9 @@ import Search from '../components/search'
 import toUp from '../assets/toUp.webp'
 import LightBox from '../components/lightBox'
 import { max } from 'lodash-es'
+import profileData from '../assets/data/author.json'
 
-export async function clientLoader(): Promise<{
-    profileData: ProfileDataInterface
-}> {
-    const profileFilePath = '/data/author.json'
-    const loaderProfileData = await fetchData(profileFilePath, 'json')
-
-    return {
-        profileData: loaderProfileData,
-    }
-}
-
-export default function BaseLayout({ loaderData }: Route.ComponentProps) {
-    const { profileData } = loaderData
+export default function BaseLayout() {
     const siteName = `${profileData.data.name}'Site`
 
     const navShow = useNavStore((state) => state.navShow)
