@@ -4,8 +4,7 @@ export interface TagItemInterface {
 }
 
 export interface TagDataInterface {
-    creationDate: string
-    lastUpdateDate?: string | undefined
-    total: number
+    generatedAt: string
     tags: TagItemInterface[]
+    total: number
 }

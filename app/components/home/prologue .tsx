@@ -118,25 +118,50 @@ export default function PrologueComponent({
     fullText?: string
 }) {
     const [desplayText, setDespalyText] = useState('')
+    const [inView, setInView] = useState(true)
+    const containerRef = useRef<HTMLDivElement>(null)
+    const indexRef = useRef(0)
 
     useEffect(() => {
-        if (!fullText) return
-        let index = 0
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setInView(entry.isIntersecting)
+            },
+            { threshold: 0 }
+        )
+        if (containerRef.current) {
+            observer.observe(containerRef.current)
+        }
+        return () => observer.disconnect()
+    }, [])
+
+    useEffect(() => {
+        if (!fullText || !inView) return
+
+        indexRef.current = 0
+
         const interval = setInterval(() => {
-            setDespalyText(fullText.slice(0, index))
-            index++
-            if (index > fullText.length) {
+            if (indexRef.current <= fullText.length) {
+                setDespalyText(fullText.slice(0, indexRef.current))
+                indexRef.current++
+            } else {
                 clearInterval(interval)
             }
         }, 100)
-        return () => clearInterval(interval)
-    }, [fullText])
+        return () => {
+            clearInterval(interval)
+            setDespalyText('')
+        }
+    }, [fullText, inView])
 
     return (
-        <div className={className} style={style}>
+        <div className={className} style={style} ref={containerRef}>
             {/* 设置一个容器让 Canvas 撑满 */}
             <div className="absolute z-0 h-full w-full">
-                <Canvas camera={{ position: [0, 0, 5] }}>
+                <Canvas
+                    camera={{ position: [0, 0, 5] }}
+                    frameloop={inView ? 'always' : 'never'}
+                >
                     {/* 添加光源，否则 MeshStandardMaterial 看起来是黑色的 */}
                     {/* 环境光：均匀照亮所有物体 */}
                     <ambientLight intensity={1.5} />

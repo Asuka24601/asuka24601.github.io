@@ -1,20 +1,14 @@
-import { NavLink } from 'react-router'
+import { NavLink, useNavigation } from 'react-router'
 import { timeToString } from '../lib/utils'
 import { useBannerStore } from '../lib/store'
-import { useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import ProgressiveImage from '../components/progressiveImage'
 import SvgIcon from '../components/SvgIcon'
 import RouteManifest from '../contents/__manifest.json'
 
-// eslint-disable-next-line react-refresh/only-export-components
-// export async function clientLoader(): Promise<PostListInterface> {
-//     const filePath = '/data/post.json'
-//     const loaderData = await fetchData(filePath, 'json')
-//     return loaderData
-// }
-
 export default function PostIndex() {
     const { generatedAt: lastUpdateDate, routes: posts } = RouteManifest
+    const navigation = useNavigation()
 
     const resetImage = useBannerStore((state) => state.resetImage)
     const resetBannerRelative = useBannerStore(
@@ -26,6 +20,16 @@ export default function PostIndex() {
         setBannerRelative(false)
     }
 
+    // 监听导航状态，在开始加载新内容时（内容变更前）立即滚动到顶部
+    useEffect(() => {
+        if (navigation.state === 'loading') {
+            window.scrollTo({
+                top: 0,
+                behavior: 'auto',
+            })
+        }
+    }, [navigation.state])
+
     useLayoutEffect(() => {
         handleAction()
         return () => {
@@ -35,7 +39,7 @@ export default function PostIndex() {
     }, [])
 
     return (
-        <div className="mx-auto max-w-400 p-5">
+        <div className="mx-auto max-w-300 min-w-250 p-5">
             <div className="bg-base-100/90 rounded-xs p-5 shadow-xl">
                 <ul className="list">
                     {posts.map((item) => (
@@ -50,7 +54,7 @@ export default function PostIndex() {
                                     </div>
                                 </div>
                             ) : null}
-                            <div className="flex flex-col justify-between gap-5 p-3">
+                            <div className="col-span-2 flex flex-col justify-between gap-5 p-3">
                                 <div className="flex flex-col gap-3">
                                     <h1 className="text-2xl">
                                         <strong>

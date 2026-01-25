@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import type { TagItemInterface, TagDataInterface } from '../../interfaces/tags'
 import { generateTagStyleByWeight } from '../../lib/utils'
+import { memo } from 'react'
 
 export function TagItemComponent({
     tag,
@@ -20,7 +21,7 @@ export function TagItemComponent({
     )
 }
 
-export default function TagComponent({
+function TagComponent({
     TagsData,
     className,
 }: {
@@ -28,10 +29,7 @@ export default function TagComponent({
     className?: string | undefined
 }) {
     const tags = TagsData.tags
-    let total = 0
-    tags.forEach((tag) => {
-        total += tag.count
-    })
+    const total = TagsData.total
 
     return (
         <>
@@ -49,3 +47,5 @@ export default function TagComponent({
         </>
     )
 }
+
+export default memo(TagComponent)

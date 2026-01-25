@@ -1,14 +1,13 @@
 export interface TodoListItemInterface {
-    name: string
-    description?: string | undefined
-    addTime: string
-    completionTime?: string | undefined
-    state: boolean | undefined
-    from?: string | undefined
+    task: string
+    description: string | undefined
+    created_at: string
+    completed_at: string | null
+    completed: boolean
 }
 
 export interface TodoListDataInterface {
-    creationDate: string
-    lastUpdateDate?: string | undefined
-    subjects: TodoListItemInterface[]
+    created_at: string
+    updated_at: string | undefined
+    data: TodoListItemInterface[]
 }

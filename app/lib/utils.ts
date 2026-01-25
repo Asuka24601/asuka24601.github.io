@@ -134,3 +134,18 @@ export function generateParagraph(text: string) {
             )
         )
 }
+
+/**
+ *
+ * @param str 字符串
+ * @returns 字符串的MD5
+ */
+export function md5(str: string) {
+    let hash = 0
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i)
+        hash = (hash << 5) - hash + char
+        hash = hash & hash
+    }
+    return hash.toString()
+}

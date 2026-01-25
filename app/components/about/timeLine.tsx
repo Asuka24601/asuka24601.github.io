@@ -16,11 +16,11 @@ function Icon({ state }: { state: boolean }) {
 }
 
 function TimelineItem({
-    state,
-    name,
+    completed,
+    task,
     description,
-    addTime,
-    completionTime,
+    created_at,
+    completed_at,
     index,
 }: { index: number } & TodoListItemInterface) {
     return (
@@ -29,17 +29,17 @@ function TimelineItem({
                 {index !== 0 && <hr />}
 
                 <div className="timeline-middle">
-                    <Icon state={state as boolean} />
+                    <Icon state={completed as boolean} />
                 </div>
                 <div
                     className={`mb-10 ${index % 2 === 0 ? 'timeline-start md:text-end' : 'timeline-end'}`}
                 >
                     <time className="font-mono italic">
-                        {state && completionTime
-                            ? timeToString(completionTime).date
-                            : timeToString(addTime).date}
+                        {completed && completed_at
+                            ? timeToString(completed_at).date
+                            : timeToString(created_at).date}
                     </time>
-                    <div className="text-lg font-black">{name}</div>
+                    <div className="text-lg font-black">{task}</div>
                     {description}
                 </div>
                 <hr />

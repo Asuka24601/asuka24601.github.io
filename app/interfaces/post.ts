@@ -1,16 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface PostInterface {
-    frontMatter: FrontMatter
-    meta: MetaType
-    path: string
-}
-
-export interface PostListInterface {
-    creationDate: string
-    lastUpdateDate?: string
-    posts: PostInterface[]
-}
-
 export type MetaType = [
     { title: string },
     {

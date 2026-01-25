@@ -1,4 +1,5 @@
 import type { TodoListItemInterface } from '../../interfaces/todo'
+import { memo } from 'react'
 
 export function TodoListItemComponent({
     subject,
@@ -20,7 +21,7 @@ export function TodoListItemComponent({
 
                 <div className="flex flex-col justify-center overflow-hidden">
                     <div className="hover:bg-base-100 w-fit overflow-clip rounded-xl px-2 py-1 text-nowrap text-ellipsis transition duration-300 ease-in-out hover:absolute hover:shadow-sm">
-                        {subject.name}
+                        {subject.task}
                     </div>
                 </div>
             </div>
@@ -34,14 +35,14 @@ export function TodoListItemComponent({
     )
 }
 
-export default function TodoListComponent({
+function TodoListComponent({
     todoListItems,
     className,
 }: {
     todoListItems: TodoListItemInterface[]
     className?: string | undefined
 }) {
-    const list = todoListItems.filter((item) => !item.state)
+    const list = todoListItems.filter((item) => !item.completed)
     return (
         <div className={className ? className : ''}>
             <ul className="list p-3">
@@ -60,3 +61,5 @@ export default function TodoListComponent({
         </div>
     )
 }
+
+export default memo(TodoListComponent)

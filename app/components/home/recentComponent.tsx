@@ -1,4 +1,4 @@
-import type { PostListInterface } from '../../interfaces/post'
+import type { RouteManifest } from '../../interfaces/post'
 import { timeToString } from '../../lib/utils'
 import SvgIcon from '../SvgIcon'
 import { Link } from 'react-router'
@@ -9,10 +9,10 @@ export default function RecentComponent({
     count,
 }: {
     className?: string | undefined
-    recentData: PostListInterface
+    recentData: RouteManifest
     count: number
 }) {
-    const recentPosts = recentData.posts
+    const recentPosts = recentData.routes
         .sort((b, a) => {
             const da = new Date(a.frontMatter.date).getTime()
             const db = new Date(b.frontMatter.date).getTime()

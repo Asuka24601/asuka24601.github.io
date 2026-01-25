@@ -1,10 +1,15 @@
-/* eslint-disable react-refresh/only-export-components */
 import { Outlet } from 'react-router'
 import NavBar from '../components/navBar'
 import Footer from '../components/footer'
 import '../styles/baseLayout.css'
-import HeaderBanner from '../components/headBanner'
-import { useEffect, useState, useRef, useLayoutEffect } from 'react'
+import {
+    useEffect,
+    useState,
+    useRef,
+    useLayoutEffect,
+    lazy,
+    Suspense,
+} from 'react'
 import {
     useBannerStore,
     useProfileDataStore,
@@ -17,6 +22,8 @@ import toUp from '../assets/toUp.webp'
 import LightBox from '../components/lightBox'
 import { max } from 'lodash-es'
 import profileData from '../assets/data/author.json'
+
+const HeaderBanner = lazy(() => import('../components/headBanner'))
 
 export default function BaseLayout() {
     const siteName = `${profileData.data.name}'Site`
@@ -31,6 +38,8 @@ export default function BaseLayout() {
     const wrapperRef = useRef<HTMLDivElement>(null)
     const elementRef = useRef<HTMLDivElement>(null)
     const sentinelRef = useRef<HTMLDivElement>(null)
+    const totalHeightRef = useRef(0)
+    const isBannerVisibleRef = useRef(true)
 
     const [bannerHeight, setBannerHeight] = useState(0)
     const [showDown, setShowDown] = useState(bannerRelative)
@@ -53,9 +62,9 @@ export default function BaseLayout() {
 
     useEffect(() => {
         setProfileData(profileData)
-    }, [setProfileData, profileData])
+    }, [setProfileData])
 
-    // 同步 showUp 状态与 isBannerLayout 变化
+    // 同步 showDown 状态与 isBannerLayout 变化
     useEffect(() => {
         setShowDown(bannerRelative)
     }, [bannerRelative])
@@ -103,6 +112,36 @@ export default function BaseLayout() {
         return () => observer.disconnect()
     }, [bannerRelative, bannerShow])
 
+    // 优化：使用 ResizeObserver 监听文档高度变化，避免在 scroll 事件中频繁读取 scrollHeight 导致重排
+    useEffect(() => {
+        const updateHeight = () => {
+            const scrollHeight = document.documentElement.scrollHeight
+            const clientHeight = window.innerHeight
+            totalHeightRef.current = scrollHeight - clientHeight
+        }
+        updateHeight()
+        const observer = new ResizeObserver(updateHeight)
+        observer.observe(document.documentElement)
+        window.addEventListener('resize', updateHeight)
+        return () => {
+            observer.disconnect()
+            window.removeEventListener('resize', updateHeight)
+        }
+    }, [])
+
+    // 优化：使用 IntersectionObserver 监听 Banner 可见性，不可见时停止计算视差效果
+    useEffect(() => {
+        if (!elementRef.current) return
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                isBannerVisibleRef.current = entry.isIntersecting
+            },
+            { threshold: 0 }
+        )
+        observer.observe(elementRef.current)
+        return () => observer.disconnect()
+    }, [])
+
     // 3. 监听滚动 (仅处理视差效果，使用 requestAnimationFrame + 直接 DOM 操作优化性能)
     useEffect(() => {
         if (!bannerShow) return
@@ -113,20 +152,34 @@ export default function BaseLayout() {
         const updatePercent = () => {
             // 在计算时实时获取最新的 scrollY
             const scrollTop = window.scrollY
-            const scrollHeight = document.documentElement.scrollHeight // 内容总高度
-            const clientHeight = window.innerHeight // 视口高度
-            const totalHeight = scrollHeight - clientHeight
+            const totalHeight = totalHeightRef.current
             const totalPercent =
-                totalHeight > 10 ? scrollTop / (totalHeight - 10) : 0
+                totalHeight > 10
+                    ? Math.min(scrollTop / (totalHeight - 10), 1)
+                    : 0
 
-            // 增加 5px 的容错范围
+            // 增加 10px 的容错范围
             if (scrollTop >= totalHeight - 10) {
                 return
             }
+
+            // 同步更新 CSS 变量，供样式计算使用
             wrapperRef.current?.style.setProperty(
                 '--total-percent',
                 `${totalPercent}`
             )
+
+            // 优化：如果 Banner 不可见且已滚动到底部，直接跳过计算
+            if (!isBannerVisibleRef.current && scrollTop > bannerHeight) {
+                if (lastPercent !== 1) {
+                    wrapperRef.current?.style.setProperty(
+                        '--scroll-percent',
+                        '1'
+                    )
+                    lastPercent = 1
+                }
+                return
+            }
 
             const maxScroll = max([0, bannerHeight])
 
@@ -198,7 +251,13 @@ export default function BaseLayout() {
                         />
                         {bannerShow && (
                             <>
-                                <HeaderBanner />
+                                <Suspense
+                                    fallback={
+                                        <div className="h-full w-full animate-pulse bg-black" />
+                                    }
+                                >
+                                    <HeaderBanner />
+                                </Suspense>
                                 <button
                                     onClick={scrollDown}
                                     className={
@@ -217,7 +276,7 @@ export default function BaseLayout() {
                     </div>
 
                     <section
-                        className="relative z-9"
+                        className="relative z-9 mx-auto w-fit"
                         style={{
                             ...(bannerRelative
                                 ? {
@@ -233,9 +292,9 @@ export default function BaseLayout() {
                     </section>
                 </div>
 
-                <div className="sticky bottom-0 left-full z-10 h-48 w-80 bg-transparent drop-shadow-2xl drop-shadow-amber-950">
+                <div className="sticky bottom-0 left-full z-10 h-48 w-fit bg-transparent drop-shadow-2xl drop-shadow-amber-950">
                     <button
-                        className={`${showUp && navShow ? 'cursor-pointer opacity-100' : 'pointer-events-none opacity-0'} absolute right-3 bottom-0 transition-opacity delay-500 duration-500 ease-in-out`}
+                        className={`${showUp && navShow ? 'cursor-pointer opacity-100' : 'pointer-events-none opacity-0'} absolute right-3 bottom-0 w-10 transition-opacity delay-500 duration-500 ease-in-out`}
                         onClick={() => {
                             scrollToTop()
                         }}

@@ -13,16 +13,11 @@ import AriticleContene, {
     ArticleError,
 } from '../components/aritcleContent'
 import type { FrontMatter } from '../interfaces/post'
-import { useEffect, useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { useBannerStore } from '../lib/store'
-import { create } from 'zustand'
 import TOC from '../components/post/toc'
-
-interface UseSlug {
-    slug: string
-    setSlug: (slug: string) => void
-    resetSlug: () => void
-}
+import { md5 } from '../lib/utils'
+import SvgIcon from '../components/SvgIcon'
 
 function hasFrontMatter(obj: unknown): obj is { frontMatter: FrontMatter } {
     return (
@@ -33,15 +28,10 @@ function hasFrontMatter(obj: unknown): obj is { frontMatter: FrontMatter } {
     )
 }
 
-const useSlug = create<UseSlug>()((set) => ({
-    slug: '',
-    setSlug: (slug: string) => set({ slug }),
-    resetSlug: () => set({ slug: '' }),
-}))
-
 export default function PostContent() {
     const location = useLocation()
     const matches = useMatches()
+    const dialogRef = useRef<HTMLDialogElement>(null)
 
     // 获取当前路由链中包含 frontMatter 的 handle
     const match = matches.find(
@@ -65,7 +55,10 @@ export default function PostContent() {
     const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
 
     const handleAction = () => {
-        window.scrollTo(0, 0)
+        window.scrollTo({
+            top: 0,
+            behavior: 'instant',
+        })
         setBannerRelative(true)
         setBlurred(true)
     }
@@ -73,7 +66,6 @@ export default function PostContent() {
     const handleLoaderAction = () => {
         if (frontMatter) {
             setImageUrl(frontMatter.cover as string)
-            useSlug.setState({ slug: frontMatter.slug as string })
         }
     }
 
@@ -88,10 +80,54 @@ export default function PostContent() {
             resetBannerRelative()
             resetBlurred()
         }
-    }, [])
+    }, [location.pathname])
 
     return (
         <>
+            {/* Mobile TOC Drawer Trigger & Content */}
+            <div className="xl:hidden">
+                <button
+                    className="bg-base-100/80 btn btn-circle fixed right-4 bottom-24 z-40 shadow-lg backdrop-blur-sm"
+                    onClick={() => dialogRef.current?.showModal()}
+                    aria-label="Open Table of Contents"
+                >
+                    <SvgIcon name="toc" size={24} />
+                </button>
+
+                <dialog
+                    ref={dialogRef}
+                    className="bg-base-100 fixed top-0 right-0 z-50 m-0 h-full w-3/4 max-w-xs p-0 shadow-2xl backdrop:bg-black/20 backdrop:backdrop-blur-sm"
+                    onClick={(e) => {
+                        if (e.target === dialogRef.current) {
+                            dialogRef.current.close()
+                        }
+                    }}
+                >
+                    <div className="h-full overflow-y-auto p-4">
+                        <div className="mb-4 flex items-center justify-between">
+                            <span className="text-lg font-bold">目录</span>
+                            <form method="dialog">
+                                <button className="btn btn-ghost btn-circle btn-sm">
+                                    ✕
+                                </button>
+                            </form>
+                        </div>
+                        <div
+                            onClick={(e) => {
+                                if ((e.target as HTMLElement).closest('a')) {
+                                    dialogRef.current?.close()
+                                }
+                            }}
+                        >
+                            <TOC
+                                queryID={'path' + md5(location.pathname)}
+                                className="w-full"
+                            />
+                        </div>
+                    </div>
+                </dialog>
+            </div>
+
             <div className="fixed top-0 left-0 z-50 h-1 w-full bg-transparent">
                 <div
                     className="bg-primary h-full transition-all duration-150 ease-out"
@@ -117,7 +153,7 @@ export default function PostContent() {
                             author={frontMatter?.author as string}
                             date={frontMatter?.date as string}
                             description={frontMatter?.description as string}
-                            className="absolute left-1/2"
+                            className="absolute left-1/2 w-full"
                             style={{
                                 top: `calc((var(--banner-height) / 2) * -1px)`,
                                 translate: '-50% -50%',
@@ -127,9 +163,11 @@ export default function PostContent() {
                 ) : null}
 
                 <div className="w-full">
-                    <article className="mx-auto max-w-5xl">
+                    <article className="mx-auto max-w-5xl min-w-200">
                         <div className="bg-base-100/80 relative max-w-5xl rounded-sm p-8 shadow-xl">
-                            <AriticleContene id={location.pathname}>
+                            <AriticleContene
+                                id={'path' + md5(location.pathname)}
+                            >
                                 <Outlet />
                             </AriticleContene>
 
@@ -141,7 +179,7 @@ export default function PostContent() {
 
                             <div className="absolute top-0 -right-4 h-full translate-x-full">
                                 <TOC
-                                    queryID={location.pathname}
+                                    queryID={'path' + md5(location.pathname)}
                                     className="bg-base-100/80 sticky top-32 left-0 z-40 hidden h-fit w-64 rounded-sm p-4 shadow-xl transition-opacity duration-300 xl:block"
                                 />
                             </div>
@@ -156,12 +194,8 @@ export default function PostContent() {
 // error boundary
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     const location = useLocation()
-    const slug = useSlug.getState().slug
-    const setSlug = useSlug.getState().setSlug
+    const slug = location.pathname.slice(7)
 
-    if (slug === '') {
-        setSlug(location.pathname.slice(7))
-    }
     if (isRouteErrorResponse(error)) {
         return (
             <>

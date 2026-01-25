@@ -40,7 +40,7 @@ export default function CommentComponent({
     commentsData: CommentDataInterface
     className?: string | undefined
 }) {
-    const comments = commentsData.comments
+    const comments = commentsData.data
     return (
         <>
             <ul className={className + ' list'}>

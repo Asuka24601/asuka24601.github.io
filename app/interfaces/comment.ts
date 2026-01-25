@@ -7,7 +7,7 @@ export interface CommentItemInterface {
 }
 
 export interface CommentDataInterface {
-    creationDate: string
-    lastUpdateDate?: string | undefined
-    comments: CommentItemInterface[]
+    created_at: string
+    updated_at?: string | undefined
+    data: CommentItemInterface[]
 }

@@ -9,6 +9,10 @@ export default function Comments() {
     const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
 
     const handleAction = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'instant',
+        })
         setBannerRelative(false)
     }
 

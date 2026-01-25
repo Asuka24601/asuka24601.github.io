@@ -260,7 +260,7 @@ export default function About() {
                                 </li>
                             </ul>
                         </aside>
-                        <div className="flex max-w-200 flex-col gap-6">
+                        <div className="flex w-200 flex-col gap-6 *:w-full">
                             <section
                                 id="archive"
                                 className="bg-base-100 flex flex-col items-start justify-start gap-8 rounded-md p-8 shadow-2xl transition-opacity ease-in-out"
@@ -430,9 +430,7 @@ export default function About() {
                                     <p className="before:content-['#TimeLine']"></p>
                                     <div className="divider my-1"></div>
                                 </div>
-                                <TimeLine
-                                    todoListItems={todoListData.subjects}
-                                />
+                                <TimeLine todoListItems={todoListData.data} />
                             </section>
                         </div>
                     </div>

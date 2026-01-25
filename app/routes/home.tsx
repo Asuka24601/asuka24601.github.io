@@ -13,33 +13,40 @@ import TagComponent from '../components/home/tagsComponent'
 import AriticleContene from '../components/aritcleContent'
 import RecentComponent from '../components/home/recentComponent'
 import { useBannerStore, useProfileDataStore } from '../lib/store'
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useMemo } from 'react'
 import PrologueComponent from '../components/home/prologue '
 import NoticeModule from '../contents/pages/Notice'
 import commentData from '../assets/data/comments.json'
 import todoListData from '../assets/data/todos.json'
-import tagData from '../assets/data/tags.json'
-import postsData from '../assets/data/post.json'
-import type { PostListInterface } from '../interfaces/post'
+import tagData from '../contents/tags.json'
+import postsData from '../contents/__manifest.json'
 
 export default function Home() {
-    const profileStatistics: ProfileStatisticsInterface = [
-        {
-            name: '文章',
-            value: fetchPostTotalNumber(),
-            routePath: '/posts',
-        },
-        {
-            name: '标签',
-            value: fetchTagTotalNumber(),
-            routePath: '/tags',
-        },
-        {
-            name: '留言',
-            value: fetchCommentTotalNumber(),
-            routePath: '/comments',
-        },
-    ]
+    const profileStatistics: ProfileStatisticsInterface = useMemo(
+        () => [
+            {
+                name: '文章',
+                value: fetchPostTotalNumber(),
+                routePath: '/posts',
+            },
+            {
+                name: '标签',
+                value: fetchTagTotalNumber(),
+                routePath: '/tags',
+            },
+            {
+                name: '留言',
+                value: fetchCommentTotalNumber(),
+                routePath: '/comments',
+            },
+        ],
+        []
+    )
+
+    const todoListItems = useMemo(
+        () => todoListData.data.filter((item) => !item.completed),
+        []
+    )
 
     const elementRef = useRef<HTMLDivElement>(null)
 
@@ -66,7 +73,7 @@ export default function Home() {
         <>
             <PrologueComponent
                 fullText={profileData.data.discription}
-                className="absolute left-1/2 flex h-dvh w-full flex-row items-center justify-center"
+                className="absolute left-1/2 flex h-dvh w-[calc(100vw-20px)] flex-row items-center justify-center"
                 style={{
                     top: `calc((var(--banner-height) / 2 + 72) * -1px)`,
                     translate: '-50% -50%',
@@ -77,7 +84,7 @@ export default function Home() {
 
             <div
                 ref={elementRef}
-                className="mx-auto grid h-full min-h-full max-w-400 grid-cols-[auto_1fr] gap-5 px-5 *:hover:z-1"
+                className="mx-auto grid h-full min-h-full max-w-300 grid-cols-[auto_1fr] gap-5 px-5 *:hover:z-1"
             >
                 <aside className="flex h-fit w-60 flex-col gap-5">
                     <div className="bg-base-100-custom h-fit rounded-md px-4 py-4 shadow-xl">
@@ -92,11 +99,7 @@ export default function Home() {
                         <h1 className="p-4 pb-2 text-xs tracking-wide opacity-60">
                             TODOs
                         </h1>
-                        <TodoList
-                            todoListItems={todoListData.subjects.filter(
-                                (item) => !item.state
-                            )}
-                        />
+                        <TodoList todoListItems={todoListItems} />
                     </div>
 
                     <div className="bg-base-100-custom h-fit w-full rounded-md p-5 shadow-xl">
@@ -120,8 +123,8 @@ export default function Home() {
                         </h1>
                         <br />
                         <RecentComponent
-                            recentData={postsData as PostListInterface}
-                            count={10}
+                            recentData={postsData}
+                            count={5}
                             className="px-2"
                         />
                     </section>

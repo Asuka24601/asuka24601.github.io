@@ -5,8 +5,9 @@ import type {
     ProfileDataInterface,
     ProfileStatisticsInterface,
 } from '../../interfaces/profile'
+import { memo } from 'react'
 
-export default function ProfileCard({
+function ProfileCard({
     className,
     profileData,
     profileStatistics,
@@ -83,3 +84,5 @@ export default function ProfileCard({
         </div>
     )
 }
+
+export default memo(ProfileCard)
