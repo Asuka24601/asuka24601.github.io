@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/immutability */
 import { useEffect, useRef, useState } from 'react'
+import TextJitter from '../effect/textJitter'
 
 interface material {
     name: string
@@ -280,7 +282,6 @@ export function PieChartSvg({
                         'Z',
                     ].join(' ')
 
-                    // eslint-disable-next-line react-hooks/immutability
                     cumulativeAngle += sliceAngle
 
                     const isHovered = hoveredIndex === index
@@ -338,6 +339,155 @@ export function PieChartSvg({
                     </div>
                 </div>
             )}
+        </div>
+    )
+}
+
+export function PieChartSvgClassic({
+    materials,
+    className,
+}: {
+    materials: material[] | undefined
+    size?: number
+    className?: string
+}) {
+    const [hoveredIndex, setHoveredIndex] = useState<number>(-1)
+    if (!materials) return null
+    // 使用固定坐标系，通过 CSS 缩放适应容器
+    const viewBoxSize = 200
+    const center = viewBoxSize / 2
+    const radius = center * 0.8
+    const total = materials.reduce((sum, item) => sum + item.value, 0)
+
+    const getCoordinates = (angleInDegrees: number) => {
+        const radians = ((angleInDegrees - 90) * Math.PI) / 180.0
+        return {
+            x: center + radius * Math.cos(radians),
+            y: center + radius * Math.sin(radians),
+        }
+    }
+
+    let cumulativeAngle = 0
+
+    return (
+        <div className={`w-full font-mono text-sm ${className || ''}`}>
+            <div className="border-terminal">
+                <TextJitter className="bg-[#627dbd]">
+                    <svg
+                        viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
+                        className="h-full w-full overflow-visible"
+                    >
+                        <defs>
+                            {materials.map((item, i) => (
+                                <pattern
+                                    key={i}
+                                    id={`p-${i}`}
+                                    x="0"
+                                    y="0"
+                                    width={i % 4 === 2 ? 6 : 4}
+                                    height={i % 4 === 2 ? 6 : 4}
+                                    patternUnits="userSpaceOnUse"
+                                >
+                                    {i % 4 === 0 && (
+                                        <circle
+                                            cx="1"
+                                            cy="1"
+                                            r="1"
+                                            fill={item.color}
+                                            className="opacity-50"
+                                        />
+                                    )}
+                                    {i % 4 === 1 && (
+                                        <path
+                                            d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2"
+                                            stroke={item.color}
+                                            strokeWidth="1"
+                                            className="opacity-50"
+                                        />
+                                    )}
+                                    {i % 4 === 2 && (
+                                        <path
+                                            d="M 6 0 L 0 0 0 6"
+                                            fill="none"
+                                            stroke={item.color}
+                                            strokeWidth="1"
+                                            className="opacity-50"
+                                        />
+                                    )}
+                                    {i % 4 === 3 && (
+                                        <path
+                                            d="M 2 0 L 2 4"
+                                            stroke={item.color}
+                                            strokeWidth="1"
+                                            className="opacity-50"
+                                        />
+                                    )}
+                                </pattern>
+                            ))}
+                        </defs>
+                        {materials.map((item, index) => {
+                            const sliceAngle = (item.value / total) * 360
+                            const startAngle = cumulativeAngle
+                            const endAngle = cumulativeAngle + sliceAngle
+                            const start = getCoordinates(startAngle)
+                            const end = getCoordinates(endAngle)
+                            const largeArcFlag = sliceAngle > 180 ? 1 : 0
+                            const pathData = [
+                                `M ${center} ${center}`,
+                                `L ${start.x} ${start.y}`,
+                                `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${end.x} ${end.y}`,
+                                'Z',
+                            ].join(' ')
+                            cumulativeAngle += sliceAngle
+                            const isHovered = hoveredIndex === index
+                            const pattern = `url(#p-${index})`
+
+                            return (
+                                <g
+                                    key={index}
+                                    onMouseEnter={() => setHoveredIndex(index)}
+                                    onMouseLeave={() => setHoveredIndex(-1)}
+                                    style={{
+                                        color: item.color,
+                                        transformOrigin: `${center}px ${center}px`,
+                                        transform: isHovered
+                                            ? 'scale(1.05)'
+                                            : 'scale(1)',
+                                        transition: 'transform 0.3s ease',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    <path
+                                        d={pathData}
+                                        fill={pattern}
+                                        stroke="currentColor"
+                                        strokeWidth="1"
+                                    />
+                                </g>
+                            )
+                        })}
+                    </svg>
+
+                    {/* Tooltip */}
+                    {hoveredIndex !== -1 && (
+                        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                            <div className="bg-base-300/90 border-primary/50 border px-2 py-1 shadow-lg backdrop-blur-sm">
+                                <div className="text-primary text-xs font-bold uppercase">
+                                    {materials[hoveredIndex].name}
+                                </div>
+                                <div className="text-primary/80 font-mono text-[10px]">
+                                    {(
+                                        (materials[hoveredIndex].value /
+                                            total) *
+                                        100
+                                    ).toFixed(1)}
+                                    %
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </TextJitter>
+            </div>
         </div>
     )
 }

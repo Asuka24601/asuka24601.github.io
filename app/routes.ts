@@ -21,7 +21,13 @@ export default [
         index('routes/home.tsx'),
         route('comments', 'routes/comments.tsx'),
         route('tags', 'routes/tags.tsx'),
-        route('about', 'routes/about.tsx'),
+        ...prefix('about', [
+            layout('layouts/about.tsx', [
+                index('routes/archive.tsx'),
+                route('introduction', 'routes/introduction.tsx'),
+                route('timeline', 'routes/timeline.tsx'),
+            ]),
+        ]),
         ...prefix('posts', [
             index('routes/postIndex.tsx'),
             layout('layouts/postContent.tsx', [...devRoutes, ...blogRoutes]),

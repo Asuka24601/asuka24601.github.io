@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import AnimatedNumber from './animatedNumber'
 import { useDiogramDataStore } from '../../lib/store'
 import ElectrocarDiogram from '../chart/electrocardiogram'
+import TextJitter from '../effect/textJitter'
 
 interface Status {
     name: string
@@ -106,107 +107,177 @@ export default function HealthStatus({
     if (!status || status.length < 7 || !config) return null
 
     return (
-        <>
-            <div
-                className={'flex flex-col' + (className ? ` ${className}` : '')}
-            >
-                <div className="stats border-base-content/10 rounded-none border border-dashed">
-                    <div className="stat place-items-center">
-                        <div className="stat-title">{status[0].name}</div>
-                        <div className={`stat-value text-green-500`}>
-                            {status[0].value}
+        <div className={`w-full font-mono text-sm ${className || ''}`}>
+            <div className="border-terminal">
+                <TextJitter className="gap-4 bg-[#232433]">
+                    {' '}
+                    {/* Header: Status */}
+                    <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed pb-2">
+                        <div>
+                            <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM\_STATUS']"></div>
+                            <div className="text-success text-2xl font-black tracking-widest uppercase">
+                                {status[0].value}
+                            </div>
                         </div>
-                        <div className="stat-desc">{status[0].discription}</div>
+                        <div className="text-right">
+                            <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50">
+                                {status[0].name}
+                            </div>
+                            <div className="text-xs text-green-400 opacity-70">
+                                {status[0].discription}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className="stats border-base-content/10 rounded-none border border-dashed">
-                    <div className="stat place-items-center">
-                        <div className="stat-title">{status[1].name}</div>
-                        <div className={`stat-value`}>{status[1].value}</div>
-                        <div className="stat-desc">{status[1].discription}</div>
+                    {/* Body Stats Grid */}
+                    <div className="text-base-100/80 grid grid-cols-2 gap-4">
+                        {/* Height */}
+                        <div className="border-base-content/10 border bg-[#2d416f]/50 p-2">
+                            <div className="mb-1 flex items-center justify-between">
+                                <span className="text-[10px] uppercase opacity-50">
+                                    {status[1].name}
+                                </span>
+                                <span className="text-[10px] uppercase opacity-30 before:content-['M\_01']"></span>
+                            </div>
+                            <div className="text-lg font-bold">
+                                {status[1].value}
+                            </div>
+                            <div className="mt-1 truncate text-[10px] opacity-60">
+                                {status[1].discription}
+                            </div>
+                        </div>
+                        {/* Weight */}
+                        <div className="border-base-content/10 border bg-[#2d416f]/50 p-2">
+                            <div className="mb-1 flex items-center justify-between">
+                                <span className="text-[10px] uppercase opacity-50">
+                                    {status[2].name}
+                                </span>
+                                <span className="text-[10px] uppercase opacity-30 before:content-['M\_02']"></span>
+                            </div>
+                            <div className="text-lg font-bold">
+                                {status[2].value}
+                            </div>
+                            <div className="mt-1 truncate text-[10px] opacity-60">
+                                {status[2].discription}
+                            </div>
+                        </div>
                     </div>
-                    <div className="stat place-items-center">
-                        <div className="stat-title">{status[2].name}</div>
-                        <div className={`stat-value`}>{status[2].value}</div>
-                        <div className="stat-desc">{status[2].discription}</div>
-                    </div>
-                </div>
-                <div className="stats border-base-content/10 rounded-none border border-dashed">
-                    <div className="stat place-items-center">
-                        <div className="stat-title">{status[3].name}</div>
-                        <div className={`stat-value my-4`}>
+                    {/* ECG Monitor */}
+                    <div className="border-base-content/20 relative border-2 bg-black/40 p-1">
+                        <div className="absolute top-2 left-2 z-10 flex items-center gap-2">
+                            <span className="h-2 w-2 animate-pulse rounded-full bg-red-500"></span>
+                            <span className="text-[10px] font-bold tracking-widest text-red-500 uppercase">
+                                {status[3].name}
+                            </span>
+                        </div>
+                        <div className="h-32 w-full">
                             {values.rate !== null ? (
                                 <ElectrocarDiogram
                                     amplitude={150}
                                     maxPoints={60}
-                                    className="rounded-xl bg-[rgb(59,62,87)] py-3"
+                                    className="h-full w-full opacity-80"
                                 />
                             ) : (
-                                status[3].value
+                                <div className="flex h-full items-center justify-center text-xs text-white opacity-50">
+                                    NO SIGNAL
+                                </div>
                             )}
                         </div>
-                        <div className="stat-desc">{status[3].discription}</div>
-                    </div>
-                </div>
-                <div className="stats border-base-content/10 rounded-none border border-dashed">
-                    <div className="stat place-items-center">
-                        <div className="stat-title">{status[4].name}</div>
-                        <div className={`stat-value text-orange-500`}>
-                            {values.temp !== null ? (
-                                <AnimatedNumber
-                                    value={values.temp}
-                                    toFixed={2}
-                                />
-                            ) : (
-                                status[4].value
-                            )}
+                        {/* Overlay Grid Lines */}
+                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(0,255,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,0,0.05)_1px,transparent_1px)] bg-size-[20px_20px]"></div>
+
+                        <div className="absolute right-2 bottom-2 text-right">
+                            <div className="text-3xl leading-none font-black text-red-500">
+                                {values.rate !== null
+                                    ? Math.round(values.rate)
+                                    : '--'}
+                            </div>
+                            <div className="text-[10px] opacity-50">BPM</div>
                         </div>
-                        <div className="stat-desc">{status[4].discription}</div>
                     </div>
-                </div>
-                <div className="stats border-base-content/10 rounded-none border border-dashed">
-                    <div className="stat place-items-center">
-                        <div className="stat-title">{status[5].name}</div>
-                        <div className={`stat-value text-red-500`}>
-                            <button
-                                onClick={() => {
-                                    setHp((hp) =>
-                                        hp + 10 > 999999999
-                                            ? 999999999
-                                            : hp + 10
-                                    )
-                                }}
-                                className="cursor-pointer"
-                            >
+                    {/* Bottom Stats: Temp, HP, MP */}
+                    <div className="text-base-100/80 grid grid-cols-1 gap-4 md:grid-cols-3">
+                        {/* Temp */}
+                        <div className="border-base-content/10 flex flex-col justify-between border bg-[#2d416f]/50 p-2">
+                            <div className="text-[10px] uppercase opacity-50">
+                                {status[4].name}
+                            </div>
+                            <div className="text-xl font-bold text-orange-500">
+                                {values.temp !== null ? (
+                                    <AnimatedNumber
+                                        value={values.temp}
+                                        toFixed={1}
+                                    />
+                                ) : (
+                                    status[4].value
+                                )}
+                                <span className="ml-1 text-sm after:content-['°C']"></span>
+                            </div>
+                        </div>
+
+                        {/* HP */}
+                        <div
+                            className="border-base-content/10 group flex cursor-pointer flex-col justify-between border bg-[#2d416f]/50 p-2 transition-colors hover:bg-red-500/10"
+                            onClick={() =>
+                                setHp((hp) =>
+                                    hp + 10 > 999999999 ? 999999999 : hp + 10
+                                )
+                            }
+                        >
+                            <div className="flex justify-between">
+                                <div className="text-[10px] uppercase opacity-50">
+                                    {status[5].name}
+                                </div>
+                                <div className="text-[10px] font-bold text-red-500 uppercase before:content-['HP']"></div>
+                            </div>
+                            <div className="truncate text-lg font-bold text-red-500">
                                 <AnimatedNumber value={hp} toFixed={0} />
-                            </button>
-
-                            {config.hp.maxStr ? `/${config.hp.maxStr}` : ''}
+                                <span className="text-xs opacity-70">
+                                    /{config.hp.maxStr || '???'}
+                                </span>
+                            </div>
+                            <div className="bg-base-content/10 mt-1 h-1 w-full">
+                                <div
+                                    className="h-full bg-red-500"
+                                    style={{
+                                        width: `${Math.min((hp / (config.hp.max || 100)) * 100, 100)}%`,
+                                    }}
+                                ></div>
+                            </div>
                         </div>
-                        <div className="stat-desc">{status[5].discription}</div>
-                    </div>
-                    <div className="stat place-items-center">
-                        <div className="stat-title">{status[6].name}</div>
-                        <div className={`stat-value text-blue-500`}>
-                            <button
-                                onClick={() => {
-                                    setMp((mp) =>
-                                        mp + 10 > 999999999
-                                            ? 999999999
-                                            : mp + 10
-                                    )
-                                }}
-                                className="cursor-pointer"
-                            >
+
+                        {/* MP */}
+                        <div
+                            className="border-base-content/10 group flex cursor-pointer flex-col justify-between border bg-[#2d416f]/50 p-2 transition-colors hover:bg-blue-500/10"
+                            onClick={() =>
+                                setMp((mp) =>
+                                    mp + 10 > 999999999 ? 999999999 : mp + 10
+                                )
+                            }
+                        >
+                            <div className="flex justify-between">
+                                <div className="text-[10px] uppercase opacity-50">
+                                    {status[6].name}
+                                </div>
+                                <div className="text-[10px] font-bold text-blue-500 uppercase before:content-['MP']"></div>
+                            </div>
+                            <div className="truncate text-lg font-bold text-blue-500">
                                 <AnimatedNumber value={mp} toFixed={0} />
-                            </button>
-
-                            {config.mp.maxStr ? `/${config.mp.maxStr}` : ''}
+                                <span className="text-xs opacity-70">
+                                    /{config.mp.maxStr || '???'}
+                                </span>
+                            </div>
+                            <div className="bg-base-content/10 mt-1 h-1 w-full">
+                                <div
+                                    className="h-full bg-blue-500"
+                                    style={{
+                                        width: `${Math.min((mp / (config.mp.max || 100)) * 100, 100)}%`,
+                                    }}
+                                ></div>
+                            </div>
                         </div>
-                        <div className="stat-desc">{status[6].discription}</div>
                     </div>
-                </div>
+                </TextJitter>
             </div>
-        </>
+        </div>
     )
 }

@@ -48,7 +48,7 @@ function TimelineItem({
     )
 }
 
-export default function TimeLine({
+export default function TimeLineComponent({
     todoListItems,
 }: {
     todoListItems: TodoListItemInterface[]

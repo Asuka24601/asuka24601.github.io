@@ -14,6 +14,16 @@ export default function ElectrocarDiogram({
 }) {
     const currValue = useDiogramDataStore((state) => state.value)
     const canvasRef = useRef<HTMLCanvasElement>(null)
+    const contentRef = useRef<HTMLDivElement>(null)
+    const elemSize = useRef({ width: 0, height: 0 })
+
+    useEffect(() => {
+        if (!contentRef.current) return
+        const w = contentRef.current.offsetWidth
+        const h = contentRef.current.offsetHeight
+        elemSize.current = { width: w / maxPoints, height: h / (amplitude * 2) }
+    }, [contentRef, maxPoints, amplitude])
+
     // 合并所有动画相关数据到一个 ref，减少内存分配
     const animRef = useRef({
         points: new Float32Array(maxPoints),
@@ -67,7 +77,10 @@ export default function ElectrocarDiogram({
         ref.lastUpdate = Date.now()
 
         // 只设置一次的样式
-        ctx.strokeStyle = '#10b981'
+        const gradient = ctx.createLinearGradient(0, 0, width, 0)
+        gradient.addColorStop(0, 'rgba(16, 185, 129, 0)')
+        gradient.addColorStop(1, '#10b981')
+        ctx.strokeStyle = gradient
         ctx.lineWidth = 2
         ctx.lineJoin = 'round'
         ctx.lineCap = 'round'
@@ -85,6 +98,7 @@ export default function ElectrocarDiogram({
 
         function render() {
             if (!running) return
+            const elemSizeH = elemSize.current.height
             const now = Date.now()
             const elapsed = now - ref.lastUpdate
 
@@ -118,7 +132,7 @@ export default function ElectrocarDiogram({
             if (len > 0) {
                 for (let i = 0; i < len; ++i) {
                     const x = i * ref.step - xOffset
-                    const y = ref.centerY - points[i]
+                    const y = ref.centerY - points[i] * elemSizeH
                     if (i === 0) ctx.moveTo(x, y)
                     else ctx.lineTo(x, y)
                 }
@@ -130,7 +144,7 @@ export default function ElectrocarDiogram({
                 const lastIndex = len - 1
                 const lastVal = points[lastIndex]
                 const x = lastIndex * ref.step - xOffset
-                const y = ref.centerY - lastVal
+                const y = ref.centerY - lastVal * elemSizeH
                 ctx.beginPath()
                 ctx.fillStyle = '#fff'
                 ctx.arc(x, y, 3, 0, Math.PI * 2)
@@ -155,12 +169,12 @@ export default function ElectrocarDiogram({
                     'linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
                 backgroundSize: '20px 20px',
             }}
+            ref={contentRef}
         >
             <div
+                className="h-full w-full"
                 style={{
                     position: 'relative',
-                    height: `${amplitude * 2}px`,
-                    width: `${maxPoints * 10}px`,
                     overflow: 'hidden',
                 }}
             >

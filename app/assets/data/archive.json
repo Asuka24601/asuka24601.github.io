@@ -1,0 +1,197 @@
+{
+    "created_at": "2025-12-26T19:35:12Z",
+    "updated_at": "2025-12-26T19:56:11Z",
+    "data": {
+        "gender": "武装直升机(阿帕奇AH-64D型号)/微软雅黑字体",
+        "race": "高加索/东亚/外星/赛博混血 (主要看滤镜)",
+        "birthday": "大爆炸发生前的第二个星期三",
+        "death": "通常不是今天，但是需要视天气情况而定",
+        "location": {
+            "physical": {
+                "name": "物理地址",
+                "value": "主宇宙→拉尼亚凯亚超星系团→室女座星系团→本星系群→银河系→猎户臂→古尔德带→本地泡→本星际云→奥尔特云→太阳系第三行星(地球)的『BackRoom』第 114514 层",
+                "mapLink": "https://s2.loli.net/2026/01/20/jxiTUN7KW6g9DS1.webp",
+                "discription": "Wi-Fi信号尚可"
+            },
+            "ip": {
+                "name": "IP地址",
+                "value": "127.0.0.1/8",
+                "discription": "为美好的世界献上祝福"
+            },
+            "mac": {
+                "name": "MAC地址",
+                "value": "00-00-00-00-00-00",
+                "discription": "阅读你的症状"
+            }
+        },
+        "religion": "飞天意大利面神教的不可知论分叉",
+        "sexualOrientation": "泛二次元纸片人兼智性恋",
+        "politicalOrientation": "第四面墙无政府主义(但拒绝对税收或任何三维政策发表评论)，并主张将所有五仁月饼放逐至虚空",
+        "bloodType": "Type-Windows & Type-Linux (如果输入法卡顿，身体会暂时贫血)",
+        "pronouns": "他/她/它/祂/🤡/root/su/Administrator/(`ε´ )/某个不愿透露姓名的异常项",
+        "allergen": "傻X、不回信息、以及任何形式的“明天早起”",
+        "health": [
+            {
+                "name": "总体",
+                "value": "Fine",
+                "discription": "极度健康"
+            },
+            {
+                "name": "状态",
+                "value": "#!@&%#^/*()",
+                "discription": "持续存在性危机"
+            },
+            {
+                "name": "病历",
+                "value": "404 Not Found",
+                "discription": "永久性认知失调、慢性梗囤积症"
+            },
+            {
+                "name": "心率(次/分)",
+                "value": "-150~150",
+                "discription": "Doki Doki!"
+            },
+            {
+                "name": "体温(℃)",
+                "value": "-273.15~5500",
+                "discription": "在绝对零度至白热化之间随机波动"
+            },
+            {
+                "name": "HP",
+                "value": "???/???",
+                "discription": "点击为我回血"
+            },
+            {
+                "name": "MP",
+                "value": "???/???",
+                "discription": "点击为我补蓝"
+            }
+        ],
+        "physicalForm": "一个像素化的等离子体无定形团块，形态变幻不定，时而像渲染不佳的《老滚5》中的低模NPC",
+        "species": "碳基生物(曾用名)/半透明赛博抽象幽灵",
+        "materials": [
+            {
+                "name": "虚无",
+                "value": 35,
+                "color": "#000000"
+            },
+            {
+                "name": "不知道密码的.7z压缩包",
+                "value": 30,
+                "color": "#32CD32"
+            },
+            {
+                "name": "过期冷笑话",
+                "value": 20,
+                "color": "#B0C4DE"
+            },
+            {
+                "name": "高浓度牛奶(血清替代物)",
+                "value": 15,
+                "color": "#F5F5F5"
+            }
+        ],
+        "halflife": {
+            "discription": "约等于《 凉宫春日的忧郁 》永无止境的八月循环次数的累乘乘以普朗克参数的倒数再乘以个人心情的熵增系数",
+            "formula": "T_{\\frac{1}{2}}\\approx\\frac{\\prod_{i=1}^{n}EndlessAugust}{h}\\varPsi_{Me}"
+        },
+        "ancestor": "理论上由'4399小游戏'和'一部被遗忘的电影'共同演化而来",
+        "marriage": "已婚，配偶是我的贫穷，目前感情稳定且难舍难分",
+        "md5": "d41d8cd98f00b204e9800998ecf8427e",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha512": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
+        "languages": [
+            { "name": "English", "value": 3 },
+            { "name": "中文", "value": 4 },
+            { "name": "Français", "value": 1 },
+            { "name": "日本語", "value": 1 },
+            { "name": "한국어", "value": 0 },
+            { "name": "русский", "value": 0 },
+            { "name": "Español", "value": 0 },
+            { "name": "Português", "value": 0 },
+            { "name": "010100101", "value": 0 },
+            { "name": "😓👌", "value": 5 },
+            { "name": "Lorem Ipsum", "value": 5 },
+            { "name": "...", "value": 99 }
+        ],
+        "achievementsUnlocked": [
+            {
+                "name": "我在搜索我自己",
+                "icon": "🎖️",
+                "discription": "在谷歌搜索自己的网名"
+            },
+            {
+                "name": "拖延宗师",
+                "icon": "🏆",
+                "discription": "成功将一件事拖延三个迭代周期以上"
+            },
+            {
+                "name": "时间魔术师",
+                "icon": "📜",
+                "discription": "在最后24小时内完成需要一周的工作"
+            },
+            {
+                "name": "预言之子",
+                "icon": "🔮",
+                "discription": "准确预测'这集我看过'的剧情发展"
+            },
+            {
+                "name": "数据永生",
+                "icon": "💾",
+                "discription": "至少三个平台使用完全相同的头像"
+            }
+        ],
+        "specialAbilities": [
+            {
+                "name": "选择性失明",
+                "level": "MAX",
+                "effect": "能完美忽略所有已读消息和待办事项提醒",
+                "discription": "无冷却，被动常驻"
+            },
+            {
+                "name": "深夜哲学家模式",
+                "level": "Lv.99",
+                "effect": "凌晨3点产生足以改变世界的想法，天亮后无法复现",
+                "discription": "床+黑暗+手机"
+            },
+            {
+                "name": "Wi-Fi信号感知",
+                "level": "Lv.87",
+                "effect": "能凭直觉找到信号最强的角落",
+                "discription": "半径50米"
+            }
+        ],
+        "DND_5e": {
+            "alignment": "混乱中立（但倾向于在是否放逐五仁月饼时变为守序邪恶）",
+            "abilityScores": {
+                "STR": 3,
+                "DEX": 15,
+                "CON": 8,
+                "INT": 10,
+                "WIS": 12,
+                "CHA": 18
+            },
+            "savingThrows": ["INT", "DEX", "WIS"],
+            "skills": [
+                "唬骗（网络对线）",
+                "计算机使用",
+                "手艺（梗生成）",
+                "知识（无用）",
+                "知识（亚文化）",
+                "侦查（找资源）",
+                "生存（熬夜）"
+            ],
+            "classLevels": "10级互联网幽魂 / 5级梗学家 / 3级存在主义哲学家 / 1级业余厨师(仅限泡面)",
+            "hitPoints": "???",
+            "armorClass": 14,
+            "spellcasting": "可施放'修复小划痕'、'召唤外卖'、'隐身（仅对熟人）'等0环戏法。每日1次'大记忆恢复术（想起密码）'"
+        },
+        "legalDisclaimer": [
+            "*本档案内容遵循 WTFPL (Do What The Fuck You Want To Public License) 协议。\n阅读即表示您同意：",
+            "1) 不追究任何逻辑责任；",
+            "2) 可能被传染尴尬幽默感；",
+            "3) 理解‘认真你就输了’是最高指导原则。",
+            "4) 最终解释权归宇宙终极无敌可爱的 Neuro-sama 所有。"
+        ]
+    }
+}
