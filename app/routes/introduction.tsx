@@ -1,16 +1,16 @@
+import PageHead from '../components/about/pageHead'
 import AriticleContene from '../components/aritcleContent'
 import AboutIntroduction from '../contents/pages/About'
 
 export default function Introduction() {
     return (
         <>
-            <div className="text-base-content/50 w-full text-xs">
-                <p className="before:content-['#Introduction']"></p>
-                <div className="divider my-1"></div>
+            <div className="flex min-h-screen min-w-full flex-col gap-4">
+                <PageHead title="Introduction" />
+                <AriticleContene>
+                    <AboutIntroduction />
+                </AriticleContene>
             </div>
-            <AriticleContene>
-                <AboutIntroduction />
-            </AriticleContene>
         </>
     )
 }

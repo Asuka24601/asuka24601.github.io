@@ -13,21 +13,6 @@ export interface SearchStore {
     resetSearchShow: () => void
 }
 
-export interface BannersStore {
-    bannerRelative: boolean
-    bannerShow: boolean
-    imageUrl: string
-    blurred: boolean
-    setBlurred: (usr: boolean) => void
-    resetBlurred: () => void
-    setImageUrl: (usr: string) => void
-    resetImage: () => void
-    setBannerRelative: (usr: boolean) => void
-    resetBannerRelative: () => void
-    setBannerShow: (usr: boolean) => void
-    resetBannerShow: () => void
-}
-
 export interface ProfileStore {
     profileData: ProfileDataInterface
     setProfileData: (usr: ProfileDataInterface) => void
@@ -64,25 +49,9 @@ export const useSearchStore = create<SearchStore>()((set) => ({
     resetSearchShow: () => set({ searchShow: false }),
 }))
 
-export const useBannerStore = create<BannersStore>()((set) => ({
-    bannerRelative: true,
-    imageUrl: '',
-    blurred: false,
-    bannerShow: true,
-
-    setBannerShow: (usr: boolean) => set({ bannerShow: usr }),
-    resetBannerShow: () => set({ bannerShow: true }),
-    setImageUrl: (url: string) => set({ imageUrl: url }),
-    resetImage: () => set({ imageUrl: '' }),
-    setBlurred: (usr: boolean) => set({ blurred: usr }),
-    resetBlurred: () => set({ blurred: false }),
-    setBannerRelative: (usr: boolean) => set({ bannerRelative: usr }),
-    resetBannerRelative: () => set({ bannerRelative: true }),
-}))
-
 export const useProfileDataStore = create<ProfileStore>()((set) => ({
     profileData: {
-        creationDate: new Date().toISOString(),
+        created_at: new Date().toISOString(),
         data: {
             name: '',
             discription: '',

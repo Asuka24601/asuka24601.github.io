@@ -1,13 +1,11 @@
 import TimeLineComponent from '../components/about/timeLineComponent'
 import todoListData from '../assets/data/todos.json'
+import PageHead from '../components/about/pageHead'
 
 export default function TimeLine() {
     return (
         <>
-            <div className="text-base-content/50 w-full text-xs">
-                <p className="before:content-['#TimeLine']"></p>
-                <div className="divider my-1"></div>
-            </div>
+            <PageHead title="TimeLine" />
             <TimeLineComponent todoListItems={todoListData.data} />
         </>
     )

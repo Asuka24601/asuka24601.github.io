@@ -145,12 +145,12 @@ const mdxComponents = {
     }: React.HTMLAttributes<HTMLParagraphElement> & {
         children?: React.ReactNode
     }) => (
-        <div
+        <section
             className="my-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300"
             {...props}
         >
             {children}
-        </div>
+        </section>
     ),
 
     // 链接
@@ -266,18 +266,19 @@ const mdxComponents = {
     // 图片
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
         <>
-            <div className="mx-auto my-3 aspect-auto h-auto min-h-24 max-w-4xl min-w-24 rounded">
+            <figure className="mx-auto my-3 aspect-auto h-auto min-h-24 max-w-4xl min-w-24">
                 <ProgressiveImage
                     src={props.src}
                     {...props}
                     useLightBox={true}
+                    className="rounded"
                 />
-            </div>
-            {props.alt && (
-                <span className="block text-center text-xs font-light text-gray-500 opacity-70 select-none dark:text-gray-400">
-                    {removeExtension(props.alt)}
-                </span>
-            )}
+                {props.alt && (
+                    <figcaption className="mt-1 text-center text-xs font-light text-gray-500 opacity-70 select-none dark:text-gray-400">
+                        {removeExtension(props.alt)}
+                    </figcaption>
+                )}
+            </figure>
         </>
     ),
 }

@@ -10,13 +10,13 @@ export default function AriticleContene({
     id,
 }: {
     children: ReactNode
-    className?: string | ''
+    className?: string | undefined
     id?: string
 }) {
     return (
         <main
             id={id}
-            className={`prose dark:prose-invert max-w-none font-serif ${className}`}
+            className={`prose dark:prose-invert max-w-none font-serif ${className || ''}`}
         >
             <MDXProvider components={mdxComponents}>{children}</MDXProvider>
         </main>
@@ -35,12 +35,12 @@ export function AriticleHeader({
     author: string
     date: string
     description?: string
-    className?: string | ''
+    className?: string | undefined
     style?: React.CSSProperties | undefined
 }) {
     return (
         <header
-            className={` ${className} flex flex-col justify-center gap-5 text-center`}
+            className={`${className || ''} flex flex-col justify-center gap-5 text-center`}
             style={style}
         >
             <h1 className="after:animate-blink text-base-100 after:bg-base-100 relative text-7xl text-shadow-2xs after:ml-2.5 after:inline-block after:h-1 after:w-5">

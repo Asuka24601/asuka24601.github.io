@@ -1,7 +1,6 @@
 import { NavLink, useNavigation } from 'react-router'
 import { timeToString } from '../lib/utils'
-import { useBannerStore } from '../lib/store'
-import { useEffect, useLayoutEffect } from 'react'
+import { useEffect } from 'react'
 import ProgressiveImage from '../components/progressiveImage'
 import SvgIcon from '../components/SvgIcon'
 import RouteManifest from '../contents/__manifest.json'
@@ -9,16 +8,6 @@ import RouteManifest from '../contents/__manifest.json'
 export default function PostIndex() {
     const { generatedAt: lastUpdateDate, routes: posts } = RouteManifest
     const navigation = useNavigation()
-
-    const resetImage = useBannerStore((state) => state.resetImage)
-    const resetBannerRelative = useBannerStore(
-        (state) => state.resetBannerRelative
-    )
-    const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
-
-    const handleAction = () => {
-        setBannerRelative(false)
-    }
 
     // 监听导航状态，在开始加载新内容时（内容变更前）立即滚动到顶部
     useEffect(() => {
@@ -30,16 +19,8 @@ export default function PostIndex() {
         }
     }, [navigation.state])
 
-    useLayoutEffect(() => {
-        handleAction()
-        return () => {
-            resetImage()
-            resetBannerRelative()
-        }
-    }, [])
-
     return (
-        <div className="mx-auto max-w-300 min-w-250 p-5">
+        <div className="mx-auto mt-25 max-w-300 min-w-200 p-5">
             <div className="bg-base-100/90 rounded-xs p-5 shadow-xl">
                 <ul className="list">
                     {posts.map((item) => (

@@ -1,14 +1,15 @@
 import { useEffect, useRef } from 'react'
 import wallpaper from '../assets/wallpaper.webp'
-import { useBannerStore } from '../lib/store'
 
 export default function HeaderBanner({
     className,
+    ImgUrl,
+    blurred,
 }: {
     className?: string | undefined
+    ImgUrl?: string
+    blurred?: boolean
 }) {
-    const ImgUrl = useBannerStore((state) => state.imageUrl)
-    const blurred = useBannerStore((state) => state.blurred)
     const imgRef = useRef<HTMLImageElement>(null)
 
     useEffect(() => {
@@ -43,7 +44,7 @@ export default function HeaderBanner({
     useEffect(() => {
         if (!imgRef.current) return
         const img = new Image()
-        img.src = ImgUrl ? ImgUrl : wallpaper
+        img.src = ImgUrl || wallpaper
         img.onload = () => {
             imgRef.current?.setAttribute('src', img.src)
         }
@@ -59,23 +60,14 @@ export default function HeaderBanner({
     return (
         <div
             className={
-                className +
-                ' headBannerImg relative h-full w-full overflow-hidden'
+                (className || '') +
+                ' hover:animate-shine black-mask relative aspect-auto h-[min(100%,100dvh)] w-full overflow-hidden'
             }
         >
-            <style>{`
-                @keyframes shine {
-                    0% { transform: skewX(-25deg) translate3d(-200%, 0, 0); }
-                    100% { transform: skewX(-25deg) translate3d(400%, 0, 0); }
-                }
-                .headBannerImg:hover .shine-layer {
-                    animation: shine 1.5s ease-out;
-                }
-            `}</style>
             <img
                 ref={imgRef}
                 src={ImgUrl ? ImgUrl : wallpaper}
-                className="absolute top-0 left-0 h-full w-full object-cover object-top transition-transform duration-100 ease-out select-none"
+                className="h-full w-full object-cover object-top transition-transform duration-100 ease-out select-none"
                 alt="banner"
                 draggable="false"
                 style={{

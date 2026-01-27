@@ -10,6 +10,7 @@ const ProgressiveImage = ({
     alt,
     lazy = true,
     useLightBox = false,
+    draggable = true,
 }: {
     placeholderSrc?: string
     src: string | undefined
@@ -17,6 +18,7 @@ const ProgressiveImage = ({
     alt?: string
     lazy?: boolean
     useLightBox?: boolean
+    draggable?: boolean | 'true' | 'false'
 }) => {
     const [imgSrc, setImgSrc] = useState(placeholderSrc || src || errorImg)
     const [isBlur, setIsBlur] = useState(true)
@@ -54,7 +56,7 @@ const ProgressiveImage = ({
             }
             img.onerror = () => {
                 if (mounted) {
-                    setImgSrc(errorImg) // 替换为占位图
+                    setImgSrc(placeholderSrc || errorImg) // 替换为占位图
                     setIsBlur(false) // 取消模糊
                 }
             }
@@ -112,6 +114,7 @@ const ProgressiveImage = ({
                 filter: isBlur ? 'blur(10px)' : 'none',
                 transition: 'filter 0.5s linear',
             }}
+            draggable={draggable}
         />
     )
 }

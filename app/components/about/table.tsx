@@ -1,5 +1,3 @@
-import TextJitter from '../effect/textJitter'
-
 interface Item {
     name: string
     value: number
@@ -33,68 +31,62 @@ export default function Table2Col({
 
     return (
         <div
-            className={`w-full font-mono text-sm ${className || ''}`}
+            className={`flex w-full flex-col ${className || ''}`}
             style={style}
         >
-            <div className="border-terminal">
-                <TextJitter className="bg-base-300 text-base-content/80 flex flex-col">
-                    <div className="grid grid-cols-[auto_1fr_auto_auto_auto]">
-                        <Separator />
+            <div className="grid grid-cols-[auto_1fr_auto_auto_auto]">
+                <Separator />
 
-                        {/* Header */}
-                        <div className="text-primary/50 select-none">|</div>
-                        <div className="text-primary px-2 font-bold uppercase">
-                            {t1}
+                {/* Header */}
+                <div className="text-primary/50 select-none">|</div>
+                <div className="text-success px-2 font-bold uppercase">
+                    {t1}
+                </div>
+                <div className="text-primary/50 select-none">|</div>
+                <div className="text-success px-2 text-right font-bold uppercase">
+                    {t2}
+                </div>
+                <div className="text-primary/50 select-none">|</div>
+
+                <Separator />
+
+                {/* Body */}
+                {items?.map((item, index) => (
+                    <div key={index} className="group contents">
+                        <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
+                            |
                         </div>
-                        <div className="text-primary/50 select-none">|</div>
-                        <div className="text-primary px-2 text-right font-bold uppercase">
-                            {t2}
+                        <div className="group-hover:bg-primary/20 flex items-center gap-2 overflow-hidden px-2 transition-colors">
+                            {item.color && (
+                                <span
+                                    style={{ color: item.color }}
+                                    className="text-xs"
+                                >
+                                    ■
+                                </span>
+                            )}
+                            <span className="truncate opacity-80 transition-opacity group-hover:opacity-100">
+                                {item.name}
+                            </span>
                         </div>
-                        <div className="text-primary/50 select-none">|</div>
-
-                        <Separator />
-
-                        {/* Body */}
-                        {items?.map((item, index) => (
-                            <div key={index} className="group contents">
-                                <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
-                                    |
-                                </div>
-                                <div className="group-hover:bg-primary/20 flex items-center gap-2 overflow-hidden px-2 transition-colors">
-                                    {item.color && (
-                                        <span
-                                            style={{ color: item.color }}
-                                            className="text-xs"
-                                        >
-                                            ■
-                                        </span>
-                                    )}
-                                    <span className="truncate opacity-80 transition-opacity group-hover:opacity-100">
-                                        {item.name}
-                                    </span>
-                                </div>
-                                <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
-                                    |
-                                </div>
-                                <div className="group-hover:bg-primary/20 px-2 text-right opacity-80 transition-all group-hover:opacity-100">
-                                    {item.color
-                                        ? item.value.toFixed(1)
-                                        : item.value}
-                                </div>
-                                <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
-                                    |
-                                </div>
-                            </div>
-                        ))}
-
-                        <Separator />
+                        <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
+                            |
+                        </div>
+                        <div className="group-hover:bg-primary/20 px-2 text-right opacity-80 transition-all group-hover:opacity-100">
+                            {item.color ? item.value.toFixed(1) : item.value}
+                        </div>
+                        <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
+                            |
+                        </div>
                     </div>
+                ))}
 
-                    <div className="mt-2 text-xs">
-                        <span className="text-accent/50 uppercase before:content-['>>_END_OF_TABLE']"></span>
-                        <span className="text-accent ml-1 animate-pulse before:content-['\_']"></span>
-                    </div>
-                </TextJitter>
+                <Separator />
+            </div>
+
+            <div className="mt-2 text-xs">
+                <span className="text-accent/50 uppercase before:content-['>>_END_OF_TABLE']"></span>
+                <span className="text-accent ml-1 animate-pulse before:content-['\_']"></span>
             </div>
         </div>
     )

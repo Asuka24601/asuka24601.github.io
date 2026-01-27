@@ -21,10 +21,7 @@ export default function DataItem({
         <div className={`${className} w-full font-mono text-sm`} style={style}>
             <div className="border-terminal">
                 <CRTOverlay />
-                <TextJitter
-                    className="flex flex-col gap-3 bg-[#232433] p-4 text-gray-300"
-                    style={{ animation: 'text-jitter 0.08s linear infinite' }}
-                >
+                <TextJitter>
                     <div className="border-primary/30 flex flex-row flex-nowrap items-center justify-between gap-2 border-b border-dashed pb-2">
                         <div className="text-warning flex items-center gap-2">
                             <span className="opacity-70 select-none">{`>`}</span>

@@ -4,6 +4,7 @@ import type {
 } from '../interfaces/comment'
 
 import { timeToString } from '../lib/utils'
+import Avatar from './avater'
 
 export function CommentItemComponent({
     comment,
@@ -13,9 +14,13 @@ export function CommentItemComponent({
     return (
         <>
             <div className="chat chat-start">
-                <div className="chat-image avatar">
-                    <div className="w-10 rounded-full">
-                        <img alt={comment.name} src={comment.avatar} />
+                <div className="chat-image">
+                    <div className="avatar w-10">
+                        <Avatar
+                            src={comment.avatar}
+                            alt={comment.name}
+                            className="rounded-full"
+                        />
                     </div>
                 </div>
                 <div className="chat-header">

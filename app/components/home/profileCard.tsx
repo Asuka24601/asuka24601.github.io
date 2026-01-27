@@ -1,11 +1,11 @@
 import SvgIcon from '../SvgIcon'
 import { Link } from 'react-router'
-import ProgressiveImage from '../progressiveImage'
 import type {
     ProfileDataInterface,
     ProfileStatisticsInterface,
 } from '../../interfaces/profile'
 import { memo } from 'react'
+import Avatar from '../avater'
 
 function ProfileCard({
     className,
@@ -21,10 +21,11 @@ function ProfileCard({
     return (
         <div className={className}>
             <div className="card h-full items-center justify-between gap-2">
-                <div className="avatar">
-                    <div className="w-24 rounded-full border border-white">
-                        <ProgressiveImage src={author.avatar} />
-                    </div>
+                <div className="avatar h-24 w-24">
+                    <Avatar
+                        src={author.avatar}
+                        className="border-base-100 rounded-full border"
+                    />
                 </div>
                 <h1 className="card-title">{author.name}</h1>
                 <q className="text-center text-xs text-wrap wrap-break-word text-gray-600">

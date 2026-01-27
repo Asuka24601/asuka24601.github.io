@@ -1,6 +1,6 @@
 export interface CommentItemInterface {
     name: string
-    avatar?: string | undefined
+    avatar: string | undefined
     time: string
     message: string
     from?: string | undefined

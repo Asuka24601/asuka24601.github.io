@@ -10,11 +10,12 @@ export default function TextJitter({
     return (
         <div
             className={
-                'border-primary/20 relative flex flex-col border p-4 md:p-6 ' +
+                'border-primary/20 bg-modalBlack flex flex-col gap-3 border p-4 text-gray-300 md:p-6 ' +
                 className
             }
             style={{
                 textShadow: '0 0 2px currentColor',
+                animation: 'text-jitter 0.08s linear infinite',
                 ...style,
             }}
         >

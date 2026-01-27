@@ -1,8 +1,11 @@
-import { useEffect, useLayoutEffect, useRef } from 'react'
-import { useBannerStore, useProfileDataStore } from '../lib/store'
+import { useEffect, useRef } from 'react'
+import { useProfileDataStore } from '../lib/store'
 import { Outlet, NavLink } from 'react-router'
 import cover from '../assets/cover.webp'
 import camera from '../assets/camera.webp'
+import CRTScreen from '../components/effect/CRTScreen'
+import Avatar from '../components/avater'
+import SideNav from '../components/sideNav'
 
 const navItems = [
     { name: 'Archive', path: 'about' },
@@ -12,28 +15,6 @@ const navItems = [
 
 export default function About() {
     const elementRef = useRef<HTMLImageElement>(null)
-
-    const resetImage = useBannerStore((state) => state.resetImage)
-    const resetBannerRelative = useBannerStore(
-        (state) => state.resetBannerRelative
-    )
-    const setBannerShow = useBannerStore((state) => state.setBannerShow)
-    const resetBannerShow = useBannerStore((state) => state.resetBannerShow)
-    const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
-
-    useLayoutEffect(() => {
-        const handleAction = () => {
-            setBannerShow(false)
-            setBannerRelative(false)
-        }
-
-        handleAction()
-        return () => {
-            resetImage()
-            resetBannerRelative()
-            resetBannerShow()
-        }
-    }, [])
 
     useEffect(() => {
         const element = elementRef.current
@@ -97,7 +78,7 @@ export default function About() {
     return (
         <>
             <div>
-                <div className="relative -top-18 h-full w-full overflow-hidden bg-black">
+                <div className="relative h-full w-full overflow-hidden bg-black">
                     <img
                         src={cover}
                         alt="cover"
@@ -115,21 +96,17 @@ export default function About() {
                         }}
                     />
                 </div>
-                <article className="relative -top-43 mx-auto flex max-w-400 flex-col items-center justify-center">
-                    <div className="avatar h-50 w-50">
-                        {profileData.data.avatar && (
-                            <img
-                                onClick={(
-                                    e: React.MouseEvent<HTMLImageElement>
-                                ) => {
-                                    avatarOnClick(e)
-                                }}
-                                src={profileData.data.avatar}
-                                alt="avatar"
-                                draggable="false"
-                                className="outline-base-content/15 animate__animated rounded-full shadow-xs outline-1"
-                            />
-                        )}
+                <article className="relative -top-25 mx-auto flex max-w-400 flex-col items-center justify-center">
+                    <div
+                        className="avatar h-50 w-50"
+                        onClick={(e: React.MouseEvent<HTMLImageElement>) => {
+                            avatarOnClick(e)
+                        }}
+                    >
+                        <Avatar
+                            src={profileData.data.avatar}
+                            className="outline-base-content/15 animate__animated rounded-full shadow-xs outline-1"
+                        />
                     </div>
                     <h1 className="mt-3 text-2xl first-letter:uppercase">
                         <strong>{profileData.data.name}</strong>
@@ -138,9 +115,21 @@ export default function About() {
                         {profileData.data.introduction}
                     </q>
 
-                    <div className="relative -left-24 mt-5 flex scroll-mt-20 flex-row gap-3">
-                        <aside className="sticky top-28 z-1 h-fit w-45">
-                            <ul className="menu bg-base-100 rounded-box sticky top-0 w-full shadow-xl">
+                    <div className="relative mt-5 scroll-mt-20">
+                        <main className="min-w-200">
+                            <section
+                                className="border-terminal flex w-full flex-col items-start justify-start gap-5"
+                                style={{
+                                    padding: 'calc(var(--spacing)*8)',
+                                }}
+                            >
+                                <CRTScreen />
+                                <Outlet />
+                            </section>
+                        </main>
+                        <SideNav navItems={navItems} />
+                        <aside className="absolute top-0 left-0 z-1 hidden h-full w-45 -translate-x-45 pr-3 xl:block">
+                            <menu className="menu bg-base-100 rounded-box sticky top-28 hidden h-fit w-full shadow-xl xl:block">
                                 <li>
                                     <h2 className="menu-title">Contents</h2>
                                     <ul>
@@ -153,13 +142,8 @@ export default function About() {
                                         ))}
                                     </ul>
                                 </li>
-                            </ul>
+                            </menu>
                         </aside>
-                        <div className="flex w-200 flex-col gap-6 *:w-full">
-                            <section className="bg-base-100 flex flex-col items-start justify-start gap-5 rounded-md p-8 shadow-2xl transition-opacity ease-in-out">
-                                <Outlet />
-                            </section>
-                        </div>
                     </div>
                 </article>
             </div>

@@ -12,10 +12,10 @@ export default function LegalDisclaimer({
     const [title, ...clauses] = disclaimer
 
     return (
-        <div className={`w-full font-mono text-sm ${className || ''}`}>
-            <div className="border-terminal">
-                <CRTOverlay />
-                <TextJitter className="bg-[#232433] text-red-400">
+        <div className={`border-terminal ${className || ''}`}>
+            <CRTOverlay />
+            <TextJitter>
+                <div className={`flex flex-col gap-2 text-red-400`}>
                     <div className="flex flex-col gap-2 border-b-2 border-dashed border-red-500/30 pb-4">
                         <div className="flex items-center justify-between">
                             <div className="mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_LEGAL\_PROTOCOL']"></div>
@@ -72,8 +72,8 @@ export default function LegalDisclaimer({
                             _
                         </div>
                     </div>
-                </TextJitter>
-            </div>
+                </div>
+            </TextJitter>
         </div>
     )
 }

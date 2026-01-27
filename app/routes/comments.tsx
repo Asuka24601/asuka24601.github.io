@@ -1,32 +1,21 @@
 import { useLayoutEffect } from 'react'
-import { useBannerStore } from '../lib/store'
 
 export default function Comments() {
-    const resetImage = useBannerStore((state) => state.resetImage)
-    const resetBannerRelative = useBannerStore(
-        (state) => state.resetBannerRelative
-    )
-    const setBannerRelative = useBannerStore((state) => state.setBannerRelative)
-
     const handleAction = () => {
         window.scrollTo({
             top: 0,
             behavior: 'instant',
         })
-        setBannerRelative(false)
     }
 
     useLayoutEffect(() => {
         handleAction()
-        return () => {
-            resetImage()
-            resetBannerRelative()
-        }
+        return () => {}
     }, [])
 
     return (
         <>
-            <div className="mx-auto max-w-400">
+            <div className="mx-auto min-h-screen max-w-400">
                 <p>comments</p>
             </div>
         </>
