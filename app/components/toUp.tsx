@@ -1,5 +1,6 @@
-import toUp from '../assets/toUp.webp'
 import { useNavStore } from '../lib/store'
+import CRTOverlay from './effect/CRTOverlay'
+import TextJitter from './effect/textJitter'
 
 const scrollToTop = () => {
     window.scrollTo({
@@ -12,33 +13,21 @@ export default function ToUp() {
     const navShow = useNavStore((state) => state.navShow)
 
     return (
-        <>
-            <div className="sticky bottom-0 left-full z-10 h-48 w-fit bg-transparent drop-shadow-2xl drop-shadow-amber-950">
-                <button
-                    className={`${navShow ? 'cursor-pointer opacity-100' : 'cursor-none opacity-0'} absolute right-3 bottom-0 w-10 transition-opacity delay-500 duration-500 ease-in-out`}
-                    onClick={() => {
-                        scrollToTop()
-                    }}
-                >
-                    <img
-                        role="button"
-                        tabIndex={0}
-                        src={toUp}
-                        alt="toUp"
-                        className="aspect-auto h-auto w-10"
-                        draggable="false"
-                        onClick={(e) => {
-                            const target = e.target as HTMLImageElement
-                            if (!target.classList.contains('animate-jump')) {
-                                target.classList.add('animate-jump')
-                                setTimeout(() => {
-                                    target.classList.remove('animate-jump')
-                                }, 500)
-                            }
-                        }}
-                    />
-                </button>
-            </div>
-        </>
+        <div className="sticky bottom-8 z-50 mr-8 ml-auto h-fit w-fit">
+            <button
+                className={`${
+                    navShow
+                        ? 'translate-y-0 opacity-100'
+                        : 'pointer-events-none translate-y-10 opacity-0'
+                } border-primary group bg-modalBlack relative flex h-10 w-10 items-center justify-center overflow-hidden border-2 border-double shadow-[2px_2px_0px_0px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]`}
+                onClick={scrollToTop}
+                title="ELEVATOR_UP"
+            >
+                <CRTOverlay />
+                <TextJitter className="flex h-full w-full items-center justify-center">
+                    <div className="border-primary mt-1 h-3 w-3 rotate-45 transform border-t-2 border-l-2 transition-colors group-hover:border-white"></div>
+                </TextJitter>
+            </button>
+        </div>
     )
 }

@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     isRouteErrorResponse,
     Outlet,
@@ -13,11 +11,14 @@ import AriticleContene, {
     ArticleError,
 } from '../components/aritcleContent'
 import type { FrontMatter } from '../interfaces/post'
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import TOC from '../components/post/toc'
 import { md5 } from '../lib/utils'
 import SideNav from '../components/sideNav'
-import BannerContent from '../components/headContent'
+import BannerContent from '../components/bannerContent'
+import TextJitter from '../components/effect/textJitter'
+import CRTOverlay from '../components/effect/CRTOverlay'
+import { PageError } from '../routes/errorPage'
 
 function hasFrontMatter(obj: unknown): obj is { frontMatter: FrontMatter } {
     return (
@@ -32,6 +33,26 @@ export default function PostContent() {
     const location = useLocation()
     const matches = useMatches()
     const wrapperRef = useRef<HTMLDivElement>(null)
+
+    const [navBarHeight, setNavBarHeight] = useState<number>(0)
+
+    useLayoutEffect(() => {
+        const header = document.getElementById('header')
+        const navBar = header?.firstElementChild
+
+        if (!navBar) return
+
+        const observer = new ResizeObserver((entries) => {
+            const entry = entries[0]
+            if (entry) {
+                // 使用 getBoundingClientRect 确保获取包含 padding 和 border 的完整高度
+                setNavBarHeight(entry.target.getBoundingClientRect().height)
+            }
+        })
+
+        observer.observe(navBar)
+        return () => observer.disconnect()
+    }, [])
 
     // 获取当前路由链中包含 frontMatter 的 handle
     const match = matches.find(
@@ -75,17 +96,34 @@ export default function PostContent() {
                 </BannerContent>
 
                 <div
-                    className="relative"
+                    className="fixed left-0 z-50 h-1 w-full bg-transparent"
                     style={{
-                        marginTop: 'calc(var(--scroll-percent) * 25 * -1%)',
+                        top: `${navBarHeight}px`,
                     }}
                 >
-                    <div className="fixed top-0 left-0 z-50 h-1 w-full bg-transparent">
-                        <div
-                            className="bg-primary h-full transition-all duration-150 ease-out"
-                            style={{ width: `calc(var(--total-percent)*100%)` }}
-                        />
-                    </div>
+                    <div
+                        className="bg-success h-full w-full origin-left transition-transform duration-150 ease-out"
+                        style={{
+                            transform: `scaleX(var(--total-percent))`,
+                        }}
+                    />
+                </div>
+
+                {/* Mobile TOC Drawer Trigger & Content */}
+                <SideNav>
+                    <TOC
+                        queryID={'article-' + md5(location.pathname)}
+                        className="w-full"
+                    />
+                </SideNav>
+
+                <div
+                    className="relative will-change-transform"
+                    style={{
+                        transform:
+                            'translateY(calc(var(--scroll-percent) * -25vw))',
+                    }}
+                >
                     <div className="mx-auto block h-full min-h-[inherit] max-w-full">
                         {import.meta.env.DEV ? (
                             <div className="mx-auto mb-8 max-w-4xl rounded-lg border border-yellow-200 bg-yellow-50 p-4">
@@ -99,10 +137,16 @@ export default function PostContent() {
                         ) : null}
 
                         <div className="w-full">
-                            <article className="mx-auto max-w-5xl min-w-200">
-                                <div className="bg-base-100/80 relative max-w-5xl rounded-sm p-8 shadow-xl">
+                            <article
+                                className="border-terminal mx-auto max-w-5xl min-w-200"
+                                style={{
+                                    overflow: 'visible',
+                                }}
+                            >
+                                <CRTOverlay />
+                                <TextJitter>
                                     <AriticleContene
-                                        id={'path' + md5(location.pathname)}
+                                        id={'article-' + md5(location.pathname)}
                                     >
                                         <Outlet />
                                     </AriticleContene>
@@ -112,23 +156,28 @@ export default function PostContent() {
                                     <AriticleFooter
                                         tags={frontMatter?.tags as string[]}
                                     />
+                                </TextJitter>
 
-                                    {/* Mobile TOC Drawer Trigger & Content */}
-                                    <SideNav>
-                                        <TOC
-                                            queryID={
-                                                'path' + md5(location.pathname)
-                                            }
-                                            className="w-full"
-                                        />
-                                    </SideNav>
-                                    <div className="absolute top-0 right-0 h-full translate-x-full pl-3">
-                                        <TOC
-                                            queryID={
-                                                'path' + md5(location.pathname)
-                                            }
-                                            className="bg-base-100/80 sticky top-32 left-0 z-40 hidden h-fit w-64 rounded-sm p-4 shadow-xl transition-opacity duration-300 xl:block"
-                                        />
+                                <div
+                                    className="absolute top-0 right-0 h-full translate-x-full pl-3"
+                                    style={{
+                                        transform:
+                                            'translateY(calc(var(--scroll-percent) * 25vw))',
+                                    }}
+                                >
+                                    <div className="sticky top-32 left-0 z-40 hidden h-fit w-64 xl:block">
+                                        <div className="border-primary/30 bg-modalBlack relative overflow-hidden border-2 border-double shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]">
+                                            <CRTOverlay />
+                                            <TextJitter>
+                                                <TOC
+                                                    queryID={
+                                                        'article-' +
+                                                        md5(location.pathname)
+                                                    }
+                                                    className="p-4"
+                                                />
+                                            </TextJitter>
+                                        </div>
                                     </div>
                                 </div>
                             </article>
@@ -146,25 +195,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     const slug = location.pathname.slice(7)
 
     if (isRouteErrorResponse(error)) {
-        return (
-            <>
-                <h1>
-                    {error.status} {error.statusText}
-                </h1>
-                <ArticleError slug={slug} />
-
-                <p>{error.data}</p>
-            </>
-        )
+        return <ArticleError slug={slug} />
     } else if (error instanceof Error) {
-        return (
-            <div>
-                <h1>Error</h1>
-                <p>{error.message}</p>
-                <p>The stack trace is:</p>
-                <pre>{error.stack}</pre>
-            </div>
-        )
+        return <PageError error={error} />
     } else {
         return <h1>Unknown Error</h1>
     }

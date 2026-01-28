@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
 import mdxComponents from '../components/mdxComponent'
 import { MDXProvider } from '@mdx-js/react'
+import CRTOverlay from './effect/CRTOverlay'
+import TextJitter from './effect/textJitter'
 
 type Tags = string[]
 
@@ -96,22 +98,60 @@ export function AriticleFooter({ tags }: { tags: Tags }) {
 
 export function ArticleError({ slug }: { slug: string }) {
     return (
-        <div className="mx-auto max-w-3xl px-4 py-8">
-            <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-                <h2 className="mb-3 text-2xl font-bold text-red-700">
-                    加载文章失败
-                </h2>
-                <p className="mb-2 text-red-600">
-                    无法加载文章: <strong>{slug}</strong>
-                </p>
-                <div className="mt-4 text-sm text-gray-500">
-                    <p>可能的原因:</p>
-                    <ul className="mt-2 list-disc pl-5">
-                        <li>Markdown文件不存在</li>
-                        <li>文件路径错误</li>
-                        <li>文件权限问题</li>
-                    </ul>
-                </div>
+        <div className="mx-auto max-w-3xl px-4 py-8 font-mono text-sm">
+            <div className="border-terminal relative p-1">
+                <CRTOverlay />
+                <TextJitter>
+                    <div className="border-primary/30 bg-modalBlack flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)]">
+                        {/* Header */}
+                        <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed pb-2">
+                            <div>
+                                <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM_ALERT']"></div>
+                                <div className="text-warning text-xl font-black tracking-widest uppercase">
+                                    END_OF_UNIVERSE
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['ERROR_CODE']"></div>
+                                <div className="text-warning text-xl font-bold">
+                                    404
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="py-2">
+                            <div className="relative mb-6 text-center">
+                                <div className="text-warning text-9xl font-black opacity-10 select-none">
+                                    ∞
+                                </div>
+                                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                                    <div className="bg-modalBlack/80 px-4 text-lg font-bold tracking-widest text-white uppercase backdrop-blur-sm">
+                                        来到了宇宙的尽头
+                                    </div>
+                                    <div className="text-xs text-white/50">
+                                        TARGET_LOST: {slug}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="border-warning/50 border-l-2 bg-white/5 p-4 text-xs text-white/80">
+                                <p className="text-warning mb-2 font-bold uppercase">
+                                    &gt;&gt; DIAGNOSTIC_REPORT:
+                                </p>
+                                <ul className="list-disc space-y-1 pl-5 font-mono">
+                                    <li>Markdown_File_Not_Found</li>
+                                    <li>Path_Coordinates_Invalid</li>
+                                    <li>Permission_Denied</li>
+                                </ul>
+                            </div>
+                        </div>
+                        {/* Footer */}
+                        <div className="border-primary/30 flex items-center justify-between border-t border-dashed pt-4 text-[10px] text-white/40 uppercase">
+                            <span className="animate-pulse">&gt; _</span>
+                        </div>
+                    </div>
+                </TextJitter>
             </div>
         </div>
     )

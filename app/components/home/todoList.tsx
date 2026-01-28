@@ -1,37 +1,48 @@
 import type { TodoListItemInterface } from '../../interfaces/todo'
 import { memo } from 'react'
+import CRTOverlay from '../effect/CRTOverlay'
+import TextJitter from '../effect/textJitter'
 
 export function TodoListItemComponent({
     subject,
     index,
 }: {
     subject: TodoListItemInterface
-    index?: number | undefined
+    index: number
 }) {
+    const isCompleted = subject.completed
+    // Fake PID generation
+    const pid = 1000 + index
+
     return (
-        <>
-            <div className="grid grid-cols-[auto_1fr] gap-1">
-                {index ? (
-                    <div className="text-base-100 text-3xl font-thin tabular-nums opacity-30">
-                        <span className="bg-primary inline-block w-8 p-1">
-                            {index.toString()}
-                        </span>
-                    </div>
-                ) : null}
-
-                <div className="flex flex-col justify-center overflow-hidden">
-                    <div className="hover:bg-base-100 w-fit overflow-clip rounded-xl px-2 py-1 text-nowrap text-ellipsis transition duration-300 ease-in-out hover:absolute hover:shadow-sm">
+        <div
+            className={`group flex flex-col gap-1 border-b border-dashed border-white/10 p-2 transition-colors hover:bg-white/5 ${isCompleted ? 'opacity-50' : ''}`}
+        >
+            <div className="flex items-baseline justify-between gap-2">
+                <div className="flex items-center gap-3 overflow-hidden">
+                    <span className="shrink-0 font-mono text-xs text-white/30 select-none">
+                        {pid}
+                    </span>
+                    <span
+                        className={`shrink-0 text-[10px] font-bold uppercase ${isCompleted ? "text-red-500 before:content-['KILLED']" : "text-success animate-pulse before:content-['RUNNING']"}`}
+                    ></span>
+                    <span
+                        className={`truncate font-mono text-sm font-bold ${isCompleted ? 'text-white/40 line-through' : 'text-secondary'}`}
+                    >
                         {subject.task}
-                    </div>
+                    </span>
                 </div>
+                <div
+                    className={`shrink-0 text-[10px] text-white/30 ${isCompleted ? "before:content-['PRI:_0']" : "before:content-['PRI:_20']"}`}
+                ></div>
             </div>
-
-            <div>
-                <p className="text-xs font-normal text-wrap break-all text-ellipsis opacity-60">
+            {subject.description && (
+                <div className="pl-10 text-[10px] text-white/60">
+                    <span className="text-primary/40 mr-1 before:content-['>>']"></span>
                     {subject.description}
-                </p>
-            </div>
-        </>
+                </div>
+            )}
+        </div>
     )
 }
 
@@ -42,22 +53,42 @@ function TodoListComponent({
     todoListItems: TodoListItemInterface[]
     className?: string | undefined
 }) {
-    const list = todoListItems.filter((item) => !item.completed)
     return (
-        <div className={className ? className : ''}>
-            <ul className="list p-3">
-                {list.map((subject, index) => (
-                    <li
-                        key={index}
-                        className="list-row flex flex-col gap-2 px-0"
-                    >
-                        <TodoListItemComponent
-                            subject={subject}
-                            index={index + 1}
-                        />
-                    </li>
-                ))}
-            </ul>
+        <div className={`w-full font-mono text-sm ${className || ''}`}>
+            <div className="border-terminal">
+                <CRTOverlay />
+                <TextJitter>
+                    {/* Header */}
+                    <div className="border-primary/30 mb-2 flex items-end justify-between border-b-2 border-dashed pb-2">
+                        <div>
+                            <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM\_TASKS']"></div>
+                            <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['PROCESS\_LIST']"></div>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['ACTIVE\_THREADS']"></div>
+                            <div className="text-warning text-xs opacity-70 after:content-['_TOTAL']">
+                                {todoListItems.length}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* List */}
+                    <div className="flex flex-col gap-1 py-2">
+                        {todoListItems.map((subject, index) => (
+                            <TodoListItemComponent
+                                key={index}
+                                subject={subject}
+                                index={index}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="text-base-100 mt-4 text-[10px] opacity-50">
+                        <span className="uppercase before:content-['>>_AWAITING_INSTRUCTION']"></span>
+                        <span className="ml-1 animate-pulse before:content-['\_']"></span>
+                    </div>
+                </TextJitter>
+            </div>
         </div>
     )
 }

@@ -22,7 +22,7 @@ export default function BaseLayout() {
 
     return (
         <>
-            <header className="sticky top-0 z-2 h-0 w-full">
+            <header className="sticky top-0 z-2 h-0 w-full" id="header">
                 <NavBar siteName={siteName} />
             </header>
             <main className="relative z-1">

@@ -9,7 +9,7 @@ import {
 import SvgIcon from './SvgIcon'
 import { max } from 'lodash-es'
 
-const HeaderBanner = lazy(() => import('../components/headBanner'))
+const HeaderBanner = lazy(() => import('./headBanner'))
 
 export default function BannerContent({
     children,
@@ -185,15 +185,15 @@ export default function BannerContent({
 
     return (
         <>
-            <div
-                className="relative flex h-dvh w-full flex-col"
-                style={{
-                    background:
-                        'color-mix(in srgb, white calc(min(var(--scroll-percent),0.125) * 800%), black calc(100% - min(var(--scroll-percent),0.125) * 800%)',
-                }}
-            >
+            <div className="relative flex h-dvh w-full flex-col bg-black">
                 <div
-                    className={`h-full w-full overflow-hidden`}
+                    className="pointer-events-none absolute inset-0 bg-white will-change-[opacity]"
+                    style={{
+                        opacity: 'calc(min(var(--scroll-percent), 0.125) * 8)',
+                    }}
+                />
+                <div
+                    className={`relative h-full w-full overflow-hidden`}
                     ref={elementRef}
                 >
                     <div

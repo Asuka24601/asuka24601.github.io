@@ -23,6 +23,8 @@
 
     --color-darkpink: #3d2c3f;
 
+    --color-azure: oklch(0.8 0.14 201.09);
+
     @keyframes blink {
         0%,
         100% {

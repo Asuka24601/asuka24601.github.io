@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState, useRef } from 'react'
 import { useNavStore, useLightBoxStore } from '../lib/store'
+import CRTOverlay from './effect/CRTOverlay'
+import TextJitter from './effect/textJitter'
+import SvgIcon from './SvgIcon'
 
 export default function LightBox() {
     const [isLightboxVisible, setIsLightboxVisible] = useState(false)
@@ -106,7 +109,7 @@ export default function LightBox() {
 
     return (
         <div
-            className={`fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/80 p-4 backdrop-blur-sm transition-opacity duration-300 ${
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-black/90 font-mono text-sm backdrop-blur-sm transition-opacity duration-300 ${
                 isLightboxVisible ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={closeLightbox}
@@ -114,73 +117,120 @@ export default function LightBox() {
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseUp}
         >
-            <div className="absolute top-4 right-4 z-50 flex gap-2">
-                <button
-                    className="btn btn-ghost btn-circle text-white"
-                    onClick={downloadImage}
-                    title="Download"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="h-6 w-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M12 9.75v8.25m0 0-3-3m3 3 3-3m-3-12.75v8.25"
-                        />
-                    </svg>
-                </button>
-                <button
-                    className="btn btn-ghost btn-circle text-white"
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        closeLightbox()
-                    }}
-                    title="Close"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="h-6 w-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 18 18 6M6 6l12 12"
-                        />
-                    </svg>
-                </button>
-            </div>
-            {isImageLoading && (
-                <span className="loading loading-spinner loading-lg absolute text-white"></span>
-            )}
-            <img
-                src={lightboxSrc}
-                alt="Lightbox Preview"
-                decoding="async"
-                draggable="false"
-                className={`max-h-full max-w-full rounded-md object-contain shadow-2xl transition-opacity duration-300 ${
-                    isImageLoading ? 'opacity-0' : 'opacity-100'
-                }`}
-                onLoad={() => setIsImageLoading(false)}
-                style={{
-                    transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-                    cursor:
-                        scale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'auto',
-                    transition: isDragging ? 'none' : 'transform 0.1s ease-out',
-                }}
-                onWheel={onWheel}
-                onMouseDown={onMouseDown}
+            <CRTOverlay />
+
+            <div
+                className="border-primary bg-modalBlack relative flex h-[90vh] w-[90vw] flex-col overflow-hidden border-4 border-double shadow-[0_0_20px_rgba(0,255,0,0.2)]"
                 onClick={(e) => e.stopPropagation()}
-            />
+            >
+                <TextJitter className="flex h-full w-full flex-col">
+                    {/* Header */}
+                    <div className="border-primary/30 flex shrink-0 items-center justify-between border-b-2 border-dashed bg-black/20 p-2 px-4">
+                        <div className="flex items-center gap-4">
+                            <div className="text-primary font-bold tracking-widest uppercase before:content-['>_']">
+                                IMAGE_ANALYSIS_UNIT
+                            </div>
+                            <div className="hidden text-[10px] text-white/50 md:block">
+                                TARGET: {lightboxSrc.split('/').pop()}
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <button
+                                className="group hover:text-primary flex items-center gap-2 text-white/70 transition-colors"
+                                onClick={downloadImage}
+                                title="DOWNLOAD_DATA"
+                            >
+                                <span className="hidden text-[10px] font-bold uppercase md:block">
+                                    [ SAVE ]
+                                </span>
+                                <SvgIcon name="download" size={20} />
+                            </button>
+                            <button
+                                className="group hover:text-primary flex items-center gap-2 text-white/70 transition-colors"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    closeLightbox()
+                                }}
+                                title="TERMINATE_PROCESS"
+                            >
+                                <span className="hidden text-[10px] font-bold uppercase md:block">
+                                    [ EXIT ]
+                                </span>
+                                <SvgIcon name="close" size={20} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Image Area */}
+                    <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-size-[100%_2px,2px_100%]">
+                        {/* Grid Overlay */}
+                        <div
+                            className="pointer-events-none absolute inset-0 z-0 opacity-20"
+                            style={{
+                                backgroundImage: `linear-gradient(to right, var(--color-primary) 1px, transparent 1px), linear-gradient(to bottom, var(--color-primary) 1px, transparent 1px)`,
+                                backgroundSize: '40px 40px',
+                            }}
+                        ></div>
+
+                        {isImageLoading && (
+                            <div className="text-primary flex flex-col items-center gap-2">
+                                <span className="loading loading-spinner loading-lg"></span>
+                                <span className="animate-pulse text-xs uppercase">
+                                    Acquiring Signal...
+                                </span>
+                            </div>
+                        )}
+
+                        <img
+                            src={lightboxSrc}
+                            alt="Lightbox Preview"
+                            decoding="async"
+                            draggable="false"
+                            className={`relative z-10 max-h-full max-w-full object-contain shadow-2xl transition-opacity duration-300 ${
+                                isImageLoading ? 'opacity-0' : 'opacity-100'
+                            }`}
+                            onLoad={() => setIsImageLoading(false)}
+                            style={{
+                                transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                                cursor:
+                                    scale > 1
+                                        ? isDragging
+                                            ? 'grabbing'
+                                            : 'grab'
+                                        : 'zoom-in',
+                                transition: isDragging
+                                    ? 'none'
+                                    : 'transform 0.1s ease-out',
+                            }}
+                            onWheel={onWheel}
+                            onMouseDown={onMouseDown}
+                            onClick={(e) => e.stopPropagation()}
+                        />
+                    </div>
+
+                    {/* Footer / Status Bar */}
+                    <div className="border-primary/30 flex shrink-0 items-center justify-between border-t border-dashed bg-black/20 p-1 px-4 text-[10px] text-white/60 uppercase">
+                        <div className="flex gap-4">
+                            <span>ZOOM: {(scale * 100).toFixed(0)}%</span>
+                            <span>
+                                POS: X:{position.x.toFixed(0)} Y:
+                                {position.y.toFixed(0)}
+                            </span>
+                        </div>
+                        <div className="flex gap-4">
+                            <span
+                                className={
+                                    isImageLoading
+                                        ? 'text-warning animate-pulse'
+                                        : 'text-success'
+                                }
+                            >
+                                STATUS: {isImageLoading ? 'LOADING' : 'STABLE'}
+                            </span>
+                        </div>
+                    </div>
+                </TextJitter>
+            </div>
         </div>
     )
 }

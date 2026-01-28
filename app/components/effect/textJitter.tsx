@@ -10,8 +10,8 @@ export default function TextJitter({
     return (
         <div
             className={
-                'border-primary/20 bg-modalBlack flex flex-col gap-3 border p-4 text-gray-300 md:p-6 ' +
-                className
+                'border-primary/20 bg-modalBlack flex flex-col gap-3 border p-4 text-gray-300 will-change-transform md:p-6 ' +
+                (className || '')
             }
             style={{
                 textShadow: '0 0 2px currentColor',

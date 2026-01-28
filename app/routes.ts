@@ -33,4 +33,5 @@ export default [
             layout('layouts/postContent.tsx', [...devRoutes, ...blogRoutes]),
         ]),
     ]),
+    route('*', 'routes/errorPage.tsx'),
 ] satisfies RouteConfig

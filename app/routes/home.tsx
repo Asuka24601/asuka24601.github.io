@@ -9,17 +9,16 @@ import {
 import TodoList from '../components/home/todoList'
 import CommentComponent from '../components/commentComponent'
 import TagComponent from '../components/home/tagsComponent'
-import AriticleContene from '../components/aritcleContent'
 import RecentComponent from '../components/home/recentComponent'
 import { useProfileDataStore } from '../lib/store'
 import { useRef, useMemo } from 'react'
 import PrologueComponent from '../components/home/prologue '
-import NoticeModule from '../contents/pages/Notice'
 import commentData from '../assets/data/comments.json'
 import todoListData from '../assets/data/todos.json'
 import tagData from '../contents/tags.json'
 import postsData from '../contents/__manifest.json'
-import BannerContent from '../components/headContent'
+import BannerContent from '../components/bannerContent'
+import Notice from '../components/home/notice'
 
 export default function Home() {
     const profileStatistics: ProfileStatisticsInterface = useMemo(
@@ -64,13 +63,14 @@ export default function Home() {
 
                 <div
                     ref={elementRef}
-                    className="relative mx-auto grid h-full min-h-full max-w-300 grid-cols-[auto_1fr] gap-5 px-5"
+                    className="relative mx-auto grid h-full min-h-full max-w-300 grid-cols-[auto_1fr] gap-5 px-5 will-change-transform"
                     style={{
-                        marginTop: 'calc(var(--scroll-percent) * 25 * -1%)',
+                        transform:
+                            'translateY(calc(var(--scroll-percent) * -25vw))',
                     }}
                 >
-                    <aside className="flex h-fit w-60 flex-col gap-5">
-                        <div className="bg-base-100/85 h-fit rounded-md px-4 py-4 shadow-xl">
+                    <aside className="flex h-fit w-100 flex-col gap-5">
+                        <div className="contents">
                             <ProfileCard
                                 className="h-full"
                                 profileData={profileData}
@@ -78,48 +78,23 @@ export default function Home() {
                             />
                         </div>
 
-                        <div className="bg-base-100/85 z-1 h-fit rounded-md px-2 py-4 shadow-xl">
-                            <h1 className="p-4 pb-2 text-xs tracking-wide opacity-60">
-                                TODOs
-                            </h1>
-                            <TodoList todoListItems={todoListItems} />
-                        </div>
-
-                        <div className="bg-base-100/85 h-fit w-full rounded-md p-5 shadow-xl">
-                            <h1 className="text-xs tracking-wide opacity-60">
-                                Tags
-                            </h1>
-                            <br />
+                        <div className="contents">
                             <TagComponent TagsData={tagData} />
                         </div>
                     </aside>
 
                     <div className="flex flex-col gap-5">
-                        <section className="bg-base-100/85 rounded-md p-5 shadow-xl">
-                            <AriticleContene className="verflow-y-auto">
-                                <NoticeModule />
-                            </AriticleContene>
+                        <section className="contents">
+                            <Notice />
                         </section>
-                        <section className="bg-base-100/85 h-fit rounded-md p-5 shadow-xl">
-                            <h1 className="text-xs tracking-wide opacity-60">
-                                Recent Articles
-                            </h1>
-                            <br />
-                            <RecentComponent
-                                recentData={postsData}
-                                count={5}
-                                className="px-2"
-                            />
+                        <section className="contents">
+                            <RecentComponent recentData={postsData} count={5} />
                         </section>
-                        <section className="bg-base-100/85 w-full rounded-md p-5 shadow-xl">
-                            <h1 className="text-xs tracking-wide opacity-60">
-                                Comments
-                            </h1>
-                            <br />
-                            <CommentComponent
-                                commentsData={commentData}
-                                className="px-2"
-                            />
+                        <section className="contents">
+                            <TodoList todoListItems={todoListItems} />
+                        </section>
+                        <section className="contents">
+                            <CommentComponent commentsData={commentData} />
                         </section>
                     </div>
                 </div>

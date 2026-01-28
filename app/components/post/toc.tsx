@@ -67,32 +67,26 @@ export default function TOC({
     if (headings.length === 0) return null
 
     return (
-        <nav className={`${className ? className : ''}`} style={style}>
-            <div className="mb-3 text-xs font-bold tracking-widest uppercase opacity-40 select-none">
-                Contents
-            </div>
-            <ul className="border-base-content/10 space-y-1 border-l text-sm">
+        <nav
+            className={`font-mono text-xs md:text-sm ${className || ''}`}
+            style={style}
+        >
+            <ul className="ml-2 flex flex-col border-l border-dashed border-white/10 pl-2">
                 {headings.map((heading) => (
                     <li key={heading.id}>
                         <a
                             href={`#${heading.id}`}
-                            className={`-ml-0.5 block truncate border-l-2 py-1 transition-all duration-200 ${
+                            className={`flex items-center truncate py-1 pr-1 transition-colors duration-200 ${
                                 activeId === heading.id
-                                    ? 'border-primary text-primary font-medium'
-                                    : 'text-base-content/60 hover:text-base-content hover:border-base-content/30 border-transparent'
+                                    ? 'bg-primary/10 text-primary'
+                                    : 'hover:text-primary text-white/70 hover:bg-white/5'
                             }`}
-                            style={{
-                                paddingLeft: `${(heading.level - 1) * 0.75 + 0.75}rem`,
-                                fontSize:
-                                    heading.level > 2 ? '0.85em' : '0.9em',
-                            }}
                             onClick={(e) => {
                                 e.preventDefault()
                                 const element = document.getElementById(
                                     heading.id
                                 )
                                 if (element) {
-                                    // 平滑滚动并留出顶部导航栏的空间
                                     const headerOffset = 100
                                     const elementPosition =
                                         element.getBoundingClientRect().top
@@ -109,6 +103,23 @@ export default function TOC({
                                 }
                             }}
                         >
+                            {/* Tree Structure Visualization */}
+                            <span className="shrink-0 font-mono text-white/30 select-none">
+                                {heading.level === 1 ? (
+                                    <span className="text-primary mr-2 font-bold">{`>_`}</span>
+                                ) : (
+                                    <>
+                                        <span
+                                            style={{
+                                                display: 'inline-block',
+                                                width: `${(heading.level - 2) * 1.2}rem`,
+                                            }}
+                                        ></span>
+                                        <span className="mr-2">{`├─`}</span>
+                                    </>
+                                )}
+                            </span>
+
                             {heading.text}
                         </a>
                     </li>

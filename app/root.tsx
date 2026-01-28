@@ -1,11 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import {
-    Outlet,
-    Scripts,
-    ScrollRestoration,
-    isRouteErrorResponse,
-    Links,
-} from 'react-router'
+import { Outlet, Scripts, ScrollRestoration, Links, useNavigate } from 'react-router'
 import type { Route } from './+types/root'
 import { createHeart } from './lib/mouse'
 import { useEffect } from 'react'
@@ -14,6 +8,7 @@ import 'virtual:svg-icons-register'
 import animateStylesHref from 'animate.css/animate.min.css?url'
 import katexStylesHref from 'katex/dist/katex.min.css?url'
 import appStylesHref from './styles/style.css?url'
+import { PageError } from './routes/errorPage'
 
 export const links = () => [
     { rel: 'stylesheet', href: animateStylesHref },
@@ -22,6 +17,15 @@ export const links = () => [
 ]
 
 export default function App() {
+    const navigate = useNavigate()
+    useEffect(() => {
+        const redirect = sessionStorage.getItem('redirect')
+        if (redirect) {
+            sessionStorage.removeItem('redirect')
+            navigate(redirect)
+        }
+    }, [navigate])
+
     useEffect(() => {
         // 注册事件监听器
         const cleanup = createHeart()
@@ -61,32 +65,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 // The top most error boundary for the app, rendered when your app throws an error
 // For more information, see https://reactrouter.com/start/framework/route-module#errorboundary
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-    let message = 'Oops!'
-    let details = 'An unexpected error occurred.'
-    let stack: string | undefined
-
-    if (isRouteErrorResponse(error)) {
-        message = error.status === 404 ? '404' : 'Error'
-        details =
-            error.status === 404
-                ? 'The requested page could not be found.'
-                : error.statusText || details
-    } else if (import.meta.env.DEV && error && error instanceof Error) {
-        details = error.message
-        stack = error.stack
-    }
-
-    return (
-        <main id="error-page">
-            <h1>{message}</h1>
-            <p>{details}</p>
-            {stack && (
-                <pre>
-                    <code>{stack}</code>
-                </pre>
-            )}
-        </main>
-    )
+    return <PageError error={error} />
 }
 
 export function HydrateFallback() {
