@@ -25,10 +25,10 @@ export function PageError({ error }: { error: unknown }) {
             id="page-error"
             className="flex h-screen w-screen items-center justify-center bg-black font-mono text-sm"
         >
-            <div className="border-terminal relative m-4 w-full max-w-2xl p-1">
+            <div className="border-terminal m-4 w-full max-w-2xl">
                 <CRTOverlay />
                 <TextJitter>
-                    <div className="border-primary/30 bg-modalBlack flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)] md:p-10">
+                    <div className="border-primary/30 bg-modalBlack flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)] lg:p-10">
                         {/* Header */}
                         <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed pb-2">
                             <div>

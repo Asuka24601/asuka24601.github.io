@@ -3,9 +3,12 @@ import { useProfileDataStore } from '../lib/store'
 import { Outlet, NavLink } from 'react-router'
 import cover from '../assets/cover.webp'
 import camera from '../assets/camera.webp'
-import CRTScreen from '../components/effect/CRTScreen'
+import CRTOverlay from '../components/effect/CRTOverlay'
+import TextJitter from '../components/effect/textJitter'
 import Avatar from '../components/avater'
 import SideNav from '../components/sideNav'
+import CRTScreen from '../components/effect/CRTScreen'
+import { TreeStructure } from '../components/floatMenu'
 
 const navItems = [
     { name: 'Archive', path: 'about' },
@@ -13,8 +16,34 @@ const navItems = [
     { name: 'TimeLine', path: 'about/timeline' },
 ]
 
+function NavList() {
+    return (
+        <ul className="flex flex-col gap-1">
+            {navItems.map((item) => (
+                <li key={item.name}>
+                    <NavLink
+                        to={item.path}
+                        end={item.path === 'about'}
+                        className={({ isActive }) =>
+                            `flex items-center truncate py-1 pr-1 transition-colors duration-200 ${
+                                isActive
+                                    ? 'bg-primary/10 text-primary'
+                                    : 'hover:text-primary text-white/70 hover:bg-white/5'
+                            }`
+                        }
+                    >
+                        <TreeStructure level={2} />
+                        {item.name}
+                    </NavLink>
+                </li>
+            ))}
+        </ul>
+    )
+}
+
 export default function About() {
     const elementRef = useRef<HTMLImageElement>(null)
+    const imgContentRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const element = elementRef.current
@@ -76,77 +105,125 @@ export default function About() {
     const profileData = useProfileDataStore((state) => state.profileData)
 
     return (
-        <>
-            <div>
-                <div className="relative h-full w-full overflow-hidden bg-black">
+        <div className="min-h-screen w-full font-mono text-sm">
+            <div className="border-primary relative h-[40vh] w-full overflow-hidden border-b-4 border-double bg-[#6e9fe1]">
+                {/* <CRTScreen /> */}
+                <div
+                    ref={imgContentRef}
+                    className="animate__animated animate__fadeIn animate__slow mx-auto aspect-square transition-all duration-500"
+                    style={{
+                        height: 'calc(100% - var(--navbar-height))',
+                        translate: '0 var(--navbar-height)',
+                    }}
+                >
                     <img
                         src={cover}
                         alt="cover"
                         draggable="false"
-                        className="pointer-events-none h-full w-full object-cover object-top"
+                        className="pointer-events-none aspect-square h-full w-auto object-cover object-center opacity-80"
                     />
                     <img
                         ref={elementRef}
                         src={camera}
                         alt="camera"
                         draggable="false"
-                        className="absolute top-[48%] left-1/2 h-full -translate-1/2 scale-[36.78%] object-cover drop-shadow-[0_30px_10px] drop-shadow-black"
+                        className="absolute top-[50%] left-1/2 h-full -translate-1/2 scale-[60.18%] object-cover drop-shadow-[0_30px_10px] drop-shadow-black"
                         style={{
                             transform: `rotate(var(--rotate-angle))`,
                         }}
                     />
                 </div>
-                <article className="relative -top-25 mx-auto flex max-w-400 flex-col items-center justify-center">
-                    <div
-                        className="avatar h-50 w-50"
-                        onClick={(e: React.MouseEvent<HTMLImageElement>) => {
-                            avatarOnClick(e)
-                        }}
-                    >
-                        <Avatar
-                            src={profileData.data.avatar}
-                            className="outline-base-content/15 animate__animated rounded-full shadow-xs outline-1"
-                        />
-                    </div>
-                    <h1 className="mt-3 text-2xl first-letter:uppercase">
-                        <strong>{profileData.data.name}</strong>
-                    </h1>
-                    <q className="text-base-content/50 text-sm">
-                        {profileData.data.introduction}
-                    </q>
+                <CRTScreen />
 
-                    <div className="relative mt-5 scroll-mt-20">
-                        <main className="min-w-200">
-                            <section
-                                className="border-terminal flex w-full flex-col items-start justify-start gap-5"
-                                style={{
-                                    padding: 'calc(var(--spacing)*8)',
-                                }}
-                            >
-                                <CRTScreen />
-                                <Outlet />
-                            </section>
-                        </main>
-                        <SideNav navItems={navItems} />
-                        <aside className="absolute top-0 left-0 z-1 hidden h-full w-45 -translate-x-45 pr-3 xl:block">
-                            <menu className="menu bg-base-100 rounded-box sticky top-28 hidden h-fit w-full shadow-xl xl:block">
-                                <li>
-                                    <h2 className="menu-title">Contents</h2>
-                                    <ul>
-                                        {navItems.map((item) => (
-                                            <li key={item.name}>
-                                                <NavLink to={item.path}>
-                                                    {item.name}
-                                                </NavLink>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                            </menu>
-                        </aside>
-                    </div>
-                </article>
+                <div className="text-primary/50 absolute right-4 bottom-4 text-xs font-bold tracking-widest before:content-['CAM\_FEED\_01_[REC]']"></div>
             </div>
-        </>
+
+            <div
+                className="border-terminal z-10 container mx-auto max-w-6xl"
+                style={{
+                    border: 'none',
+                }}
+            >
+                <CRTOverlay />
+                <TextJitter>
+                    <div className="border-primary bg-modalBlack relative flex flex-col overflow-hidden border-4 border-double">
+                        {/* Profile Header */}
+                        <div className="border-primary/30 flex flex-col items-center gap-6 border-b-2 border-dashed bg-black/20 p-6 lg:flex-row lg:p-8">
+                            <div
+                                className="group shrink-0 cursor-pointer"
+                                onClick={avatarOnClick}
+                            >
+                                <div className="border-primary/50 group-hover:border-primary border-2 border-dashed p-1 transition-colors">
+                                    <div className="h-24 w-24 overflow-hidden bg-black">
+                                        <Avatar
+                                            src={profileData.data.avatar}
+                                            className="h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-1 flex-col gap-2 text-center lg:text-left">
+                                <div className="flex items-center justify-center gap-2 lg:justify-start">
+                                    <h1 className="text-primary text-2xl font-black tracking-widest uppercase lg:text-3xl">
+                                        {profileData.data.name}
+                                    </h1>
+                                    <span className="border border-white/20 px-1 text-[10px] text-white/30 before:content-['LV.99']"></span>
+                                </div>
+                                <div className="max-w-2xl font-mono text-xs leading-relaxed text-white/70 lg:text-sm">
+                                    <span className="text-primary mr-2 before:content-['>>']"></span>
+                                    {profileData.data.introduction}
+                                    <span className="ml-1 animate-pulse after:content-['\_']"></span>
+                                </div>
+                            </div>
+
+                            <div className="hidden text-right text-[10px] tracking-widest text-white/30 uppercase lg:block">
+                                <div className="before:content-['ID:_']">
+                                    {profileData.data.name
+                                        .toUpperCase()
+                                        .slice(0, 10)}
+                                </div>
+                                <div className="before:content-['LOC:_UNKNOWN']"></div>
+                                <div className="before:content-['STATUS:_ACTIVE']"></div>
+                            </div>
+                        </div>
+
+                        {/* Content Split */}
+                        <div className="flex min-h-[60vh] flex-col lg:flex-row">
+                            {/* Sidebar (Desktop) */}
+                            <aside className="border-primary/30 hidden w-64 shrink-0 border-r-2 border-dashed bg-black/10 lg:block">
+                                <div className="border-b border-dashed border-white/10 p-4">
+                                    <div className="mb-2 text-[10px] font-bold tracking-widest text-white/50 uppercase before:content-['\/\/_NAVIGATION']"></div>
+                                    <NavList />
+                                </div>
+                                {/* Decorative filler */}
+                                <div className="p-4 font-mono text-[10px] leading-tight break-all text-white/20 opacity-50 select-none">
+                                    0101010101001001010 1010101010101010101
+                                    0010110101010101010 ...
+                                </div>
+                            </aside>
+
+                            {/* Main Content */}
+                            <main className="flex-1 overflow-x-hidden p-4 lg:p-8">
+                                <Outlet />
+                            </main>
+                        </div>
+
+                        {/* Footer Status Bar */}
+                        <div className="border-primary/30 flex items-center justify-between border-t border-dashed bg-black/20 p-2 px-4 text-[10px] text-white/40 uppercase">
+                            <span className="before:content-['ACCESS\_LEVEL:_ADMIN']"></span>
+                            <span className="before:content-['SYS\_TIME:_']">
+                                {new Date().toLocaleTimeString()}
+                            </span>
+                        </div>
+                    </div>
+                </TextJitter>
+            </div>
+
+            {/* Mobile Nav */}
+            <SideNav>
+                <NavList />
+            </SideNav>
+        </div>
     )
 }

@@ -34,7 +34,7 @@ export default function Footer({
                 <CRTOverlay />
                 <TextJitter>
                     <div className="relative z-20 flex flex-row flex-nowrap justify-between">
-                        <div className="flex flex-1 flex-col items-center justify-between gap-6 p-6 md:flex-row md:p-10">
+                        <div className="flex flex-1 flex-col items-center justify-between gap-6 p-6 lg:flex-row lg:p-10">
                             <aside className="flex items-center gap-4">
                                 <div className="border-primary/30 border bg-black/20 p-1">
                                     <img
@@ -54,7 +54,7 @@ export default function Footer({
                                 </div>
                             </aside>
                             <nav className="w-fit">
-                                <h6 className="mb-2 text-[10px] font-bold tracking-widest text-white/30 uppercase before:content-['COMM_UPLINKS']"></h6>
+                                <h6 className="mb-2 text-center text-[10px] font-bold tracking-widest text-white/30 uppercase before:content-['COMM_UPLINKS']"></h6>
                                 <div>
                                     <ul className="grid grid-flow-col gap-4">
                                         {socialMedia.map((item, index) => (
@@ -77,7 +77,7 @@ export default function Footer({
                             </nav>
                         </div>
 
-                        <div className="border-primary/30 relative hidden h-48 w-auto overflow-hidden border-l-2 border-dashed select-none md:block">
+                        <div className="border-primary/30 relative hidden h-48 w-auto overflow-hidden border-l-2 border-dashed select-none lg:block">
                             <div className="bg-primary/10 pointer-events-none absolute inset-0 z-10 mix-blend-overlay"></div>
                             <img
                                 src={snap}
@@ -90,8 +90,8 @@ export default function Footer({
 
                     {/* System Status Bar */}
                     <div className="border-primary/30 flex justify-between border-t border-dashed bg-black/40 px-4 py-1 text-[10px] tracking-widest text-white/40 uppercase">
-                        <span>SYSTEM_STATUS: STABLE</span>
-                        <span className="animate-pulse">_CONNECTED</span>
+                        <span className="after:content-['SYSTEM\_STATUS:_STABLE']"></span>
+                        <span className="animate-pulse after:content-['>>_CONNECTED']"></span>
                     </div>
                 </TextJitter>
             </div>

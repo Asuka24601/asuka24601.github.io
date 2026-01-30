@@ -1,5 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Outlet, Scripts, ScrollRestoration, Links, useNavigate } from 'react-router'
+import {
+    Outlet,
+    Scripts,
+    ScrollRestoration,
+    Links,
+    useNavigate,
+} from 'react-router'
 import type { Route } from './+types/root'
 import { createHeart } from './lib/mouse'
 import { useEffect } from 'react'
@@ -7,13 +13,16 @@ import 'virtual:svg-icons-register'
 
 import animateStylesHref from 'animate.css/animate.min.css?url'
 import katexStylesHref from 'katex/dist/katex.min.css?url'
+import katexCustomStyleHref from './styles/katex.css?url'
 import appStylesHref from './styles/style.css?url'
 import { PageError } from './routes/errorPage'
+import CRTScreen from './components/effect/CRTScreen'
 
 export const links = () => [
     { rel: 'stylesheet', href: animateStylesHref },
     { rel: 'stylesheet', href: katexStylesHref },
     { rel: 'stylesheet', href: appStylesHref },
+    { rel: 'stylesheet', href: katexCustomStyleHref },
 ]
 
 export default function App() {
@@ -53,7 +62,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 />
                 <Links />
             </head>
-            <body className="min-w-7xl scroll-smooth bg-white">
+            <body className="bg-base-content relative min-w-xl scroll-smooth">
+                <CRTScreen />
                 {children}
                 <ScrollRestoration />
                 <Scripts />

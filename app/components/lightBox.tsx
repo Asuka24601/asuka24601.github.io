@@ -130,7 +130,7 @@ export default function LightBox() {
                             <div className="text-primary font-bold tracking-widest uppercase before:content-['>_']">
                                 IMAGE_ANALYSIS_UNIT
                             </div>
-                            <div className="hidden text-[10px] text-white/50 md:block">
+                            <div className="hidden text-[10px] text-white/50 lg:block">
                                 TARGET: {lightboxSrc.split('/').pop()}
                             </div>
                         </div>
@@ -140,7 +140,7 @@ export default function LightBox() {
                                 onClick={downloadImage}
                                 title="DOWNLOAD_DATA"
                             >
-                                <span className="hidden text-[10px] font-bold uppercase md:block">
+                                <span className="hidden text-[10px] font-bold uppercase lg:block">
                                     [ SAVE ]
                                 </span>
                                 <SvgIcon name="download" size={20} />
@@ -153,7 +153,7 @@ export default function LightBox() {
                                 }}
                                 title="TERMINATE_PROCESS"
                             >
-                                <span className="hidden text-[10px] font-bold uppercase md:block">
+                                <span className="hidden text-[10px] font-bold uppercase lg:block">
                                     [ EXIT ]
                                 </span>
                                 <SvgIcon name="close" size={20} />

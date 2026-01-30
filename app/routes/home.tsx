@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import type { ProfileStatisticsInterface } from '../interfaces/profile'
 import ProfileCard from '../components/home/profileCard'
 import {
@@ -61,15 +60,17 @@ export default function Home() {
                     />
                 </BannerContent>
 
+                <div className="border-primary border-t-4 border-double"></div>
+
                 <div
                     ref={elementRef}
-                    className="relative mx-auto grid h-full min-h-full max-w-300 grid-cols-[auto_1fr] gap-5 px-5 will-change-transform"
+                    className="relative mx-auto flex h-full min-h-full max-w-6xl flex-col gap-5 px-5 will-change-transform lg:grid lg:grid-cols-[auto_1fr]"
                     style={{
                         transform:
                             'translateY(calc(var(--scroll-percent) * -25vw))',
                     }}
                 >
-                    <aside className="flex h-fit w-100 flex-col gap-5">
+                    <aside className="flex h-fit flex-col gap-5 lg:w-md">
                         <div className="contents">
                             <ProfileCard
                                 className="h-full"

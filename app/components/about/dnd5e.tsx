@@ -15,10 +15,10 @@ export default function DND5E({ item }: { item: DND5eItemInterface }) {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="border-primary/30 flex flex-col items-start justify-between gap-4 border-b-2 border-dashed pb-4 md:flex-row md:items-end">
+            <div className="border-primary/30 flex flex-col items-start justify-between gap-4 border-b-2 border-dashed pb-4 lg:flex-row lg:items-end">
                 <div className="flex-1">
                     <div className="mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_CHARACTER\_SHEET\_V1.0']"></div>
-                    <h2 className="text-primary text-2xl font-black tracking-tighter uppercase md:text-3xl">
+                    <h2 className="text-primary text-2xl font-black tracking-tighter uppercase lg:text-3xl">
                         {item.classLevels}
                     </h2>
                     <div className="mt-2 flex items-center gap-2 font-bold">
@@ -82,7 +82,7 @@ export default function DND5E({ item }: { item: DND5eItemInterface }) {
             </div>
 
             {/* Details Section */}
-            <div className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-2">
                 {/* Skills */}
                 <div className="border-base-content/10 bg-modalBox/80 border p-3">
                     <h3 className="text-primary mb-3 flex items-center gap-2 text-xs font-bold uppercase">

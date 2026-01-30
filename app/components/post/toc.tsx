@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router'
+import FloatMenu, { TreeStructure } from '../floatMenu'
 
 interface Heading {
     id: string
     text: string
-    level: number
+    level: 1 | 2 | 3 | 4 | 5 | 6
 }
 
 export default function TOC({
@@ -34,7 +35,13 @@ export default function TOC({
                     headingData.push({
                         id: elem.id,
                         text: elem.textContent || '',
-                        level: parseInt(elem.tagName.substring(1)),
+                        level: parseInt(elem.tagName.substring(1)) as
+                            | 1
+                            | 2
+                            | 3
+                            | 4
+                            | 5
+                            | 6,
                     })
                 }
             })
@@ -67,64 +74,43 @@ export default function TOC({
     if (headings.length === 0) return null
 
     return (
-        <nav
-            className={`font-mono text-xs md:text-sm ${className || ''}`}
-            style={style}
-        >
-            <ul className="ml-2 flex flex-col border-l border-dashed border-white/10 pl-2">
-                {headings.map((heading) => (
-                    <li key={heading.id}>
-                        <a
-                            href={`#${heading.id}`}
-                            className={`flex items-center truncate py-1 pr-1 transition-colors duration-200 ${
-                                activeId === heading.id
-                                    ? 'bg-primary/10 text-primary'
-                                    : 'hover:text-primary text-white/70 hover:bg-white/5'
-                            }`}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                const element = document.getElementById(
-                                    heading.id
-                                )
-                                if (element) {
-                                    const headerOffset = 100
-                                    const elementPosition =
-                                        element.getBoundingClientRect().top
-                                    const offsetPosition =
-                                        elementPosition +
-                                        window.pageYOffset -
-                                        headerOffset
+        <FloatMenu className={className} style={style}>
+            {headings.map((heading) => (
+                <li key={heading.id}>
+                    <a
+                        href={`#${heading.id}`}
+                        className={`flex items-center truncate py-1 pr-1 transition-colors duration-200 ${
+                            activeId === heading.id
+                                ? 'bg-primary/10 text-secondary'
+                                : 'hover:text-warning text-white/70 hover:bg-white/5'
+                        }`}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            const element = document.getElementById(heading.id)
+                            if (element) {
+                                const headerOffset = 100
+                                const elementPosition =
+                                    element.getBoundingClientRect().top
+                                const offsetPosition =
+                                    elementPosition +
+                                    window.pageYOffset -
+                                    headerOffset
 
-                                    window.scrollTo({
-                                        top: offsetPosition,
-                                        behavior: 'smooth',
-                                    })
-                                    setActiveId(heading.id)
-                                }
-                            }}
-                        >
-                            {/* Tree Structure Visualization */}
-                            <span className="shrink-0 font-mono text-white/30 select-none">
-                                {heading.level === 1 ? (
-                                    <span className="text-primary mr-2 font-bold">{`>_`}</span>
-                                ) : (
-                                    <>
-                                        <span
-                                            style={{
-                                                display: 'inline-block',
-                                                width: `${(heading.level - 2) * 1.2}rem`,
-                                            }}
-                                        ></span>
-                                        <span className="mr-2">{`├─`}</span>
-                                    </>
-                                )}
-                            </span>
+                                window.scrollTo({
+                                    top: offsetPosition,
+                                    behavior: 'smooth',
+                                })
+                                setActiveId(heading.id)
+                            }
+                        }}
+                    >
+                        {/* Tree Structure Visualization */}
+                        <TreeStructure level={heading.level} />
 
-                            {heading.text}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </nav>
+                        {heading.text}
+                    </a>
+                </li>
+            ))}
+        </FloatMenu>
     )
 }

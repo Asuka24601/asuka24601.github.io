@@ -15,7 +15,7 @@ export default function Tags() {
 
     return (
         <>
-            <div className="mx-auto min-h-screen max-w-400">
+            <div className="mx-auto min-h-screen max-w-6xl">
                 <p>tags</p>
             </div>
         </>

@@ -1,20 +1,14 @@
 import { useRef, useEffect } from 'react'
 import SvgIcon from './SvgIcon'
-import { NavLink } from 'react-router'
 import CRTOverlay from './effect/CRTOverlay'
 import TextJitter from './effect/textJitter'
 
-interface NavItem {
-    name: string
-    path: string
-}
-
 export default function SideNav({
-    navItems,
     children,
+    className,
 }: {
-    navItems?: NavItem[]
     children?: React.ReactNode
+    className?: string
 }) {
     const dialogRef = useRef<HTMLDialogElement>(null)
 
@@ -26,11 +20,11 @@ export default function SideNav({
         }
     }, [])
 
-    if (!navItems && !children) return null
+    if (!children) return null
 
     return (
         <>
-            <div className="xl:hidden">
+            <div className={`${className || 'lg:hidden'}`}>
                 <button
                     className="border-primary text-primary bg-modalBlack fixed right-8 bottom-24 z-40 flex h-12 w-12 items-center justify-center border-2 border-double shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] transition-all hover:translate-y-1 hover:shadow-none"
                     title="OPEN_DIRECTORY"
@@ -116,53 +110,21 @@ export default function SideNav({
                             <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                                 <div>
                                     <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_DIRECTORY']"></div>
-                                    <div className="text-primary text-xl font-black tracking-widest uppercase">
-                                        INDEX
-                                    </div>
+                                    <div className="text-primary text-xl font-black tracking-widest uppercase after:content-['INDEX']"></div>
                                 </div>
                                 <button
                                     className="group hover:text-primary flex items-center gap-2 text-white/70 transition-colors"
                                     onClick={() => dialogRef.current?.close()}
                                 >
-                                    <span className="text-[10px] font-bold uppercase">
-                                        [ CLOSE ]
-                                    </span>
+                                    <span className="text-[10px] font-bold uppercase after:content-['[_CLOSE_]']"></span>
                                 </button>
                             </div>
-
-                            {navItems ? (
-                                <ul className="flex flex-col gap-2">
-                                    {navItems.map((item) => (
-                                        <li key={item.name}>
-                                            <NavLink
-                                                to={item.path}
-                                                className={({ isActive }) =>
-                                                    `hover:border-primary/50 hover:text-primary block border border-dashed border-white/10 p-2 text-xs font-bold tracking-widest uppercase transition-all hover:bg-white/5 ${
-                                                        isActive
-                                                            ? 'border-primary bg-primary/10 text-primary'
-                                                            : 'text-white/70'
-                                                    }`
-                                                }
-                                                onClick={() =>
-                                                    dialogRef.current?.close()
-                                                }
-                                            >
-                                                <span className="text-primary/50 mr-2 select-none">{`>>`}</span>
-                                                {item.name}
-                                            </NavLink>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : children ? (
-                                children
-                            ) : null}
+                            {children}
                         </div>
 
                         {/* Footer decoration */}
                         <div className="border-primary/30 mt-auto border-t border-dashed bg-black/20 p-2 text-[10px] text-white/40 uppercase">
-                            <span className="animate-pulse">
-                                _WAITING_FOR_INPUT
-                            </span>
+                            <span className="animate-pulse after:content-['>>_WAITING\_FOR\_INPUT']"></span>
                         </div>
                     </TextJitter>
                 </dialog>

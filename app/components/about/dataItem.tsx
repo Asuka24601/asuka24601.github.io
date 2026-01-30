@@ -36,7 +36,7 @@ export default function DataItem({
                             />
                         </div>
                         {question && (
-                            <p className="max-w-37.5 truncate text-[10px] opacity-40 md:max-w-xs">
+                            <p className="max-w-37.5 truncate text-[10px] opacity-40 lg:max-w-xs">
                                 // {question}
                             </p>
                         )}

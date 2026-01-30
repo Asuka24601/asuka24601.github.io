@@ -99,7 +99,7 @@ export function AriticleFooter({ tags }: { tags: Tags }) {
 export function ArticleError({ slug }: { slug: string }) {
     return (
         <div className="mx-auto max-w-3xl px-4 py-8 font-mono text-sm">
-            <div className="border-terminal relative p-1">
+            <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
                     <div className="border-primary/30 bg-modalBlack flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)]">

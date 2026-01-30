@@ -15,7 +15,7 @@ export default function Comments() {
 
     return (
         <>
-            <div className="mx-auto min-h-screen max-w-400">
+            <div className="mx-auto min-h-screen max-w-6xl">
                 <p>comments</p>
             </div>
         </>

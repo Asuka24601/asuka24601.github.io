@@ -1,0 +1,46 @@
+/* 默认样式 - 1080px 及以上使用标准字体 */
+.katex-display {
+    font-size: 1rem;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+/* 长公式换行支持 */
+.katex-display > .katex {
+    white-space: normal;
+}
+
+/* 平板横屏和小屏笔记本 (769px - 1079px) */
+@media screen and (max-width: 1079px) and (min-width: 769px) {
+    .katex-display {
+        font-size: 0.9rem;
+    }
+}
+
+/* 平板竖屏 (601px - 768px) */
+@media screen and (max-width: 768px) and (min-width: 601px) {
+    .katex-display {
+        font-size: 0.8rem;
+    }
+}
+
+/* 大屏手机 (481px - 600px) */
+@media screen and (max-width: 600px) and (min-width: 481px) {
+    .katex-display {
+        font-size: 0.7rem;
+    }
+}
+
+/* 小屏手机 (480px 及以下) */
+@media screen and (max-width: 480px) {
+    .katex-display {
+        font-size: 0.6rem;
+    }
+}
+
+/* 超小屏手机 (320px 及以下) */
+@media screen and (max-width: 320px) {
+    .katex-display {
+        font-size: 0.5rem;
+    }
+}

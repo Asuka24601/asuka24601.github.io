@@ -11,7 +11,7 @@ import AriticleContene, {
     ArticleError,
 } from '../components/aritcleContent'
 import type { FrontMatter } from '../interfaces/post'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import TOC from '../components/post/toc'
 import { md5 } from '../lib/utils'
 import SideNav from '../components/sideNav'
@@ -33,26 +33,7 @@ export default function PostContent() {
     const location = useLocation()
     const matches = useMatches()
     const wrapperRef = useRef<HTMLDivElement>(null)
-
-    const [navBarHeight, setNavBarHeight] = useState<number>(0)
-
-    useLayoutEffect(() => {
-        const header = document.getElementById('header')
-        const navBar = header?.firstElementChild
-
-        if (!navBar) return
-
-        const observer = new ResizeObserver((entries) => {
-            const entry = entries[0]
-            if (entry) {
-                // 使用 getBoundingClientRect 确保获取包含 padding 和 border 的完整高度
-                setNavBarHeight(entry.target.getBoundingClientRect().height)
-            }
-        })
-
-        observer.observe(navBar)
-        return () => observer.disconnect()
-    }, [])
+    const elementRef = useRef<HTMLDivElement>(null)
 
     // 获取当前路由链中包含 frontMatter 的 handle
     const match = matches.find(
@@ -94,11 +75,13 @@ export default function PostContent() {
                         className="relative top-1/2 -translate-y-1/2"
                     />
                 </BannerContent>
+                <div className="border-primary border-t-4 border-double"></div>
 
                 <div
+                    ref={elementRef}
                     className="fixed left-0 z-50 h-1 w-full bg-transparent"
                     style={{
-                        top: `${navBarHeight}px`,
+                        top: `var(--navbar-height)`,
                     }}
                 >
                     <div
@@ -110,7 +93,7 @@ export default function PostContent() {
                 </div>
 
                 {/* Mobile TOC Drawer Trigger & Content */}
-                <SideNav>
+                <SideNav className="2xl:hidden!">
                     <TOC
                         queryID={'article-' + md5(location.pathname)}
                         className="w-full"
@@ -138,7 +121,7 @@ export default function PostContent() {
 
                         <div className="w-full">
                             <article
-                                className="border-terminal mx-auto max-w-5xl min-w-200"
+                                className="border-terminal mx-auto max-w-6xl"
                                 style={{
                                     overflow: 'visible',
                                 }}
@@ -159,25 +142,19 @@ export default function PostContent() {
                                 </TextJitter>
 
                                 <div
-                                    className="absolute top-0 right-0 h-full translate-x-full pl-3"
+                                    className="absolute top-0 right-0 hidden h-full translate-x-full pl-3 2xl:block"
                                     style={{
                                         transform:
                                             'translateY(calc(var(--scroll-percent) * 25vw))',
                                     }}
                                 >
-                                    <div className="sticky top-32 left-0 z-40 hidden h-fit w-64 xl:block">
-                                        <div className="border-primary/30 bg-modalBlack relative overflow-hidden border-2 border-double shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]">
-                                            <CRTOverlay />
-                                            <TextJitter>
-                                                <TOC
-                                                    queryID={
-                                                        'article-' +
-                                                        md5(location.pathname)
-                                                    }
-                                                    className="p-4"
-                                                />
-                                            </TextJitter>
-                                        </div>
+                                    <div className="sticky top-32 left-0 z-40 h-fit w-fit">
+                                        <TOC
+                                            queryID={
+                                                'article-' +
+                                                md5(location.pathname)
+                                            }
+                                        />
                                     </div>
                                 </div>
                             </article>

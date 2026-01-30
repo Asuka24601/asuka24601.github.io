@@ -47,8 +47,8 @@ function Neofetch() {
     ]
 
     return (
-        <div className="mb-6 flex flex-col items-center gap-6 font-mono text-xs md:flex-row md:items-start md:text-sm">
-            <pre className="text-primary hidden leading-tight font-bold opacity-80 select-none md:block">
+        <div className="mb-6 flex flex-col items-center gap-6 font-mono text-xs lg:flex-row lg:items-start lg:text-sm">
+            <pre className="text-primary hidden leading-tight font-bold opacity-80 select-none lg:block">
                 {PC_ASCII}
             </pre>
             <div className="flex w-full flex-col gap-1">
@@ -92,7 +92,7 @@ export default function Notice() {
                     <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                         <div>
                             <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM_ANNOUNCEMENT']"></div>
-                            <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['NOTICE_BOARD']"></div>
+                            <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['NOTICE\_BOARD']"></div>
                         </div>
                         <div className="text-right">
                             <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['PRIORITY']"></div>
@@ -100,7 +100,7 @@ export default function Notice() {
                         </div>
                     </div>
 
-                    <div className="p-2 md:p-4">
+                    <div className="p-2 lg:p-4">
                         <Neofetch />
 
                         <div className="my-4 border-t border-dashed border-white/10"></div>

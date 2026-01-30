@@ -3,8 +3,11 @@ import type { ProfileDataInterface } from '../interfaces/profile'
 
 export interface NavStore {
     navShow: boolean
+    navHeight: number
     setNavShow: (usr: boolean) => void
     resetNavShow: () => void
+    setNavHeight: (usr: number) => void
+    resetNavHeight: () => void
 }
 
 export interface SearchStore {
@@ -40,6 +43,9 @@ export const useDiogramDataStore = create<DiogramDataStore>((set) => ({
 
 export const useNavStore = create<NavStore>()((set) => ({
     navShow: true,
+    navHeight: 0,
+    setNavHeight: (usr: number) => set({ navHeight: usr }),
+    resetNavHeight: () => set({ navHeight: 0 }),
     setNavShow: (usr: boolean) => set({ navShow: usr }),
     resetNavShow: () => set({ navShow: true }),
 }))

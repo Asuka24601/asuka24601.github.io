@@ -53,7 +53,7 @@ function TagComponent({
                     <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                         <div>
                             <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_INDEXING']"></div>
-                            <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['MEMORY_BANKS']"></div>
+                            <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['MEMORY\_BANKS']"></div>
                         </div>
                         <div className="text-right">
                             <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['CAPACITY']"></div>

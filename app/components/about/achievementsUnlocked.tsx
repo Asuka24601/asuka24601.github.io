@@ -24,7 +24,7 @@ export default function AchievementList({
             </div>
 
             {/* Grid */}
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 {items.map((item, index) => (
                     <div
                         key={index}

@@ -11,7 +11,6 @@ import DND5E from '../components/about/dnd5e'
 import AchievementList from '../components/about/achievementsUnlocked'
 import SpecialAbilities from '../components/about/specialAbilities'
 import LegalDisclaimer from '../components/about/legalDisclaimer'
-import PageHead from '../components/about/pageHead'
 import CRTOverlay from '../components/effect/CRTOverlay'
 import TextJitter from '../components/effect/textJitter'
 
@@ -73,9 +72,13 @@ const ABOUT_ITEMS_CONFIG = [
 export default function Archive() {
     return (
         <>
-            <div className="flex min-h-screen min-w-full flex-col gap-4">
-                <PageHead title="Archive" />
-                <div className="gap-x-4 *:mt-4 *:first:mt-0 xl:columns-2">
+            <div className="flex min-h-screen min-w-full flex-col">
+                <CRTOverlay />
+                <div className="mb-8 border-b border-dashed border-white/20 pb-4">
+                    <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM_BENCHMARK_CHECK']"></div>
+                    <h2 className="text-primary text-xl font-black tracking-widest uppercase before:content-['OUTPUT.LOG']"></h2>
+                </div>
+                <div className="gap-x-4 *:mt-4 *:first:mt-0">
                     <DataItem name="birthday" question="你多少岁了?">
                         <Birthday birthday={archiveData.data.birthday} />
                     </DataItem>
@@ -164,34 +167,35 @@ export default function Archive() {
                             items={archiveData.data.languages}
                         />
                     </DataItem>
+
+                    <div className="w-full">
+                        <LegalDisclaimer
+                            disclaimer={archiveData.data.legalDisclaimer}
+                        />
+                    </div>
+
+                    <div className="border-terminal flex w-full flex-col gap-2 text-xs break-all">
+                        <CRTOverlay />
+                        <TextJitter>
+                            <strong className="text-success flex flex-col gap-2">
+                                <p className="before:mr-1 before:content-['>>_MD5:']">
+                                    {archiveData.data.md5}
+                                </p>
+
+                                <p className="before:mr-1 before:content-['>>_SHA256:']">
+                                    {archiveData.data.sha256}
+                                </p>
+                                <p className="before:mr-1 before:content-['>>_SHA512:']">
+                                    {archiveData.data.sha512}
+                                </p>
+                            </strong>
+                        </TextJitter>
+                    </div>
                 </div>
 
-                <div className="divider my-1"></div>
-
-                <div className="w-full">
-                    <LegalDisclaimer
-                        disclaimer={archiveData.data.legalDisclaimer}
-                    />
-                </div>
-
-                <div className="divider my-1"></div>
-
-                <div className="border-terminal flex w-full flex-col gap-2 text-xs break-all">
-                    <CRTOverlay />
-                    <TextJitter>
-                        <strong className="text-success flex flex-col gap-2">
-                            <p className="before:mr-1 before:content-['>>_MD5:']">
-                                {archiveData.data.md5}
-                            </p>
-
-                            <p className="before:mr-1 before:content-['>>_SHA256:']">
-                                {archiveData.data.sha256}
-                            </p>
-                            <p className="before:mr-1 before:content-['>>_SHA512:']">
-                                {archiveData.data.sha512}
-                            </p>
-                        </strong>
-                    </TextJitter>
+                <div className="text-base-100 mt-4 text-[10px] opacity-50">
+                    <span className="uppercase before:content-['>>_END_OF_LOG']"></span>
+                    <span className="ml-1 animate-pulse before:content-['\_']"></span>
                 </div>
             </div>
         </>

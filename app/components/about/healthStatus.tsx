@@ -184,7 +184,7 @@ export default function HealthStatus({
                 </div>
             </div>
             {/* Bottom Stats: Temp, HP, MP */}
-            <div className="text-base-100/80 grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="text-base-100/80 grid grid-cols-1 gap-4 lg:grid-cols-3">
                 {/* Temp */}
                 <div className="border-base-content/10 bg-modalBox/50 flex flex-col justify-between border p-2">
                     <div className="text-[10px] uppercase opacity-50">

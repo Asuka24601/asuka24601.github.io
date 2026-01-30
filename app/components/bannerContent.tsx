@@ -186,12 +186,7 @@ export default function BannerContent({
     return (
         <>
             <div className="relative flex h-dvh w-full flex-col bg-black">
-                <div
-                    className="pointer-events-none absolute inset-0 bg-white will-change-[opacity]"
-                    style={{
-                        opacity: 'calc(min(var(--scroll-percent), 0.125) * 8)',
-                    }}
-                />
+                <div className="pointer-events-none absolute inset-0" />
                 <div
                     className={`relative h-full w-full overflow-hidden`}
                     ref={elementRef}

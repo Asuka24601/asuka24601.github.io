@@ -31,6 +31,7 @@ export default function Latex({
 
     return (
         <span
+            className="sm:text-xs md:text-sm lg:text-base"
             // KaTeX 生成的 HTML 结构已经包含了必要的类名
             dangerouslySetInnerHTML={{ __html: html }}
         />

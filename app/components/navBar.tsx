@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 // import '../styles/navBar.css' // Removed legacy styles
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { throttle } from 'lodash-es' // 防抖/节流
 import { useNavStore, useSearchStore } from '../lib/store'
 import SvgIcon from './SvgIcon'
@@ -25,6 +25,8 @@ export default function NavBar({
     const [scrolled, setScrolled] = useState(false)
     // const [scrollPercent, setScrollPercent] = useState(0) // Removed unused state
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const elementRef = useRef<HTMLDivElement>(null)
+
     const navShow = useNavStore((state) => state.navShow)
     const resetNav = useNavStore((state) => state.resetNavShow)
     const searchShow = useSearchStore((state) => state.searchShow)
@@ -61,16 +63,35 @@ export default function NavBar({
         }
     }, [])
 
+    useEffect(() => {
+        const element = elementRef.current
+        if (!element) return
+        const observer = new ResizeObserver((entries) => {
+            const entry = entries[0]
+            if (entry) {
+                document.body.style.setProperty(
+                    '--navbar-height',
+                    entry.target.getBoundingClientRect().height + 'px'
+                )
+            }
+        })
+        observer.observe(element)
+        return () => {
+            observer.disconnect()
+        }
+    }, [elementRef])
+
     return (
         <div
             className={`${className || ''} fixed top-0 left-0 z-50 w-full font-mono text-sm transition-all duration-500 ${navShow ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
+            ref={elementRef}
         >
             <div
                 className={`border-primary bg-modalBlack relative w-full overflow-hidden border-b-4 border-double shadow-[0_4px_0px_0px_rgba(0,0,0,0.3)] transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}
             >
                 <CRTOverlay />
                 <TextJitter>
-                    <div className="container mx-auto flex items-center justify-between px-4 md:px-8">
+                    <div className="container mx-auto flex items-center justify-between px-4 lg:px-8">
                         {/* Logo */}
                         <div className="flex items-center">
                             <Link
@@ -80,25 +101,21 @@ export default function NavBar({
                                 <span className="text-lg font-black tracking-widest uppercase before:content-['>_']">
                                     {siteName || 'SYSTEM'}
                                 </span>
-                                <span className="bg-primary hidden h-5 w-2.5 animate-pulse md:block"></span>
+                                <span className="bg-primary hidden h-5 w-2.5 animate-pulse lg:block"></span>
                             </Link>
                         </div>
 
                         {/* Desktop Menu */}
-                        <div className="hidden items-center gap-8 md:flex">
+                        <div className="hidden items-center gap-8 lg:flex">
                             {navItems.map((item) => (
                                 <Link
                                     key={item.name}
                                     to={item.path}
-                                    className="group hover:text-primary relative text-xs font-bold tracking-widest text-white/70 uppercase transition-colors"
+                                    className="group hover:text-warning relative text-xs font-bold tracking-widest text-white/70 uppercase transition-colors"
                                 >
-                                    <span className="text-primary absolute -left-3 opacity-0 transition-opacity group-hover:opacity-100">
-                                        [
-                                    </span>
+                                    <span className="absolute -left-3 opacity-0 transition-opacity group-hover:opacity-100 before:content-['[']"></span>
                                     {item.name}
-                                    <span className="text-primary absolute -right-3 opacity-0 transition-opacity group-hover:opacity-100">
-                                        ]
-                                    </span>
+                                    <span className="absolute -right-3 opacity-0 transition-opacity group-hover:opacity-100 after:content-[']']"></span>
                                 </Link>
                             ))}
                         </div>
@@ -132,7 +149,7 @@ export default function NavBar({
                             </label>
 
                             <button
-                                className="hover:text-primary text-white/70 transition-colors md:hidden"
+                                className="hover:text-primary text-white/70 transition-colors lg:hidden"
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                             >
                                 <SvgIcon name="menu" fill="white" size={24} />
@@ -142,7 +159,7 @@ export default function NavBar({
 
                     {/* Mobile Menu */}
                     <div
-                        className={`overflow-hidden border-t border-dashed border-white/10 bg-black/50 transition-all duration-300 md:hidden ${isMenuOpen ? 'max-h-64' : 'max-h-0'}`}
+                        className={`overflow-hidden border-t border-dashed border-white/10 bg-black/50 transition-all duration-300 lg:hidden ${isMenuOpen ? 'max-h-64' : 'max-h-0'}`}
                     >
                         <ul className="flex flex-col gap-2 p-4">
                             {navItems.map((item) => (

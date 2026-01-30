@@ -29,7 +29,7 @@ function ProfileCard({
                     <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                         <div>
                             <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_IDENTITY_VERIFIED']"></div>
-                            <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['ACCESS_CARD']"></div>
+                            <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['ACCESS\_CARD']"></div>
                         </div>
                         <div className="text-right">
                             <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['LEVEL']"></div>
