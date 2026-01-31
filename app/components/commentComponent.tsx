@@ -66,7 +66,7 @@ export default function CommentComponent({
 
     return (
         <div className={`w-full font-mono text-sm ${className || ''}`}>
-            <div className="border-primary bg-base-300 relative overflow-hidden border-4 border-double p-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]">
+            <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
                     {/* Header */}

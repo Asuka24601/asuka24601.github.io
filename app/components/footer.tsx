@@ -1,6 +1,5 @@
 import snap from '../assets/snap.webp'
 import author from '../assets/author.svg'
-import side from '../assets/side.webp'
 import SvgIcon from './SvgIcon'
 import CRTOverlay from './effect/CRTOverlay'
 import TextJitter from './effect/textJitter'
@@ -21,16 +20,8 @@ export default function Footer({
     socialMedia: socialMediaType
 }) {
     return (
-        <div className="relative mt-20 w-full font-mono text-sm">
-            <div className="pointer-events-none absolute top-0 left-0 z-10 h-48 w-80 -translate-y-full select-none">
-                <img
-                    src={side}
-                    alt="side"
-                    draggable="false"
-                    className="absolute bottom-0 opacity-80"
-                />
-            </div>
-            <div className="border-primary bg-modalBlack relative overflow-hidden border-t-4 border-double shadow-[0_-4px_0px_0px_rgba(0,0,0,0.3)]">
+        <div className="relative w-full font-mono text-sm">
+            <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
                     <div className="relative z-20 flex flex-row flex-nowrap justify-between">

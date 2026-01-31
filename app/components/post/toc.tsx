@@ -71,7 +71,15 @@ export default function TOC({
         return () => clearTimeout(timer)
     }, [location.pathname, queryID]) // 当路由路径变化时重新扫描
 
-    if (headings.length === 0) return null
+    if (headings.length === 0)
+        return (
+            <FloatMenu className={className} style={style}>
+                <li>
+                    <TreeStructure level={1} />
+                    <span className="after:content-['No_headings_found.']" />
+                </li>
+            </FloatMenu>
+        )
 
     return (
         <FloatMenu className={className} style={style}>

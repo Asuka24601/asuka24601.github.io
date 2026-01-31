@@ -11,48 +11,65 @@ function TimelineItem({
     created_at,
     completed_at,
     index,
-}: { index: number } & TodoListItemInterface) {
+    isLast,
+}: { index: number; isLast: boolean } & TodoListItemInterface) {
     const date = completed && completed_at ? completed_at : created_at
     const dateStr = timeToString(date).date
 
     return (
-        <div className="group relative border-l border-dashed border-white/20 pb-8 pl-8 last:pb-2">
-            {/* Node */}
-            <div
-                className={`absolute top-1.5 -left-1.25 h-2.5 w-2.5 border transition-all duration-300 group-hover:scale-125 ${
-                    completed
-                        ? 'bg-success border-success group-hover:bg-success'
-                        : 'border-primary group-hover:bg-primary bg-black'
-                }`}
-            ></div>
+        <div
+            className="grid transition-all duration-500 ease-in-out"
+            style={{
+                gridTemplateRows: completed
+                    ? 'var(--rows-completed)'
+                    : 'var(--rows-pending)',
+                opacity: completed
+                    ? 'var(--opacity-completed)'
+                    : 'var(--opacity-pending)',
+            }}
+        >
+            <div className="min-h-0 overflow-x-visible">
+                <div
+                    className={`group relative border-l border-dashed border-white/20 pl-8 ${isLast ? 'pb-2' : 'pb-8'}`}
+                >
+                    {/* Node */}
+                    <div
+                        className={`absolute top-1.5 -left-1.25 h-2.5 w-2.5 border transition-all duration-300 group-hover:scale-125 ${
+                            completed
+                                ? 'bg-success border-success group-hover:bg-success'
+                                : 'border-primary group-hover:bg-primary bg-black'
+                        }`}
+                    ></div>
 
-            {/* Content */}
-            <div className="flex flex-col gap-2">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-white/50">
-                    <span className="text-secondary/50 before:content-['['] after:content-[']']">
-                        {dateStr}
-                    </span>
-                    <span
-                        className={`uppercase before:content-['STATUS:_'] ${completed ? 'text-success' : 'text-warning'}`}
-                    >
-                        {completed ? 'COMPLETE' : 'PENDING'}
-                    </span>
-                    <span className="hidden text-white/20 before:content-['|'] sm:inline"></span>
-                    <span className="text-[10px] tracking-wider text-white/30 uppercase before:content-['OP\_ID:_']">
-                        {(index + 1).toString().padStart(3, '0')}
-                    </span>
-                </div>
+                    {/* Content */}
+                    <div className="flex flex-col gap-2">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-white/50">
+                            <span className="text-secondary/50 before:content-['['] after:content-[']']">
+                                {dateStr}
+                            </span>
+                            <span
+                                className={`uppercase before:content-['STATUS:_'] ${completed ? 'text-success' : 'text-warning'}`}
+                            >
+                                {completed ? 'COMPLETE' : 'PENDING'}
+                            </span>
+                            <span className="hidden text-white/20 before:content-['|'] sm:inline"></span>
+                            <span className="text-[10px] tracking-wider text-white/30 uppercase before:content-['OP\_ID:_']">
+                                {(index + 1).toString().padStart(3, '0')}
+                            </span>
+                        </div>
 
-                <div className="group-hover:text-primary text-sm font-bold text-white/90 transition-colors">
-                    <span className="text-primary/50 select- mr-2 before:content-['>>']"></span>
-                    {task}
-                </div>
+                        <div className="group-hover:text-primary text-sm font-bold text-white/90 transition-colors">
+                            <span className="text-primary/50 select- mr-2 before:content-['>>']"></span>
+                            {task}
+                        </div>
 
-                {description && (
-                    <div className="ml-1 border-l-2 border-white/5 py-1 pl-6 text-xs text-white/60">
-                        {description}
+                        {description && (
+                            <div className="ml-1 border-l-2 border-white/5 py-1 pl-6 text-xs text-white/60">
+                                {description}
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
             </div>
         </div>
     )
@@ -61,16 +78,17 @@ function TimelineItem({
 export default function TimeLine() {
     const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all')
 
-    const filteredData = useMemo(() => {
-        return todoListData.data
-            .map((item, index) => ({ ...item, originalIndex: index }))
-            .filter((item) => {
-                if (filter === 'all') return true
-                if (filter === 'completed') return item.completed
-                if (filter === 'pending') return !item.completed
-                return true
-            })
-    }, [filter])
+    // 优化：只生成一次完整的列表，后续筛选不再触发重绘
+    const items = useMemo(() => {
+        return todoListData.data.map((item, index) => (
+            <TimelineItem
+                index={index}
+                {...item}
+                key={index}
+                isLast={index === todoListData.data.length - 1}
+            />
+        ))
+    }, [])
 
     return (
         <div className="h-full w-full">
@@ -105,17 +123,20 @@ export default function TimeLine() {
                 </div>
             </div>
 
-            <div className="flex flex-col pl-2">
-                {filteredData.map((item) => {
-                    const { originalIndex, ...rest } = item
-                    return (
-                        <TimelineItem
-                            index={originalIndex}
-                            {...rest}
-                            key={originalIndex}
-                        />
-                    )
-                })}
+            <div
+                className="flex flex-col pl-2"
+                style={
+                    {
+                        '--rows-completed':
+                            filter === 'pending' ? '0fr' : '1fr',
+                        '--opacity-completed': filter === 'pending' ? '0' : '1',
+                        '--rows-pending':
+                            filter === 'completed' ? '0fr' : '1fr',
+                        '--opacity-pending': filter === 'completed' ? '0' : '1',
+                    } as React.CSSProperties
+                }
+            >
+                {items}
             </div>
 
             <div className="text-base-100 mt-4 text-[10px] opacity-50">

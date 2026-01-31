@@ -13,7 +13,7 @@ export default function ToUp() {
     const navShow = useNavStore((state) => state.navShow)
 
     return (
-        <div className="sticky bottom-8 z-50 mr-8 ml-auto h-fit w-fit">
+        <div className="sticky right-0 bottom-0 z-50 flex h-0 w-full -translate-x-8 -translate-y-18 flex-row justify-end">
             <button
                 className={`${
                     navShow

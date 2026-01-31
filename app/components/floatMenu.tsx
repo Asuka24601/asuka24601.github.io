@@ -12,14 +12,14 @@ export default function FloatMenu({
 }) {
     return (
         <>
-            <div className="bg-modalBlack! relative overflow-hidden">
+            <div className="relative max-w-60 overflow-hidden">
                 <CRTOverlay />
                 <TextJitter>
                     <nav
-                        className={`font-mono text-xs lg:text-sm ${className || ''}`}
+                        className={`font-mono text-[10px] lg:text-xs ${className || ''}`}
                         style={style}
                     >
-                        <menu className="flex flex-col border-l border-dashed border-white/10 pl-2">
+                        <menu className="flex flex-col border-l border-dashed border-white/10 pl-2 [&_a]:text-wrap [&_a]:break-all">
                             {children}
                         </menu>
                     </nav>

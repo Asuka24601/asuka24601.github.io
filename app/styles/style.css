@@ -6,6 +6,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.3);
+    /* background-color: var(--color-modalBlack); */
 }
 
 @theme {
@@ -17,7 +18,7 @@
 
     --color-modalBox: #2d416f;
 
-    --color-modalBlack: #232433;
+    --color-modalBlack: oklch(0.15 0 0);
 
     --color-darkpink: #3d2c3f;
 

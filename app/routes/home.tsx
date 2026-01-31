@@ -18,6 +18,8 @@ import tagData from '../contents/tags.json'
 import postsData from '../contents/__manifest.json'
 import BannerContent from '../components/bannerContent'
 import Notice from '../components/home/notice'
+import CRTOverlay from '../components/effect/CRTOverlay'
+import TextJitter from '../components/effect/textJitter'
 
 export default function Home() {
     const profileStatistics: ProfileStatisticsInterface = useMemo(
@@ -53,7 +55,7 @@ export default function Home() {
     return (
         <>
             <div ref={wrapperRef} className="contents">
-                <BannerContent wrapperRef={wrapperRef}>
+                <BannerContent wrapperRef={wrapperRef} hiddenImg={true}>
                     <PrologueComponent
                         fullText={profileData.data.discription}
                         className="flex h-full w-full flex-row items-center justify-center"
@@ -62,42 +64,60 @@ export default function Home() {
 
                 <div className="border-primary border-t-4 border-double"></div>
 
-                <div
-                    ref={elementRef}
-                    className="relative mx-auto flex h-full min-h-full max-w-6xl flex-col gap-5 px-5 will-change-transform lg:grid lg:grid-cols-[auto_1fr]"
-                    style={{
-                        transform:
-                            'translateY(calc(var(--scroll-percent) * -25vw))',
-                    }}
-                >
-                    <aside className="flex h-fit flex-col gap-5 lg:w-md">
-                        <div className="contents">
-                            <ProfileCard
-                                className="h-full"
-                                profileData={profileData}
-                                profileStatistics={profileStatistics}
-                            />
-                        </div>
+                <div className="border-terminal mx-auto flex h-full min-h-full max-w-6xl overflow-visible! border-none!">
+                    <CRTOverlay />
+                    <TextJitter>
+                        <div
+                            ref={elementRef}
+                            className="relative flex flex-col gap-5 will-change-transform lg:grid lg:grid-cols-[auto_1fr]"
+                            style={{
+                                transform:
+                                    'translateY(calc(var(--scroll-percent) * -25vw))',
+                            }}
+                        >
+                            <aside className="flex h-fit flex-col gap-5 lg:w-md">
+                                <div className="contents">
+                                    <ProfileCard
+                                        className="bg-modalBlack h-full"
+                                        profileData={profileData}
+                                        profileStatistics={profileStatistics}
+                                    />
+                                </div>
 
-                        <div className="contents">
-                            <TagComponent TagsData={tagData} />
-                        </div>
-                    </aside>
+                                <div className="contents">
+                                    <TagComponent
+                                        TagsData={tagData}
+                                        className="bg-modalBlack"
+                                    />
+                                </div>
+                            </aside>
 
-                    <div className="flex flex-col gap-5">
-                        <section className="contents">
-                            <Notice />
-                        </section>
-                        <section className="contents">
-                            <RecentComponent recentData={postsData} count={5} />
-                        </section>
-                        <section className="contents">
-                            <TodoList todoListItems={todoListItems} />
-                        </section>
-                        <section className="contents">
-                            <CommentComponent commentsData={commentData} />
-                        </section>
-                    </div>
+                            <div className="flex flex-col gap-5">
+                                <section className="contents">
+                                    <Notice className="bg-modalBlack" />
+                                </section>
+                                <section className="contents">
+                                    <RecentComponent
+                                        className="bg-modalBlack"
+                                        recentData={postsData}
+                                        count={5}
+                                    />
+                                </section>
+                                <section className="contents">
+                                    <TodoList
+                                        todoListItems={todoListItems}
+                                        className="bg-modalBlack"
+                                    />
+                                </section>
+                                <section className="contents">
+                                    <CommentComponent
+                                        className="bg-modalBlack"
+                                        commentsData={commentData}
+                                    />
+                                </section>
+                            </div>
+                        </div>
+                    </TextJitter>
                 </div>
             </div>
         </>

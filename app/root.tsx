@@ -62,7 +62,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 />
                 <Links />
             </head>
-            <body className="bg-base-content relative min-w-xl scroll-smooth">
+            <body className="relative min-w-xl scroll-smooth bg-black">
                 <CRTScreen />
                 {children}
                 <ScrollRestoration />

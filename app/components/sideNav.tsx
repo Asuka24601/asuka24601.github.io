@@ -24,24 +24,27 @@ export default function SideNav({
 
     return (
         <>
-            <div className={`${className || 'lg:hidden'}`}>
-                <button
-                    className="border-primary text-primary bg-modalBlack fixed right-8 bottom-24 z-40 flex h-12 w-12 items-center justify-center border-2 border-double shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] transition-all hover:translate-y-1 hover:shadow-none"
-                    title="OPEN_DIRECTORY"
-                    onClick={() => {
-                        const scrollbarWidth =
-                            window.innerWidth -
-                            document.documentElement.clientWidth
-                        document.body.style.overflowY = 'hidden'
+            <div className={`${className || 'lg:hidden'} contents`}>
+                <div className="sticky right-0 bottom-0 flex h-0 w-full -translate-x-8 -translate-y-36 flex-row justify-end">
+                    <button
+                        className="border-primary text-primary bg-modalBlack right-8 bottom-24 z-40 flex h-12 w-12 items-center justify-center border-2 border-double shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] transition-all hover:translate-y-1 hover:shadow-none"
+                        title="OPEN_DIRECTORY"
+                        onClick={() => {
+                            const scrollbarWidth =
+                                window.innerWidth -
+                                document.documentElement.clientWidth
+                            document.body.style.overflowY = 'hidden'
 
-                        if (scrollbarWidth > 0) {
-                            document.body.style.paddingRight = `${scrollbarWidth}px`
-                        }
-                        dialogRef.current?.showModal()
-                    }}
-                >
-                    <SvgIcon name="toc" size={24} />
-                </button>
+                            if (scrollbarWidth > 0) {
+                                document.body.style.paddingRight = `${scrollbarWidth}px`
+                            }
+                            dialogRef.current?.showModal()
+                        }}
+                    >
+                        <SvgIcon name="toc" size={24} />
+                    </button>
+                </div>
+
                 <dialog
                     ref={dialogRef}
                     onClose={() => {

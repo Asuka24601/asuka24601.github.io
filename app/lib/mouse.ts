@@ -4,33 +4,17 @@ function injectHeartStyle() {
     style.id = 'mouse-heart-style'
     style.innerHTML = `
     .mouse-heart {
-        position: absolute;
-        width: 18px;
+        position: fixed;
+        width: 21px;
         height: 18px;
         z-index: 99999;
         pointer-events: none;
-        animation: mouse-heart-fade 0.5s forwards;
-    }
-    .mouse-heart::before,
-    .mouse-heart::after {
-        content: "";
-        position: absolute;
-        width: 9px;
-        height: 12px;
-        background: red;
-        border-radius: 8px 8px 0 0;
-        top: 0;
-    }
-    .mouse-heart::after {
-        left: 3px;
-        transform: rotate(-45deg);
-    }
-    .mouse-heart::before {
-        left: 6px;
-        transform: rotate(45deg);
-    }
-    @keyframes mouse-heart-fade {
-        to { opacity: 0; transform: scale(1.5);}
+        will-change: transform;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6'%3E%3Cpath fill='red' d='M1 0h2v1h-2zM4 0h2v1h-2zM0 1h7v2h-7zM1 3h5v1h-5zM2 4h3v1h-3zM3 5h1v1h-1z'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
+        image-rendering: pixelated;
+        user-select: none;
     }
     `
     document.head.appendChild(style)
@@ -39,21 +23,43 @@ function injectHeartStyle() {
 export const createHeart = (): (() => void) => {
     injectHeartStyle()
 
-    const handleClick = (e: PointerEvent) => {
+    const hearts: HTMLDivElement[] = []
+    const MAX_HEARTS = 15
+
+    const handleClick = (e: MouseEvent) => {
         // e.stopPropagation()
         // e.preventDefault()
-        const posX = e.pageX
-        const posY = e.pageY
-        const heart = document.createElement('div')
-        heart.className = 'mouse-heart'
-        heart.style.top = `${posY - 9}px`
-        heart.style.left = `${posX - 9}px`
+        const posX = e.clientX
+        const posY = e.clientY
 
-        document.body.appendChild(heart)
+        requestAnimationFrame(() => {
+            if (hearts.length >= MAX_HEARTS) {
+                const oldHeart = hearts.shift()
+                if (oldHeart) oldHeart.remove()
+            }
 
-        setTimeout(() => {
-            heart.remove()
-        }, 500)
+            const heart = document.createElement('div')
+            heart.className =
+                'mouse-heart animate__heartBeat animate__animated animate__faster overflow-hidden'
+            heart.style.top = `${posY - 9}px`
+            heart.style.left = `${posX - 10}px`
+            heart.style.filter = `hue-rotate(${Math.random() * 360}deg)`
+
+            document.body.appendChild(heart)
+            hearts.push(heart)
+
+            heart.addEventListener(
+                'animationend',
+                () => {
+                    heart.remove()
+                    const index = hearts.indexOf(heart)
+                    if (index > -1) {
+                        hearts.splice(index, 1)
+                    }
+                },
+                { once: true }
+            )
+        })
     }
 
     document.body.addEventListener('click', handleClick)

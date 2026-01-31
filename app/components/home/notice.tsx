@@ -82,9 +82,9 @@ function Neofetch() {
     )
 }
 
-export default function Notice() {
+export default function Notice({ className }: { className?: string }) {
     return (
-        <div className="w-full font-mono text-sm">
+        <div className={'w-full font-mono text-sm ' + (className || '')}>
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>

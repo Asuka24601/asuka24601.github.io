@@ -92,76 +92,56 @@ export default function PostContent() {
                     />
                 </div>
 
-                {/* Mobile TOC Drawer Trigger & Content */}
-                <SideNav className="2xl:hidden!">
-                    <TOC
-                        queryID={'article-' + md5(location.pathname)}
-                        className="w-full"
-                    />
-                </SideNav>
+                <div className="relative block h-full min-h-[inherit] w-full overflow-visible">
+                    <div className="relative mx-auto max-w-5xl overflow-visible">
+                        <article
+                            className="border-terminal bg-modalBlack animate__animated animate__fadeIn animate__slow relative will-change-transform"
+                            style={{
+                                transform:
+                                    'translateY(calc(var(--scroll-percent) * -25vw))',
+                            }}
+                        >
+                            <CRTOverlay />
+                            <TextJitter>
+                                <AriticleContene
+                                    id={'article-' + md5(location.pathname)}
+                                >
+                                    <Outlet />
+                                </AriticleContene>
 
-                <div
-                    className="relative will-change-transform"
-                    style={{
-                        transform:
-                            'translateY(calc(var(--scroll-percent) * -25vw))',
-                    }}
-                >
-                    <div className="mx-auto block h-full min-h-[inherit] max-w-full">
-                        {import.meta.env.DEV ? (
-                            <div className="mx-auto mb-8 max-w-4xl rounded-lg border border-yellow-200 bg-yellow-50 p-4">
-                                <p className="text-yellow-800">
-                                    🚧 开发模式：使用虚拟模块加载 Markdown 内容
-                                </p>
-                                <p className="mt-1 text-sm text-yellow-600">
-                                    生产构建时会替换为预编译的 TypeScript 组件
-                                </p>
-                            </div>
-                        ) : null}
+                                <div className="divider"></div>
 
-                        <div className="w-full">
-                            <article
-                                className="border-terminal mx-auto max-w-6xl"
+                                <AriticleFooter
+                                    tags={frontMatter?.tags as string[]}
+                                />
+                            </TextJitter>
+                        </article>
+
+                        <div className="border-terminal bg-modalBlack! absolute! top-0 right-0 hidden h-full translate-x-[calc(100%-4px)] overflow-visible! border-t-0! border-b-0! 2xl:block">
+                            <CRTOverlay />
+                            <div
+                                className="sticky left-0 z-40 h-fit w-fit"
                                 style={{
-                                    overflow: 'visible',
+                                    top: 'var(--navbar-height)',
                                 }}
                             >
-                                <CRTOverlay />
-                                <TextJitter>
-                                    <AriticleContene
-                                        id={'article-' + md5(location.pathname)}
-                                    >
-                                        <Outlet />
-                                    </AriticleContene>
-
-                                    <div className="divider"></div>
-
-                                    <AriticleFooter
-                                        tags={frontMatter?.tags as string[]}
-                                    />
-                                </TextJitter>
-
-                                <div
-                                    className="absolute top-0 right-0 hidden h-full translate-x-full pl-3 2xl:block"
-                                    style={{
-                                        transform:
-                                            'translateY(calc(var(--scroll-percent) * 25vw))',
-                                    }}
-                                >
-                                    <div className="sticky top-32 left-0 z-40 h-fit w-fit">
-                                        <TOC
-                                            queryID={
-                                                'article-' +
-                                                md5(location.pathname)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                            </article>
+                                <TOC
+                                    queryID={
+                                        'article-' + md5(location.pathname)
+                                    }
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {/* Mobile TOC Drawer Trigger & Content */}
+            <SideNav className="2xl:hidden!">
+                <TOC
+                    queryID={'article-' + md5(location.pathname)}
+                    className="w-full"
+                />
+            </SideNav>
         </>
     )
 }

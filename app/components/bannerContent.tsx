@@ -16,11 +16,13 @@ export default function BannerContent({
     ImgUrl,
     wrapperRef,
     blurred = false,
+    hiddenImg = false,
 }: {
     children: React.ReactNode
     ImgUrl?: string
     blurred?: boolean
     wrapperRef: React.RefObject<HTMLDivElement | null>
+    hiddenImg?: boolean
 }) {
     const [bannerHeight, setBannerHeight] = useState(0)
     const [showDown, setShowDown] = useState(true)
@@ -200,7 +202,11 @@ export default function BannerContent({
                             <div className="h-full w-full animate-pulse bg-black" />
                         }
                     >
-                        <HeaderBanner ImgUrl={ImgUrl} blurred={blurred} />
+                        {hiddenImg ? (
+                            <div className="h-full w-full bg-transparent"></div>
+                        ) : (
+                            <HeaderBanner ImgUrl={ImgUrl} blurred={blurred} />
+                        )}
                     </Suspense>
 
                     <div className="absolute top-0 left-0 h-full w-full">

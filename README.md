@@ -13,12 +13,13 @@
     - remark-gfm
     - remark-math
 - Gray-matter
-- highlight.js
+- Highlight.js
 - Tailwind CSS
     - Daisyui
 - Glob
 - Zustand
 - Lodash
-- animate.css
-- three.js
-- katex
+- Animate.css
+- Three.js
+- Katex
+- Flexsearch
