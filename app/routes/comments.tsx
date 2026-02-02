@@ -1,4 +1,6 @@
 import { useLayoutEffect } from 'react'
+import CRTOverlay from '../components/effect/CRTOverlay'
+import TextJitter from '../components/effect/textJitter'
 
 export default function Comments() {
     const handleAction = () => {
@@ -15,8 +17,15 @@ export default function Comments() {
 
     return (
         <>
-            <div className="mx-auto min-h-screen max-w-6xl">
-                <p>comments</p>
+            <div className="mx-auto min-h-screen w-full">
+                <div className="border-terminal mx-auto grid min-h-[inherit] max-w-6xl overflow-visible! border-none! p-4 lg:p-6">
+                    <div className="min-h-full w-full pt-(--navbar-height) transition-transform duration-500">
+                        <CRTOverlay />
+                        <TextJitter className="border-primary! bg-modalBlack relative min-h-full overflow-hidden border-4 border-double">
+                            <p>Comments</p>
+                        </TextJitter>
+                    </div>
+                </div>
             </div>
         </>
     )

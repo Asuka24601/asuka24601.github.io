@@ -1,4 +1,3 @@
-import CRTOverlay from './effect/CRTOverlay'
 import TextJitter from './effect/textJitter'
 
 export default function FloatMenu({
@@ -13,8 +12,7 @@ export default function FloatMenu({
     return (
         <>
             <div className="relative max-w-60 overflow-hidden">
-                <CRTOverlay />
-                <TextJitter>
+                <TextJitter className="border-none! p-0!">
                     <nav
                         className={`font-mono text-[10px] lg:text-xs ${className || ''}`}
                         style={style}

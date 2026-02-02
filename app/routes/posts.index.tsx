@@ -243,7 +243,7 @@ export default function PostIndex() {
                                             </div>
 
                                             {/* Title */}
-                                            <h2 className="group-hover:text-warning text-xl font-bold tracking-wide text-white transition-colors">
+                                            <h2 className="group-hover:text-success text-xl font-bold tracking-wide text-white transition-colors">
                                                 <NavLink
                                                     to={item.path}
                                                     className="flex items-center gap-2"

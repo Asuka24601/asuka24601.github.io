@@ -109,10 +109,11 @@ export default function PostContent() {
                                     <Outlet />
                                 </AriticleContene>
 
-                                <div className="divider"></div>
+                                <div className="border-primary/20 w-full border-b-2 border-dashed"></div>
 
                                 <AriticleFooter
                                     tags={frontMatter?.tags as string[]}
+                                    time={frontMatter?.date as string}
                                 />
                             </TextJitter>
                         </article>
@@ -120,7 +121,7 @@ export default function PostContent() {
                         <div className="border-terminal bg-modalBlack! absolute! top-0 right-0 hidden h-full translate-x-[calc(100%-4px)] overflow-visible! border-t-0! border-b-0! 2xl:block">
                             <CRTOverlay />
                             <div
-                                className="sticky left-0 z-40 h-fit w-fit"
+                                className="sticky left-0 z-40 h-fit w-fit p-4"
                                 style={{
                                     top: 'var(--navbar-height)',
                                 }}

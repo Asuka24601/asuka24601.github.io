@@ -243,7 +243,7 @@ const mdxComponents = {
             className="border-primary/50 my-4 border-l-4 bg-white/5 p-4 text-sm text-white/70 italic"
             {...props}
         >
-            <span className="text-warning/50 mr-2 font-bold before:content-['“']"></span>
+            <span className="text-primary/50 mr-2 font-bold before:content-['“']"></span>
             {children}
         </blockquote>
     ),

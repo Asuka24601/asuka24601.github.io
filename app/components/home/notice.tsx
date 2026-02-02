@@ -47,8 +47,8 @@ function Neofetch() {
     ]
 
     return (
-        <div className="mb-6 flex flex-col items-center gap-6 font-mono text-xs lg:flex-row lg:items-start lg:text-sm">
-            <pre className="text-primary hidden leading-tight font-bold opacity-80 select-none lg:block">
+        <div className="mb-6 flex flex-col items-center gap-6 font-mono text-xs sm:flex-row sm:items-start sm:text-sm">
+            <pre className="text-primary hidden leading-tight font-bold opacity-80 select-none sm:block">
                 {PC_ASCII}
             </pre>
             <div className="flex w-full flex-col gap-1">

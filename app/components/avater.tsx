@@ -1,5 +1,6 @@
 import ProgressiveImage from './progressiveImage'
 import localAvatar from '../assets/avatar.webp'
+import CRTScreen from './effect/CRTScreen'
 
 export default function Avatar({
     src,
@@ -28,6 +29,7 @@ export default function Avatar({
                     draggable={false}
                 />
             )}
+            <CRTScreen />
         </>
     )
 }

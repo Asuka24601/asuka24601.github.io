@@ -20,6 +20,17 @@ function ProfileCard({
 }) {
     const author = profileData.data
 
+    const avatarOnClick = (e: React.MouseEvent<HTMLImageElement>) => {
+        const element = e.target
+        if (element instanceof HTMLImageElement) {
+            if (element.classList.contains('animate__flip')) return
+            element.classList.add('animate__flip')
+            setTimeout(() => {
+                element.classList.remove('animate__flip')
+            }, 1000)
+        }
+    }
+
     return (
         <div className={`w-full font-mono text-sm ${className || ''}`}>
             <div className="border-terminal">
@@ -40,10 +51,13 @@ function ProfileCard({
                     {/* Identity Section */}
                     <div className="mb-4 flex gap-4">
                         <div className="shrink-0">
-                            <div className="border-primary/30 h-24 w-24 border bg-black/20 p-1">
+                            <div
+                                className="border-primary/30 h-24 w-24 cursor-pointer overflow-hidden border border-dashed bg-black/20 p-1"
+                                onClick={avatarOnClick}
+                            >
                                 <Avatar
                                     src={author.avatar}
-                                    className="h-full w-full object-cover opacity-90"
+                                    className="animate__animated h-full w-full object-cover opacity-90"
                                 />
                             </div>
                         </div>

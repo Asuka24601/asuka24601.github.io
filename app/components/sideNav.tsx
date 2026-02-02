@@ -36,7 +36,7 @@ export default function SideNav({
                             document.body.style.overflowY = 'hidden'
 
                             if (scrollbarWidth > 0) {
-                                document.body.style.paddingRight = `${scrollbarWidth}px`
+                                document.body.style.paddingRight = `${scrollbarWidth > 30 ? 0 : scrollbarWidth}px`
                             }
                             dialogRef.current?.showModal()
                         }}

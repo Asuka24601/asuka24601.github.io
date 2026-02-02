@@ -1,36 +1,46 @@
 import type { CSSProperties } from 'react'
-import type { TagItemInterface, TagDataInterface } from '../../interfaces/tags'
+import type { TagDataInterface } from '../../interfaces/tags'
 import { memo } from 'react'
 import CRTOverlay from '../effect/CRTOverlay'
 import TextJitter from '../effect/textJitter'
+import { Link } from 'react-router'
+
+interface TagItem {
+    name: string
+    count?: number
+}
 
 export function TagItemComponent({
     tag,
     className,
     style,
 }: {
-    tag: TagItemInterface
+    tag: TagItem
     className?: string | undefined
     style?: CSSProperties | undefined
 }) {
     return (
-        <div
-            className={`group border-azure/30 hover:border-azure hover:bg-modalBox/90 bg-modalBox/60 relative flex cursor-pointer items-center gap-2 border border-dashed px-2 py-1 transition-all hover:border-solid ${className}`}
-        >
-            {/* Chip decoration */}
-            <div className="bg-azure/50 group-hover:bg-azure h-1.5 w-1.5 group-hover:animate-pulse"></div>
-
-            <span
-                className="text-azure/70 group-hover:text-azure font-mono text-xs font-bold uppercase"
-                style={style}
+        <Link to={`/tags/${tag.name}`}>
+            <div
+                className={`group hover:border-secondary relative flex cursor-pointer items-center gap-2 border border-solid border-white/10 bg-black/20 px-2 py-1 transition-all hover:bg-black/90 ${className}`}
             >
-                {tag.name}
-            </span>
-            {/* Tech decoration */}
-            <span className="text-azure/30 group-hover:text-azure/50 font-mono text-[8px] before:content-['x']">
-                {tag.count}
-            </span>
-        </div>
+                {/* Chip decoration */}
+                <div className="bg-secondary/50 group-hover:bg-secondary h-1.5 w-1.5 group-hover:animate-pulse"></div>
+
+                <span
+                    className="text-secondary/70 group-hover:text-secondary font-mono text-xs font-bold uppercase"
+                    style={style}
+                >
+                    {tag.name}
+                </span>
+                {/* Tech decoration */}
+                {tag.count && (
+                    <span className="text-secondary/30 group-hover:text-secondary/50 font-mono text-[8px] before:content-['x']">
+                        {tag.count}
+                    </span>
+                )}
+            </div>
+        </Link>
     )
 }
 

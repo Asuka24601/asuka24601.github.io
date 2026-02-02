@@ -107,7 +107,7 @@ export default function About() {
     return (
         <>
             <div className="min-h-screen w-full font-mono text-sm">
-                <div className="border-primary relative h-[40vh] w-full overflow-hidden border-b-4 border-double bg-black">
+                <div className="border-primary animate__animated animate__fadeIn relative h-[40vh] w-full overflow-hidden border-b-4 border-double bg-black">
                     <div
                         ref={imgContentRef}
                         className="animate__animated animate__fadeIn animate__slow pointer-events-none mx-auto aspect-square transition-all duration-500 select-none"

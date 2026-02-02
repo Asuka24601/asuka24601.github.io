@@ -9,7 +9,7 @@ import {
 import RouteManifest from './contents/__manifest.json'
 
 const devRoutes = import.meta.env.DEV
-    ? [route('/*', 'routes/blog.$slug.tsx')]
+    ? [route('/*', 'routes/posts.$slug.tsx')]
     : []
 
 const blogRoutes: ReturnType<typeof route>[] = import.meta.env.PROD
@@ -20,16 +20,19 @@ export default [
     layout('layouts/base.tsx', [
         index('routes/home.tsx'),
         route('comments', 'routes/comments.tsx'),
-        route('tags', 'routes/tags.tsx'),
+        ...prefix('tags', [
+            index('routes/tags.index.tsx'),
+            route(':tag', 'routes/tags.$tag.tsx'),
+        ]),
         ...prefix('about', [
             layout('layouts/about.tsx', [
-                index('routes/archive.tsx'),
-                route('introduction', 'routes/introduction.tsx'),
-                route('timeline', 'routes/timeline.tsx'),
+                index('routes/about.archive.tsx'),
+                route('introduction', 'routes/about.introduction.tsx'),
+                route('timeline', 'routes/about.timeline.tsx'),
             ]),
         ]),
         ...prefix('posts', [
-            index('routes/postIndex.tsx'),
+            index('routes/posts.index.tsx'),
             layout('layouts/postContent.tsx', [...devRoutes, ...blogRoutes]),
         ]),
     ]),

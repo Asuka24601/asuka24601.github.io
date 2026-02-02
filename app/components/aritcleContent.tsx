@@ -3,6 +3,8 @@ import mdxComponents from '../components/mdxComponent'
 import { MDXProvider } from '@mdx-js/react'
 import CRTOverlay from './effect/CRTOverlay'
 import TextJitter from './effect/textJitter'
+import { TagItemComponent } from './home/tagsComponent'
+import { timeToString } from '../lib/utils'
 
 type Tags = string[]
 
@@ -69,28 +71,26 @@ export function AriticleHeader({
     )
 }
 
-export function AriticleFooter({ tags }: { tags: Tags }) {
+export function AriticleFooter({ tags, time }: { tags: Tags; time?: string }) {
     return (
         <footer className="flex flex-col gap-3 py-4 text-sm text-gray-500">
             {tags && tags.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                    <span className={`after:content-[':']`}>标签</span>
+                <div className="flex flex-row flex-wrap items-center gap-2">
+                    <span className={`text-xs after:content-['TAGS:_']`}></span>
                     {tags.map((tag: string, index: number) => (
-                        <span
-                            key={index}
-                            className="rounded px-2 py-0.5 text-xs text-teal-50"
-                            style={{
-                                background: `color-mix(in srgb, var(--color-primary), white)`,
-                            }}
-                        >
-                            #{tag}
-                        </span>
+                        <TagItemComponent key={index} tag={{ name: tag }} />
                     ))}
                 </div>
             )}
             <p>
-                {import.meta.env.DEV ? '开发模式' : '发表模式'} • 最后更新:{' '}
-                {new Date().toLocaleTimeString()}
+                <span className="text-xs after:content-['_•_LAST\_MODIFIED:_']">
+                    {import.meta.env.DEV ? 'DEV' : 'BUILD'}
+                </span>
+                <span className="text-warning">
+                    {time
+                        ? timeToString(time).time
+                        : new Date().toLocaleDateString('zh-CN')}
+                </span>
             </p>
         </footer>
     )

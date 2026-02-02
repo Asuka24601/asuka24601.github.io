@@ -30,7 +30,7 @@ export default function LightBox() {
             setScale(1)
             setPosition({ x: 0, y: 0 })
             if (scrollbarWidth > 0) {
-                document.body.style.paddingRight = `${scrollbarWidth}px`
+                document.body.style.paddingRight = `${scrollbarWidth > 30 ? 0 : scrollbarWidth}px`
             }
 
             if (timerRef.current) {
@@ -120,7 +120,7 @@ export default function LightBox() {
             <CRTOverlay />
 
             <div
-                className="border-primary bg-modalBlack relative flex h-[90vh] w-[90vw] flex-col overflow-hidden border-4 border-double shadow-[0_0_20px_rgba(0,255,0,0.2)]"
+                className="border-primary bg-modalBlack relative flex h-[max(90%,90vh)] w-[max(90%,90vw)] flex-col overflow-hidden border-4 border-double shadow-[0_0_20px_rgba(0,255,0,0.2)]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <TextJitter className="flex h-full w-full flex-col">
