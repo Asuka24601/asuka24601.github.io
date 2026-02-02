@@ -62,7 +62,7 @@ export default function Home() {
                     />
                 </BannerContent>
 
-                <div className="border-primary border-t-4 border-double"></div>
+                <div className="border-neutral border-t-4 border-double"></div>
 
                 <div className="border-terminal mx-auto flex h-full min-h-full max-w-6xl overflow-visible! border-none!">
                     <CRTOverlay />
@@ -78,7 +78,7 @@ export default function Home() {
                             <aside className="flex h-fit flex-col gap-5 lg:w-md">
                                 <div className="contents">
                                     <ProfileCard
-                                        className="bg-modalBlack h-full"
+                                        className="bg-base-200 h-full"
                                         profileData={profileData}
                                         profileStatistics={profileStatistics}
                                     />
@@ -87,18 +87,18 @@ export default function Home() {
                                 <div className="contents">
                                     <TagComponent
                                         TagsData={tagData}
-                                        className="bg-modalBlack"
+                                        className="bg-base-200"
                                     />
                                 </div>
                             </aside>
 
                             <div className="flex flex-col gap-5">
                                 <section className="contents">
-                                    <Notice className="bg-modalBlack" />
+                                    <Notice className="bg-base-200" />
                                 </section>
                                 <section className="contents">
                                     <RecentComponent
-                                        className="bg-modalBlack"
+                                        className="bg-base-200"
                                         recentData={postsData}
                                         count={5}
                                     />
@@ -106,12 +106,12 @@ export default function Home() {
                                 <section className="contents">
                                     <TodoList
                                         todoListItems={todoListItems}
-                                        className="bg-modalBlack"
+                                        className="bg-base-200"
                                     />
                                 </section>
                                 <section className="contents">
                                     <CommentComponent
-                                        className="bg-modalBlack"
+                                        className="bg-base-200"
                                         commentsData={commentData}
                                     />
                                 </section>

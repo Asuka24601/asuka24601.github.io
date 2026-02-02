@@ -23,16 +23,16 @@ export function PageError({ error }: { error: unknown }) {
     return (
         <main
             id="page-error"
-            className="flex h-screen w-screen items-center justify-center bg-black font-mono text-sm"
+            className="bg-base-100 flex h-screen w-screen items-center justify-center font-mono text-sm"
         >
             <div className="border-terminal m-4 w-full max-w-2xl">
                 <CRTOverlay />
                 <TextJitter>
-                    <div className="border-primary/30 bg-modalBlack flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)] lg:p-10">
+                    <div className="border-neutral/30 bg-base-200 flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)] lg:p-10">
                         {/* Header */}
-                        <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed pb-2">
+                        <div className="border-neutral/30 flex items-end justify-between border-b-2 border-dashed pb-2">
                             <div>
-                                <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM_ALERT']"></div>
+                                <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM_ALERT']"></div>
                                 <div
                                     className={`text-3xl font-black tracking-widest uppercase ${is404 ? 'text-warning' : 'text-red-500'}`}
                                 >
@@ -40,7 +40,7 @@ export function PageError({ error }: { error: unknown }) {
                                 </div>
                             </div>
                             <div className="text-right">
-                                <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['ERROR_CODE']"></div>
+                                <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['ERROR_CODE']"></div>
                                 <div
                                     className={`text-xl font-bold ${is404 ? 'text-warning' : 'text-red-500'}`}
                                 >
@@ -62,14 +62,14 @@ export function PageError({ error }: { error: unknown }) {
                                         : '!'}
                                 </div>
                                 <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="bg-modalBlack/80 px-4 text-lg font-bold tracking-widest text-white uppercase backdrop-blur-sm">
+                                    <div className="bg-base-200/80 text-base-content px-4 text-lg font-bold tracking-widest uppercase backdrop-blur-sm">
                                         {is404 ? 'TARGET_NOT_FOUND' : message}
                                     </div>
                                 </div>
                             </div>
 
                             <div
-                                className={`border-l-2 bg-white/5 p-4 text-xs text-white/80 ${is404 ? 'border-warning/50' : 'border-red-500/50'}`}
+                                className={`text-base-content/80 border-l-2 bg-white/5 p-4 text-xs ${is404 ? 'border-warning/50' : 'border-red-500/50'}`}
                             >
                                 <p
                                     className={`mb-2 font-bold uppercase ${is404 ? 'text-warning' : 'text-red-400'}`}
@@ -80,8 +80,8 @@ export function PageError({ error }: { error: unknown }) {
                             </div>
 
                             {stack && (
-                                <div className="mt-4 overflow-x-auto border border-dashed border-white/20 bg-black/40 p-2">
-                                    <pre className="text-[10px] text-white/60">
+                                <div className="bg-base-200/40 mt-4 overflow-x-auto border border-dashed border-white/20 p-2">
+                                    <pre className="text-base-content/60 text-[10px]">
                                         <code>{stack}</code>
                                     </pre>
                                 </div>
@@ -89,7 +89,7 @@ export function PageError({ error }: { error: unknown }) {
                         </div>
 
                         {/* Footer */}
-                        <div className="border-primary/30 flex items-center justify-between border-t border-dashed pt-4 text-[10px] text-white/40 uppercase">
+                        <div className="border-neutral/30 text-base-content/40 flex items-center justify-between border-t border-dashed pt-4 text-[10px] uppercase">
                             <span className="animate-pulse">&gt; _</span>
                             <a
                                 href="/"

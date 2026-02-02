@@ -37,13 +37,13 @@ function ProfileCard({
                 <CRTOverlay />
                 <TextJitter>
                     {/* Header */}
-                    <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
+                    <div className="border-neutral/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                         <div>
-                            <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_IDENTITY_VERIFIED']"></div>
+                            <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_IDENTITY_VERIFIED']"></div>
                             <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['ACCESS\_CARD']"></div>
                         </div>
                         <div className="text-right">
-                            <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['LEVEL']"></div>
+                            <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['LEVEL']"></div>
                             <div className="text-warning text-xs opacity-70 before:content-['ADMIN_01']"></div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@ function ProfileCard({
                     <div className="mb-4 flex gap-4">
                         <div className="shrink-0">
                             <div
-                                className="border-primary/30 h-24 w-24 cursor-pointer overflow-hidden border border-dashed bg-black/20 p-1"
+                                className="border-neutral/30 bg-base-300/20 h-24 w-24 cursor-pointer overflow-hidden border border-dashed p-1"
                                 onClick={avatarOnClick}
                             >
                                 <Avatar
@@ -65,8 +65,8 @@ function ProfileCard({
                             <h1 className="text-secondary text-lg font-bold tracking-wider uppercase">
                                 {author.name}
                             </h1>
-                            <div className="text-[10px] text-white/50 uppercase before:content-['ROLE:_SYSTEM_OPERATOR']"></div>
-                            <div className="border-primary/30 border-l-2 pl-2 text-xs leading-tight text-white/70 italic">
+                            <div className="text-base-content/50 text-[10px] uppercase before:content-['ROLE:_SYSTEM_OPERATOR']"></div>
+                            <div className="border-neutral/30 text-base-content/70 border-l-2 pl-2 text-xs leading-tight italic">
                                 {author.introduction}
                             </div>
                         </div>
@@ -83,7 +83,7 @@ function ProfileCard({
                                     to={item.routePath}
                                     className="w-full text-center"
                                 >
-                                    <div className="mb-1 text-[10px] text-white/40 uppercase">
+                                    <div className="text-base-content/40 mb-1 text-[10px] uppercase">
                                         {item.name}
                                     </div>
                                     <div className="text-warning text-lg font-bold">
@@ -96,7 +96,7 @@ function ProfileCard({
 
                     {/* Skills / Tags */}
                     <div className="mb-4">
-                        <div className="mb-2 text-[10px] font-bold text-white/50 uppercase before:content-['SKILL_MATRIX']"></div>
+                        <div className="text-base-content/50 mb-2 text-[10px] font-bold uppercase before:content-['SKILL_MATRIX']"></div>
                         <div className="grid grid-cols-2 gap-2">
                             {author.tags.map((tag, index) => (
                                 <div
@@ -129,7 +129,7 @@ function ProfileCard({
 
                     {/* Footer / Social */}
                     <div className="border-t border-dashed border-white/10 pt-2">
-                        <div className="mb-2 text-[10px] font-bold text-white/50 uppercase before:content-['COMM_LINKS']"></div>
+                        <div className="text-base-content/50 mb-2 text-[10px] font-bold uppercase before:content-['COMM_LINKS']"></div>
                         <div className="flex justify-between px-4">
                             {author.socialMedia.map((item, index) => (
                                 <a
@@ -137,7 +137,7 @@ function ProfileCard({
                                     href={item.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="hover:text-primary text-white/60 transition-colors"
+                                    className="hover:text-primary text-base-content/60 transition-colors"
                                 >
                                     <SvgIcon name={item.icon} size={18} />
                                 </a>
@@ -145,7 +145,7 @@ function ProfileCard({
                         </div>
                     </div>
 
-                    <div className="text-base-100 mt-4 text-[10px] opacity-50">
+                    <div className="text-base-content mt-4 text-[10px] opacity-50">
                         <span className="uppercase before:content-['>>_'] after:content-['LOGIN:_SUCCESSFUL']"></span>
                         <span className="ml-1 animate-pulse before:content-['\_']"></span>
                     </div>

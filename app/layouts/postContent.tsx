@@ -75,7 +75,7 @@ export default function PostContent() {
                         className="relative top-1/2 -translate-y-1/2"
                     />
                 </BannerContent>
-                <div className="border-primary border-t-4 border-double"></div>
+                <div className="border-neutral border-t-4 border-double"></div>
 
                 <div
                     ref={elementRef}
@@ -95,7 +95,7 @@ export default function PostContent() {
                 <div className="relative block h-full min-h-[inherit] w-full overflow-visible">
                     <div className="relative mx-auto max-w-5xl overflow-visible">
                         <article
-                            className="border-terminal bg-modalBlack animate__animated animate__fadeIn animate__slow relative will-change-transform"
+                            className="border-terminal bg-base-200 animate__animated animate__fadeIn animate__slow relative will-change-transform"
                             style={{
                                 transform:
                                     'translateY(calc(var(--scroll-percent) * -25vw))',
@@ -109,7 +109,7 @@ export default function PostContent() {
                                     <Outlet />
                                 </AriticleContene>
 
-                                <div className="border-primary/20 w-full border-b-2 border-dashed"></div>
+                                <div className="border-neutral/20 w-full border-b-2 border-dashed"></div>
 
                                 <AriticleFooter
                                     tags={frontMatter?.tags as string[]}
@@ -118,7 +118,7 @@ export default function PostContent() {
                             </TextJitter>
                         </article>
 
-                        <div className="border-terminal bg-modalBlack! absolute! top-0 right-0 hidden h-full translate-x-[calc(100%-4px)] overflow-visible! border-t-0! border-b-0! 2xl:block">
+                        <div className="border-terminal bg-base-200! absolute! top-0 right-0 hidden h-full translate-x-[calc(100%-4px)] overflow-visible! border-t-0! border-b-0! 2xl:block">
                             <CRTOverlay />
                             <div
                                 className="sticky left-0 z-40 h-fit w-fit p-4"

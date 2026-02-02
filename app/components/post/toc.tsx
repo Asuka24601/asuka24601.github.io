@@ -76,7 +76,7 @@ export default function TOC({
             <FloatMenu className={className} style={style}>
                 <li>
                     <TreeStructure level={1} />
-                    <span className="text-base-100/25 after:content-['No_headings_found.']" />
+                    <span className="text-base-content/25 after:content-['No_headings_found.']" />
                 </li>
             </FloatMenu>
         )
@@ -89,8 +89,8 @@ export default function TOC({
                         href={`#${heading.id}`}
                         className={`flex items-center truncate py-1 pr-1 transition-colors duration-200 ${
                             activeId === heading.id
-                                ? 'bg-primary/10 text-secondary'
-                                : 'hover:text-warning text-base-100/25 hover:bg-white/5'
+                                ? 'text-secondary'
+                                : 'hover:text-accent text-base-content/50'
                         }`}
                         onClick={(e) => {
                             e.preventDefault()

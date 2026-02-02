@@ -54,7 +54,7 @@ function Neofetch() {
             <div className="flex w-full flex-col gap-1">
                 <div className="mb-2 flex gap-2">
                     <span className="text-secondary font-bold">root@blog</span>
-                    <span className="text-white/50">on</span>
+                    <span className="text-base-content/50">on</span>
                     <span className="text-secondary font-bold">~</span>
                 </div>
                 {info.map((item) => (
@@ -62,7 +62,9 @@ function Neofetch() {
                         <span className="text-primary min-w-25 font-bold">
                             {item.label}:
                         </span>
-                        <span className="text-white/80">{item.value}</span>
+                        <span className="text-base-content/80">
+                            {item.value}
+                        </span>
                     </div>
                 ))}
 
@@ -89,13 +91,13 @@ export default function Notice({ className }: { className?: string }) {
                 <CRTOverlay />
                 <TextJitter>
                     {/* Header */}
-                    <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
+                    <div className="border-neutral/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                         <div>
-                            <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM_ANNOUNCEMENT']"></div>
+                            <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM_ANNOUNCEMENT']"></div>
                             <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['NOTICE\_BOARD']"></div>
                         </div>
                         <div className="text-right">
-                            <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['PRIORITY']"></div>
+                            <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['PRIORITY']"></div>
                             <div className="text-warning animate-pulse text-xs opacity-70 before:content-['HIGH']"></div>
                         </div>
                     </div>
@@ -106,7 +108,7 @@ export default function Notice({ className }: { className?: string }) {
                         <div className="my-4 border-t border-dashed border-white/10"></div>
 
                         <div className="relative">
-                            <div className="mb-2 text-[10px] text-white/50 uppercase">
+                            <div className="text-base-content/50 mb-2 text-[10px] uppercase">
                                 Message_Body
                             </div>
                             <AriticleContene className="font-mono">
@@ -115,7 +117,7 @@ export default function Notice({ className }: { className?: string }) {
                         </div>
                     </div>
 
-                    <div className="text-base-100 mt-4 text-[10px] opacity-50">
+                    <div className="text-base-content mt-4 text-[10px] opacity-50">
                         <span className="uppercase before:content-['>>_END_OF_NOTICE']"></span>
                         <span className="ml-1 animate-pulse before:content-['\_']"></span>
                     </div>

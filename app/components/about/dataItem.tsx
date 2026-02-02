@@ -22,8 +22,8 @@ export default function DataItem({
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
-                    <div className="border-primary/30 flex flex-row flex-nowrap items-center justify-between gap-2 border-b border-dashed pb-2">
-                        <div className="text-warning flex items-center gap-2">
+                    <div className="border-neutral/30 flex flex-row flex-nowrap items-center justify-between gap-2 border-b border-dashed pb-2">
+                        <div className="text-primary flex items-center gap-2">
                             <span className="opacity-70 select-none">{`>`}</span>
                             <div className="font-bold tracking-widest uppercase">
                                 {name}
@@ -36,17 +36,15 @@ export default function DataItem({
                             />
                         </div>
                         {question && (
-                            <p className="max-w-37.5 truncate text-[10px] opacity-40 lg:max-w-xs">
-                                // {question}
+                            <p className="max-w-37.5 truncate text-[10px] opacity-40 before:content-['//_'] lg:max-w-xs">
+                                {question}
                             </p>
                         )}
                     </div>
 
                     <div className="contents">{children}</div>
                     <div className="flex justify-end">
-                        <span className="animate-pulse text-[10px] opacity-30">
-                            _
-                        </span>
+                        <span className="animate-pulse text-[10px] opacity-30 after:content-['\_']"></span>
                     </div>
                 </TextJitter>
             </div>

@@ -28,7 +28,7 @@ function NavList() {
                             `flex items-center truncate py-1 pr-1 transition-colors duration-200 ${
                                 isActive
                                     ? 'bg-primary/10 text-primary'
-                                    : 'hover:text-primary text-white/70 hover:bg-white/5'
+                                    : 'hover:text-primary text-base-content/70 hover:bg-white/5'
                             }`
                         }
                     >
@@ -107,7 +107,7 @@ export default function About() {
     return (
         <>
             <div className="min-h-screen w-full font-mono text-sm">
-                <div className="border-primary animate__animated animate__fadeIn relative h-[40vh] w-full overflow-hidden border-b-4 border-double bg-black">
+                <div className="border-neutral animate__animated animate__fadeIn bg-base-100 relative h-[40vh] w-full overflow-hidden border-b-4 border-double">
                     <div
                         ref={imgContentRef}
                         className="animate__animated animate__fadeIn animate__slow pointer-events-none mx-auto aspect-square transition-all duration-500 select-none"
@@ -142,15 +142,15 @@ export default function About() {
                 <div className="border-terminal container mx-auto max-w-6xl overflow-visible! border-none!">
                     <CRTOverlay />
                     <TextJitter>
-                        <div className="border-primary bg-modalBlack relative flex flex-col border-4 border-double">
+                        <div className="border-neutral bg-base-200 relative flex flex-col border-4 border-double">
                             {/* Profile Header */}
-                            <div className="border-primary/30 flex flex-col items-center gap-6 border-b-2 border-dashed bg-black/20 p-6 lg:flex-row lg:p-8">
+                            <div className="border-neutral/30 bg-base-200/20 flex flex-col items-center gap-6 border-b-2 border-dashed p-6 lg:flex-row lg:p-8">
                                 <div
                                     className="group shrink-0 cursor-pointer"
                                     onClick={avatarOnClick}
                                 >
-                                    <div className="border-primary/50 group-hover:border-primary border-2 border-dashed p-1 transition-colors">
-                                        <div className="h-24 w-24 overflow-hidden bg-black">
+                                    <div className="border-neutral/50 group-hover:border-neutral border-2 border-dashed p-1 transition-colors">
+                                        <div className="bg-base-300 h-24 w-24 overflow-hidden">
                                             <Avatar
                                                 src={profileData.data.avatar}
                                                 className="animate__animated h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
@@ -164,16 +164,16 @@ export default function About() {
                                         <h1 className="text-primary text-2xl font-black tracking-widest uppercase lg:text-3xl">
                                             {profileData.data.name}
                                         </h1>
-                                        <span className="border border-white/20 px-1 text-[10px] text-white/30 before:content-['LV.99']"></span>
+                                        <span className="text-base-content/30 border border-white/20 px-1 text-[10px] before:content-['LV.99']"></span>
                                     </div>
-                                    <div className="max-w-2xl font-mono text-xs leading-relaxed text-white/70 lg:text-sm">
+                                    <div className="text-base-content/70 max-w-2xl font-mono text-xs leading-relaxed lg:text-sm">
                                         <span className="text-primary mr-2 before:content-['>>']"></span>
                                         {profileData.data.introduction}
                                         <span className="ml-1 animate-pulse after:content-['\_']"></span>
                                     </div>
                                 </div>
 
-                                <div className="hidden text-right text-[10px] tracking-widest text-white/30 uppercase lg:block">
+                                <div className="text-base-content/30 hidden text-right text-[10px] tracking-widest uppercase lg:block">
                                     <div className="before:content-['ID:_']">
                                         {profileData.data.name
                                             .toUpperCase()
@@ -187,7 +187,7 @@ export default function About() {
                             {/* Content Split */}
                             <div className="flex min-h-[60vh] flex-col lg:flex-row">
                                 {/* Sidebar (Desktop) */}
-                                <aside className="border-primary/30 relative hidden w-64 shrink-0 border-r-2 border-dashed bg-black/10 lg:block">
+                                <aside className="border-neutral/30 bg-base-200/10 relative hidden w-64 shrink-0 border-r-2 border-dashed lg:block">
                                     <div
                                         className="sticky left-0"
                                         style={{
@@ -195,11 +195,11 @@ export default function About() {
                                         }}
                                     >
                                         <div className="border-b border-dashed border-white/10 p-4">
-                                            <div className="mb-2 text-[10px] font-bold tracking-widest text-white/50 uppercase before:content-['\/\/_NAVIGATION']"></div>
+                                            <div className="text-base-content/50 mb-2 text-[10px] font-bold tracking-widest uppercase before:content-['\/\/_NAVIGATION']"></div>
                                             <NavList />
                                         </div>
                                         {/* Decorative filler */}
-                                        <div className="p-4 font-mono text-[10px] leading-tight break-all text-white/20 opacity-50 select-none">
+                                        <div className="text-base-content/20 p-4 font-mono text-[10px] leading-tight break-all opacity-50 select-none">
                                             0101010101001001010
                                             1010101010101010101
                                             0010110101010101010 ...
@@ -214,7 +214,7 @@ export default function About() {
                             </div>
 
                             {/* Footer Status Bar */}
-                            <div className="border-primary/30 flex items-center justify-between border-t border-dashed bg-black/20 p-2 px-4 text-[10px] text-white/40 uppercase">
+                            <div className="border-neutral/30 text-base-content/40 bg-base-200/20 flex items-center justify-between border-t border-dashed p-2 px-4 text-[10px] uppercase">
                                 <span className="before:content-['ACCESS\_LEVEL:_ADMIN']"></span>
                                 <span className="before:content-['SYS\_TIME:_']">
                                     {new Date().toLocaleTimeString()}

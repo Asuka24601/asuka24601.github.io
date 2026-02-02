@@ -42,7 +42,7 @@ const mdxComponents = {
             <Typewriter
                 as="h1"
                 id={id}
-                className="border-primary/30 text-primary mt-8 mb-6 scroll-mt-24 border-b-2 border-dashed pb-2 text-2xl font-black tracking-widest uppercase before:mr-2 before:content-['#']"
+                className="border-neutral/30 text-primary mt-8 mb-6 scroll-mt-24 border-b-2 border-dashed pb-2 text-2xl font-black tracking-widest uppercase before:mr-2 before:content-['#']"
                 {...props}
             >
                 {children}
@@ -80,7 +80,7 @@ const mdxComponents = {
             <Typewriter
                 as="h3"
                 id={id}
-                className="text-warning mt-5 mb-3 scroll-mt-24 text-lg font-bold uppercase before:mr-2 before:content-['###']"
+                className="text-accent mt-5 mb-3 scroll-mt-24 text-lg font-bold uppercase before:mr-2 before:content-['###']"
                 {...props}
             >
                 {children}
@@ -99,7 +99,7 @@ const mdxComponents = {
             <Typewriter
                 as="h4"
                 id={id}
-                className="mt-4 mb-2 scroll-mt-24 text-base font-bold text-white/90 uppercase before:mr-2 before:content-['####']"
+                className="text-base-content/90 mt-4 mb-2 scroll-mt-24 text-base font-bold uppercase before:mr-2 before:content-['####']"
                 {...props}
             >
                 {children}
@@ -118,7 +118,7 @@ const mdxComponents = {
             <Typewriter
                 as="h5"
                 id={id}
-                className="mt-4 mb-2 scroll-mt-24 text-sm font-bold text-white/80 uppercase before:mr-2 before:content-['#####']"
+                className="text-base-content/80 mt-4 mb-2 scroll-mt-24 text-sm font-bold uppercase before:mr-2 before:content-['#####']"
                 {...props}
             >
                 {children}
@@ -137,7 +137,7 @@ const mdxComponents = {
             <Typewriter
                 as="h6"
                 id={id}
-                className="mt-4 mb-2 scroll-mt-24 text-xs font-bold text-white/70 uppercase before:mr-2 before:content-['######']"
+                className="text-base-content/70 mt-4 mb-2 scroll-mt-24 text-xs font-bold uppercase before:mr-2 before:content-['######']"
                 {...props}
             >
                 {children}
@@ -153,7 +153,7 @@ const mdxComponents = {
         children?: React.ReactNode
     }) => (
         <section
-            className="my-3 font-mono text-sm leading-relaxed text-white/90"
+            className="text-base-content/90 my-3 font-mono text-sm leading-relaxed"
             {...props}
         >
             {children}
@@ -173,7 +173,7 @@ const mdxComponents = {
         const commonProps = {
             href,
             className:
-                'text-accent hover:text-white hover:bg-accent/20 transition-colors underline decoration-dashed underline-offset-4 break-all',
+                'text-accent hover:text-base-content hover:bg-accent/20 transition-colors underline decoration-dashed underline-offset-4 break-all',
             ...props,
         }
 
@@ -221,8 +221,8 @@ const mdxComponents = {
     }: React.HTMLAttributes<HTMLPreElement> & {
         children?: React.ReactNode
     }) => (
-        <div className="relative my-4 border border-dashed border-white/20 bg-black/40 p-4">
-            <div className="absolute top-0 right-0 border-b border-l border-dashed border-white/20 bg-black/60 px-2 py-1 text-[10px] text-white/30 uppercase before:content-['CODE\_BLOCK']"></div>
+        <div className="bg-base-200/40 relative my-4 border border-dashed border-white/20 p-4">
+            <div className="text-base-content/30 bg-base-300/60 absolute top-0 right-0 border-b border-l border-dashed border-white/20 px-2 py-1 text-[10px] uppercase before:content-['CODE\_BLOCK']"></div>
             <pre
                 className="scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent overflow-x-auto"
                 {...props}
@@ -240,7 +240,7 @@ const mdxComponents = {
         children?: React.ReactNode
     }) => (
         <blockquote
-            className="border-primary/50 my-4 border-l-4 bg-white/5 p-4 text-sm text-white/70 italic"
+            className="border-neutral/50 text-base-content/70 my-4 border-l-4 bg-white/5 p-4 text-sm italic"
             {...props}
         >
             <span className="text-primary/50 mr-2 font-bold before:content-['“']"></span>
@@ -256,7 +256,7 @@ const mdxComponents = {
         children?: React.ReactNode
     }) => (
         <ul
-            className="marker:text-primary my-4 list-disc space-y-1 pl-5 font-mono text-sm text-white/90"
+            className="marker:text-primary text-base-content/90 my-4 list-disc space-y-1 pl-5 font-mono text-sm"
             {...props}
         >
             {children}
@@ -270,7 +270,7 @@ const mdxComponents = {
         children?: React.ReactNode
     }) => (
         <ol
-            className="marker:text-primary my-4 list-decimal space-y-1 pl-5 font-mono text-sm text-white/90 marker:font-bold"
+            className="marker:text-primary text-base-content/90 my-4 list-decimal space-y-1 pl-5 font-mono text-sm marker:font-bold"
             {...props}
         >
             {children}
@@ -298,7 +298,7 @@ const mdxComponents = {
 
     // 图片
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-        <figure className="mx-auto my-6 max-w-4xl border border-dashed border-white/20 bg-black/20 p-2">
+        <figure className="bg-base-200/20 mx-auto my-6 max-w-4xl border border-dashed border-white/20 p-2">
             <div className="relative overflow-hidden">
                 <ProgressiveImage
                     src={props.src}
@@ -308,7 +308,7 @@ const mdxComponents = {
                 />
             </div>
             {props.alt && (
-                <figcaption className="text-base-100/70 mt-2 border-t border-dashed border-white/10 pt-2 text-center font-mono text-[10px] before:content-['\/\/_']">
+                <figcaption className="text-base-content/70 mt-2 border-t border-dashed border-white/10 pt-2 text-center font-mono text-[10px] before:content-['\/\/_']">
                     {removeExtension(props.alt)}
                 </figcaption>
             )}
@@ -337,7 +337,7 @@ const mdxComponents = {
         <th className="px-4 py-2 font-bold tracking-wider" {...props} />
     ),
     td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => (
-        <td className="px-4 py-2 text-white/80" {...props} />
+        <td className="text-base-content/80 px-4 py-2" {...props} />
     ),
 }
 

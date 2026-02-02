@@ -93,8 +93,8 @@ export function LocationComponent({
                 <span className="opacity-70"># {location.mac.discription}</span>
             </OutputLine>
 
-            <div className="mt-2">
-                <span className="text-warning animate-pulse">_</span>
+            <div className="mt-3 text-xs">
+                <span className="text-base-content/50 uppercase before:content-['>>_END_OF_CODE']"></span>
             </div>
         </div>
     )

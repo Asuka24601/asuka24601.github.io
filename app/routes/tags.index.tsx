@@ -37,7 +37,7 @@ export default function Tags() {
                 <div className="border-terminal mx-auto grid min-h-[inherit] max-w-6xl overflow-hidden! border-none! p-4 lg:p-6">
                     <div className="min-h-full w-full pt-(--navbar-height) transition-transform duration-500">
                         <CRTOverlay />
-                        <TextJitter className="border-primary! bg-modalBlack relative min-h-full overflow-hidden border-4 border-double">
+                        <TextJitter className="border-neutral! bg-base-200 relative min-h-full overflow-hidden border-4 border-double">
                             <style>{`
                             @keyframes danmaku {
                                 from { left: 100%; transform: translateX(0); }
@@ -51,7 +51,7 @@ export default function Tags() {
                                 <Link
                                     key={tag.name}
                                     to={`/tags/${tag.name}`}
-                                    className="danmaku-tag absolute cursor-pointer font-mono font-bold whitespace-nowrap transition-all hover:z-50 hover:scale-125 hover:text-white hover:opacity-100"
+                                    className="danmaku-tag hover:text-base-content absolute cursor-pointer font-mono font-bold whitespace-nowrap transition-all hover:z-50 hover:scale-125 hover:opacity-100"
                                     style={{
                                         top: `${tag.top}%`,
                                         fontSize: `${tag.size}rem`,

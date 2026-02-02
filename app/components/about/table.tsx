@@ -6,11 +6,11 @@ interface Item {
 
 const Separator = () => (
     <>
-        <div className="text-primary/50 select-none">+</div>
-        <div className="border-primary/50 relative top-[-0.55em] border-b-3 border-dashed"></div>
-        <div className="text-primary/50 select-none">+</div>
-        <div className="border-primary/50 relative top-[-0.55em] border-b-3 border-dashed"></div>
-        <div className="text-primary/50 select-none">+</div>
+        <div className="text-neutral/50 select-none">+</div>
+        <div className="border-neutral/50 relative top-[-0.55em] border-b-3 border-dashed"></div>
+        <div className="text-neutral/50 select-none">+</div>
+        <div className="border-neutral/50 relative top-[-0.55em] border-b-3 border-dashed"></div>
+        <div className="text-neutral/50 select-none">+</div>
     </>
 )
 
@@ -38,22 +38,22 @@ export default function Table2Col({
                 <Separator />
 
                 {/* Header */}
-                <div className="text-primary/50 select-none">|</div>
+                <div className="text-neutral/50 select-none">|</div>
                 <div className="text-success px-2 font-bold uppercase">
                     {t1}
                 </div>
-                <div className="text-primary/50 select-none">|</div>
+                <div className="text-neutral/50 select-none">|</div>
                 <div className="text-success px-2 text-right font-bold uppercase">
                     {t2}
                 </div>
-                <div className="text-primary/50 select-none">|</div>
+                <div className="text-neutral/50 select-none">|</div>
 
                 <Separator />
 
                 {/* Body */}
                 {items?.map((item, index) => (
                     <div key={index} className="group contents">
-                        <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
+                        <div className="text-neutral/50 group-hover:bg-primary/20 group-hover:text-neutral transition-colors select-none">
                             |
                         </div>
                         <div className="group-hover:bg-primary/20 flex items-center gap-2 overflow-hidden px-2 transition-colors">
@@ -69,13 +69,13 @@ export default function Table2Col({
                                 {item.name}
                             </span>
                         </div>
-                        <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
+                        <div className="text-neutral/50 group-hover:bg-primary/20 group-hover:text-neutral transition-colors select-none">
                             |
                         </div>
                         <div className="group-hover:bg-primary/20 px-2 text-right opacity-80 transition-all group-hover:opacity-100">
                             {item.color ? item.value.toFixed(1) : item.value}
                         </div>
-                        <div className="text-primary/50 group-hover:bg-primary/20 group-hover:text-primary transition-colors select-none">
+                        <div className="text-neutral/50 group-hover:bg-primary/20 group-hover:text-neutral transition-colors select-none">
                             |
                         </div>
                     </div>
@@ -85,8 +85,7 @@ export default function Table2Col({
             </div>
 
             <div className="mt-2 text-xs">
-                <span className="text-accent/50 uppercase before:content-['>>_END_OF_TABLE']"></span>
-                <span className="text-accent ml-1 animate-pulse before:content-['\_']"></span>
+                <span className="text-base-content/50 uppercase before:content-['>>_END_OF_TABLE']"></span>
             </div>
         </div>
     )

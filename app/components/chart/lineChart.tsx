@@ -108,7 +108,7 @@ export default function LineChart({
             {/* Tooltip */}
             {hoveredIndex !== null && points[hoveredIndex] && (
                 <div
-                    className="bg-base-content/75 text-base-100 pointer-events-none absolute z-10 rounded px-2 py-1 text-xs whitespace-nowrap shadow-lg"
+                    className="bg-base-content/75 text-base-content pointer-events-none absolute z-10 rounded px-2 py-1 text-xs whitespace-nowrap shadow-lg"
                     style={{
                         left: points[hoveredIndex].x,
                         top: points[hoveredIndex].y - 8,

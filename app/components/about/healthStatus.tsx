@@ -107,15 +107,15 @@ export default function HealthStatus({
     return (
         <div className="flex flex-col gap-4">
             {/* Header: Status */}
-            <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed pb-2">
+            <div className="border-neutral/30 flex items-end justify-between border-b-2 border-dashed pb-2">
                 <div>
-                    <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM\_STATUS']"></div>
+                    <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM\_STATUS']"></div>
                     <div className="text-success text-2xl font-black tracking-widest uppercase">
                         {status[0].value}
                     </div>
                 </div>
                 <div className="text-right">
-                    <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50">
+                    <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50">
                         {status[0].name}
                     </div>
                     <div className="text-xs text-green-400 opacity-70">
@@ -124,9 +124,9 @@ export default function HealthStatus({
                 </div>
             </div>
             {/* Body Stats Grid */}
-            <div className="text-base-100/80 grid grid-cols-2 gap-4">
+            <div className="text-base-content/80 grid grid-cols-2 gap-4">
                 {/* Height */}
-                <div className="border-base-content/10 bg-modalBox/50 border p-2">
+                <div className="border-base-content/10 bg-base-300/50 border p-2">
                     <div className="mb-1 flex items-center justify-between">
                         <span className="text-[10px] uppercase opacity-50">
                             {status[1].name}
@@ -139,7 +139,7 @@ export default function HealthStatus({
                     </div>
                 </div>
                 {/* Weight */}
-                <div className="border-base-content/10 bg-modalBox/50 border p-2">
+                <div className="border-base-content/10 bg-base-300/50 border p-2">
                     <div className="mb-1 flex items-center justify-between">
                         <span className="text-[10px] uppercase opacity-50">
                             {status[2].name}
@@ -153,7 +153,7 @@ export default function HealthStatus({
                 </div>
             </div>
             {/* ECG Monitor */}
-            <div className="border-base-content/20 relative border-2 bg-black/40 p-1">
+            <div className="border-base-content/20 bg-base-200/40 relative border-2 p-1">
                 <div className="absolute top-2 left-2 z-10 flex items-center gap-2">
                     <span className="h-2 w-2 animate-pulse rounded-full bg-red-500"></span>
                     <span className="text-[10px] font-bold tracking-widest text-red-500 uppercase">
@@ -168,7 +168,7 @@ export default function HealthStatus({
                             className="h-full w-full opacity-80"
                         />
                     ) : (
-                        <div className="flex h-full items-center justify-center text-xs text-white opacity-50">
+                        <div className="text-base-content flex h-full items-center justify-center text-xs opacity-50">
                             NO SIGNAL
                         </div>
                     )}
@@ -184,9 +184,9 @@ export default function HealthStatus({
                 </div>
             </div>
             {/* Bottom Stats: Temp, HP, MP */}
-            <div className="text-base-100/80 grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <div className="text-base-content/80 grid grid-cols-1 gap-4 lg:grid-cols-3">
                 {/* Temp */}
-                <div className="border-base-content/10 bg-modalBox/50 flex flex-col justify-between border p-2">
+                <div className="border-base-content/10 bg-base-300/50 flex flex-col justify-between border p-2">
                     <div className="text-[10px] uppercase opacity-50">
                         {status[4].name}
                     </div>
@@ -202,7 +202,7 @@ export default function HealthStatus({
 
                 {/* HP */}
                 <div
-                    className="border-base-content/10 group bg-modalBox/50 flex cursor-pointer flex-col justify-between border p-2 transition-colors hover:bg-red-500/10"
+                    className="border-base-content/10 group bg-base-300/50 flex cursor-pointer flex-col justify-between border p-2 transition-colors hover:bg-red-500/10"
                     onClick={() =>
                         setHp((hp) =>
                             hp + 10 > 999999999 ? 999999999 : hp + 10
@@ -233,7 +233,7 @@ export default function HealthStatus({
 
                 {/* MP */}
                 <div
-                    className="border-base-content/10 group bg-modalBox/50 flex cursor-pointer flex-col justify-between border p-2 transition-colors hover:bg-blue-500/10"
+                    className="border-base-content/10 group bg-base-300/50 flex cursor-pointer flex-col justify-between border p-2 transition-colors hover:bg-blue-500/10"
                     onClick={() =>
                         setMp((mp) =>
                             mp + 10 > 999999999 ? 999999999 : mp + 10
@@ -261,6 +261,9 @@ export default function HealthStatus({
                         ></div>
                     </div>
                 </div>
+            </div>
+            <div className="mt-1">
+                <span className="text-base-content text-[10px] uppercase opacity-50 before:content-['>>_DIAGNOSTIC\_IN\_PROGRESS']"></span>
             </div>
         </div>
     )

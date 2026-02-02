@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 // import '../styles/navBar.css' // Removed legacy styles
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { throttle } from 'lodash-es' // 防抖/节流
-import { useNavStore, useSearchStore } from '../lib/store'
+import { useNavStore, useSearchStore, useThemeStore } from '../lib/store'
 import SvgIcon from './SvgIcon'
 import CRTOverlay from './effect/CRTOverlay'
 import TextJitter from './effect/textJitter'
@@ -22,6 +22,8 @@ export default function NavBar({
     className?: string | ''
     siteName: string | undefined
 }) {
+    const theme = useThemeStore((state) => state.theme)
+    const setTheme = useThemeStore((state) => state.setTheme)
     const [scrolled, setScrolled] = useState(false)
     // const [scrollPercent, setScrollPercent] = useState(0) // Removed unused state
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -32,6 +34,14 @@ export default function NavBar({
     const searchShow = useSearchStore((state) => state.searchShow)
     const setSearchShow = useSearchStore((state) => state.setSearchShow)
     const resetSearch = useSearchStore((state) => state.resetSearchShow)
+
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.dataset.theme = 'dark'
+        } else {
+            document.documentElement.dataset.theme = 'light'
+        }
+    }, [theme])
 
     const onSearchClick = () => {
         if (searchShow) return
@@ -87,7 +97,7 @@ export default function NavBar({
             ref={elementRef}
         >
             <div
-                className={`border-primary bg-modalBlack relative w-full overflow-hidden border-b-4 border-double shadow-[0_4px_0px_0px_rgba(0,0,0,0.3)] transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}
+                className={`border-neutral bg-base-200 relative w-full overflow-hidden border-b-4 border-double shadow-[0_4px_0px_0px_rgba(0,0,0,0.3)] transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}
             >
                 <CRTOverlay />
                 <TextJitter>
@@ -96,7 +106,7 @@ export default function NavBar({
                         <div className="flex items-center">
                             <Link
                                 to="/"
-                                className="group text-primary flex items-center gap-2 transition-colors hover:text-white"
+                                className="group text-primary hover:text-base-content flex items-center gap-2 transition-colors"
                             >
                                 <span className="text-lg font-black tracking-widest uppercase before:content-['>_']">
                                     {siteName || 'SYSTEM'}
@@ -111,7 +121,7 @@ export default function NavBar({
                                 <Link
                                     key={item.name}
                                     to={item.path}
-                                    className="group hover:text-warning relative text-xs font-bold tracking-widest text-white/70 uppercase transition-colors"
+                                    className="group hover:text-primary text-base-content/70 relative text-xs font-bold tracking-widest uppercase transition-colors"
                                 >
                                     <span className="absolute -left-3 opacity-0 transition-opacity group-hover:opacity-100 before:content-['[']"></span>
                                     {item.name}
@@ -124,17 +134,22 @@ export default function NavBar({
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={onSearchClick}
-                                className="hover:text-primary text-white/70 transition-colors"
+                                className="hover:text-primary text-base-content/70 transition-colors"
                                 title="SEARCH_DATABASE"
                             >
                                 <SvgIcon name="search" size={20} />
                             </button>
 
-                            <label className="swap swap-rotate hover:text-primary text-white/70 transition-colors">
+                            <label className="swap swap-rotate hover:text-primary text-base-content/70 transition-colors">
                                 <input
                                     type="checkbox"
                                     className="theme-controller"
                                     value="synthwave"
+                                    onChange={() => {
+                                        setTheme(
+                                            theme === 'dark' ? 'light' : 'dark'
+                                        )
+                                    }}
                                 />
                                 <SvgIcon
                                     name="sun"
@@ -149,7 +164,7 @@ export default function NavBar({
                             </label>
 
                             <button
-                                className="hover:text-primary text-white/70 transition-colors lg:hidden"
+                                className="hover:text-primary text-base-content/70 transition-colors lg:hidden"
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                             >
                                 <SvgIcon name="menu" fill="white" size={24} />
@@ -159,14 +174,14 @@ export default function NavBar({
 
                     {/* Mobile Menu */}
                     <div
-                        className={`overflow-hidden border-t border-dashed border-white/10 bg-black/50 transition-all duration-300 lg:hidden ${isMenuOpen ? 'max-h-64' : 'max-h-0'}`}
+                        className={`bg-base-200/50 overflow-hidden border-t border-dashed border-white/10 transition-all duration-300 lg:hidden ${isMenuOpen ? 'max-h-64' : 'max-h-0'}`}
                     >
                         <ul className="flex flex-col gap-2 p-4">
                             {navItems.map((item) => (
                                 <li key={item.name}>
                                     <Link
                                         to={item.path}
-                                        className="hover:text-primary block px-2 py-2 text-xs font-bold tracking-widest text-white/70 uppercase transition-colors hover:bg-white/5"
+                                        className="hover:text-primary text-base-content/70 block px-2 py-2 text-xs font-bold tracking-widest uppercase transition-colors hover:bg-white/5"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
                                         <span className="text-primary/50 mr-2 select-none">{`>>`}</span>

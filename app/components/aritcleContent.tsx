@@ -47,15 +47,15 @@ export function AriticleHeader({
             className={`${className || ''} flex flex-col justify-center gap-5 text-center`}
             style={style}
         >
-            <h1 className="after:animate-blink text-base-100 after:bg-base-100 relative text-7xl text-shadow-2xs after:ml-2.5 after:inline-block after:h-1 after:w-5">
+            <h1 className="after:animate-blink text-base-content after:bg-base-content relative text-7xl text-shadow-2xs after:ml-2.5 after:inline-block after:h-1 after:w-5">
                 <strong>{title}</strong>
             </h1>
 
-            <div className="text-base-200 flex justify-center text-sm text-shadow-xs">
+            <div className="text-base-content flex justify-center text-sm text-shadow-xs">
                 <span className="first-letter:uppercase">
                     <strong>{author}</strong>
                 </span>
-                <div className="bg-base-100/75 static mx-3 block h-5 w-0.5"></div>
+                <div className="bg-base-content/75 static mx-3 block h-5 w-0.5"></div>
                 <time dateTime={date}>
                     <strong>
                         {new Date(date).toLocaleDateString('zh-CN')}
@@ -63,8 +63,8 @@ export function AriticleHeader({
                 </time>
             </div>
             {description && (
-                <p className="text-base-100 text-shadow-2xs">
-                    <strong>{description}</strong>{' '}
+                <p className="text-base-content text-shadow-2xs">
+                    <strong>{description}</strong>
                 </p>
             )}
         </header>
@@ -86,7 +86,7 @@ export function AriticleFooter({ tags, time }: { tags: Tags; time?: string }) {
                 <span className="text-xs after:content-['_•_LAST\_MODIFIED:_']">
                     {import.meta.env.DEV ? 'DEV' : 'BUILD'}
                 </span>
-                <span className="text-warning">
+                <span className="text-accent">
                     {time
                         ? timeToString(time).time
                         : new Date().toLocaleDateString('zh-CN')}
@@ -102,17 +102,17 @@ export function ArticleError({ slug }: { slug: string }) {
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
-                    <div className="border-primary/30 bg-modalBlack flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)]">
+                    <div className="border-neutral/30 bg-base-200 flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)]">
                         {/* Header */}
-                        <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed pb-2">
+                        <div className="border-neutral/30 flex items-end justify-between border-b-2 border-dashed pb-2">
                             <div>
-                                <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM_ALERT']"></div>
+                                <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM_ALERT']"></div>
                                 <div className="text-warning text-xl font-black tracking-widest uppercase">
                                     END_OF_UNIVERSE
                                 </div>
                             </div>
                             <div className="text-right">
-                                <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['ERROR_CODE']"></div>
+                                <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['ERROR_CODE']"></div>
                                 <div className="text-warning text-xl font-bold">
                                     404
                                 </div>
@@ -126,16 +126,16 @@ export function ArticleError({ slug }: { slug: string }) {
                                     ∞
                                 </div>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                                    <div className="bg-modalBlack/80 px-4 text-lg font-bold tracking-widest text-white uppercase backdrop-blur-sm">
+                                    <div className="bg-base-200/80 text-base-content px-4 text-lg font-bold tracking-widest uppercase backdrop-blur-sm">
                                         来到了宇宙的尽头
                                     </div>
-                                    <div className="text-xs text-white/50">
+                                    <div className="text-base-content/50 text-xs">
                                         TARGET_LOST: {slug}
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="border-warning/50 border-l-2 bg-white/5 p-4 text-xs text-white/80">
+                            <div className="border-warning/50 text-base-content/80 border-l-2 bg-white/5 p-4 text-xs">
                                 <p className="text-warning mb-2 font-bold uppercase">
                                     &gt;&gt; DIAGNOSTIC_REPORT:
                                 </p>
@@ -147,7 +147,7 @@ export function ArticleError({ slug }: { slug: string }) {
                             </div>
                         </div>
                         {/* Footer */}
-                        <div className="border-primary/30 flex items-center justify-between border-t border-dashed pt-4 text-[10px] text-white/40 uppercase">
+                        <div className="border-neutral/30 text-base-content/40 flex items-center justify-between border-t border-dashed pt-4 text-[10px] uppercase">
                             <span className="animate-pulse">&gt; _</span>
                         </div>
                     </div>

@@ -68,13 +68,17 @@ const MatchScore = ({ score }: { score: number | undefined }) => {
 
     return (
         <div className="flex items-center gap-2 font-mono text-[10px] opacity-80">
-            <span className="text-white/40">MATCH:</span>
+            <span className="text-base-content/40">MATCH:</span>
             <span className="flex">
                 <span className="text-success">{'|'.repeat(filledLength)}</span>
-                <span className="text-white/10">{'.'.repeat(emptyLength)}</span>
+                <span className="text-base-content/10">
+                    {'.'.repeat(emptyLength)}
+                </span>
             </span>
             <span
-                className={percentage > 80 ? 'text-success' : 'text-white/60'}
+                className={
+                    percentage > 80 ? 'text-success' : 'text-base-content/60'
+                }
             >
                 {percentage}%
             </span>
@@ -176,7 +180,7 @@ export default function Search() {
     if (!searchShow) return null
 
     return (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 pt-[15vh] font-mono text-sm backdrop-blur-sm">
+        <div className="bg-base-100/80 fixed inset-0 z-50 flex items-start justify-center pt-[15vh] font-mono text-sm backdrop-blur-sm">
             <style>{`
                 @keyframes crt-turn-on {
                     0% {
@@ -206,22 +210,22 @@ export default function Search() {
                         'crt-turn-on 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards',
                 }}
             >
-                <div className="border-terminal bg-black/50">
+                <div className="border-terminal bg-base-200/50">
                     {/* CRT Overlay */}
                     <CRTOverlay />
 
                     <TextJitter>
                         {/* Header */}
-                        <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed bg-black/20 p-4">
+                        <div className="border-neutral/30 bg-base-300/20 flex items-end justify-between border-b-2 border-dashed p-4">
                             <div>
-                                <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM\_QUERY']"></div>
+                                <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM\_QUERY']"></div>
                                 <div className="text-primary flex items-center gap-2">
                                     <SvgIcon name="search" size={24} />
                                     <div className="text-xl font-black tracking-widest uppercase before:content-['DATABASE\_SEARCH']"></div>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['STATUS']"></div>
+                                <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['STATUS']"></div>
                                 <div className="text-primary animate-pulse text-xs opacity-70">
                                     {query
                                         ? `FOUND_${results.length}_MATCHES`
@@ -236,13 +240,13 @@ export default function Search() {
                                 onSubmit={handleSearch}
                                 className="flex flex-col gap-2"
                             >
-                                <label className="text-[10px] text-white/50 uppercase before:content-['Enter_Keywords:']"></label>
-                                <div className="border-primary/50 focus-within:border-primary flex items-center gap-3 border-b-2 bg-black/20 p-3 transition-colors">
+                                <label className="text-base-content/50 text-[10px] uppercase before:content-['Enter_Keywords:']"></label>
+                                <div className="border-neutral/50 focus-within:border-neutral bg-base-200/20 flex items-center gap-3 border-b-2 p-3 transition-colors">
                                     <span className="text-primary font-bold before:content-['>']"></span>
                                     <input
                                         ref={inputRef}
                                         type="text"
-                                        className="w-full bg-transparent text-lg font-bold text-white outline-none placeholder:text-white/20"
+                                        className="text-base-content placeholder:text-base-content/20 w-full bg-transparent text-lg font-bold outline-none"
                                         placeholder="TYPE_HERE..."
                                         value={query}
                                         onChange={(e) =>
@@ -273,12 +277,12 @@ export default function Search() {
                                                     }
                                                     className={`group border border-dashed p-3 transition-all ${
                                                         index === selectedIndex
-                                                            ? 'border-primary bg-primary/10'
-                                                            : 'hover:border-primary hover:bg-primary/10 border-white/10 bg-white/5'
+                                                            ? 'border-neutral bg-primary/10'
+                                                            : 'hover:border-neutral hover:bg-primary/10 border-white/10 bg-white/5'
                                                     }`}
                                                 >
                                                     <div className="flex items-center justify-between">
-                                                        <div className="group-hover:text-primary font-bold text-white">
+                                                        <div className="group-hover:text-primary text-base-content font-bold">
                                                             <span className="mr-2 opacity-50 transition-all group-hover:mr-3 group-hover:opacity-100">{`>>`}</span>
                                                             <HighlightText
                                                                 text={
@@ -291,7 +295,7 @@ export default function Search() {
                                                                 }
                                                             />
                                                         </div>
-                                                        <div className="font-mono text-[10px] text-white/40">
+                                                        <div className="text-base-content/40 font-mono text-[10px]">
                                                             <span className="hidden sm:inline">
                                                                 [
                                                                 {
@@ -318,7 +322,7 @@ export default function Search() {
 
                                                     {post.frontMatter
                                                         .description && (
-                                                        <div className="mt-1 line-clamp-1 pl-6 text-xs text-white/60">
+                                                        <div className="text-base-content/60 mt-1 line-clamp-1 pl-6 text-xs">
                                                             <HighlightText
                                                                 text={
                                                                     post
@@ -355,7 +359,7 @@ export default function Search() {
                                             ))}
                                         </div>
                                     ) : (
-                                        <div className="flex flex-col items-center justify-center border border-dashed border-white/5 py-8 text-white/30">
+                                        <div className="text-base-content/30 flex flex-col items-center justify-center border border-dashed border-white/5 py-8">
                                             <div className="text-4xl font-black opacity-20">
                                                 0
                                             </div>
@@ -368,7 +372,7 @@ export default function Search() {
                             )}
 
                             <div className="mt-4 flex items-center justify-between border-t border-dashed border-white/10 pt-2">
-                                <div className="text-[10px] text-white/40 before:content-['PRESS_[ESC]_TO_CANCEL']"></div>
+                                <div className="text-base-content/40 text-[10px] before:content-['PRESS_[ESC]_TO_CANCEL']"></div>
                             </div>
                         </div>
                     </TextJitter>

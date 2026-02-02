@@ -1,6 +1,11 @@
 import { create } from 'zustand'
 import type { ProfileDataInterface } from '../interfaces/profile'
 
+export interface ThemeStore {
+    theme: 'light' | 'dark'
+    setTheme: (usr: 'light' | 'dark') => void
+}
+
 export interface NavStore {
     navShow: boolean
     navHeight: number
@@ -79,4 +84,7 @@ export const useLightBoxStore = create<LightBoxStore>()((set) => ({
     resetLightboxSrc: () => set({ lightboxSrc: '' }),
 }))
 
-// TODO
+export const useThemeStore = create<ThemeStore>()((set) => ({
+    theme: 'light',
+    setTheme: (usr: 'light' | 'dark') => set({ theme: usr }),
+}))

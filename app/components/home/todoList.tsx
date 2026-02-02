@@ -20,24 +20,24 @@ export function TodoListItemComponent({
         >
             <div className="flex items-baseline justify-between gap-2">
                 <div className="flex items-center gap-3 overflow-hidden">
-                    <span className="shrink-0 font-mono text-xs text-white/30 select-none">
+                    <span className="text-base-content/30 shrink-0 font-mono text-xs select-none">
                         {pid}
                     </span>
                     <span
                         className={`shrink-0 text-[10px] font-bold uppercase ${isCompleted ? "text-red-500 before:content-['KILLED']" : "text-success animate-pulse before:content-['RUNNING']"}`}
                     ></span>
                     <span
-                        className={`truncate font-mono text-sm font-bold ${isCompleted ? 'text-white/40 line-through' : 'text-secondary'}`}
+                        className={`truncate font-mono text-sm font-bold ${isCompleted ? 'text-base-content/40 line-through' : 'text-secondary'}`}
                     >
                         {subject.task}
                     </span>
                 </div>
                 <div
-                    className={`shrink-0 text-[10px] text-white/30 ${isCompleted ? "before:content-['PRI:_0']" : "before:content-['PRI:_20']"}`}
+                    className={`text-base-content/30 shrink-0 text-[10px] ${isCompleted ? "before:content-['PRI:_0']" : "before:content-['PRI:_20']"}`}
                 ></div>
             </div>
             {subject.description && (
-                <div className="pl-10 text-[10px] text-white/60">
+                <div className="text-base-content/60 pl-10 text-[10px]">
                     <span className="text-primary/40 mr-1 before:content-['>>']"></span>
                     {subject.description}
                 </div>
@@ -59,13 +59,13 @@ function TodoListComponent({
                 <CRTOverlay />
                 <TextJitter>
                     {/* Header */}
-                    <div className="border-primary/30 mb-2 flex items-end justify-between border-b-2 border-dashed pb-2">
+                    <div className="border-neutral/30 mb-2 flex items-end justify-between border-b-2 border-dashed pb-2">
                         <div>
-                            <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM\_TASKS']"></div>
+                            <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM\_TASKS']"></div>
                             <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['PROCESS\_LIST']"></div>
                         </div>
                         <div className="text-right">
-                            <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['ACTIVE\_THREADS']"></div>
+                            <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['ACTIVE\_THREADS']"></div>
                             <div className="text-warning text-xs opacity-70 after:content-['_TOTAL']">
                                 {todoListItems.length}
                             </div>
@@ -83,7 +83,7 @@ function TodoListComponent({
                         ))}
                     </div>
 
-                    <div className="text-base-100 mt-4 text-[10px] opacity-50">
+                    <div className="text-base-content mt-4 text-[10px] opacity-50">
                         <span className="uppercase before:content-['>>_AWAITING_INSTRUCTION']"></span>
                         <span className="ml-1 animate-pulse before:content-['\_']"></span>
                     </div>

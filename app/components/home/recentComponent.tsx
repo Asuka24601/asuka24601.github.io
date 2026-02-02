@@ -28,13 +28,13 @@ export default function RecentComponent({
                 <CRTOverlay />
                 <TextJitter>
                     {/* Header */}
-                    <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
+                    <div className="border-neutral/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                         <div>
-                            <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM_UPDATE']"></div>
+                            <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM_UPDATE']"></div>
                             <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['RECENT\_LOGS']"></div>
                         </div>
                         <div className="text-right">
-                            <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['STATUS']"></div>
+                            <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['STATUS']"></div>
                             <div className="text-warning animate-pulse text-xs opacity-70 before:content-['ONLINE']"></div>
                         </div>
                     </div>
@@ -52,10 +52,10 @@ export default function RecentComponent({
                                         <span className="text-success/90 before:content-['['] after:content-[']']">
                                             {t.date}
                                         </span>
-                                        <span className="text-white/30">
+                                        <span className="text-base-content/30">
                                             {t.time}
                                         </span>
-                                        <span className="font-mono text-white/30 before:content-['LOG_ID:']">
+                                        <span className="text-base-content/30 font-mono before:content-['LOG_ID:']">
                                             {(index + 1)
                                                 .toString()
                                                 .padStart(3, '0')}
@@ -70,7 +70,7 @@ export default function RecentComponent({
                                                 <span className="text-primary/50 mr-2 select-none">{`>`}</span>
                                                 {item.frontMatter.title}
                                             </Link>
-                                            <div className="line-clamp-2 pl-4 text-xs text-white/60">
+                                            <div className="text-base-content/60 line-clamp-2 pl-4 text-xs">
                                                 {item.frontMatter.description}
                                             </div>
                                         </div>
@@ -87,7 +87,7 @@ export default function RecentComponent({
                         })}
                     </div>
 
-                    <div className="text-base-100 mt-4 text-[10px] opacity-50">
+                    <div className="text-base-content mt-4 text-[10px] opacity-50">
                         <span className="uppercase before:content-['>>_END_OF_TRANSMISSION']"></span>
                         <span className="ml-1 animate-pulse before:content-['\_']"></span>
                     </div>

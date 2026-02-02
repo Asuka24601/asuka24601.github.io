@@ -75,7 +75,7 @@ export default function Archive() {
             <div className="flex min-h-screen min-w-full flex-col">
                 <CRTOverlay />
                 <div className="mb-8 border-b border-dashed border-white/20 pb-4">
-                    <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM_BENCHMARK_CHECK']"></div>
+                    <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM_BENCHMARK_CHECK']"></div>
                     <h2 className="text-primary text-xl font-black tracking-widest uppercase before:content-['OUTPUT.LOG']"></h2>
                 </div>
                 <div className="gap-x-4 *:mt-4 *:first:mt-0">
@@ -107,7 +107,12 @@ export default function Archive() {
                             icon={item.icon}
                             question={item.question}
                         >
-                            <div>{(archiveData.data as any)[item.key]}</div>
+                            <div className="flex flex-col gap-3">
+                                {(archiveData.data as any)[item.key]}
+                                <div className="mt-1">
+                                    <span className="text-base-content text-[10px] uppercase opacity-50 before:content-['>>_SYSTEM\_DATABASE\_QUERY:_COMPLETED']"></span>
+                                </div>
+                            </div>
                         </DataItem>
                     ))}
                     <DataItem
@@ -142,6 +147,9 @@ export default function Archive() {
                                 <p className="mx-auto block w-fit text-center text-xs">
                                     {archiveData.data.halflife?.discription}
                                 </p>
+                                <div className="mt-4">
+                                    <span className="text-base-content text-[10px] uppercase opacity-50 before:content-['>>_SYSTEM\_DATABASE\_QUERY:_COMPLETED']"></span>
+                                </div>
                             </div>
                         }
                     </DataItem>
@@ -193,7 +201,7 @@ export default function Archive() {
                     </div>
                 </div>
 
-                <div className="text-base-100 mt-4 text-[10px] opacity-50">
+                <div className="text-base-content mt-4 text-[10px] opacity-50">
                     <span className="uppercase before:content-['>>_END_OF_LOG']"></span>
                     <span className="ml-1 animate-pulse before:content-['\_']"></span>
                 </div>

@@ -33,15 +33,15 @@ export default function Birthday({
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed pb-2">
+            <div className="border-neutral/30 flex items-end justify-between border-b-2 border-dashed pb-2">
                 <div>
-                    <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_TEMPORAL\_STATUS']"></div>
+                    <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_TEMPORAL\_STATUS']"></div>
                     <div className="text-warning text-xl font-black tracking-widest uppercase">
                         {age}
                     </div>
                 </div>
                 <div className="text-right">
-                    <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['ORIGIN']"></div>
+                    <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['ORIGIN']"></div>
                     <div className="text-warning text-xs opacity-70">
                         {birthday}
                     </div>
@@ -49,7 +49,7 @@ export default function Birthday({
             </div>
 
             {/* Details */}
-            <div className="border-base-content/10 bg-modalBox/50 border p-3">
+            <div className="border-base-content/10 bg-base-300/50 border p-3">
                 <div className="mb-2 flex items-center justify-between">
                     <span className="text-[10px] font-bold uppercase opacity-70 before:content-['Current_Cycle_Offset']"></span>
                     <span className="font-mono text-[10px] opacity-50 before:content-['YEAR\_']">
@@ -74,7 +74,7 @@ export default function Birthday({
             </div>
 
             <div className="mt-1">
-                <span className="text-[10px] text-white uppercase opacity-50 before:content-['>>_SYSTEM\_AGE\_CALCULATION\_MODE:_FLUCTUATING']"></span>
+                <span className="text-base-content text-[10px] uppercase opacity-50 before:content-['>>_SYSTEM\_AGE\_CALCULATION\_MODE:_FLUCTUATING']"></span>
             </div>
         </div>
     )

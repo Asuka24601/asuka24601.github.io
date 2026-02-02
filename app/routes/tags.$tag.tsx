@@ -23,18 +23,18 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                 <div className="border-terminal mx-auto grid min-h-[inherit] max-w-6xl overflow-visible! border-none! p-4 lg:p-6">
                     <div className="min-h-full w-full pt-(--navbar-height) transition-transform duration-500">
                         <CRTOverlay />
-                        <TextJitter className="border-primary! bg-modalBlack grid min-h-full grid-rows-[auto_1fr_auto] border-4 border-double">
+                        <TextJitter className="border-neutral! bg-base-200 grid min-h-full grid-rows-[auto_1fr_auto] border-4 border-double">
                             {/* Header */}
-                            <div className="border-primary/30 border-b-2 border-dashed bg-black/20 p-4">
-                                <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_TAG_QUERY']"></div>
+                            <div className="border-neutral/30 bg-base-100/20 border-b-2 border-dashed p-4">
+                                <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_TAG_QUERY']"></div>
                                 <div className="text-primary text-xl font-black tracking-widest uppercase">
-                                    <span className="mr-2 text-white/50">{`>>`}</span>
+                                    <span className="text-base-content/50 mr-2">{`>>`}</span>
                                     SEARCH_RESULTS:{' '}
                                     <span className="text-secondary">
                                         #{tag}
                                     </span>
                                 </div>
-                                <div className="mt-2 font-mono text-xs text-white/40">
+                                <div className="text-base-content/40 mt-2 font-mono text-xs">
                                     FOUND {posts.length} ENTRIES
                                 </div>
                             </div>
@@ -47,10 +47,10 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                                             <Link
                                                 key={post.slug}
                                                 to={'/posts/' + post.path}
-                                                className="group hover:border-primary hover:bg-primary/10 relative flex flex-col border border-dashed border-white/20 bg-white/5 p-4 transition-all"
+                                                className="group hover:border-neutral hover:bg-primary/10 border-neutral/20 bg-primary/5 relative flex flex-col border border-dashed p-4 transition-all"
                                             >
                                                 {/* Card Header */}
-                                                <div className="mb-2 flex items-center justify-between text-[10px] text-white/40">
+                                                <div className="text-base-content/40 mb-2 flex items-center justify-between text-[10px]">
                                                     <span className="font-mono">
                                                         [
                                                         {
@@ -67,14 +67,14 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                                                 </div>
 
                                                 {/* Title */}
-                                                <h3 className="group-hover:text-primary mb-2 line-clamp-2 text-lg font-bold text-white transition-colors">
+                                                <h3 className="group-hover:text-primary text-base-content mb-2 line-clamp-2 text-lg font-bold transition-colors">
                                                     {post.frontMatter.title}
                                                 </h3>
 
                                                 {/* Description */}
                                                 {post.frontMatter
                                                     .description && (
-                                                    <p className="mb-4 line-clamp-3 flex-grow font-mono text-xs text-white/60">
+                                                    <p className="text-base-content/60 mb-4 line-clamp-3 grow font-mono text-xs">
                                                         {
                                                             post.frontMatter
                                                                 .description
@@ -91,7 +91,7 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                                                                 className={`text-[10px] opacity-70 ${
                                                                     t === tag
                                                                         ? 'text-secondary font-bold'
-                                                                        : 'text-white/50'
+                                                                        : 'text-base-content/50'
                                                                 }`}
                                                             >
                                                                 #{t}
@@ -101,12 +101,12 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                                                 </div>
 
                                                 {/* Corner accents */}
-                                                <div className="group-hover:border-primary absolute top-0 left-0 h-2 w-2 border-t border-l border-white/20 transition-colors"></div>
-                                                <div className="group-hover:border-primary absolute right-0 bottom-0 h-2 w-2 border-r border-b border-white/20 transition-colors"></div>
+                                                <div className="group-hover:border-neutral border-neutral/20 absolute top-0 left-0 h-2 w-2 border-t border-l transition-colors"></div>
+                                                <div className="group-hover:border-neutral border-neutral/20 absolute right-0 bottom-0 h-2 w-2 border-r border-b transition-colors"></div>
                                             </Link>
                                         ))
                                     ) : (
-                                        <div className="col-span-full flex flex-col items-center justify-center border border-dashed border-white/5 py-16 text-white/30">
+                                        <div className="text-base-content/30 col-span-full flex flex-col items-center justify-center border border-dashed border-white/5 py-16">
                                             <div className="mb-4 text-6xl font-black opacity-10">
                                                 404
                                             </div>
@@ -119,7 +119,7 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                             </div>
 
                             {/* Footer */}
-                            <div className="border-primary/30 flex justify-between border-t border-dashed bg-black/20 p-2 px-4 text-[10px] text-white/40 uppercase">
+                            <div className="border-neutral/30 text-base-content/40 bg-base-200/20 flex justify-between border-t border-dashed p-2 px-4 text-[10px] uppercase">
                                 <span>STATUS: READY</span>
                                 <span className="animate-pulse">_</span>
                             </div>

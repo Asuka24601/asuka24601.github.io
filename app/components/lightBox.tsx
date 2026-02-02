@@ -109,7 +109,7 @@ export default function LightBox() {
 
     return (
         <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-black/90 font-mono text-sm backdrop-blur-sm transition-opacity duration-300 ${
+            className={`bg-base-100/90 fixed inset-0 z-50 flex items-center justify-center font-mono text-sm backdrop-blur-sm transition-opacity duration-300 ${
                 isLightboxVisible ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={closeLightbox}
@@ -120,23 +120,23 @@ export default function LightBox() {
             <CRTOverlay />
 
             <div
-                className="border-primary bg-modalBlack relative flex h-[max(90%,90vh)] w-[max(90%,90vw)] flex-col overflow-hidden border-4 border-double shadow-[0_0_20px_rgba(0,255,0,0.2)]"
+                className="border-neutral bg-base-200 relative flex h-[max(90%,90vh)] w-[max(90%,90vw)] flex-col overflow-hidden border-4 border-double shadow-[0_0_20px_rgba(0,255,0,0.2)]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <TextJitter className="flex h-full w-full flex-col">
                     {/* Header */}
-                    <div className="border-primary/30 flex shrink-0 items-center justify-between border-b-2 border-dashed bg-black/20 p-2 px-4">
+                    <div className="border-neutral/30 bg-base-200/20 flex shrink-0 items-center justify-between border-b-2 border-dashed p-2 px-4">
                         <div className="flex items-center gap-4">
                             <div className="text-primary font-bold tracking-widest uppercase before:content-['>_']">
                                 IMAGE_ANALYSIS_UNIT
                             </div>
-                            <div className="hidden text-[10px] text-white/50 lg:block">
+                            <div className="text-base-content/50 hidden text-[10px] lg:block">
                                 TARGET: {lightboxSrc.split('/').pop()}
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
                             <button
-                                className="group hover:text-primary flex items-center gap-2 text-white/70 transition-colors"
+                                className="group hover:text-primary text-base-content/70 flex items-center gap-2 transition-colors"
                                 onClick={downloadImage}
                                 title="DOWNLOAD_DATA"
                             >
@@ -146,7 +146,7 @@ export default function LightBox() {
                                 <SvgIcon name="download" size={20} />
                             </button>
                             <button
-                                className="group hover:text-primary flex items-center gap-2 text-white/70 transition-colors"
+                                className="group hover:text-primary text-base-content/70 flex items-center gap-2 transition-colors"
                                 onClick={(e) => {
                                     e.stopPropagation()
                                     closeLightbox()
@@ -209,7 +209,7 @@ export default function LightBox() {
                     </div>
 
                     {/* Footer / Status Bar */}
-                    <div className="border-primary/30 flex shrink-0 items-center justify-between border-t border-dashed bg-black/20 p-1 px-4 text-[10px] text-white/60 uppercase">
+                    <div className="border-neutral/30 text-base-content/60 bg-base-200/20 flex shrink-0 items-center justify-between border-t border-dashed p-1 px-4 text-[10px] uppercase">
                         <div className="flex gap-4">
                             <span>ZOOM: {(scale * 100).toFixed(0)}%</span>
                             <span>

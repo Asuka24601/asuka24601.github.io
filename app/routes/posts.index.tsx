@@ -24,13 +24,15 @@ const AsciiProgressBar = () => {
     const bar = '|'.repeat(filledChars) + '.'.repeat(emptyChars)
 
     return (
-        <div className="flex flex-col items-center gap-1 font-mono text-xs text-white/50">
+        <div className="text-base-content/50 flex flex-col items-center gap-1 font-mono text-xs">
             <div className="animate-pulse text-[10px] tracking-widest uppercase">
                 &gt;&gt; BUFFERING_DATA_STREAM
             </div>
             <div className="flex items-center gap-2">
                 <span className="text-primary">[{bar}]</span>
-                <span className="w-8 text-right text-white/70">{percent}%</span>
+                <span className="text-base-content/70 w-8 text-right">
+                    {percent}%
+                </span>
             </div>
         </div>
     )
@@ -110,14 +112,14 @@ export default function PostIndex() {
             >
                 <CRTOverlay />
                 <TextJitter>
-                    <div className="border-primary bg-modalBlack relative flex flex-col overflow-hidden border-4 border-double">
+                    <div className="border-neutral bg-base-200 relative flex flex-col overflow-hidden border-4 border-double">
                         {/* Header */}
-                        <div className="border-primary/30 flex items-end justify-between border-b-2 border-dashed bg-black/20 p-4">
+                        <div className="border-neutral/30 bg-base-200/20 flex items-end justify-between border-b-2 border-dashed p-4">
                             <div>
-                                <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_DATABASE_ACCESS']"></div>
+                                <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_DATABASE_ACCESS']"></div>
                                 {/* 动态显示 SQL 查询语句，增加终端沉浸感 */}
                                 <div className="text-primary text-xl font-black tracking-widest break-all uppercase">
-                                    <span className="mr-2 text-white/50">{`>`}</span>
+                                    <span className="text-base-content/50 mr-2">{`>`}</span>
                                     SELECT * FROM POSTS
                                     {searchQuery && (
                                         <span className="text-secondary">{` WHERE CONTENT LIKE '%${searchQuery}%'`}</span>
@@ -129,7 +131,7 @@ export default function PostIndex() {
                                 </div>
                             </div>
                             <div className="hidden text-right sm:block">
-                                <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['LAST\_UPDATE']">
+                                <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['LAST\_UPDATE']">
                                     {' '}
                                 </div>
                                 <div className="text-warning text-xs">
@@ -152,7 +154,7 @@ export default function PostIndex() {
                                     onChange={(e) =>
                                         setSearchQuery(e.target.value)
                                     }
-                                    className="border-primary/30 focus:border-primary w-full border-b bg-transparent px-2 py-1 font-mono text-white placeholder-white/20 focus:outline-none"
+                                    className="border-neutral/30 focus:border-neutral text-base-content w-full border-b bg-transparent px-2 py-1 font-mono placeholder-white/20 focus:outline-none"
                                     placeholder="输入关键词搜索..."
                                     autoComplete="off"
                                 />
@@ -181,7 +183,7 @@ export default function PostIndex() {
                                                 className={`border px-2 py-0.5 text-[10px] transition-all duration-300 ${
                                                     isSelected
                                                         ? 'border-secondary bg-secondary text-black shadow-[0_0_10px_rgba(0,255,0,0.3)]'
-                                                        : 'hover:border-secondary hover:text-secondary border-white/20 text-white/60'
+                                                        : 'hover:border-secondary hover:text-secondary text-base-content/60 border-white/20'
                                                 }`}
                                             >
                                                 {isSelected ? '[x]' : '[ ]'} #
@@ -206,7 +208,7 @@ export default function PostIndex() {
                         <div className="flex min-h-[50vh] flex-col">
                             {/* 如果没有结果，显示提示 */}
                             {filteredPosts.length === 0 && (
-                                <div className="flex h-32 items-center justify-center text-white/30">
+                                <div className="text-base-content/30 flex h-32 items-center justify-center">
                                     <span className="tracking-widest uppercase">
                                         &lt; NO_DATA_FOUND /&gt;
                                     </span>
@@ -225,7 +227,7 @@ export default function PostIndex() {
                                         {/* Content */}
                                         <div className="flex min-w-0 flex-1 flex-col gap-2">
                                             {/* Meta Header */}
-                                            <div className="flex items-center gap-3 text-[10px] text-white/50">
+                                            <div className="text-base-content/50 flex items-center gap-3 text-[10px]">
                                                 <span className="text-primary">
                                                     [
                                                     {
@@ -243,7 +245,7 @@ export default function PostIndex() {
                                             </div>
 
                                             {/* Title */}
-                                            <h2 className="group-hover:text-success text-xl font-bold tracking-wide text-white transition-colors">
+                                            <h2 className="group-hover:text-success text-base-content text-xl font-bold tracking-wide transition-colors">
                                                 <NavLink
                                                     to={item.path}
                                                     className="flex items-center gap-2"
@@ -254,7 +256,7 @@ export default function PostIndex() {
                                             </h2>
 
                                             {/* Description */}
-                                            <p className="line-clamp-2 text-xs leading-relaxed text-white/70">
+                                            <p className="text-base-content/70 line-clamp-2 text-xs leading-relaxed">
                                                 {item.frontMatter.description}
                                             </p>
 
@@ -264,7 +266,7 @@ export default function PostIndex() {
                                                     (tag) => (
                                                         <span
                                                             key={tag}
-                                                            className="text-secondary group-hover:border-secondary/30 border border-white/10 bg-black/20 px-1.5 py-0.5 text-[10px] transition-colors before:content-['#']"
+                                                            className="text-secondary group-hover:border-secondary/30 bg-base-200/20 border border-white/10 px-1.5 py-0.5 text-[10px] transition-colors before:content-['#']"
                                                         >
                                                             {tag}
                                                         </span>
@@ -276,7 +278,7 @@ export default function PostIndex() {
                                         {/* Image (Optional) */}
                                         {item.frontMatter.cover && (
                                             <div className="hidden w-32 shrink-0 sm:block">
-                                                <div className="group-hover:border-primary/30 border border-white/10 bg-black/40 p-1 transition-colors">
+                                                <div className="group-hover:border-neutral/30 bg-base-300/40 border border-white/10 p-1 transition-colors">
                                                     <div className="relative aspect-video w-full overflow-hidden grayscale transition-all duration-500 group-hover:grayscale-0">
                                                         <ProgressiveImage
                                                             src={
@@ -310,7 +312,7 @@ export default function PostIndex() {
                         </div>
 
                         {/* Footer */}
-                        <div className="border-primary/30 flex items-center justify-between border-t border-dashed bg-black/20 p-2 px-4 text-[10px] text-white/40 uppercase">
+                        <div className="border-neutral/30 text-base-content/40 bg-base-300/20 flex items-center justify-between border-t border-dashed p-2 px-4 text-[10px] uppercase">
                             <span className="before:content-['LOADED:_']">
                                 {visiblePosts.length}{' '}
                                 <span className="opacity-50">

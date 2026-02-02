@@ -27,7 +27,7 @@ export default function SideNav({
             <div className={`${className || 'lg:hidden'} contents`}>
                 <div className="sticky right-0 bottom-0 flex h-0 w-full -translate-x-8 -translate-y-36 flex-row justify-end">
                     <button
-                        className="border-primary text-primary bg-modalBlack right-8 bottom-24 z-40 flex h-12 w-12 items-center justify-center border-2 border-double shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] transition-all hover:translate-y-1 hover:shadow-none"
+                        className="border-neutral text-primary bg-base-200 right-8 bottom-24 z-40 flex h-12 w-12 items-center justify-center border-2 border-double shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] transition-all hover:translate-y-1 hover:shadow-none"
                         title="OPEN_DIRECTORY"
                         onClick={() => {
                             const scrollbarWidth =
@@ -51,7 +51,7 @@ export default function SideNav({
                         document.body.style.paddingRight = ''
                         document.body.style.overflowY = ''
                     }}
-                    className="border-primary bg-modalBlack fixed top-0 right-0 z-50 m-0 h-dvh max-h-dvh w-3/4 max-w-xs overflow-hidden border-l-4 border-double p-0 font-mono text-sm text-white shadow-2xl outline-none backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+                    className="border-neutral bg-base-200 text-base-content backdrop:bg-base-100/50 fixed top-0 right-0 z-50 m-0 h-dvh max-h-dvh w-3/4 max-w-xs overflow-hidden border-l-4 border-double p-0 font-mono text-sm shadow-2xl outline-none backdrop:backdrop-blur-sm"
                     onClick={(e) => {
                         if (e.target === dialogRef.current) {
                             dialogRef.current.close()
@@ -110,13 +110,13 @@ export default function SideNav({
                     <CRTOverlay />
                     <TextJitter className="flex h-full flex-col">
                         <div className="flex h-full flex-col overflow-y-auto p-4">
-                            <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
+                            <div className="border-neutral/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                                 <div>
-                                    <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_DIRECTORY']"></div>
+                                    <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_DIRECTORY']"></div>
                                     <div className="text-primary text-xl font-black tracking-widest uppercase after:content-['INDEX']"></div>
                                 </div>
                                 <button
-                                    className="group hover:text-primary flex items-center gap-2 text-white/70 transition-colors"
+                                    className="group hover:text-primary text-base-content/70 flex items-center gap-2 transition-colors"
                                     onClick={() => dialogRef.current?.close()}
                                 >
                                     <span className="text-[10px] font-bold uppercase after:content-['[_CLOSE_]']"></span>
@@ -126,7 +126,7 @@ export default function SideNav({
                         </div>
 
                         {/* Footer decoration */}
-                        <div className="border-primary/30 mt-auto border-t border-dashed bg-black/20 p-2 text-[10px] text-white/40 uppercase">
+                        <div className="border-neutral/30 text-base-content/40 bg-base-200/20 mt-auto border-t border-dashed p-2 text-[10px] uppercase">
                             <span className="animate-pulse after:content-['>>_WAITING\_FOR\_INPUT']"></span>
                         </div>
                     </TextJitter>

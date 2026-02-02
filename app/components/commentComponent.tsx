@@ -18,7 +18,7 @@ export function CommentItemComponent({
             <div className="flex gap-4">
                 {/* Avatar Frame */}
                 <div className="shrink-0">
-                    <div className="border-primary/30 h-10 w-10 border bg-black/20 p-0.5">
+                    <div className="border-neutral/30 bg-base-100/20 h-10 w-10 border p-0.5">
                         <Avatar
                             src={comment.avatar}
                             alt={comment.name}
@@ -33,18 +33,18 @@ export function CommentItemComponent({
                         <span className="text-secondary before:content-['['] after:content-[']']">
                             {timeToString(comment.time).dateTime}
                         </span>
-                        <span className="mx-2 text-white/30 before:content-['|']"></span>
+                        <span className="text-base-content/30 mx-2 before:content-['|']"></span>
                         <span className="text-warning uppercase before:content-['USER:_']">
                             {comment.name}
                         </span>
-                        <span className="mx-2 text-white/30 before:content-['|']"></span>
-                        <span className="text-white/50 uppercase before:content-['SRC:_']">
+                        <span className="text-base-content/30 mx-2 before:content-['|']"></span>
+                        <span className="text-base-content/50 uppercase before:content-['SRC:_']">
                             {comment.from}
                         </span>
                     </div>
 
                     {/* Message */}
-                    <div className="font-mono text-sm leading-relaxed wrap-break-word text-white/90">
+                    <div className="text-base-content/90 font-mono text-sm leading-relaxed wrap-break-word">
                         <span className="text-primary/50 mr-2 select-none">{`>>`}</span>
                         {comment.message}
                     </div>
@@ -70,13 +70,13 @@ export default function CommentComponent({
                 <CRTOverlay />
                 <TextJitter>
                     {/* Header */}
-                    <div className="border-primary/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
+                    <div className="border-neutral/30 mb-4 flex items-end justify-between border-b-2 border-dashed pb-2">
                         <div>
-                            <div className="mb-1 text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['\/\/_SYSTEM\_LOGS']"></div>
+                            <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM\_LOGS']"></div>
                             <div className="text-primary text-xl font-black tracking-widest uppercase before:content-['USER\_COMMENTS']"></div>
                         </div>
                         <div className="text-right">
-                            <div className="text-[10px] font-bold tracking-widest text-white uppercase opacity-50 before:content-['TOTAL\_ENTRIES']"></div>
+                            <div className="text-base-content text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['TOTAL\_ENTRIES']"></div>
                             <div className="text-warning text-xs opacity-70 after:content-['_RECORDS']">
                                 {comments.length}
                             </div>
@@ -90,7 +90,7 @@ export default function CommentComponent({
                         ))}
                     </div>
 
-                    <div className="text-base-100 mt-4 text-[10px] opacity-50">
+                    <div className="text-base-content mt-4 text-[10px] opacity-50">
                         <span className="uppercase before:content-['>>_END_OF_LOG']"></span>
                         <span className="ml-1 animate-pulse after:content-['\_']"></span>
                     </div>

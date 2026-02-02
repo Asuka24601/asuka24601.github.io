@@ -190,7 +190,7 @@ export function Pie({
 
                     <div
                         ref={tooltipRef}
-                        className="bg-base-content/75 text-base-100 pointer-events-none absolute z-9999 rounded-sm p-[4px_8px] text-xs transition-opacity duration-150"
+                        className="bg-base-content/75 text-base-content pointer-events-none absolute z-9999 rounded-sm p-[4px_8px] text-xs transition-opacity duration-150"
                         style={{ opacity: 0, top: 0, left: 0 }}
                     >
                         {activeMaterial && (
@@ -468,7 +468,7 @@ export function PieChartSvgClassic({
             {/* Tooltip */}
             {hoveredIndex !== -1 && (
                 <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                    <div className="bg-base-300/90 border-primary/50 border px-2 py-1 shadow-lg backdrop-blur-sm">
+                    <div className="bg-base-300/90 border-neutral/50 border px-2 py-1 shadow-lg backdrop-blur-sm">
                         <div className="text-primary text-xs font-bold uppercase">
                             {materials[hoveredIndex].name}
                         </div>

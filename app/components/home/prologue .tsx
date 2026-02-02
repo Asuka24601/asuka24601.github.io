@@ -33,7 +33,7 @@ const Loader = () => {
                 opacity={0.3}
             />
             <Html center>
-                <div className="text-xs font-thin text-white/80">
+                <div className="text-base-content/80 text-xs font-thin">
                     Loading...
                 </div>
             </Html>
@@ -186,7 +186,7 @@ export default function PrologueComponent({
 
             <div className="z-1">
                 {children || (
-                    <p className="text-base-100 text-7xl text-shadow-2xs">
+                    <p className="text-base-content text-7xl text-shadow-2xs">
                         {desplayText}{' '}
                         <span className="animate__animated animate__flash animate__infinite animate__slow inline-block select-none">
                             l

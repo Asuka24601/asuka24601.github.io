@@ -30,7 +30,7 @@ export default function FloatMenu({
 export function TreeStructure({ level }: { level: 1 | 2 | 3 | 4 | 5 | 6 }) {
     return (
         <>
-            <span className="shrink-0 font-mono text-white/30 select-none">
+            <span className="text-base-content/30 shrink-0 font-mono select-none">
                 {level === 1 ? (
                     <span className="mr-2 font-bold">{`>_`}</span>
                 ) : (

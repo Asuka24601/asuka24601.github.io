@@ -187,7 +187,7 @@ export default function BannerContent({
 
     return (
         <>
-            <div className="relative flex h-dvh w-full flex-col bg-black">
+            <div className="bg-base-100 relative flex h-dvh w-full flex-col">
                 <div className="pointer-events-none absolute inset-0" />
                 <div
                     className={`relative h-full w-full overflow-hidden`}
@@ -199,7 +199,7 @@ export default function BannerContent({
                     />
                     <Suspense
                         fallback={
-                            <div className="h-full w-full animate-pulse bg-black" />
+                            <div className="bg-base-100 h-full w-full animate-pulse" />
                         }
                     >
                         {hiddenImg ? (
@@ -222,7 +222,7 @@ export default function BannerContent({
                                 : ' pointer-events-none opacity-0')
                         }
                     >
-                        <div className="text-base-100 animate-bounce bg-transparent opacity-50">
+                        <div className="text-base-content animate-bounce bg-transparent opacity-50">
                             <SvgIcon name="arrowDown" size={40} />
                         </div>
                     </button>
