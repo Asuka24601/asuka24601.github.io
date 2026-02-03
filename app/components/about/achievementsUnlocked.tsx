@@ -37,10 +37,10 @@ export default function AchievementList({
                             <div className="text-accent truncate text-xs font-bold tracking-wider uppercase">
                                 {item.name}
                             </div>
-                            <div className="text-[10px] leading-tight opacity-70">
+                            <div className="text-base-content/60 text-[10px] leading-tight opacity-70">
                                 {item.discription}
                             </div>
-                            <div className="mt-1 font-mono text-[8px] opacity-40 before:content-['ID\_REF:_']">
+                            <div className="text-base-content/50 mt-1 font-mono text-[8px] opacity-40 before:content-['ID\_REF:_']">
                                 {index.toString().padStart(4, '0')}
                             </div>
                         </div>

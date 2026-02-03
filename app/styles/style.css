@@ -1,46 +1,41 @@
 @import 'tailwindcss';
 @plugin 'daisyui';
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @plugin 'daisyui/theme' {
     name: 'light';
     default: true; /* set as default */
     prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
     color-scheme: light; /* color of browser-provided UI */
 
-    /* 背景 - 冷中灰，明显提亮，像日光灯下的灰墙/CRT屏体，而不是黑底 */
-    --color-base-100: oklch(28% 0.02 240); /* 冷中深灰 #3c3f45 左右 */
-    --color-base-200: oklch(24% 0.02 245);
-    --color-base-300: oklch(20% 0.025 250);
+    /* 基础背景：仿旧纸张的米白色 */
+    --color-base-100: oklch(96% 0.015 85);
+    --color-base-200: oklch(92% 0.02 85);
+    --color-base-300: oklch(88% 0.03 85);
+    --color-base-content: oklch(20% 0.02 240); /* 近似墨黑的深色文字 */
 
-    /* 主文字 & 内容 - 极亮冷白带轻微蓝调，像荧光灯白，高亮但不刺眼 */
-    --color-base-content: oklch(96% 0.02 260); /* 冷白 #f8faff 左右，很亮 */
+    /* 主色：深 IBM 蓝 */
+    --color-primary: oklch(35% 0.12 250);
+    --color-primary-content: oklch(95% 0.01 250);
 
-    /* Primary - 冷亮青/氰（cyan），经典终端冷光感，主按钮/链接 */
-    --color-primary: oklch(92% 0.14 200);
-    --color-primary-content: oklch(24% 0.02 240); /* 深底文字 */
+    /* 次色：复古红褐色 */
+    --color-secondary: oklch(45% 0.14 30);
+    --color-secondary-content: oklch(96% 0.01 30);
 
-    /* Secondary - 冷浅蓝/靛蓝，用于次要高亮、标签、visited */
-    --color-secondary: oklch(88% 0.12 240);
-    --color-secondary-content: oklch(24% 0.02 240);
+    /* 强调色：报纸排版式的墨绿色 */
+    --color-accent: oklch(40% 0.1 160);
+    --color-accent-content: oklch(95% 0.01 160);
 
-    /* Accent - 亮冷蓝白/极浅氰，用于警告、焦点、光标闪烁感 */
-    --color-accent: oklch(94% 0.1 220);
-    --color-accent-content: oklch(24% 0.02 240);
+    /* 中性色：用于模拟旧式控制台边框 */
+    --color-neutral: oklch(25% 0.02 240);
+    --color-neutral-content: oklch(98% 0.01 240);
 
-    /* 功能色 - 偏冷调，保持明亮直白 */
-    --color-success: oklch(90% 0.13 160); /* 冷黄绿 → 偏青绿 */
-    --color-info: oklch(88% 0.12 210); /* 亮冷青 */
-    --color-warning: oklch(92% 0.15 80); /* 亮淡黄（少量暖意，但不抢戏） */
-    --color-error: oklch(86% 0.16 30); /* 冷珊瑚红/偏粉红 */
-
-    --color-success-content: oklch(24% 0.02 240);
-    --color-info-content: oklch(24% 0.02 240);
-    --color-warning-content: oklch(24% 0.02 240);
-    --color-error-content: oklch(24% 0.02 240);
-
-    /* 中性灰 - 更冷的灰，用于边框、禁用、分割 */
-    --color-neutral: oklch(60% 0.02 240);
-    --color-neutral-content: oklch(96% 0.02 260);
+    /* 状态色 - 降低明度以适应浅色背景 */
+    --color-info: oklch(50% 0.12 240);
+    --color-success: oklch(45% 0.12 145);
+    --color-warning: oklch(55% 0.15 75);
+    --color-error: oklch(50% 0.18 28);
 
     /* 圆角 & 动画保持轻微复古，但整体更明快 */
     --rounded-box: 0.16rem;
@@ -57,40 +52,33 @@
     prefersdark: true; /* set as default dark mode (prefers-color-scheme:dark) */
     color-scheme: dark; /* color of browser-provided UI */
 
-    /* 背景 - 极限黑暗，接近纯黑但带微冷紫/蓝调（避免纯黑的平庸感） */
-    --color-base-100: oklch(2.5% 0.015 270); /* #050509 左右，极深紫黑 */
-    --color-base-200: oklch(2% 0.018 275);
-    --color-base-300: oklch(1.5% 0.02 280); /* 几乎不可见但有层次 */
+    /* 基础背景：极深灰黑，带一点点蓝调提高深度感 */
+    --color-base-100: oklch(15% 0.02 240);
+    --color-base-200: oklch(12% 0.02 240);
+    --color-base-300: oklch(10% 0.02 240);
+    --color-base-content: oklch(85% 0.1 140); /* 荧光绿文字 */
 
-    /* 主文字 & 默认内容 - 超亮冷青白（磷光爆表），在黑底上像激光 */
-    --color-base-content: oklch(100% 0 0); /* 亮青白 #ffffff 左右，带强辉光 */
+    /* 主色：经典的终端绿色 */
+    --color-primary: oklch(75% 0.18 145);
+    --color-primary-content: oklch(20% 0.05 145);
 
-    /* Primary - 极致电青霓虹（cyberpunk 灵魂色） */
-    --color-primary: oklch(82% 0.3 195);
-    --color-primary-content: oklch(2.5% 0.015 270);
+    /* 次色：琥珀色/警告色，增加视觉层级 */
+    --color-secondary: oklch(70% 0.15 70);
+    --color-secondary-content: oklch(20% 0.05 70);
 
-    /* Secondary - 超强 magenta / 深粉紫霓虹（最刺眼的对比） */
-    --color-secondary: oklch(80% 0.32 340);
-    --color-secondary-content: oklch(2.5% 0.015 270);
+    /* 强调色：电控青色 */
+    --color-accent: oklch(80% 0.12 190);
+    --color-accent-content: oklch(20% 0.05 190);
 
-    /* Accent - 毒酸绿（经典终端酸绿 + 霓虹提升） */
-    --color-accent: oklch(85% 0.28 140);
-    --color-accent-content: oklch(2.5% 0.015 270);
+    /* 中性色：用于边框和非活跃元素 */
+    --color-neutral: oklch(30% 0.03 240);
+    --color-neutral-content: oklch(90% 0.02 240);
 
-    /* 功能色 - 全霓虹高饱和，保持统一家族 */
-    --color-info: oklch(82% 0.26 220); /* 深电蓝 */
-    --color-success: oklch(84% 0.29 150); /* 毒绿 */
-    --color-warning: oklch(86% 0.27 90); /* 霓虹酸黄 */
-    --color-error: oklch(78% 0.31 10); /* 血红霓虹 */
-
-    --color-info-content: oklch(2.5% 0.015 270);
-    --color-success-content: oklch(2.5% 0.015 270);
-    --color-warning-content: oklch(2.5% 0.015 270);
-    --color-error-content: oklch(2.5% 0.015 270);
-
-    /* 中性 - 超暗灰，几乎融进背景 */
-    --color-neutral: oklch(8% 0.01 270);
-    --color-neutral-content: oklch(88% 0.1 200);
+    /* 状态色 - 保持高对比度 */
+    --color-info: oklch(70% 0.1 230); /* 冷蓝 */
+    --color-success: oklch(75% 0.2 150); /* 明绿 */
+    --color-warning: oklch(80% 0.18 85); /* 亮黄 */
+    --color-error: oklch(65% 0.2 25); /* 警示红 */
 
     /* 圆角 & 动画 - 更尖锐、更快闪烁，像老终端故障感 */
     --rounded-box: 0.08rem;

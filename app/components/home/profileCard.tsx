@@ -73,7 +73,7 @@ function ProfileCard({
                     </div>
 
                     {/* Stats Grid */}
-                    <div className="mb-4 grid grid-cols-3 gap-2 border-y border-dashed border-white/10 py-2">
+                    <div className="border-neutral/50 mb-4 grid grid-cols-3 gap-2 border-y border-dashed py-2">
                         {profileStatistics.map((item, index) => (
                             <div
                                 key={index}
@@ -109,7 +109,7 @@ function ProfileCard({
                                         className="text-primary/70"
                                     />
                                     <div className="flex flex-1 flex-col gap-0.5">
-                                        <div className="flex justify-between text-[10px] uppercase opacity-80">
+                                        <div className="text-base-content flex justify-between text-[10px] uppercase opacity-80">
                                             <span>{tag.name}</span>
                                             <span>{tag.level}/3</span>
                                         </div>
@@ -128,7 +128,7 @@ function ProfileCard({
                     </div>
 
                     {/* Footer / Social */}
-                    <div className="border-t border-dashed border-white/10 pt-2">
+                    <div className="border-neutral/50 border-t border-dashed pt-2">
                         <div className="text-base-content/50 mb-2 text-[10px] font-bold uppercase before:content-['COMM_LINKS']"></div>
                         <div className="flex justify-between px-4">
                             {author.socialMedia.map((item, index) => (

@@ -44,18 +44,19 @@ export function AriticleHeader({
 }) {
     return (
         <header
-            className={`${className || ''} flex flex-col justify-center gap-5 text-center`}
+            className={`${className || ''} flex flex-col justify-center gap-5 text-center text-white`}
             style={style}
         >
-            <h1 className="after:animate-blink text-base-content after:bg-base-content relative text-7xl text-shadow-2xs after:ml-2.5 after:inline-block after:h-1 after:w-5">
+            <h1 className="after:animate-blink relative text-4xl text-shadow-2xs after:ml-2.5 after:inline-block after:h-1 after:w-5 after:bg-white sm:text-5xl md:text-6xl lg:text-7xl">
                 <strong>{title}</strong>
             </h1>
 
-            <div className="text-base-content flex justify-center text-sm text-shadow-xs">
-                <span className="first-letter:uppercase">
-                    <strong>{author}</strong>
-                </span>
-                <div className="bg-base-content/75 static mx-3 block h-5 w-0.5"></div>
+            <div className="flex justify-center text-[10px] text-shadow-xs md:text-xs lg:text-sm">
+                {author && (
+                    <span className="first-letter:uppercase after:mx-3 after:content-['|']">
+                        <strong>{author}</strong>
+                    </span>
+                )}
                 <time dateTime={date}>
                     <strong>
                         {new Date(date).toLocaleDateString('zh-CN')}
@@ -63,7 +64,7 @@ export function AriticleHeader({
                 </time>
             </div>
             {description && (
-                <p className="text-base-content text-shadow-2xs">
+                <p className="text-sm text-shadow-2xs sm:text-base md:text-lg lg:text-xl">
                     <strong>{description}</strong>
                 </p>
             )}
@@ -102,7 +103,7 @@ export function ArticleError({ slug }: { slug: string }) {
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
-                    <div className="border-neutral/30 bg-base-200 flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)]">
+                    <div className="border-neutral/30 bg-base-200 shadow-primary flex flex-col gap-6 border-2 border-double p-6">
                         {/* Header */}
                         <div className="border-neutral/30 flex items-end justify-between border-b-2 border-dashed pb-2">
                             <div>

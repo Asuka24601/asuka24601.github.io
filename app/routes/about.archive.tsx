@@ -107,7 +107,7 @@ export default function Archive() {
                             icon={item.icon}
                             question={item.question}
                         >
-                            <div className="flex flex-col gap-3">
+                            <div className="text-base-content flex flex-col gap-3">
                                 {(archiveData.data as any)[item.key]}
                                 <div className="mt-1">
                                     <span className="text-base-content text-[10px] uppercase opacity-50 before:content-['>>_SYSTEM\_DATABASE\_QUERY:_COMPLETED']"></span>
@@ -136,7 +136,7 @@ export default function Archive() {
                         question="你的半衰期是多少?"
                     >
                         {
-                            <div>
+                            <div className="text-base-content">
                                 <Latex
                                     formula={
                                         archiveData.data.halflife
@@ -164,6 +164,7 @@ export default function Archive() {
                                     t1="ingredient"
                                     t2="proportion(%)"
                                     items={archiveData.data.materials}
+                                    className="text-base-content"
                                 />
                             </div>
                         </div>
@@ -173,6 +174,7 @@ export default function Archive() {
                             t1="language"
                             t2="level(0~+∞)"
                             items={archiveData.data.languages}
+                            className="text-base-content"
                         />
                     </DataItem>
 

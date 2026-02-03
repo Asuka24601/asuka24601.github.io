@@ -278,7 +278,7 @@ export default function Search() {
                                                     className={`group border border-dashed p-3 transition-all ${
                                                         index === selectedIndex
                                                             ? 'border-neutral bg-primary/10'
-                                                            : 'hover:border-neutral hover:bg-primary/10 border-white/10 bg-white/5'
+                                                            : 'hover:border-neutral hover:bg-primary/10 border-neutral/10 bg-base-300/50'
                                                     }`}
                                                 >
                                                     <div className="flex items-center justify-between">

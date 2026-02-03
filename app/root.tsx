@@ -62,7 +62,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 />
                 <Links />
             </head>
-            <body className="bg-base-100 relative min-w-xl scroll-smooth transition-colors duration-300">
+            <body className="bg-base-100 relative transition-colors duration-300">
                 <CRTScreen />
                 {children}
                 <ScrollRestoration />

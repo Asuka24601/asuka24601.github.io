@@ -28,7 +28,7 @@ export function PageError({ error }: { error: unknown }) {
             <div className="border-terminal m-4 w-full max-w-2xl">
                 <CRTOverlay />
                 <TextJitter>
-                    <div className="border-neutral/30 bg-base-200 flex flex-col gap-6 border-2 border-double p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)] lg:p-10">
+                    <div className="border-neutral/30 bg-base-200 shadow-primary flex flex-col gap-6 border-2 border-double p-6 lg:p-10">
                         {/* Header */}
                         <div className="border-neutral/30 flex items-end justify-between border-b-2 border-dashed pb-2">
                             <div>

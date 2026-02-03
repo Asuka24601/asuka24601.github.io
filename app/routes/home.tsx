@@ -58,13 +58,13 @@ export default function Home() {
                 <BannerContent wrapperRef={wrapperRef} hiddenImg={true}>
                     <PrologueComponent
                         fullText={profileData.data.discription}
-                        className="flex h-full w-full flex-row items-center justify-center"
+                        className="relative flex h-full w-full flex-row items-center justify-center"
                     />
                 </BannerContent>
 
                 <div className="border-neutral border-t-4 border-double"></div>
 
-                <div className="border-terminal mx-auto flex h-full min-h-full max-w-6xl overflow-visible! border-none!">
+                <div className="border-terminal z-2 mx-auto flex h-full min-h-full max-w-6xl overflow-visible! border-none!">
                     <CRTOverlay />
                     <TextJitter>
                         <div

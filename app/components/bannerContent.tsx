@@ -205,7 +205,12 @@ export default function BannerContent({
                         {hiddenImg ? (
                             <div className="h-full w-full bg-transparent"></div>
                         ) : (
-                            <HeaderBanner ImgUrl={ImgUrl} blurred={blurred} />
+                            <div className="bg-base-100 h-full w-full">
+                                <HeaderBanner
+                                    ImgUrl={ImgUrl}
+                                    blurred={blurred}
+                                />
+                            </div>
                         )}
                     </Suspense>
 
@@ -223,7 +228,11 @@ export default function BannerContent({
                         }
                     >
                         <div className="text-base-content animate-bounce bg-transparent opacity-50">
-                            <SvgIcon name="arrowDown" size={40} />
+                            <SvgIcon
+                                name="arrowDown"
+                                size={40}
+                                className="text-base-content"
+                            />
                         </div>
                     </button>
                 </div>

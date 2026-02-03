@@ -73,10 +73,10 @@ export default function HeaderBanner({
                 style={{
                     ...(blurred
                         ? {
-                              filter: `blur(calc(var(--scroll-percent, 0) * 50px)) brightness(75%)`,
+                              filter: `blur(calc(var(--scroll-percent, 0) * 50px)) brightness(70%)`,
                           }
                         : {
-                              filter: `brightness(75%)`,
+                              filter: `brightness(70%)`,
                           }),
                     willChange: 'transform',
                 }}

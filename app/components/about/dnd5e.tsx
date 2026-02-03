@@ -23,7 +23,7 @@ export default function DND5E({ item }: { item: DND5eItemInterface }) {
                     </h2>
                     <div className="mt-2 flex items-center gap-2 font-bold">
                         <span className="text-primary before:content-['>']"></span>
-                        <span className="bg-base-content/10 px-2 py-0.5 text-xs uppercase">
+                        <span className="bg-base-content/50 text-base-100 px-2 py-0.5 text-xs uppercase">
                             {item.alignment}
                         </span>
                     </div>
@@ -55,7 +55,7 @@ export default function DND5E({ item }: { item: DND5eItemInterface }) {
                     return (
                         <div
                             key={ability.key}
-                            className={`group relative flex flex-col items-center border p-2 transition-all ${
+                            className={`group relative flex flex-col items-center border p-2 text-balance transition-all ${
                                 isSave
                                     ? 'border-neutral bg-primary/5 hover:bg-primary/40'
                                     : 'border-base-content/20 bg-base-300/80 hover:bg-base-300'
@@ -67,13 +67,13 @@ export default function DND5E({ item }: { item: DND5eItemInterface }) {
                                     title="Saving Throw Proficiency"
                                 ></div>
                             )}
-                            <span className="mb-1 text-[10px] font-bold tracking-widest opacity-60">
+                            <span className="text-base-content mb-1 text-[10px] font-bold tracking-widest opacity-60">
                                 {ability.key}
                             </span>
-                            <span className="text-lg font-bold">
+                            <span className="text-primary text-lg font-bold">
                                 {formatModifier(mod)}
                             </span>
-                            <div className="border-base-content/10 mt-1 border-t px-2 pt-1 text-xs opacity-70">
+                            <div className="border-base-content/10 text-base-content mt-1 border-t px-2 pt-1 text-xs opacity-70">
                                 [{score}]
                             </div>
                         </div>
@@ -105,7 +105,7 @@ export default function DND5E({ item }: { item: DND5eItemInterface }) {
                     <h3 className="text-accent mb-3 flex items-center gap-2 text-xs font-bold uppercase">
                         <span className="text-accent before:content-['>>_NOTES\_LOG']"></span>
                     </h3>
-                    <div className="text-xs leading-relaxed whitespace-pre-wrap opacity-80">
+                    <div className="text-base-content text-xs leading-relaxed whitespace-pre-wrap opacity-80">
                         {item.spellcasting || 'No data found.'}
                         <span className="animate-blink before:content-['\_']"></span>
                     </div>

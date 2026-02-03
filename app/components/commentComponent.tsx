@@ -14,7 +14,7 @@ export function CommentItemComponent({
     comment: CommentItemInterface
 }) {
     return (
-        <div className="group border-b border-dashed border-white/10 p-3 transition-colors hover:bg-white/5">
+        <div className="group border-neutral/50 hover:bg-primary/20 border-b border-dashed p-3 transition-colors last-of-type:border-none">
             <div className="flex gap-4">
                 {/* Avatar Frame */}
                 <div className="shrink-0">

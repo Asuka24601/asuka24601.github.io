@@ -221,16 +221,36 @@ const mdxComponents = {
     }: React.HTMLAttributes<HTMLPreElement> & {
         children?: React.ReactNode
     }) => (
-        <div className="bg-base-200/40 relative my-4 border border-dashed border-white/20 p-4">
-            <div className="text-base-content/30 bg-base-300/60 absolute top-0 right-0 border-b border-l border-dashed border-white/20 px-2 py-1 text-[10px] uppercase before:content-['CODE\_BLOCK']"></div>
+        <div className="bg-base-200/40 border-neutral/20 relative my-4 border border-dashed p-4">
+            <div className="text-base-content/30 bg-base-300/60 border-neutral/20 absolute top-0 right-0 border-b border-l border-dashed px-2 py-1 text-[10px] uppercase before:content-['CODE\_BLOCK']"></div>
             <pre
-                className="scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent overflow-x-auto"
+                className="scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent text-base-content overflow-x-auto"
                 {...props}
             >
                 {children}
             </pre>
         </div>
     ),
+
+    span: ({
+        children,
+        ...props
+    }: React.HTMLAttributes<HTMLElement> & {
+        children?: React.ReactNode
+    }) => {
+        // 拦截 KaTeX 的块公式
+        if (props.className?.includes('katex-display')) {
+            return (
+                <div className="bg-base-200/40 border-neutral/20 relative my-4 border border-dashed p-4">
+                    <div className="text-base-content/30 bg-base-300/60 border-neutral/20 absolute top-0 right-0 border-b border-l border-dashed px-2 py-1 text-[10px] uppercase before:content-['MATH\_BLOCK']"></div>
+
+                    <pre className="scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent text-base-content overflow-x-auto">
+                        <span {...props}>{children}</span>
+                    </pre>
+                </div>
+            )
+        } else return <span {...props}>{children}</span>
+    },
 
     // 引用
     blockquote: ({
@@ -298,7 +318,7 @@ const mdxComponents = {
 
     // 图片
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-        <figure className="bg-base-200/20 mx-auto my-6 max-w-4xl border border-dashed border-white/20 p-2">
+        <figure className="bg-base-200/20 border-neutral/20 mx-auto my-6 max-w-4xl border border-dashed p-2">
             <div className="relative overflow-hidden">
                 <ProgressiveImage
                     src={props.src}
@@ -308,7 +328,7 @@ const mdxComponents = {
                 />
             </div>
             {props.alt && (
-                <figcaption className="text-base-content/70 mt-2 border-t border-dashed border-white/10 pt-2 text-center font-mono text-[10px] before:content-['\/\/_']">
+                <figcaption className="text-base-content/70 border-neutral/10 mt-2 border-t border-dashed pt-2 text-center font-mono text-[10px] before:content-['\/\/_']">
                     {removeExtension(props.alt)}
                 </figcaption>
             )}

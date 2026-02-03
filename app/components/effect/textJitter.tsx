@@ -10,7 +10,7 @@ export default function TextJitter({
     return (
         <div
             className={
-                'border-neutral/20 flex flex-col gap-3 border p-4 text-gray-300 will-change-transform lg:p-6 ' +
+                'border-neutral/20 text-base-content flex flex-col gap-3 border p-4 will-change-transform lg:p-6 ' +
                 (className || '')
             }
             style={{

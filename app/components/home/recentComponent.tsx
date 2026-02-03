@@ -46,7 +46,7 @@ export default function RecentComponent({
                             return (
                                 <div
                                     key={index}
-                                    className="group border-b border-dashed border-white/10 p-2 pb-2 transition-colors last:border-0 hover:bg-white/5"
+                                    className="group border-neutral/50 hover:bg-primary/20 border-b border-dashed p-2 pb-2 transition-colors last:border-0"
                                 >
                                     <div className="mb-1 flex items-baseline gap-2 text-[10px] opacity-50">
                                         <span className="text-success/90 before:content-['['] after:content-[']']">

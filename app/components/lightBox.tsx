@@ -120,7 +120,7 @@ export default function LightBox() {
             <CRTOverlay />
 
             <div
-                className="border-neutral bg-base-200 relative flex h-[max(90%,90vh)] w-[max(90%,90vw)] flex-col overflow-hidden border-4 border-double shadow-[0_0_20px_rgba(0,255,0,0.2)]"
+                className="border-neutral bg-base-200 shadow-primary relative flex h-[max(90%,90vh)] w-[max(90%,90vw)] flex-col overflow-hidden border-4 border-double"
                 onClick={(e) => e.stopPropagation()}
             >
                 <TextJitter className="flex h-full w-full flex-col">

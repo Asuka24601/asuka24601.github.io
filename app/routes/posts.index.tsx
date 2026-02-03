@@ -7,6 +7,7 @@ import RouteManifest from '../contents/__manifest.json'
 import CRTOverlay from '../components/effect/CRTOverlay'
 import TextJitter from '../components/effect/textJitter'
 import { searchService } from '../lib/search'
+import { TagItemComponent } from '../components/home/tagsComponent'
 
 const AsciiProgressBar = () => {
     const [percent, setPercent] = useState(0)
@@ -118,7 +119,7 @@ export default function PostIndex() {
                             <div>
                                 <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_DATABASE_ACCESS']"></div>
                                 {/* 动态显示 SQL 查询语句，增加终端沉浸感 */}
-                                <div className="text-primary text-xl font-black tracking-widest break-all uppercase">
+                                <div className="text-primary text-xl font-black tracking-widest break-all uppercase after:animate-pulse after:content-['_\_']">
                                     <span className="text-base-content/50 mr-2">{`>`}</span>
                                     SELECT * FROM POSTS
                                     {searchQuery && (
@@ -127,7 +128,6 @@ export default function PostIndex() {
                                     {selectedTags.length > 0 && (
                                         <span className="text-warning">{` ${searchQuery ? 'AND' : 'WHERE'} TAGS IN [${selectedTags.join(',')}]`}</span>
                                     )}
-                                    <span className="animate-pulse">_</span>
                                 </div>
                             </div>
                             <div className="hidden text-right sm:block">
@@ -144,7 +144,7 @@ export default function PostIndex() {
                         </div>
 
                         {/* --- 筛选控制面板 --- */}
-                        <div className="border-b border-dashed border-white/10 bg-white/5 p-4 text-xs backdrop-blur-sm">
+                        <div className="border-neutral/10 bg-base-content/5 border-b border-dashed p-4 text-xs backdrop-blur-sm">
                             {/* 文本搜索输入 */}
                             <div className="mb-4 flex items-center gap-2">
                                 <span className="text-secondary font-bold whitespace-nowrap">{`>> QUERY_INPUT:`}</span>
@@ -154,7 +154,7 @@ export default function PostIndex() {
                                     onChange={(e) =>
                                         setSearchQuery(e.target.value)
                                     }
-                                    className="border-neutral/30 focus:border-neutral text-base-content w-full border-b bg-transparent px-2 py-1 font-mono placeholder-white/20 focus:outline-none"
+                                    className="border-neutral/30 focus:border-neutral text-base-content placeholder-base-content/50 w-full border-b bg-transparent px-2 py-1 font-mono focus:outline-none"
                                     placeholder="输入关键词搜索..."
                                     autoComplete="off"
                                 />
@@ -245,7 +245,7 @@ export default function PostIndex() {
                                             </div>
 
                                             {/* Title */}
-                                            <h2 className="group-hover:text-success text-base-content text-xl font-bold tracking-wide transition-colors">
+                                            <h2 className="group-hover:text-primary text-base-content text-xl font-bold tracking-wide transition-colors">
                                                 <NavLink
                                                     to={item.path}
                                                     className="flex items-center gap-2"
@@ -264,12 +264,10 @@ export default function PostIndex() {
                                             <div className="mt-2 flex flex-wrap gap-2">
                                                 {item.frontMatter.tags?.map(
                                                     (tag) => (
-                                                        <span
+                                                        <TagItemComponent
                                                             key={tag}
-                                                            className="text-secondary group-hover:border-secondary/30 bg-base-200/20 border border-white/10 px-1.5 py-0.5 text-[10px] transition-colors before:content-['#']"
-                                                        >
-                                                            {tag}
-                                                        </span>
+                                                            tag={{ name: tag }}
+                                                        />
                                                     )
                                                 )}
                                             </div>

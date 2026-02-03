@@ -16,7 +16,7 @@ export function TodoListItemComponent({
 
     return (
         <div
-            className={`group flex flex-col gap-1 border-b border-dashed border-white/10 p-2 transition-colors hover:bg-white/5 ${isCompleted ? 'opacity-50' : ''}`}
+            className={`group border-neutral/50 hover:bg-primary/20 flex flex-col gap-1 border-b border-dashed p-2 transition-colors last-of-type:border-none ${isCompleted ? 'opacity-50' : ''}`}
         >
             <div className="flex items-baseline justify-between gap-2">
                 <div className="flex items-center gap-3 overflow-hidden">

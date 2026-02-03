@@ -7,7 +7,7 @@
 
 /* 长公式换行支持 */
 .katex-display > .katex {
-    white-space: normal;
+    /* white-space: normal; */
 }
 
 /* 平板横屏和小屏笔记本 (769px - 1079px) */

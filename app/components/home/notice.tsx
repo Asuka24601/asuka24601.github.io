@@ -105,12 +105,10 @@ export default function Notice({ className }: { className?: string }) {
                     <div className="p-2 lg:p-4">
                         <Neofetch />
 
-                        <div className="my-4 border-t border-dashed border-white/10"></div>
+                        <div className="border-neutral/50 my-4 border-t border-dashed"></div>
 
                         <div className="relative">
-                            <div className="text-base-content/50 mb-2 text-[10px] uppercase">
-                                Message_Body
-                            </div>
+                            <div className="text-base-content/50 mb-2 text-[10px] uppercase after:content-['Message\_Body']"></div>
                             <AriticleContene className="font-mono">
                                 <NoticeModule />
                             </AriticleContene>

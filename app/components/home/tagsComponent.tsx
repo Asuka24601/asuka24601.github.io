@@ -22,7 +22,7 @@ export function TagItemComponent({
     return (
         <Link to={`/tags/${tag.name}`}>
             <div
-                className={`group hover:border-secondary bg-base-300/20 hover:bg-base-300/90 relative flex cursor-pointer items-center gap-2 border border-solid border-white/10 px-2 py-1 transition-all ${className}`}
+                className={`group hover:border-secondary bg-base-300/20 hover:bg-base-300/90 border-base-content/10 relative flex cursor-pointer items-center gap-2 border border-solid px-2 py-1 transition-all ${className}`}
             >
                 {/* Chip decoration */}
                 <div className="bg-secondary/50 group-hover:bg-secondary h-1.5 w-1.5 group-hover:animate-pulse"></div>
