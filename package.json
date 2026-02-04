@@ -3,6 +3,7 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
+    "homepage": "https://asuka24601.github.io",
     "engines": {
         "eslint": ">=8.0.0",
         "node": ">=18.0.0"
@@ -12,7 +13,9 @@
         "dev": "react-router dev",
         "start": "cross-env NODE_ENV=production react-router-serve ./build/server/index.js",
         "typecheck": "react-router typegen && tsc",
-        "preview": "vite preview --outDir build"
+        "preview": "vite preview --outDir build",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
     "dependencies": {
         "@giscus/react": "^3.1.0",
@@ -70,6 +73,7 @@
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-react-hooks": "^7.0.1",
         "eslint-plugin-react-refresh": "^0.4.24",
+        "gh-pages": "^6.3.0",
         "globals": "^16.5.0",
         "netlify-cli": "^23.13.0",
         "prettier": "^3.7.4",
