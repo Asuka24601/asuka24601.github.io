@@ -93,7 +93,7 @@ export default function PostContent() {
                 </div>
 
                 <div className="relative block h-full min-h-[inherit] w-full overflow-visible">
-                    <div className="relative mx-auto max-w-5xl overflow-visible">
+                    <div className="relative z-2 mx-auto max-w-5xl overflow-visible">
                         <article
                             className="border-terminal bg-base-200 animate__animated animate__fadeIn animate__slow relative will-change-transform"
                             style={{

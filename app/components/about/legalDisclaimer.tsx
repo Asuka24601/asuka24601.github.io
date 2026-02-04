@@ -28,7 +28,7 @@ export default function LegalDisclaimer({
                         </div>
                     </div>
 
-                    <div className="mt-4 flex flex-col gap-4 lg:flex-row">
+                    <div className="mt-4 flex flex-col gap-4 md:flex-row">
                         <div className="flex shrink-0 items-center justify-center border border-red-500/20 bg-red-900/5 p-1 select-none">
                             <pre className="font-mono text-[6px] leading-2.5 font-bold text-red-500">
                                 {`⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷

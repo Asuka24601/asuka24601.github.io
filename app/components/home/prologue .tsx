@@ -23,6 +23,37 @@ export default function PrologueComponent({
     const [inView, setInView] = useState(true)
     const containerRef = useRef<HTMLDivElement>(null)
 
+    const imgRef = useRef<HTMLImageElement>(null)
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!imgRef.current) return
+            const { innerWidth, innerHeight } = window
+            const x = (e.clientX / innerWidth - 0.5) * 2
+            const y = (e.clientY / innerHeight - 0.5) * 2
+
+            // 3D 晃动参数
+            const rotateX = -y * 2 // 随鼠标垂直移动旋转 X 轴
+            const rotateY = x * 2 // 随鼠标水平移动旋转 Y 轴
+            const translateX = -x * 10
+            const translateY = -y * 10
+
+            imgRef.current.style.transform = `perspective(1000px) scale(1.1) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(${translateX}px, ${translateY}px, 0)`
+        }
+
+        let rafId: number
+        const onMouseMove = (e: MouseEvent) => {
+            cancelAnimationFrame(rafId)
+            rafId = requestAnimationFrame(() => handleMouseMove(e))
+        }
+
+        window.addEventListener('mousemove', onMouseMove)
+        return () => {
+            window.removeEventListener('mousemove', onMouseMove)
+            cancelAnimationFrame(rafId)
+        }
+    }, [])
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -48,10 +79,13 @@ export default function PrologueComponent({
 
     return (
         <div className={className} style={style} ref={containerRef}>
-            <div className="z-0 h-full w-full opacity-0 transition-opacity duration-300 dark:z-1 dark:opacity-100">
+            <div className="absolute top-0 left-0 z-0 h-full w-full opacity-0 transition-opacity duration-300 dark:z-1 dark:opacity-100">
                 <Ramiel />
             </div>
-            <div className="z-1 h-full w-full opacity-100 transition-opacity duration-300 dark:z-0 dark:opacity-0">
+            <div
+                ref={imgRef}
+                className="absolute top-0 left-0 z-1 h-full w-full opacity-100 transition-opacity duration-300 dark:z-0 dark:opacity-0"
+            >
                 <ProgressiveImage
                     src={wallpaperLight}
                     alt="wallpaper"
@@ -72,8 +106,7 @@ using namespace std;
 int main() {
     cout << "${fullText}";
     return 0;
-}
-`}
+}`}
                         </Typewriter>
                     </div>
                 )}

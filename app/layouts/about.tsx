@@ -3,6 +3,8 @@ import { useProfileDataStore } from '../lib/store'
 import { Outlet, NavLink } from 'react-router'
 import cover from '../assets/cover.webp'
 import camera from '../assets/camera.webp'
+import coverLight from '../assets/cover_light.webp'
+import cameraLight from '../assets/camera_light.webp'
 import CRTOverlay from '../components/effect/CRTOverlay'
 import TextJitter from '../components/effect/textJitter'
 import Avatar from '../components/avater'
@@ -43,6 +45,8 @@ function NavList() {
 
 export default function About() {
     const elementRef = useRef<HTMLImageElement>(null)
+    const elementRefLight = useRef<HTMLImageElement>(null)
+
     const imgContentRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -65,8 +69,11 @@ export default function About() {
                         ) *
                             (180 / Math.PI) +
                         90
-
                     element.style.setProperty('--rotate-angle', `${angle}deg`)
+                    elementRefLight.current?.style.setProperty(
+                        '--rotate-angle',
+                        `${angle}deg`
+                    )
                     ticking = false
                 })
                 ticking = true
@@ -110,29 +117,47 @@ export default function About() {
                 <div className="border-neutral animate__animated animate__fadeIn bg-base-100 relative h-[40vh] w-full overflow-hidden border-b-4 border-double">
                     <div
                         ref={imgContentRef}
-                        className="animate__animated animate__fadeIn animate__slow pointer-events-none mx-auto aspect-square transition-all duration-500 select-none"
+                        className="animate__animated animate__fadeIn animate__slow pointer-events-none mx-auto py-5 transition-all duration-500 select-none md:py-9 lg:py-12 xl:py-15"
                         style={{
                             height: 'calc(100% - var(--navbar-height))',
                             translate: '0 var(--navbar-height)',
                         }}
                         draggable="false"
                     >
-                        <img
-                            src={cover}
-                            alt="cover"
-                            draggable="false"
-                            className="pointer-events-none aspect-square h-full w-auto object-cover object-center opacity-80 select-none"
-                        />
-                        <img
-                            ref={elementRef}
-                            src={camera}
-                            alt="camera"
-                            draggable="false"
-                            className="absolute top-[50%] left-1/2 h-full -translate-1/2 scale-[60.18%] object-cover drop-shadow-[0_30px_10px] drop-shadow-black select-none"
-                            style={{
-                                transform: `rotate(var(--rotate-angle))`,
-                            }}
-                        />
+                        <div className="relative h-full w-full transition-opacity duration-300">
+                            <img
+                                src={coverLight}
+                                alt="cover"
+                                draggable="false"
+                                className="pointer-events-none absolute left-1/2 z-1 h-full w-auto -translate-x-1/2 object-cover object-center opacity-80 select-none dark:z-0 dark:opacity-0"
+                            />
+                            <img
+                                src={cover}
+                                alt="cover"
+                                draggable="false"
+                                className="pointer-events-none absolute left-1/2 z-0 h-full w-auto -translate-x-1/2 object-cover object-center opacity-0 select-none dark:z-1 dark:opacity-80"
+                            />
+                            <img
+                                ref={elementRefLight}
+                                src={cameraLight}
+                                alt="camera"
+                                draggable="false"
+                                className="absolute top-[50%] left-1/2 z-1 h-full -translate-1/2 object-cover opacity-100 drop-shadow-[0_10px_10px] drop-shadow-black select-none dark:z-0 dark:opacity-0"
+                                style={{
+                                    transform: `rotate(var(--rotate-angle))`,
+                                }}
+                            />
+                            <img
+                                ref={elementRef}
+                                src={camera}
+                                alt="camera"
+                                draggable="false"
+                                className="absolute top-[50%] left-1/2 z-0 h-full -translate-1/2 object-cover opacity-0 drop-shadow-[0_30px_10px] drop-shadow-black select-none dark:z-1 dark:opacity-100"
+                                style={{
+                                    transform: `rotate(var(--rotate-angle))`,
+                                }}
+                            />
+                        </div>
                     </div>
                     <CRTScreen />
 
@@ -140,7 +165,7 @@ export default function About() {
                 </div>
 
                 <div className="border-terminal container mx-auto max-w-6xl overflow-visible! border-none!">
-                    <CRTOverlay />
+                    <CRTOverlay className="z-0" />
                     <TextJitter>
                         <div className="border-neutral bg-base-200 relative flex flex-col border-4 border-double">
                             {/* Profile Header */}

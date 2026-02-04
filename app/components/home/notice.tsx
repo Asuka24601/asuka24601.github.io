@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from 'react'
 import AriticleContene from '../aritcleContent'
@@ -20,6 +21,12 @@ const PC_ASCII = `
 function Neofetch() {
     const [uptime, setUptime] = useState<string>('')
     const [resolution, setResolution] = useState<string>('')
+    const [browser, setBrowser] = useState<string>('Unknown')
+    const [os, setOs] = useState<string>('Unknown')
+    const [language, setLanguage] = useState<string>('Unknown')
+    const [hardware, setHardware] = useState<string>('Unknown')
+    const [connection, setConnection] = useState<string>('Unknown')
+    const [timezone, setTimezone] = useState<string>('Unknown')
 
     useEffect(() => {
         // Mock uptime calculation
@@ -32,18 +39,74 @@ function Neofetch() {
 
         if (typeof window !== 'undefined') {
             setResolution(`${window.screen.width}x${window.screen.height}`)
+
+            const ua = navigator.userAgent
+            let browserName = 'Unknown'
+            let osName = 'Unknown'
+
+            if (ua.indexOf('Firefox') > -1) browserName = 'Firefox'
+            else if (ua.indexOf('SamsungBrowser') > -1)
+                browserName = 'Samsung Internet'
+            else if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1)
+                browserName = 'Opera'
+            else if (ua.indexOf('Trident') > -1)
+                browserName = 'Internet Explorer'
+            else if (ua.indexOf('Edge') > -1 || ua.indexOf('Edg') > -1)
+                browserName = 'Edge'
+            else if (ua.indexOf('Chrome') > -1) browserName = 'Chrome'
+            else if (ua.indexOf('Safari') > -1) browserName = 'Safari'
+
+            if (ua.indexOf('Android') > -1) osName = 'Android'
+            else if (
+                ua.indexOf('iPhone') > -1 ||
+                ua.indexOf('iPad') > -1 ||
+                ua.indexOf('iPod') > -1
+            )
+                osName = 'iOS'
+            else if (ua.indexOf('Win') > -1) osName = 'Windows'
+            else if (ua.indexOf('Mac') > -1) osName = 'macOS'
+            else if (ua.indexOf('Linux') > -1) osName = 'Linux'
+
+            setBrowser(browserName)
+            setOs(osName)
+            setLanguage(navigator.language)
+
+            const concurrency = navigator.hardwareConcurrency
+            const ram = (navigator as any).deviceMemory
+            let hwInfo = 'Unknown'
+            if (concurrency || ram) {
+                hwInfo = `${concurrency ? concurrency + ' Cores' : ''}${concurrency && ram ? ' / ' : ''}${ram ? '~' + ram + 'GB RAM' : ''}`
+            }
+            setHardware(hwInfo)
+
+            const conn = (navigator as any).connection
+            if (conn) {
+                setConnection(
+                    `${conn.effectiveType ? conn.effectiveType.toUpperCase() : 'Unknown'} ${conn.downlink ? `(${conn.downlink}Mbps)` : ''}`
+                )
+            }
+
+            try {
+                setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
+            } catch {
+                setTimezone('Unknown')
+            }
         }
     }, [])
 
     const info = [
-        { label: 'OS', value: 'React Router v7 (Web)' },
+        { label: 'OS', value: os },
         { label: 'Host', value: 'Blog_Instance_01' },
         { label: 'Kernel', value: 'React 19.0.0' },
         { label: 'Uptime', value: uptime || 'Calculating...' },
         { label: 'Resolution', value: resolution || 'Unknown' },
-        { label: 'Shell', value: 'Zsh (Simulated)' },
+        { label: 'Shell', value: browser },
         { label: 'Theme', value: 'Retro Terminal' },
         { label: 'CPU', value: 'Client Side Rendering' },
+        { label: 'Lang', value: language },
+        { label: 'H/W', value: hardware },
+        { label: 'Net', value: connection },
+        { label: 'Time', value: timezone },
     ]
 
     return (
@@ -53,7 +116,7 @@ function Neofetch() {
             </pre>
             <div className="flex w-full flex-col gap-1">
                 <div className="mb-2 flex gap-2">
-                    <span className="text-secondary font-bold">root@blog</span>
+                    <span className="text-secondary font-bold">guest@blog</span>
                     <span className="text-base-content/50">on</span>
                     <span className="text-secondary font-bold">~</span>
                 </div>
@@ -78,6 +141,13 @@ function Neofetch() {
                     <div className="h-3 w-3 bg-purple-500"></div>
                     <div className="h-3 w-3 bg-cyan-500"></div>
                     <div className="h-3 w-3 bg-white"></div>
+                </div>
+
+                <div className="text-base-content/40 mt-4 border-t border-dashed border-white/20 pt-2 text-[10px]">
+                    <span className="text-warning mr-2">⚠</span>
+                    <span>
+                        PRIVACY_NOTICE: CLIENT_SIDE_ONLY. NO_DATA_COLLECTED.
+                    </span>
                 </div>
             </div>
         </div>

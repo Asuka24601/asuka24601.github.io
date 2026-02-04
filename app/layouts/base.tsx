@@ -15,7 +15,7 @@ import { useMemo } from 'react'
 const Side = () => {
     return useMemo(
         () => (
-            <div className="pointer-events-none absolute bottom-0 left-0 h-48 w-80 select-none [&>img]:transition-opacity [&>img]:duration-300">
+            <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-48 w-80 select-none [&>img]:transition-opacity [&>img]:duration-300">
                 <img
                     src={side}
                     alt="side"

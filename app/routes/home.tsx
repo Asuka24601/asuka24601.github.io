@@ -65,7 +65,7 @@ export default function Home() {
                 <div className="border-neutral border-t-4 border-double"></div>
 
                 <div className="border-terminal z-2 mx-auto flex h-full min-h-full max-w-6xl overflow-visible! border-none!">
-                    <CRTOverlay />
+                    <CRTOverlay className="z-0!" />
                     <TextJitter>
                         <div
                             ref={elementRef}

@@ -1,11 +1,11 @@
 import { Link } from 'react-router'
-// import '../styles/navBar.css' // Removed legacy styles
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { throttle } from 'lodash-es' // 防抖/节流
-import { useNavStore, useSearchStore, useThemeStore } from '../lib/store'
+import { useNavStore, useSearchStore } from '../lib/store'
 import SvgIcon from './SvgIcon'
 import CRTOverlay from './effect/CRTOverlay'
 import TextJitter from './effect/textJitter'
+import ThemeSwitch from './themeSwitch'
 
 const navItems = [
     { name: 'Home', path: '/' },
@@ -22,8 +22,6 @@ export default function NavBar({
     className?: string | ''
     siteName: string | undefined
 }) {
-    const theme = useThemeStore((state) => state.theme)
-    const setTheme = useThemeStore((state) => state.setTheme)
     const [scrolled, setScrolled] = useState(false)
     // const [scrollPercent, setScrollPercent] = useState(0) // Removed unused state
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -34,14 +32,6 @@ export default function NavBar({
     const searchShow = useSearchStore((state) => state.searchShow)
     const setSearchShow = useSearchStore((state) => state.setSearchShow)
     const resetSearch = useSearchStore((state) => state.resetSearchShow)
-
-    useEffect(() => {
-        if (theme === 'dark') {
-            document.documentElement.dataset.theme = 'dark'
-        } else {
-            document.documentElement.dataset.theme = 'light'
-        }
-    }, [theme])
 
     const onSearchClick = () => {
         if (searchShow) return
@@ -140,28 +130,7 @@ export default function NavBar({
                                 <SvgIcon name="search" size={20} />
                             </button>
 
-                            <label className="swap swap-rotate hover:text-primary text-base-content/70 transition-colors">
-                                <input
-                                    type="checkbox"
-                                    className="theme-controller"
-                                    value="synthwave"
-                                    onChange={() => {
-                                        setTheme(
-                                            theme === 'dark' ? 'light' : 'dark'
-                                        )
-                                    }}
-                                />
-                                <SvgIcon
-                                    name="sun"
-                                    className="swap-off"
-                                    size={20}
-                                />
-                                <SvgIcon
-                                    name="moon"
-                                    className="swap-on"
-                                    size={20}
-                                />
-                            </label>
+                            <ThemeSwitch />
 
                             <button
                                 className="hover:text-primary text-base-content/70 transition-colors lg:hidden"

@@ -61,7 +61,7 @@ export default function HeaderBanner({
         <div
             className={
                 (className || '') +
-                ' hover:animate-shine black-mask relative aspect-auto h-[min(100%,100dvh)] w-full overflow-hidden'
+                ' hover:animate-shine relative aspect-auto h-[min(100%,100dvh)] w-full overflow-hidden'
             }
         >
             <img

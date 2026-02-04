@@ -9,7 +9,7 @@ export default function Introduction() {
                 {/* <PageHead title="Introduction" /> */}
 
                 <CRTOverlay />
-                <div className="mb-8 flex items-end justify-between border-b border-dashed border-white/20 pb-4">
+                <div className="border-neutral/20 mb-8 flex items-end justify-between border-b border-dashed pb-4">
                     <div>
                         <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM_INTRODUCTION']"></div>
                         <h2 className="text-primary text-xl font-black tracking-widest uppercase before:content-['README.MD']"></h2>

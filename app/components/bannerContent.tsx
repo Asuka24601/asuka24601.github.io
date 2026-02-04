@@ -8,6 +8,7 @@ import {
 } from 'react'
 import SvgIcon from './SvgIcon'
 import { max } from 'lodash-es'
+import CRTOverlay from './effect/CRTOverlay'
 
 const HeaderBanner = lazy(() => import('./headBanner'))
 
@@ -188,7 +189,8 @@ export default function BannerContent({
     return (
         <>
             <div className="bg-base-100 relative flex h-dvh w-full flex-col">
-                <div className="pointer-events-none absolute inset-0" />
+                <CRTOverlay className="z-2!" />
+                {/* <div className="pointer-events-none absolute inset-0" /> */}
                 <div
                     className={`relative h-full w-full overflow-hidden`}
                     ref={elementRef}
@@ -227,11 +229,11 @@ export default function BannerContent({
                                 : ' pointer-events-none opacity-0')
                         }
                     >
-                        <div className="text-base-content animate-bounce bg-transparent opacity-50">
+                        <div className="text-base-content drop-shadow-base-300 animate-bounce bg-transparent drop-shadow-2xl">
                             <SvgIcon
                                 name="arrowDown"
                                 size={40}
-                                className="text-base-content"
+                                className="text-base-content opacity-50"
                             />
                         </div>
                     </button>

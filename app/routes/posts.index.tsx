@@ -4,6 +4,7 @@ import { timeToString } from '../lib/utils'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import ProgressiveImage from '../components/progressiveImage'
 import RouteManifest from '../contents/__manifest.json'
+import AllTags from '../contents/tags.json'
 import CRTOverlay from '../components/effect/CRTOverlay'
 import TextJitter from '../components/effect/textJitter'
 import { searchService } from '../lib/search'
@@ -39,8 +40,14 @@ const AsciiProgressBar = () => {
     )
 }
 
+const { generatedAt: lastUpdateDate } = RouteManifest
+
+// --- 获取所有tag并排序
+const allTags = AllTags.tags
+    .sort((a, b) => a.count - b.count)
+    .map((tag) => tag.name)
+
 export default function PostIndex() {
-    const { generatedAt: lastUpdateDate } = RouteManifest
     const navigation = useNavigation()
 
     // --- 状态管理 ---
@@ -52,12 +59,6 @@ export default function PostIndex() {
     const [page, setPage] = useState(1)
     const PAGE_SIZE = 10
     const observerTarget = useRef<HTMLDivElement>(null)
-
-    // --- 数据处理 ---
-    // 从所有文章中提取唯一的标签列表，并排序
-    const allTags = useMemo(() => {
-        return searchService.getAllTags()
-    }, [])
 
     // 根据搜索词和标签过滤文章
     const filteredPosts = useMemo(() => {
@@ -183,7 +184,7 @@ export default function PostIndex() {
                                                 className={`border px-2 py-0.5 text-[10px] transition-all duration-300 ${
                                                     isSelected
                                                         ? 'border-secondary bg-secondary text-black shadow-[0_0_10px_rgba(0,255,0,0.3)]'
-                                                        : 'hover:border-secondary hover:text-secondary text-base-content/60 border-white/20'
+                                                        : 'hover:border-secondary hover:text-secondary text-base-content/60 border-neutral/20'
                                                 }`}
                                             >
                                                 {isSelected ? '[x]' : '[ ]'} #
@@ -218,7 +219,7 @@ export default function PostIndex() {
                             {visiblePosts.map((item) => (
                                 <div
                                     key={item.frontMatter.title}
-                                    className="group relative border-b border-dashed border-white/10 p-4 transition-all hover:bg-white/5"
+                                    className="group border-neutral/10 hover:bg-primary/5 relative border-b border-dashed p-4 transition-all"
                                 >
                                     {/* Hover Indicator */}
                                     <div className="bg-primary absolute top-0 bottom-0 left-0 w-1 opacity-0 transition-opacity group-hover:opacity-100"></div>
@@ -238,7 +239,7 @@ export default function PostIndex() {
                                                     }
                                                     ]
                                                 </span>
-                                                <span className="h-3 w-px bg-white/20"></span>
+                                                <span className="bg-neutral/20 h-3 w-px"></span>
                                                 <span className="uppercase before:content-['AUTH:_']">
                                                     {item.frontMatter.author}
                                                 </span>

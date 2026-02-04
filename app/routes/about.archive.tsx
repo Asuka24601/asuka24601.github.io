@@ -74,7 +74,7 @@ export default function Archive() {
         <>
             <div className="flex min-h-screen min-w-full flex-col">
                 <CRTOverlay />
-                <div className="mb-8 border-b border-dashed border-white/20 pb-4">
+                <div className="border-neutral/20 mb-8 border-b border-dashed pb-4">
                     <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM_BENCHMARK_CHECK']"></div>
                     <h2 className="text-primary text-xl font-black tracking-widest uppercase before:content-['OUTPUT.LOG']"></h2>
                 </div>
@@ -154,12 +154,12 @@ export default function Archive() {
                         }
                     </DataItem>
                     <DataItem name="materials" question="你是由什么构成的?">
-                        <div className="flex w-full flex-row gap-8">
+                        <div className="flex w-full flex-col gap-8 md:flex-row">
                             <PieChartSvgClassic
                                 materials={archiveData.data.materials}
-                                className="relative aspect-square h-auto flex-1/2"
+                                className="relative aspect-square h-auto md:flex-1/2"
                             />
-                            <div className="flex aspect-square h-auto flex-1/2 flex-col content-start justify-center gap-3 rounded-2xl text-sm">
+                            <div className="flex h-fit flex-col content-start justify-center gap-3 rounded-2xl text-sm md:aspect-square md:h-auto md:flex-1/2">
                                 <Table2Col
                                     t1="ingredient"
                                     t2="proportion(%)"

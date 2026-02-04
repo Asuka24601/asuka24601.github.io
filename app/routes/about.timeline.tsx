@@ -30,7 +30,7 @@ function TimelineItem({
         >
             <div className="min-h-0 overflow-x-visible">
                 <div
-                    className={`group relative border-l border-dashed border-white/20 pl-8 ${isLast ? 'pb-2' : 'pb-8'}`}
+                    className={`group border-neutral/20 relative border-l border-dashed pl-8 ${isLast ? 'pb-2' : 'pb-8'}`}
                 >
                     {/* Node */}
                     <div
@@ -64,7 +64,7 @@ function TimelineItem({
                         </div>
 
                         {description && (
-                            <div className="text-base-content/60 ml-1 border-l-2 border-white/5 py-1 pl-6 text-xs">
+                            <div className="text-base-content/60 border-neutral/5 ml-1 border-l-2 py-1 pl-6 text-xs">
                                 {description}
                             </div>
                         )}
@@ -93,7 +93,7 @@ export default function TimeLine() {
     return (
         <div className="h-full w-full">
             <CRTOverlay />
-            <div className="mb-8 border-b border-dashed border-white/20 pb-4">
+            <div className="border-neutral/20 mb-8 border-b border-dashed pb-4">
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
                     <div>
                         <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM\_OPERATIONS\_LOG']"></div>

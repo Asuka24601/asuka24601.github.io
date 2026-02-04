@@ -183,7 +183,7 @@ export default function ElectrocarDiogram({
                     className="pointer-events-none absolute inset-0"
                     style={{
                         background:
-                            'radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.4) 100%)',
+                            'radial-gradient(circle, transparent 60%, color-mix(in srgb, var(--color-base-content) 10%, transparent 100%) 100%)',
                     }}
                 ></div>
             </div>
