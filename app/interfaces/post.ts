@@ -22,10 +22,11 @@ export interface FrontMatter {
 export interface MarkdownFile {
     slug: string
     filePath: string
+    routePath: string
     frontMatter: FrontMatter
     content: string
     exportName: string
-    componentFileName: string
+    componentFilPath: string
 }
 
 export interface RouteComponent {

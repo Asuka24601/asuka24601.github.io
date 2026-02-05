@@ -1,6 +1,6 @@
 import AriticleContene from '../components/aritcleContent'
 import CRTOverlay from '../components/effect/CRTOverlay'
-import AboutIntroduction from '../contents/pages/About'
+import AboutIntroduction from '../contents/pages/about/index'
 
 export default function Introduction() {
     return (

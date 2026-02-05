@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from 'react'
 import AriticleContene from '../aritcleContent'
-import NoticeModule from '../../contents/pages/Notice'
+import NoticeModule from '../../contents/pages/notice/index'
 import CRTOverlay from '../effect/CRTOverlay'
 import TextJitter from '../effect/textJitter'
 
