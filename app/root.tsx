@@ -9,7 +9,6 @@ import {
 import type { Route } from './+types/root'
 import { createHeart } from './lib/mouse'
 import { useEffect } from 'react'
-import 'virtual:svg-icons-register'
 
 import animateStylesHref from 'animate.css/animate.min.css?url'
 import katexStylesHref from 'katex/dist/katex.min.css?url'
@@ -19,6 +18,7 @@ import { PageError } from './routes/errorPage'
 import CRTScreen from './components/effect/CRTScreen'
 
 export const links = () => [
+    { rel: 'icon', href: '/favicon.ico' },
     { rel: 'stylesheet', href: animateStylesHref },
     { rel: 'stylesheet', href: katexStylesHref },
     { rel: 'stylesheet', href: appStylesHref },
@@ -41,6 +41,10 @@ export default function App() {
         return cleanup
     }, [])
 
+    useEffect(() => {
+        import('virtual:svg-icons-register')
+    }, [])
+
     return (
         <>
             <Outlet />
@@ -53,7 +57,7 @@ export default function App() {
 // For more information, see https://reactrouter.com/explanation/special-files#layout-export
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className="scroll-smooth">
+        <html lang="en" className="scroll-smooth" suppressHydrationWarning>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -62,7 +66,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 />
                 <Links />
             </head>
-            <body className="bg-base-100 relative transition-colors duration-300">
+            <body
+                className="bg-base-100 relative transition-colors duration-300"
+                suppressHydrationWarning
+            >
                 <CRTScreen />
                 {children}
                 <ScrollRestoration />

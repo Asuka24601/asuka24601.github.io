@@ -34,6 +34,8 @@ export default defineConfig({
         createSvgIconsPlugin({
             iconDirs: [path.resolve(process.cwd(), 'app/assets/icons')],
             symbolId: 'icon-[dir]-[name]',
+            inject: 'body-last',
+            customDomId: '__svg__icons__dom__',
         }),
 
         Inspect(),
