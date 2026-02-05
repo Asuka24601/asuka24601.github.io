@@ -1,0 +1,5 @@
+import{w as i,j as n}from"./chunk-JMJ3UQ3L-D8xUhVh8.js";import{u as s}from"./index-JhMKWXTp.js";function r(e){const t={h1:"h1",img:"img",p:"p",strong:"strong",...s(),...e.components};return n.jsxs(n.Fragment,{children:[n.jsx(t.h1,{children:"Hello Everyone："}),`
+`,n.jsx(t.p,{children:"个人网站还在建设中！"}),`
+`,n.jsx(t.p,{children:n.jsx(t.img,{src:"https://s2.loli.net/2024/02/19/XJGQ2dDpojvN1Vm.jpg",alt:"likelisi.jpg"})}),`
+`,n.jsxs(t.p,{children:[n.jsx(t.strong,{children:"发布时间："})," 2026年01月05日 15:47"]}),`
+`,n.jsxs(t.p,{children:[n.jsx(t.strong,{children:"发布人："})," Asuka24601"]})]})}const a=i(function(t={}){const{wrapper:o}={...s(),...t.components};return o?n.jsx(o,{...t,children:n.jsx(r,{...t})}):r(t)}),c={title:"notice",author:"asuka24601",date:"2026-01-05",tags:["公告"],description:"只是一篇公告而已"},d={frontMatter:c};function m(){return[{title:"notice"},{name:"description",content:"只是一篇公告而已"},{property:"og:title",content:"notice"},{property:"og:description",content:"只是一篇公告而已"},{property:"article:published_time",content:"2026-01-05"},{property:"article:tag",content:"公告"}]}export{a as default,d as handle,m as meta};

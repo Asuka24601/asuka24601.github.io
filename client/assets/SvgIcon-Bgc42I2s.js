@@ -1,0 +1,1 @@
+import{j as e}from"./chunk-JMJ3UQ3L-D8xUhVh8.js";function x({name:n,fill:r,size:t=24,className:o,stroke:i,fillRule:s,clipRule:u}){return e.jsx("svg",{"aria-hidden":"true",style:{width:t,height:t,fill:r||"currentColor"},className:o,stroke:i,children:e.jsx("use",{xlinkHref:`#icon-${n}`,fill:r||"currentColor",fillRule:s,clipRule:u})})}export{x as S};

@@ -1,0 +1,1 @@
+import{j as n}from"./chunk-JMJ3UQ3L-D8xUhVh8.js";function a({children:t,className:e="",style:r}){return n.jsx("div",{className:"border-neutral/20 text-base-content flex flex-col gap-3 border p-4 will-change-transform lg:p-6 "+(e||""),style:{textShadow:"0 0 2px currentColor",animation:"text-jitter 0.08s linear infinite",...r},children:t})}export{a as T};

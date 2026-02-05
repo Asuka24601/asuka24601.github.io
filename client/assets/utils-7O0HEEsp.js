@@ -1,0 +1,1 @@
+import"./chunk-JMJ3UQ3L-D8xUhVh8.js";function a(e){const t=new Date(e);return{date:t.toLocaleDateString(),time:t.toLocaleTimeString(),dateTime:t.toLocaleString()}}function i(e){return e.replace(/\.[^/.]+$/,"")}function c(e){let t=0;for(let n=0;n<e.length;n++){const o=e.charCodeAt(n);t=(t<<5)-t+o,t=t&t}return t.toString()}export{c as m,i as r,a as t};
