@@ -37,7 +37,6 @@ export async function generateMDXModuleCode(
 // =============================================
 // 源文件: ${filePath}
 // 模块: ${slug}
-// 生成时间: ${new Date().toISOString()}
 // =============================================
 
 // MDX组件

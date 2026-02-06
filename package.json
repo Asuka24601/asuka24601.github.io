@@ -11,7 +11,7 @@
     "scripts": {
         "build": "cross-env NODE_ENV=production react-router build",
         "dev": "react-router dev",
-        "start": "cross-env NODE_ENV=production react-router-serve ./build/server/index.js",
+        "start": "cross-env NODE_ENV=production react-router-serve ./build/client/index.html",
         "typecheck": "react-router typegen && tsc",
         "preview": "vite preview --outDir build/client",
         "predeploy": "npm run build",

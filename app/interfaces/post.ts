@@ -21,6 +21,7 @@ export interface FrontMatter {
 
 export interface MarkdownFile {
     slug: string
+    prefix: string[]
     filePath: string
     routePath: string
     frontMatter: FrontMatter
@@ -37,13 +38,16 @@ export interface RouteComponent {
 }
 
 export interface RouteManifest {
-    routes: Array<{
-        slug: string
-        path: string
-        component: string
-        frontMatter: FrontMatter
-    }>
+    routes: Array<RouteManifestItem>
     generatedAt: string
+}
+
+export interface RouteManifestItem {
+    slug: string
+    prefix: string[]
+    path: string
+    component: string
+    frontMatter: FrontMatter
 }
 
 export interface ParentContextType {

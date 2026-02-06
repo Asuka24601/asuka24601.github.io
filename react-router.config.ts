@@ -3,7 +3,18 @@ import { env } from 'process'
 import manifestjson from './app/contents/__manifest.json'
 
 function getPrerenderPaths() {
-    const blogPaths = manifestjson.routes.map((r) => `/posts/${r.path}`)
+    const blogPaths: string[] = []
+    const blogIndexSet = new Set<string>()
+
+    for (const r of manifestjson.routes) {
+        blogPaths.push(`/posts/${r.path}`)
+        let base = '/posts'
+        for (const p of r.prefix) {
+            base += `/${p}`
+            blogIndexSet.add(base)
+        }
+    }
+    const blogIndex = Array.from(blogIndexSet)
     return [
         '/',
         '/posts',
@@ -13,6 +24,7 @@ function getPrerenderPaths() {
         '/tags',
         '/comments',
         ...blogPaths,
+        ...blogIndex,
     ]
 }
 

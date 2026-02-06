@@ -20,7 +20,7 @@ export default function DataItem({
     return (
         <div className={`${className} w-full font-mono text-sm`} style={style}>
             <div className="border-terminal">
-                <CRTOverlay />
+                <CRTOverlay className="opacity-0 transition-opacity duration-300 dark:opacity-100" />
                 <TextJitter>
                     <div className="border-neutral/30 flex flex-row flex-nowrap items-center justify-between gap-2 border-b border-dashed pb-2">
                         <div className="text-primary flex items-center gap-2">

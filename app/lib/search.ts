@@ -16,7 +16,7 @@ export class SearchService {
         this.index = new FlexSearch.Document({
             document: {
                 id: 'slug',
-                index: ['title', 'description', 'tags'],
+                index: ['title', 'description', 'tags', 'prefix'],
                 store: false, // 不需要存储内容，直接通过 slug 映射回 posts
             },
             tokenize: 'full',
@@ -35,6 +35,7 @@ export class SearchService {
                 title: post.frontMatter.title,
                 description: post.frontMatter.description || '',
                 tags: post.frontMatter.tags || [],
+                prefix: post.prefix,
             })
         })
     }
@@ -45,9 +46,10 @@ export class SearchService {
      */
     private calculateScores(searchResults: any[]): Map<string, number> {
         const scores = new Map<string, number>()
-        // 权重配置：标题 > 标签 > 描述
+        // 权重配置：标题 > Prefix >标签 > 描述
         const fieldWeights: Record<string, number> = {
             title: 10,
+            prefix: 5,
             tags: 5,
             description: 2,
         }
@@ -68,11 +70,13 @@ export class SearchService {
      * 执行搜索
      * @param query 搜索关键词
      * @param tags 选中的标签列表
+     * @param prefix 前缀（类别）列表
      * @returns 过滤后的文章列表
      */
     public search(
-        query: string,
-        tags: string[] = []
+        query: string = '',
+        tags: string[] = [],
+        prefix: string[] = []
     ): (Post & { score?: number })[] {
         let results: (Post & { score?: number })[] = this.posts
         let scoreMap = new Map<string, number>()
@@ -143,6 +147,21 @@ export class SearchService {
             results = results.filter((post) => {
                 const postTags = post.frontMatter.tags || []
                 return tags.every((tag) => postTags.includes(tag))
+            })
+        }
+
+        // 3. 前缀过滤 (前缀匹配)
+        if (prefix.length > 0) {
+            results = results.filter((post) => {
+                const target = post.prefix
+                if (!Array.isArray(target) || target.length < prefix.length)
+                    return false
+                return Array.from(
+                    { length: target.length - prefix.length + 1 },
+                    (_, i) => i
+                ).some((start) =>
+                    prefix.every((val, idx) => val === target[start + idx])
+                )
             })
         }
 

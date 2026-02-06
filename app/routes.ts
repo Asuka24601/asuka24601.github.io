@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     type RouteConfig,
     index,
@@ -9,11 +10,106 @@ import {
 import RouteManifest from './contents/__manifest.json'
 
 const devRoutes = import.meta.env.DEV
-    ? [route('/*', 'routes/posts.$slug.tsx')]
+    ? [route('/*', 'routes/posts.$dev.tsx')]
     : []
 
-const blogRoutes: ReturnType<typeof route>[] = import.meta.env.PROD
-    ? RouteManifest.routes.map((r) => route(r.path, r.component))
+const devRoutesPosts = import.meta.env.DEV
+    ? [
+          ...prefix('__dev__posts', [
+              index('routes/posts.$devIndex.tsx', {
+                  id: `devPosts/index`,
+              }),
+              layout(
+                  'layouts/postContent.tsx',
+                  {
+                      id: `posts/layout`,
+                  },
+                  [
+                      route('/*', 'routes/posts.$devSlug.tsx', {
+                          id: `posts/devSlug`,
+                      }),
+                  ]
+              ),
+          ]),
+          ...prefix('__dev__categories', [
+              index('routes/posts.$devIndex.tsx', {
+                  id: `devCategories/index`,
+              }),
+              route('/*', 'routes/posts.$devCategory.tsx', {
+                  id: `posts/devCategory`,
+              }),
+          ]),
+      ]
+    : []
+
+// 对类似['000','foo','bar'] 结构的路径数组进行依次构建
+// 在路径中的每个非叶子节点加上 route(':category',"posts.$category.tsx") 作为索引
+
+type ManifestRoute = (typeof RouteManifest.routes)[number]
+
+interface RouteNode {
+    children: Record<string, RouteNode>
+    leaves: ManifestRoute[]
+}
+
+function createRouteTree(routes: ManifestRoute[]): RouteNode {
+    const root: RouteNode = { children: {}, leaves: [] }
+
+    for (const item of routes) {
+        let currentNode = root
+        for (const p of item.prefix) {
+            if (!currentNode.children[p]) {
+                currentNode.children[p] = { children: {}, leaves: [] }
+            }
+            currentNode = currentNode.children[p]
+        }
+        currentNode.leaves.push(item)
+    }
+    return root
+}
+
+function generateRoutes(node: RouteNode, currentPath = 'posts'): any[] {
+    const routes: any[] = []
+
+    // 添加当前层级的索引节点 (Index Node)
+    routes.push(
+        route(':category', 'routes/posts.$category.tsx', {
+            id: `${currentPath}/category`,
+        })
+    )
+
+    // 处理子目录 (Prefixes)
+    for (const [segment, childNode] of Object.entries(node.children)) {
+        routes.push(
+            ...prefix(
+                segment,
+                generateRoutes(childNode, `${currentPath}/${segment}`)
+            )
+        )
+    }
+
+    // 处理叶子节点 (Leaves) - 仅叶子节点包裹 layout
+    if (node.leaves.length > 0) {
+        routes.push(
+            layout(
+                'layouts/postContent.tsx',
+                {
+                    id: `${currentPath}/layout`,
+                },
+                node.leaves.map((leaf) => {
+                    // 从 slug 中提取文件名作为路径
+                    const pathSegment = leaf.slug.split('/').pop() || leaf.slug
+                    return route(pathSegment, leaf.component)
+                })
+            )
+        )
+    }
+
+    return routes
+}
+
+const blogRoutes: RouteConfig = import.meta.env.PROD
+    ? generateRoutes(createRouteTree(RouteManifest.routes))
     : []
 
 export default [
@@ -33,8 +129,10 @@ export default [
         ]),
         ...prefix('posts', [
             index('routes/posts.index.tsx'),
-            layout('layouts/postContent.tsx', [...devRoutes, ...blogRoutes]),
+            ...devRoutes,
+            ...blogRoutes,
         ]),
+        ...devRoutesPosts,
     ]),
     route('*', 'routes/errorPage.tsx'),
 ] satisfies RouteConfig

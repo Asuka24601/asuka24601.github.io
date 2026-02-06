@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // plugins/vite-plugin-md-to-route.ts
 import type { Plugin } from 'vite'
 import fs from 'fs/promises'
@@ -6,6 +7,7 @@ import crypto from 'crypto'
 import v8 from 'v8'
 import { glob } from 'glob'
 import matter from 'gray-matter'
+import pLimit from 'p-limit'
 import type {
     FrontMatter,
     MarkdownFile,
@@ -47,6 +49,10 @@ function toPascalCase(str: string): string {
 
 function toMD5(str: string): string {
     return crypto.createHash('md5').update(str).digest('hex')
+}
+
+function normalizePath(pathStr: string): string {
+    return pathStr.replace(/\\/g, '/')
 }
 
 // ==================== 插件主类 ====================
@@ -97,7 +103,6 @@ class MarkdownProcessor {
             this.MARKDOWN_FILES_CACHE = cachedData.files || []
             this.fileHashes = cachedData.hashes || new Map()
             console.log('📦 已加载缓存数据')
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             console.log('⚠️ 未找到缓存或缓存无效')
             this.MARKDOWN_FILES_CACHE = []
@@ -121,86 +126,129 @@ class MarkdownProcessor {
         }
     }
 
+    /**
+     * 写入文件，如果内容未变更则跳过
+     * @param filePath 文件路径
+     * @param content 新内容
+     * @param compareFn 自定义比较函数，返回 true 表示内容相同，跳过写入
+     */
+    private async writeIfChanged(
+        filePath: string,
+        content: string,
+        compareFn: (oldContent: string, newContent: string) => boolean = (
+            a,
+            b
+        ) => a === b
+    ): Promise<boolean> {
+        try {
+            const existingContent = await fs.readFile(filePath, 'utf-8')
+            if (compareFn(existingContent, content)) {
+                return false
+            }
+        } catch (error) {
+            // 文件不存在，继续写入
+        }
+
+        await fs.writeFile(filePath, content, 'utf-8')
+        return true
+    }
+
+    // 生成并写入组件文件
+    async writeComponent(file: MarkdownFile, outputDir: string): Promise<void> {
+        const outputPath = path.join(outputDir, file.componentFilPath)
+        // 确保目标路径存在，不存在则创建
+        const dir = path.dirname(outputPath)
+        await fs.mkdir(dir, { recursive: true })
+
+        const tsxContent = await this.convertToTsx(file)
+
+        const written = await this.writeIfChanged(outputPath, tsxContent)
+
+        if (written) {
+            console.log(`     📄 生成: ${file.componentFilPath}`)
+            console.log(`        目标路径: ${outputPath}`)
+            console.log(`     ✅ 生成: ${outputPath}`)
+        }
+    }
+
+    private async processFileWithCache(
+        filePath: string,
+        cachedFilesMap: Map<string, MarkdownFile>,
+        nextFileHashes: Map<string, string>
+    ): Promise<MarkdownFile | null> {
+        try {
+            const normalizedPath = normalizePath(filePath)
+            const fileBuffer = await fs.readFile(filePath)
+            const hash = this.computeHash(fileBuffer)
+            nextFileHashes.set(normalizedPath, hash)
+
+            const cachedHash = this.fileHashes.get(normalizedPath)
+            const cachedFile = cachedFilesMap.get(normalizedPath)
+
+            if (cachedHash === hash && cachedFile) {
+                return cachedFile
+            }
+
+            const result = await this.scanMarkdownFile(filePath, fileBuffer)
+            // 显式让出事件循环，避免大量同步计算阻塞主线程
+            await new Promise((resolve) => setImmediate(resolve))
+            return result
+        } catch (error) {
+            console.error(`❌ 读取文件失败 ${filePath}:`, error)
+            return null
+        }
+    }
+
     // 扫描并读取所有 Markdown 文件
     private async scanMarkdownFiles(): Promise<MarkdownFile[]> {
-        const pattern = path
-            .join(this.options.contentDir, this.options.pattern)
-            .replace(/\\/gm, '/')
+        const pattern = normalizePath(
+            path.join(this.options.contentDir, this.options.pattern)
+        )
         console.log(`🔍 扫描 Markdown 文件\n🔍 pattern: ${pattern}`)
-        const files = await glob(pattern)
+        const files = (await glob(pattern)).map(normalizePath)
 
         // 如果没有 './pages/about.md' 或 './pages/notice.md' 则创建
-        if (!files.includes(`${this.options.contentDir}\\pages\\about.md`)) {
+        const aboutPath = normalizePath(
+            path.join(this.options.contentDir, 'pages', 'about.md')
+        )
+        if (!files.includes(aboutPath)) {
             console.error(
                 `没有 'pages/about.md'，现以创建空文件，请手动修改文件`
             )
             // 在源目录创建 pages/about.md 和 pages/notice.md 确保程序能进行下去
-            await fs.writeFile(
-                `${this.options.contentDir}\\pages\\about.md`,
-                '# about',
-                'utf-8'
-            )
+            await fs.writeFile(aboutPath, '# about', 'utf-8')
         }
-        if (!files.includes(`${this.options.contentDir}\\pages\\notice.md`)) {
+
+        const noticePath = normalizePath(
+            path.join(this.options.contentDir, 'pages', 'notice.md')
+        )
+        if (!files.includes(noticePath)) {
             console.error(
                 `没有 'pages/notice.md'，现以创建空文件，请手动修改文件`
             )
-            await fs.writeFile(
-                `${this.options.contentDir}\\pages\\notice.md`,
-                '# notice',
-                'utf-8'
-            )
+            await fs.writeFile(noticePath, '# notice', 'utf-8')
         }
 
         // 创建缓存查找表
         const cachedFilesMap = new Map<string, MarkdownFile>()
         this.MARKDOWN_FILES_CACHE.forEach((file) => {
-            cachedFilesMap.set(path.normalize(file.filePath), file)
+            cachedFilesMap.set(normalizePath(file.filePath), file)
         })
 
         const nextFileHashes = new Map<string, string>()
+        const limit = pLimit(this.options.concurrency)
 
-        const results: (MarkdownFile | null)[] = new Array(files.length)
-        let nextIndex = 0
-
-        const processFile = async (index: number) => {
-            const filePath = files[index]
-            try {
-                const normalizedPath = path.normalize(filePath)
-                const fileBuffer = await fs.readFile(filePath)
-                const hash = this.computeHash(fileBuffer)
-                nextFileHashes.set(normalizedPath, hash)
-
-                const cachedHash = this.fileHashes.get(normalizedPath)
-                const cachedFile = cachedFilesMap.get(normalizedPath)
-
-                if (cachedHash === hash && cachedFile) {
-                    return cachedFile
-                }
-
-                return await this.scanMarkdownFile(filePath, fileBuffer)
-            } catch (error) {
-                console.error(`❌ 读取文件失败 ${filePath}:`, error)
-                return null
-            }
-        }
-
-        const worker = async () => {
-            while (nextIndex < files.length) {
-                const index = nextIndex++
-                results[index] = await processFile(index)
-                // 显式让出事件循环，避免大量同步计算阻塞主线程
-                await new Promise((resolve) => setImmediate(resolve))
-            }
-        }
-
-        const concurrency = this.options.concurrency
-        const workers = Array.from(
-            { length: Math.min(concurrency, files.length) },
-            () => worker()
+        const promises = files.map((filePath) =>
+            limit(() =>
+                this.processFileWithCache(
+                    filePath,
+                    cachedFilesMap,
+                    nextFileHashes
+                )
+            )
         )
 
-        await Promise.all(workers)
+        const results = await Promise.all(promises)
 
         const markdownFiles = results.filter(
             (item): item is MarkdownFile => item !== null
@@ -223,39 +271,133 @@ class MarkdownProcessor {
         fileBuffer?: Buffer
     ): Promise<MarkdownFile> {
         const slug = this.extractSlug(filePath)
+        const prefix = slug.split('/').slice(0, -1)
 
         // 读取文件内容
         console.log(`📄 读取文件: ${filePath}`)
 
-        if (!fileBuffer) fileBuffer = await fs.readFile(filePath)
+        if (!fileBuffer) {
+            try {
+                fileBuffer = await fs.readFile(filePath)
+            } catch (error) {
+                console.error(`❌ 读取文件失败: ${filePath}`, error)
+                throw error
+            }
+        }
+
         const content = fileBuffer.toString('utf-8')
-        const { data: frontMatter, content: markdownContent } = matter(content)
+
+        let frontMatter: FrontMatter
+        let markdownContent: string
+
+        try {
+            const parsed = matter(content)
+            frontMatter = parsed.data as FrontMatter
+            markdownContent = parsed.content
+        } catch (error) {
+            console.warn(
+                `⚠️  文件 ${filePath} 解析 FrontMatter 失败，将作为纯文本处理`
+            )
+            frontMatter = {} as FrontMatter
+            markdownContent = content
+        }
+
+        // 确保 frontMatter 是对象
+        if (!frontMatter || typeof frontMatter !== 'object') {
+            frontMatter = {} as FrontMatter
+        }
+
         const basename = path.basename(filePath, '.md')
         const basenameLength = basename.length
         const componentName = toPascalCase(basename.replace(/[/-]/g, '_'))
         const exportName = `Post${toMD5(toPascalCase(slug.replace(/[/-]/g, '_')))}`
-        const componentFilPath = `${slug.substring(
-            0,
-            slug.length - basenameLength
-        )}${componentName}\\index.tsx`.replace(/\//g, '\\')
 
-        // 验证必要字段
-        if (!frontMatter.title) {
-            console.warn(`⚠️  文件 ${filePath} 缺少 title 字段`)
+        let dirPart = ''
+        if (slug.endsWith(basename)) {
+            dirPart = slug.substring(0, slug.length - basenameLength)
+        } else {
+            const dir = path.dirname(slug)
+            dirPart = dir === '.' ? '' : normalizePath(dir) + '/'
+        }
+
+        const componentFilPath = `${dirPart}${componentName}/index.tsx`
+
+        // ==================== FrontMatter 验证与优化 ====================
+
+        // 1. 验证 Title
+        if (!frontMatter.title || typeof frontMatter.title !== 'string') {
+            console.warn(`⚠️  文件 ${filePath} 缺少有效 title 字段`)
             console.warn(
-                `⚠️  已为文件 ${filePath} 添加 title 字段：${basename}`
+                `⚠️  已为文件 ${filePath} 使用文件名作为 title：${basename}`
             )
             frontMatter.title = basename
         }
 
-        if (!frontMatter.date) {
-            console.warn(`⚠️  文件 ${filePath} 缺少 date 字段`)
-            frontMatter.date = new Date().toISOString().split('T')[0]
+        // 2. 验证 Date
+        let isValidDate = false
+        if (frontMatter.date) {
+            const timestamp = Date.parse(String(frontMatter.date))
+            if (!isNaN(timestamp)) {
+                isValidDate = true
+                // 统一格式化为 YYYY-MM-DD
+                frontMatter.date = new Date(timestamp)
+                    .toISOString()
+                    .split('T')[0]
+            }
+        }
+
+        if (!isValidDate) {
+            console.warn(`⚠️  文件 ${filePath} 缺少有效 date 字段`)
+            try {
+                const stats = await fs.stat(filePath)
+                frontMatter.date = stats.birthtime.toISOString().split('T')[0]
+                console.warn(
+                    `⚠️  已使用文件创建时间作为 date：${frontMatter.date}`
+                )
+            } catch {
+                frontMatter.date = new Date().toISOString().split('T')[0]
+                console.warn(`⚠️  已使用当前时间作为 date：${frontMatter.date}`)
+            }
+        }
+
+        // 3. 验证 Tags
+        if (frontMatter.tags) {
+            if (Array.isArray(frontMatter.tags)) {
+                // 过滤非字符串标签
+                frontMatter.tags = frontMatter.tags.filter(
+                    (tag) => typeof tag === 'string' && tag.trim() !== ''
+                )
+            } else if (typeof frontMatter.tags === 'string') {
+                // 支持逗号分隔的字符串
+                frontMatter.tags = (frontMatter.tags as string)
+                    .split(',')
+                    .map((t) => t.trim())
+                    .filter((t) => t !== '')
+            } else {
+                // 其他类型视为无效
+                frontMatter.tags = []
+            }
+        } else {
+            frontMatter.tags = []
+        }
+
+        // 4. 验证 Description (确保是字符串)
+        if (
+            frontMatter.description &&
+            typeof frontMatter.description !== 'string'
+        ) {
+            frontMatter.description = String(frontMatter.description)
+        }
+
+        // 5. 验证 Cover (确保是字符串)
+        if (frontMatter.cover && typeof frontMatter.cover !== 'string') {
+            delete frontMatter.cover
         }
 
         return {
             slug,
-            filePath,
+            prefix,
+            filePath: normalizePath(filePath),
             routePath: slug,
             frontMatter: frontMatter as FrontMatter,
             content: markdownContent,
@@ -275,11 +417,11 @@ class MarkdownProcessor {
     async updateMarkdownFile(filePath: string): Promise<void> {
         const fileBuffer = await fs.readFile(filePath)
         const hash = this.computeHash(fileBuffer)
-        this.fileHashes.set(path.normalize(filePath), hash)
+        this.fileHashes.set(normalizePath(filePath), hash)
         const markdownFile = await this.scanMarkdownFile(filePath, fileBuffer)
 
         const index = this.MARKDOWN_FILES_CACHE.findIndex(
-            (file) => file.filePath === filePath
+            (file) => file.filePath === normalizePath(filePath)
         )
 
         if (index !== -1) {
@@ -313,9 +455,9 @@ class MarkdownProcessor {
 
         // 如果文件在子目录中，将目录名包含在 slug 中
         if (dirname !== '.') {
-            return `${dirname}/${basename}`.replace(/\\/g, '/')
+            return normalizePath(`${dirname}/${basename}`)
         } else {
-            return basename.replace(/\\/g, '/')
+            return normalizePath(basename)
         }
     }
 
@@ -335,13 +477,14 @@ class MarkdownProcessor {
         const routes = files.map((file) => {
             return {
                 slug: file.slug,
+                prefix: file.prefix,
                 path: `${this.options.routePrefix ? this.options.routePrefix + '/' : ''}${file.slug}`,
-                component: `${path
-                    .relative(
+                component: normalizePath(
+                    path.relative(
                         this.options.srcDir,
                         `${this.options.outputDir}/${file.componentFilPath}`
                     )
-                    .replace(/\\/g, '/')}`,
+                ),
                 frontMatter: file.frontMatter,
             }
         })
@@ -350,6 +493,30 @@ class MarkdownProcessor {
             routes,
             generatedAt: new Date().toISOString(),
         }
+    }
+
+    // 写入路由清单（带防重复检查）
+    async writeRouteManifest(outputDir: string): Promise<void> {
+        const manifest = await this.generateRouteManifest()
+        const manifestPath = path.join(outputDir, '__manifest.json')
+        const content = JSON.stringify(manifest, null, 2)
+
+        await this.writeIfChanged(
+            manifestPath,
+            content,
+            (oldContent, newContent) => {
+                try {
+                    const oldManifest = JSON.parse(oldContent)
+                    const newManifest = JSON.parse(newContent)
+                    return (
+                        JSON.stringify(oldManifest.routes) ===
+                        JSON.stringify(newManifest.routes)
+                    )
+                } catch {
+                    return false
+                }
+            }
+        )
     }
 
     // 生成索引文件的辅助方法
@@ -434,10 +601,15 @@ export function getAdjacentPosts(currentSlug: string) {
 }
 `
 
-        await fs.writeFile(
-            path.join(outputDir, 'index.ts'),
+        const outputPath = path.join(outputDir, 'index.ts')
+        await this.writeIfChanged(
+            outputPath,
             indexContent,
-            'utf-8'
+            (oldContent, newContent) => {
+                const normalize = (str: string) =>
+                    str.replace(/\/\/ 生成时间: .*/g, '')
+                return normalize(oldContent) === normalize(newContent)
+            }
         )
     }
 
@@ -465,6 +637,31 @@ export function getAdjacentPosts(currentSlug: string) {
                 .sort((a, b) => b.count - a.count),
             generatedAt: new Date().toISOString(),
         }
+    }
+
+    // 写入Tag清单（带防重复检查）
+    async writeTagManifest(outputDir: string): Promise<void> {
+        const tagManifest = await this.generateTagManifest()
+        const tagManifestPath = path.join(outputDir, 'tags.json')
+        const content = JSON.stringify(tagManifest, null, 2)
+
+        await this.writeIfChanged(
+            tagManifestPath,
+            content,
+            (oldContent, newContent) => {
+                try {
+                    const oldManifest = JSON.parse(oldContent)
+                    const newManifest = JSON.parse(newContent)
+                    return (
+                        oldManifest.total === newManifest.total &&
+                        JSON.stringify(oldManifest.tags) ===
+                            JSON.stringify(newManifest.tags)
+                    )
+                } catch {
+                    return false
+                }
+            }
+        )
     }
 }
 
@@ -513,43 +710,17 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
 
                 // 3. 为每个文件生成组件
                 for (const file of markdownFiles) {
-                    const tsxContent = await processor.convertToTsx(file)
-
-                    console.log(`     📄 生成: ${file.componentFilPath}`)
-                    const outputPath = path.join(
-                        outputDir,
-                        file.componentFilPath
-                    )
-                    // 确保目标路径存在，不存在则创建
-                    const dir = path.dirname(outputPath)
-                    await fs.mkdir(dir, { recursive: true })
-                    //
-
-                    console.log(`        目标路径: ${outputPath}`)
-                    await fs.writeFile(outputPath, tsxContent, 'utf-8')
-                    console.log(`     ✅ 生成: ${outputPath}`)
+                    await processor.writeComponent(file, outputDir)
                 }
 
                 // 4. 生成路由清单
-                const manifest = await processor.generateRouteManifest()
-                const manifestPath = path.join(outputDir, '__manifest.json')
-                await fs.writeFile(
-                    manifestPath,
-                    JSON.stringify(manifest, null, 2),
-                    'utf-8'
-                )
+                await processor.writeRouteManifest(outputDir)
 
                 // 5. 生成索引文件
                 await processor.generateIndexFile(outputDir)
 
                 // 6. 生成Tag清单
-                const tagManifest = await processor.generateTagManifest()
-                const tagManifestPath = path.join(outputDir, 'tags.json')
-                await fs.writeFile(
-                    tagManifestPath,
-                    JSON.stringify(tagManifest, null, 2),
-                    'utf-8'
-                )
+                await processor.writeTagManifest(outputDir)
 
                 console.log('🎉 Markdown 处理完成！')
             } catch (error) {
@@ -597,42 +768,25 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
                                     file
                                 )
                                 await processor.updateMarkdownFile(
-                                    path
-                                        .join(options.contentDir, relativeDir)
-                                        .replace(/\\/gm, '/')
+                                    normalizePath(
+                                        path.join(
+                                            options.contentDir,
+                                            relativeDir
+                                        )
+                                    )
                                 )
                             }
 
                             const outputDir = path.resolve(options.outputDir)
 
                             // 重新生成路由清单
-                            const manifest =
-                                await processor.generateRouteManifest()
-                            const manifestPath = path.join(
-                                outputDir,
-                                '__manifest.json'
-                            )
-                            await fs.writeFile(
-                                manifestPath,
-                                JSON.stringify(manifest, null, 2),
-                                'utf-8'
-                            )
+                            await processor.writeRouteManifest(outputDir)
 
                             // 重新生成索引文件
                             await processor.generateIndexFile(outputDir)
 
                             // 重新生成Tag清单
-                            const tagManifest =
-                                await processor.generateTagManifest()
-                            const tagManifestPath = path.join(
-                                outputDir,
-                                'tags.json'
-                            )
-                            await fs.writeFile(
-                                tagManifestPath,
-                                JSON.stringify(tagManifest, null, 2),
-                                'utf-8'
-                            )
+                            await processor.writeTagManifest(outputDir)
                             console.log('🎉 处理完成！')
 
                             // 清除相关虚拟模块的缓存
@@ -692,7 +846,9 @@ export function mdToRoutePlugin(options: MdToRoutePluginOptions): Plugin {
             const slugWithExt = id.slice(RESOLVED_VIRTUAL_MODULE_PREFIX.length)
             const slug = slugWithExt.replace(/\.tsx$/, '')
 
-            const filePath = path.join(options.contentDir, `${slug}.md`)
+            const filePath = normalizePath(
+                path.join(options.contentDir, `${slug}.md`)
+            )
 
             try {
                 // 读取Markdown文件
