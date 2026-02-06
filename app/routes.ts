@@ -43,7 +43,7 @@ const devRoutesPosts = import.meta.env.DEV
     : []
 
 // 对类似['000','foo','bar'] 结构的路径数组进行依次构建
-// 在路径中的每个非叶子节点加上 route(':category',"posts.$category.tsx") 作为索引
+// 在路径中的每个非叶子节点加上 index("posts.$category.tsx") 作为索引
 
 type ManifestRoute = (typeof RouteManifest.routes)[number]
 
@@ -73,7 +73,7 @@ function generateRoutes(node: RouteNode, currentPath = 'posts'): any[] {
 
     // 添加当前层级的索引节点 (Index Node)
     routes.push(
-        route(':category', 'routes/posts.$category.tsx', {
+        index('routes/posts.$category.tsx', {
             id: `${currentPath}/category`,
         })
     )

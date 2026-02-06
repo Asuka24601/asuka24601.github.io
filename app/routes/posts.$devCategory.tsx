@@ -5,6 +5,7 @@ import type { Route } from './+types/posts.$devCategory'
 import { searchService } from '../lib/search'
 import { mdRegistry } from 'virtual:md-registry'
 import PostCategory from '../components/post/category'
+import { useMemo } from 'react'
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     if (!import.meta.env.DEV) {
@@ -15,15 +16,22 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     if (modulePath) {
         throw redirect(`/posts/${encodeURI(category)}`)
     }
-    const posts = searchService.search('', [], category.split('/'))
     return {
-        posts,
         category,
     }
 }
 
 export default function DevCategory({ loaderData }: Route.ComponentProps) {
-    const { posts, category } = loaderData
+    const { category } = loaderData
+    let _category = category
+    if (_category.endsWith('/')) {
+        _category = _category.slice(0, -1)
+    }
+    _category = decodeURI(category)
+    const posts = useMemo(
+        () => searchService.search('', [], _category.split('/')),
+        [_category]
+    )
     return (
         <>
             <PostCategory posts={posts} category={category} />

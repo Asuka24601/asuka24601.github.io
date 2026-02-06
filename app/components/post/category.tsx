@@ -170,8 +170,7 @@ export default function PostCategory({
     const treeItems = buildRenderTree(posts)
     const directoryCount = countDirectories(treeItems)
     const fileCount = posts.length
-    const prefix = category.replace(/[/+]$/gm, '').split('/')
-
+    const prefix = category
     return (
         <>
             <div className="mx-auto min-h-screen w-full">
@@ -181,9 +180,7 @@ export default function PostCategory({
                         <TextJitter className="border-neutral! bg-base-200 relative min-h-full overflow-hidden border-4 border-double">
                             <h1 className="uppercase">
                                 ~/posts/
-                                {prefix.map((p) => (
-                                    <span key={p}>{p}/</span>
-                                ))}
+                                {prefix}
                             </h1>
 
                             {posts.length > 0 ? (
