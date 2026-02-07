@@ -113,7 +113,7 @@ export default function About() {
 
     return (
         <>
-            <div className="min-h-screen w-full font-mono text-sm">
+            <div className="min-h-screen w-full text-sm">
                 <div className="border-neutral animate__animated animate__fadeIn bg-base-100 relative h-[40vh] w-full overflow-hidden border-b-4 border-double">
                     <div
                         ref={imgContentRef}
@@ -191,7 +191,7 @@ export default function About() {
                                         </h1>
                                         <span className="text-base-content/30 border border-white/20 px-1 text-[10px] before:content-['LV.99']"></span>
                                     </div>
-                                    <div className="text-base-content/70 max-w-2xl font-mono text-xs leading-relaxed lg:text-sm">
+                                    <div className="text-base-content/70 max-w-2xl text-xs leading-relaxed lg:text-sm">
                                         <span className="text-primary mr-2 before:content-['>>']"></span>
                                         {profileData.data.introduction}
                                         <span className="ml-1 animate-pulse after:content-['\_']"></span>
@@ -224,7 +224,7 @@ export default function About() {
                                             <NavList />
                                         </div>
                                         {/* Decorative filler */}
-                                        <div className="text-base-content/20 p-4 font-mono text-[10px] leading-tight break-all opacity-50 select-none">
+                                        <div className="text-base-content/20 p-4 text-[10px] leading-tight break-all opacity-50 select-none">
                                             0101010101001001010
                                             1010101010101010101
                                             0010110101010101010 ...

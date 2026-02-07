@@ -52,7 +52,7 @@ export default function Birthday({
             <div className="border-base-content/10 bg-base-300/50 border p-3">
                 <div className="text-base-content/50 mb-2 flex items-center justify-between">
                     <span className="text-[10px] font-bold uppercase opacity-70 before:content-['Current_Cycle_Offset']"></span>
-                    <span className="font-mono text-[10px] opacity-50 before:content-['YEAR\_']">
+                    <span className="text-[10px] opacity-50 before:content-['YEAR\_']">
                         {year}
                     </span>
                 </div>

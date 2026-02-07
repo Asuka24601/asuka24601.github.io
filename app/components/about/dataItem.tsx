@@ -18,7 +18,7 @@ export default function DataItem({
     question?: string
 }) {
     return (
-        <div className={`${className} w-full font-mono text-sm`} style={style}>
+        <div className={`${className} w-full text-sm`} style={style}>
             <div className="border-terminal">
                 <CRTOverlay className="opacity-0 transition-opacity duration-300 dark:opacity-100" />
                 <TextJitter>

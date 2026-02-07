@@ -35,7 +35,7 @@ export default function SpecialAbilities({
                                 <div className="text-accent text-sm font-bold tracking-wider uppercase">
                                     {item.name}
                                 </div>
-                                <div className="text-base-content/60 mt-0.5 font-mono text-[10px] before:content-['TYPE:_']">
+                                <div className="text-base-content/60 mt-0.5 text-[10px] before:content-['TYPE:_']">
                                     {item.level}
                                 </div>
                             </div>

@@ -109,7 +109,7 @@ export default function LightBox() {
 
     return (
         <div
-            className={`bg-base-100/90 fixed inset-0 z-50 flex items-center justify-center font-mono text-sm backdrop-blur-sm transition-opacity duration-300 ${
+            className={`bg-base-100/90 fixed inset-0 z-50 flex items-center justify-center text-sm backdrop-blur-sm transition-opacity duration-300 ${
                 isLightboxVisible ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={closeLightbox}

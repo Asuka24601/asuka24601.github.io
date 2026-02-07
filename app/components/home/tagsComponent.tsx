@@ -28,14 +28,14 @@ export function TagItemComponent({
                 <div className="bg-secondary/50 group-hover:bg-secondary h-1.5 w-1.5 group-hover:animate-pulse"></div>
 
                 <span
-                    className="text-secondary/70 group-hover:text-secondary font-mono text-xs font-bold uppercase"
+                    className="text-secondary/70 group-hover:text-secondary text-xs font-bold uppercase"
                     style={style}
                 >
                     {tag.name}
                 </span>
                 {/* Tech decoration */}
                 {tag.count && (
-                    <span className="text-secondary/30 group-hover:text-secondary/50 font-mono text-[8px] before:content-['x']">
+                    <span className="text-secondary/30 group-hover:text-secondary/50 text-[8px] before:content-['x']">
                         {tag.count}
                     </span>
                 )}
@@ -55,7 +55,7 @@ function TagComponent({
     // const total = TagsData.total
 
     return (
-        <div className={`w-full font-mono text-sm ${className || ''}`}>
+        <div className={`w-full text-sm ${className || ''}`}>
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>

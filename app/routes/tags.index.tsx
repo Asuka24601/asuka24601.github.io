@@ -51,7 +51,7 @@ export default function Tags() {
                                 <Link
                                     key={tag.name}
                                     to={`/tags/${tag.name}`}
-                                    className="danmaku-tag hover:text-base-content absolute cursor-pointer font-mono font-bold whitespace-nowrap transition-all hover:z-50 hover:scale-125 hover:opacity-100"
+                                    className="danmaku-tag hover:text-base-content absolute cursor-pointer font-bold whitespace-nowrap transition-all hover:z-50 hover:scale-125 hover:opacity-100"
                                     style={{
                                         top: `${tag.top}%`,
                                         fontSize: `${tag.size}rem`,

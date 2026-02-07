@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react'
 import Ramiel from '../effect/ramiel'
 import wallpaperLight from '../../assets/wallpaper_light.webp'
@@ -26,29 +24,39 @@ export default function PrologueComponent({
     const imgRef = useRef<HTMLImageElement>(null)
 
     useEffect(() => {
+        let rafId: number
+
         const handleMouseMove = (e: MouseEvent) => {
             if (!imgRef.current) return
             const { innerWidth, innerHeight } = window
             const x = (e.clientX / innerWidth - 0.5) * 2
             const y = (e.clientY / innerHeight - 0.5) * 2
 
-            // 3D 晃动参数
-            const rotateX = -y * 2 // 随鼠标垂直移动旋转 X 轴
-            const rotateY = x * 2 // 随鼠标水平移动旋转 Y 轴
-            const translateX = -x * 10
-            const translateY = -y * 10
-
-            imgRef.current.style.transform = `perspective(1000px) scale(1.1) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(${translateX}px, ${translateY}px, 0)`
+            imgRef.current.style.setProperty('--banner-x', x.toFixed(4))
+            imgRef.current.style.setProperty('--banner-y', y.toFixed(4))
         }
 
-        let rafId: number
         const onMouseMove = (e: MouseEvent) => {
             cancelAnimationFrame(rafId)
             rafId = requestAnimationFrame(() => handleMouseMove(e))
         }
 
-        window.addEventListener('mousemove', onMouseMove)
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    window.addEventListener('mousemove', onMouseMove)
+                } else {
+                    window.removeEventListener('mousemove', onMouseMove)
+                    cancelAnimationFrame(rafId)
+                }
+            },
+            { threshold: 0 }
+        )
+
+        if (imgRef.current) observer.observe(imgRef.current)
+
         return () => {
+            observer.disconnect()
             window.removeEventListener('mousemove', onMouseMove)
             cancelAnimationFrame(rafId)
         }
@@ -85,11 +93,16 @@ export default function PrologueComponent({
             <div
                 ref={imgRef}
                 className="absolute top-0 left-0 z-1 h-full w-full opacity-100 transition-opacity duration-300 dark:z-0 dark:opacity-0"
+                style={{
+                    transform:
+                        'perspective(1000px) scale(1.1) rotateX(calc(var(--banner-y, 0) * -2deg)) rotateY(calc(var(--banner-x, 0) * 2deg)) translate3d(calc(var(--banner-x, 0) * -10px), calc(var(--banner-y, 0) * -10px), 0)',
+                    willChange: 'transform',
+                }}
             >
                 <ProgressiveImage
                     src={wallpaperLight}
                     alt="wallpaper"
-                    className="absolute top-0 left-0"
+                    className="absolute top-0 left-0 h-full w-full object-cover object-right"
                     draggable={false}
                 />
             </div>
@@ -98,7 +111,7 @@ export default function PrologueComponent({
                     <div className="bg-base-200/80 overflow-hidden p-4 sm:p-5 md:p-6 lg:p-7 xl:p-8">
                         <p className="text-base-content border-neutral mb-2 border-b border-dashed pb-2 text-3xl text-shadow-2xs after:content-['_'] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
                             {fullText}
-                            <span className="animate__animated animate__flash animate__infinite animate__slow inline-block after:content-['_l']"></span>
+                            <span className="animate__animated animate__flash animate__infinite animate__slow inline-block font-sans after:content-['_I']"></span>
                         </p>
                         <Typewriter as={'pre'} className="pl-2 text-[10px]">
                             {`#include<iostream>

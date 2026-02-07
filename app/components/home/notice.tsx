@@ -110,7 +110,7 @@ function Neofetch() {
     ]
 
     return (
-        <div className="mb-6 flex flex-col items-center gap-6 font-mono text-xs sm:flex-row sm:items-start sm:text-sm">
+        <div className="mb-6 flex flex-col items-center gap-6 text-xs sm:flex-row sm:items-start sm:text-sm">
             <pre className="text-primary hidden leading-tight font-bold opacity-80 select-none sm:block">
                 {PC_ASCII}
             </pre>
@@ -156,7 +156,7 @@ function Neofetch() {
 
 export default function Notice({ className }: { className?: string }) {
     return (
-        <div className={'w-full font-mono text-sm ' + (className || '')}>
+        <div className={'w-full text-sm ' + (className || '')}>
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
@@ -179,7 +179,7 @@ export default function Notice({ className }: { className?: string }) {
 
                         <div className="relative">
                             <div className="text-base-content/50 mb-2 text-[10px] uppercase after:content-['Message\_Body']"></div>
-                            <AriticleContene className="font-mono">
+                            <AriticleContene className="">
                                 <NoticeModule />
                             </AriticleContene>
                         </div>

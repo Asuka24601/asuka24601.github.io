@@ -34,7 +34,7 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                                         #{tag}
                                     </span>
                                 </div>
-                                <div className="text-base-content/40 mt-2 font-mono text-xs">
+                                <div className="text-base-content/40 mt-2 text-xs">
                                     FOUND {posts.length} ENTRIES
                                 </div>
                             </div>
@@ -51,7 +51,7 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                                             >
                                                 {/* Card Header */}
                                                 <div className="text-base-content/40 mb-2 flex items-center justify-between text-[10px]">
-                                                    <span className="font-mono">
+                                                    <span className="">
                                                         [
                                                         {
                                                             timeToString(
@@ -74,7 +74,7 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                                                 {/* Description */}
                                                 {post.frontMatter
                                                     .description && (
-                                                    <p className="text-base-content/60 mb-4 line-clamp-3 grow font-mono text-xs">
+                                                    <p className="text-base-content/60 mb-4 line-clamp-3 grow text-xs">
                                                         {
                                                             post.frontMatter
                                                                 .description
@@ -110,7 +110,7 @@ export default function PostList({ loaderData }: Route.ComponentProps) {
                                             <div className="mb-4 text-6xl font-black opacity-10">
                                                 404
                                             </div>
-                                            <div className="font-mono text-sm tracking-widest uppercase">
+                                            <div className="text-sm tracking-widest uppercase">
                                                 &lt; NO_DATA_FOUND_FOR_TAG /&gt;
                                             </div>
                                         </div>

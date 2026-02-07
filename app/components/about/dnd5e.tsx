@@ -31,13 +31,13 @@ export default function DND5E({ item }: { item: DND5eItemInterface }) {
 
                 <div className="flex gap-4">
                     <div className="border-secondary bg-base-200 flex h-16 w-20 flex-col items-center justify-center border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)]">
-                        <span className="text-secondary text-[10px] font-bold uppercase before:content-['ARMOR\_CLASS']"></span>
+                        <span className="text-secondary text-[9px] font-bold uppercase before:content-['ARMOR\_CLASS']"></span>
                         <span className="text-secondary text-2xl font-black">
                             {item.armorClass}
                         </span>
                     </div>
                     <div className="border-accent bg-base-200 flex h-16 w-20 flex-col items-center justify-center border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)]">
-                        <span className="text-accent text-[10px] font-bold uppercase before:content-['HIT\_POINTS']"></span>
+                        <span className="text-accent text-[9px] font-bold uppercase before:content-['HIT\_POINTS']"></span>
                         <span className="text-accent text-xl font-black">
                             {item.hitPoints}
                         </span>

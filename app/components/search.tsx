@@ -67,7 +67,7 @@ const MatchScore = ({ score }: { score: number | undefined }) => {
     const emptyLength = barLength - filledLength
 
     return (
-        <div className="flex items-center gap-2 font-mono text-[10px] opacity-80">
+        <div className="flex items-center gap-2 text-[10px] opacity-80">
             <span className="text-base-content/40">MATCH:</span>
             <span className="flex">
                 <span className="text-success">{'|'.repeat(filledLength)}</span>
@@ -180,7 +180,7 @@ export default function Search() {
     if (!searchShow) return null
 
     return (
-        <div className="bg-base-100/80 fixed inset-0 z-50 flex items-start justify-center pt-[15vh] font-mono text-sm backdrop-blur-sm">
+        <div className="bg-base-100/80 fixed inset-0 z-50 flex items-start justify-center pt-[15vh] text-sm backdrop-blur-sm">
             <style>{`
                 @keyframes crt-turn-on {
                     0% {
@@ -295,7 +295,7 @@ export default function Search() {
                                                                 }
                                                             />
                                                         </div>
-                                                        <div className="text-base-content/40 font-mono text-[10px]">
+                                                        <div className="text-base-content/40 text-[10px]">
                                                             <span className="hidden sm:inline">
                                                                 [
                                                                 {

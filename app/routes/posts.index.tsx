@@ -26,7 +26,7 @@ const AsciiProgressBar = () => {
     const bar = '|'.repeat(filledChars) + '.'.repeat(emptyChars)
 
     return (
-        <div className="text-base-content/50 flex flex-col items-center gap-1 font-mono text-xs">
+        <div className="text-base-content/50 flex flex-col items-center gap-1 text-xs">
             <div className="animate-pulse text-[10px] tracking-widest uppercase">
                 &gt;&gt; BUFFERING_DATA_STREAM
             </div>
@@ -103,7 +103,7 @@ export default function PostIndex() {
     }, [navigation.state])
 
     return (
-        <div className="mx-auto w-full max-w-6xl pt-(--navbar-height) font-mono text-sm">
+        <div className="mx-auto w-full max-w-6xl pt-(--navbar-height) text-sm">
             <div
                 className="border-terminal transition-all duration-500"
                 style={{
@@ -155,7 +155,7 @@ export default function PostIndex() {
                                     onChange={(e) =>
                                         setSearchQuery(e.target.value)
                                     }
-                                    className="border-neutral/30 focus:border-neutral text-base-content placeholder-base-content/50 w-full border-b bg-transparent px-2 py-1 font-mono focus:outline-none"
+                                    className="border-neutral/30 focus:border-neutral text-base-content placeholder-base-content/50 w-full border-b bg-transparent px-2 py-1 focus:outline-none"
                                     placeholder="输入关键词搜索..."
                                     autoComplete="off"
                                 />
@@ -183,7 +183,7 @@ export default function PostIndex() {
                                                 }}
                                                 className={`border px-2 py-0.5 text-[10px] transition-all duration-300 ${
                                                     isSelected
-                                                        ? 'border-secondary bg-secondary text-black shadow-[0_0_10px_rgba(0,255,0,0.3)]'
+                                                        ? 'border-secondary bg-secondary text-black shadow-[0_0_10px_var(--color-secondary)]'
                                                         : 'hover:border-secondary hover:text-secondary text-base-content/60 border-neutral/20'
                                                 }`}
                                             >

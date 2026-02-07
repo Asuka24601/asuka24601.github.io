@@ -99,7 +99,7 @@ export function AriticleFooter({ tags, time }: { tags: Tags; time?: string }) {
 
 export function ArticleError({ slug }: { slug: string }) {
     return (
-        <div className="mx-auto max-w-3xl px-4 py-8 font-mono text-sm">
+        <div className="mx-auto max-w-3xl px-4 py-8 text-sm">
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
@@ -140,7 +140,7 @@ export function ArticleError({ slug }: { slug: string }) {
                                 <p className="text-warning mb-2 font-bold uppercase">
                                     &gt;&gt; DIAGNOSTIC_REPORT:
                                 </p>
-                                <ul className="list-disc space-y-1 pl-5 font-mono">
+                                <ul className="list-disc space-y-1 pl-5">
                                     <li>Markdown_File_Not_Found</li>
                                     <li>Path_Coordinates_Invalid</li>
                                     <li>Permission_Denied</li>

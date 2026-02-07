@@ -1,10 +1,5 @@
 import type { ProfileStatisticsInterface } from '../interfaces/profile'
 import ProfileCard from '../components/home/profileCard'
-import {
-    fetchCommentTotalNumber,
-    fetchPostTotalNumber,
-    fetchTagTotalNumber,
-} from '../lib/fetchData'
 import TodoList from '../components/home/todoList'
 import CommentComponent from '../components/commentComponent'
 import TagComponent from '../components/home/tagsComponent'
@@ -26,17 +21,17 @@ export default function Home() {
         () => [
             {
                 name: '文章',
-                value: fetchPostTotalNumber(),
+                value: postsData.routes.length,
                 routePath: '/posts',
             },
             {
                 name: '标签',
-                value: fetchTagTotalNumber(),
+                value: tagData.tags.length,
                 routePath: '/tags',
             },
             {
                 name: '留言',
-                value: fetchCommentTotalNumber(),
+                value: commentData.data.length,
                 routePath: '/comments',
             },
         ],

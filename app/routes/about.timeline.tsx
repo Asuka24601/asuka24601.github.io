@@ -43,7 +43,7 @@ function TimelineItem({
 
                     {/* Content */}
                     <div className="flex flex-col gap-2">
-                        <div className="text-base-content/50 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs">
+                        <div className="text-base-content/50 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
                             <span className="text-secondary/50 before:content-['['] after:content-[']']">
                                 {dateStr}
                             </span>
@@ -100,7 +100,7 @@ export default function TimeLine() {
                         <h2 className="text-primary text-xl font-black tracking-widest uppercase before:content-['TRACKING\_ALL\_TASKS\_AND\_EVENTS.TXT']"></h2>
                     </div>
 
-                    <div className="flex gap-4 text-[10px] font-bold tracking-widest uppercase">
+                    <div className="flex gap-4 text-[9px] font-bold tracking-widest uppercase">
                         <button
                             onClick={() => setFilter('all')}
                             className={`hover:text-secondary transition-colors ${filter === 'all' ? 'text-secondary' : 'text-base-content/40'}`}

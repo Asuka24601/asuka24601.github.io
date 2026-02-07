@@ -8,18 +8,20 @@ import {
 } from 'react-router'
 import type { Route } from './+types/root'
 import { createHeart } from './lib/mouse'
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 
 import animateStylesHref from 'animate.css/animate.min.css?url'
 import katexStylesHref from 'katex/dist/katex.min.css?url'
 import katexCustomStyleHref from './styles/katex.css?url'
 import appStylesHref from './styles/style.css?url'
+import fontStyleHref from './styles/fonts.css?url'
 import { PageError } from './routes/errorPage'
 import CRTScreen from './components/effect/CRTScreen'
 
 export const links = () => [
     { rel: 'icon', href: '/favicon.ico' },
     { rel: 'stylesheet', href: animateStylesHref },
+    { rel: 'stylesheet', href: fontStyleHref },
     { rel: 'stylesheet', href: katexStylesHref },
     { rel: 'stylesheet', href: appStylesHref },
     { rel: 'stylesheet', href: katexCustomStyleHref },
@@ -27,7 +29,7 @@ export const links = () => [
 
 export default function App() {
     const navigate = useNavigate()
-    useEffect(() => {
+    useLayoutEffect(() => {
         const redirect = sessionStorage.getItem('redirect')
         if (redirect) {
             sessionStorage.removeItem('redirect')

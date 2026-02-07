@@ -21,7 +21,7 @@ export default function Footer({
     socialMedia: socialMediaType
 }) {
     return (
-        <div className="bg-base-200 relative w-full font-mono text-sm">
+        <div className="bg-base-200 relative w-full text-sm">
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>

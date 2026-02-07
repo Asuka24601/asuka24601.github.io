@@ -20,14 +20,14 @@ export function TodoListItemComponent({
         >
             <div className="flex items-baseline justify-between gap-2">
                 <div className="flex items-center gap-3 overflow-hidden">
-                    <span className="text-base-content/30 shrink-0 font-mono text-xs select-none">
+                    <span className="text-base-content/30 shrink-0 text-xs select-none">
                         {pid}
                     </span>
                     <span
                         className={`shrink-0 text-[10px] font-bold uppercase ${isCompleted ? "text-red-500 before:content-['KILLED']" : "text-success animate-pulse before:content-['RUNNING']"}`}
                     ></span>
                     <span
-                        className={`truncate font-mono text-sm font-bold ${isCompleted ? 'text-base-content/40 line-through' : 'text-secondary'}`}
+                        className={`truncate text-sm font-bold ${isCompleted ? 'text-base-content/40 line-through' : 'text-secondary'}`}
                     >
                         {subject.task}
                     </span>
@@ -54,7 +54,7 @@ function TodoListComponent({
     className?: string | undefined
 }) {
     return (
-        <div className={`w-full font-mono text-sm ${className || ''}`}>
+        <div className={`w-full text-sm ${className || ''}`}>
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>

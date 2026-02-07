@@ -14,7 +14,7 @@ export default function FloatMenu({
             <div className="relative max-w-60 overflow-hidden">
                 <TextJitter className="border-none! p-0!">
                     <nav
-                        className={`font-mono text-[10px] lg:text-xs ${className || ''}`}
+                        className={`text-[10px] lg:text-xs ${className || ''}`}
                         style={style}
                     >
                         <menu className="flex flex-col border-l border-dashed border-white/10 pl-2 [&_a]:text-wrap [&_a]:break-all">
@@ -30,7 +30,7 @@ export default function FloatMenu({
 export function TreeStructure({ level }: { level: 1 | 2 | 3 | 4 | 5 | 6 }) {
     return (
         <>
-            <span className="text-base-content/30 shrink-0 font-mono select-none">
+            <span className="text-base-content/30 shrink-0 select-none">
                 {level === 1 ? (
                     <span className="mr-2 font-bold">{`>_`}</span>
                 ) : (

@@ -32,7 +32,7 @@ function ProfileCard({
     }
 
     return (
-        <div className={`w-full font-mono text-sm ${className || ''}`}>
+        <div className={`w-full text-sm ${className || ''}`}>
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>

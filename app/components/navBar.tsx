@@ -83,7 +83,7 @@ export default function NavBar({
 
     return (
         <div
-            className={`${className || ''} fixed top-0 left-0 z-50 w-full font-mono text-sm transition-all duration-500 ${navShow ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
+            className={`${className || ''} fixed top-0 left-0 z-50 w-full text-sm transition-all duration-500 ${navShow ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
             ref={elementRef}
         >
             <div

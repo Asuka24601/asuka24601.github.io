@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'MatissePro';
+    src: url('../assets/fonts/FOT-MatissePro-EB.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; /* 优化加载显示 */
+}
+
+html {
+    font-family: 'MatissePro';
+}

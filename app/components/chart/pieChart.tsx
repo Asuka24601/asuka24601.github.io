@@ -472,7 +472,7 @@ export function PieChartSvgClassic({
                         <div className="text-primary text-xs font-bold uppercase">
                             {materials[hoveredIndex].name}
                         </div>
-                        <div className="text-primary/80 font-mono text-[10px]">
+                        <div className="text-primary/80 text-[10px]">
                             {(
                                 (materials[hoveredIndex].value / total) *
                                 100

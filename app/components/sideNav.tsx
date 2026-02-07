@@ -25,7 +25,7 @@ export default function SideNav({
     return (
         <>
             <div className={`${className || 'lg:hidden'} contents`}>
-                <div className="sticky right-0 bottom-0 flex h-0 w-full -translate-x-8 -translate-y-36 flex-row justify-end">
+                <div className="sticky right-0 bottom-0 z-3 flex h-0 w-full -translate-x-8 -translate-y-36 flex-row justify-end">
                     <button
                         className="border-neutral text-primary bg-base-200 right-8 bottom-24 z-40 flex h-12 w-12 items-center justify-center border-2 border-double shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] transition-all hover:translate-y-1 hover:shadow-none"
                         title="OPEN_DIRECTORY"
@@ -51,7 +51,7 @@ export default function SideNav({
                         document.body.style.paddingRight = ''
                         document.body.style.overflowY = ''
                     }}
-                    className="border-neutral bg-base-200 text-base-content backdrop:bg-base-100/50 fixed top-0 right-0 z-50 m-0 h-dvh max-h-dvh w-3/4 max-w-xs overflow-hidden border-l-4 border-double p-0 font-mono text-sm shadow-2xl outline-none backdrop:backdrop-blur-sm"
+                    className="border-neutral bg-base-200 text-base-content backdrop:bg-base-100/50 fixed top-0 right-0 z-50 m-0 h-dvh max-h-dvh w-3/4 max-w-xs overflow-hidden border-l-4 border-double p-0 text-sm shadow-2xl outline-none backdrop:backdrop-blur-sm"
                     onClick={(e) => {
                         if (e.target === dialogRef.current) {
                             dialogRef.current.close()

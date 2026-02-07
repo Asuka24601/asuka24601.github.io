@@ -99,7 +99,7 @@ const TreeItem = ({
         return (
             <div className="flex flex-col">
                 <div className="flex items-center">
-                    <span className="text-base-content/50 font-mono whitespace-pre">
+                    <span className="text-base-content/50 whitespace-pre">
                         {prefix}
                         {connector}
                     </span>
@@ -117,7 +117,7 @@ const TreeItem = ({
     return (
         <div className="flex flex-col">
             <div className="flex items-center">
-                <span className="text-base-content/50 font-mono whitespace-pre">
+                <span className="text-base-content/50 whitespace-pre">
                     {prefix}
                     {connector}
                 </span>
@@ -127,7 +127,7 @@ const TreeItem = ({
                     type="button"
                 >
                     {item.name}
-                    <span className="ml-2 font-mono text-xs opacity-50">
+                    <span className="ml-2 text-xs opacity-50">
                         {isOpen ? '[-]' : '[+]'}
                     </span>
                 </button>
@@ -189,7 +189,7 @@ export default function PostCategory({
                                         .
                                     </div>
                                     <TreeRenderer items={treeItems} />
-                                    <div className="text-base-content/50 mt-2 font-mono text-base">
+                                    <div className="text-base-content/50 mt-2 text-base">
                                         <br />
                                         {directoryCount} director
                                         {directoryCount !== 1

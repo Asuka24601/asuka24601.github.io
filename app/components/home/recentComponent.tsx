@@ -23,7 +23,7 @@ export default function RecentComponent({
         .slice(0, count)
 
     return (
-        <div className={`w-full font-mono text-sm ${className || ''}`}>
+        <div className={`w-full text-sm ${className || ''}`}>
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>
@@ -55,7 +55,7 @@ export default function RecentComponent({
                                         <span className="text-base-content/30">
                                             {t.time}
                                         </span>
-                                        <span className="text-base-content/30 font-mono before:content-['LOG_ID:']">
+                                        <span className="text-base-content/30 before:content-['LOG_ID:']">
                                             {(index + 1)
                                                 .toString()
                                                 .padStart(3, '0')}

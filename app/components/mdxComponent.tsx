@@ -153,7 +153,7 @@ const mdxComponents = {
         children?: React.ReactNode
     }) => (
         <section
-            className="text-base-content/90 my-3 font-mono text-sm leading-relaxed"
+            className="text-base-content/90 my-3 text-sm leading-relaxed"
             {...props}
         >
             {children}
@@ -199,7 +199,7 @@ const mdxComponents = {
         if (isInline) {
             return (
                 <code
-                    className="text-warning mx-1 border border-white/10 bg-white/10 px-1.5 py-0.5 font-mono text-xs"
+                    className="text-warning mx-1 border border-white/10 bg-white/10 px-1.5 py-0.5 text-xs"
                     {...props}
                 >
                     {children}
@@ -208,7 +208,7 @@ const mdxComponents = {
         }
 
         return (
-            <code className={`${className} font-mono text-sm`} {...props}>
+            <code className={`${className} text-sm`} {...props}>
                 {children}
             </code>
         )
@@ -276,7 +276,7 @@ const mdxComponents = {
         children?: React.ReactNode
     }) => (
         <ul
-            className="marker:text-primary text-base-content/90 my-4 list-disc space-y-1 pl-5 font-mono text-sm"
+            className="marker:text-primary text-base-content/90 my-4 list-disc space-y-1 pl-5 text-sm"
             {...props}
         >
             {children}
@@ -290,7 +290,7 @@ const mdxComponents = {
         children?: React.ReactNode
     }) => (
         <ol
-            className="marker:text-primary text-base-content/90 my-4 list-decimal space-y-1 pl-5 font-mono text-sm marker:font-bold"
+            className="marker:text-primary text-base-content/90 my-4 list-decimal space-y-1 pl-5 text-sm marker:font-bold"
             {...props}
         >
             {children}
@@ -328,7 +328,7 @@ const mdxComponents = {
                 />
             </div>
             {props.alt && (
-                <figcaption className="text-base-content/70 border-neutral/10 mt-2 border-t border-dashed pt-2 text-center font-mono text-[10px] before:content-['\/\/_']">
+                <figcaption className="text-base-content/70 border-neutral/10 mt-2 border-t border-dashed pt-2 text-center text-[10px] before:content-['\/\/_']">
                     {removeExtension(props.alt)}
                 </figcaption>
             )}
@@ -338,7 +338,7 @@ const mdxComponents = {
     // 表格
     table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
         <div className="my-6 w-full overflow-x-auto border border-dashed border-white/20">
-            <table className="w-full text-left font-mono text-sm" {...props} />
+            <table className="w-full text-left text-sm" {...props} />
         </div>
     ),
     thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (

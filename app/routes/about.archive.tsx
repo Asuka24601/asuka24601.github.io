@@ -185,7 +185,7 @@ export default function Archive() {
                     </div>
 
                     <div className="border-terminal flex w-full flex-col gap-2 text-xs break-all">
-                        <CRTOverlay />
+                        <CRTOverlay className="opacity-0 transition-opacity duration-300 dark:opacity-100" />
                         <TextJitter>
                             <strong className="text-success flex flex-col gap-2">
                                 <p className="before:mr-1 before:content-['>>_MD5:']">

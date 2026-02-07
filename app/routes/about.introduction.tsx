@@ -21,7 +21,7 @@ export default function Introduction() {
                 </div>
 
                 <div className="relative">
-                    <AriticleContene className="font-mono">
+                    <AriticleContene className="">
                         <AboutIntroduction />
                     </AriticleContene>
                 </div>

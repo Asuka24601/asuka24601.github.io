@@ -23,7 +23,7 @@ export function PageError({ error }: { error: unknown }) {
     return (
         <main
             id="page-error"
-            className="bg-base-100 flex h-screen w-screen items-center justify-center font-mono text-sm"
+            className="bg-base-100 flex h-screen w-screen items-center justify-center text-sm"
         >
             <div className="border-terminal m-4 w-full max-w-2xl">
                 <CRTOverlay />
@@ -76,7 +76,7 @@ export function PageError({ error }: { error: unknown }) {
                                 >
                                     &gt;&gt; DIAGNOSTIC_REPORT:
                                 </p>
-                                <p className="font-mono">{details}</p>
+                                <p className="">{details}</p>
                             </div>
 
                             {stack && (

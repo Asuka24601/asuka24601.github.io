@@ -29,7 +29,7 @@ export function CommentItemComponent({
 
                 <div className="flex min-w-0 flex-1 flex-col gap-1">
                     {/* Log Header */}
-                    <div className="font-mono text-[10px] opacity-60">
+                    <div className="text-[10px] opacity-60">
                         <span className="text-secondary before:content-['['] after:content-[']']">
                             {timeToString(comment.time).dateTime}
                         </span>
@@ -44,7 +44,7 @@ export function CommentItemComponent({
                     </div>
 
                     {/* Message */}
-                    <div className="text-base-content/90 font-mono text-sm leading-relaxed wrap-break-word">
+                    <div className="text-base-content/90 text-sm leading-relaxed wrap-break-word">
                         <span className="text-primary/50 mr-2 select-none">{`>>`}</span>
                         {comment.message}
                     </div>
@@ -65,7 +65,7 @@ export default function CommentComponent({
     if (!comments) return null
 
     return (
-        <div className={`w-full font-mono text-sm ${className || ''}`}>
+        <div className={`w-full text-sm ${className || ''}`}>
             <div className="border-terminal">
                 <CRTOverlay />
                 <TextJitter>

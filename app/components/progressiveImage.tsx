@@ -20,7 +20,9 @@ const ProgressiveImage = ({
     useLightBox?: boolean
     draggable?: boolean | 'true' | 'false'
 }) => {
-    const [imgSrc, setImgSrc] = useState(placeholderSrc || src || errorImg)
+    const [imgSrc, setImgSrc] = useState(
+        lazy ? placeholderSrc || errorImg : src || errorImg
+    )
     const [isBlur, setIsBlur] = useState(true)
     const imgRef = useRef<HTMLImageElement>(null)
 
@@ -31,57 +33,39 @@ const ProgressiveImage = ({
     const setNavShow = useNavStore((state) => state.setNavShow)
 
     useEffect(() => {
-        // 当 src 变化时，重置为占位图并开启模糊，避免显示旧图
-        setImgSrc(placeholderSrc || src || errorImg)
         setIsBlur(true)
 
-        if (!src) {
-            const timer = setTimeout(() => {
-                setIsBlur(false)
-            }, 500)
-            return () => clearTimeout(timer)
+        if (!lazy) {
+            setImgSrc(src || errorImg)
+            return
         }
 
-        let observer: IntersectionObserver
-        let mounted = true
+        // 懒加载模式：重置为占位图
+        setImgSrc(placeholderSrc || errorImg)
 
-        const loadHighRes = () => {
-            const img = new Image()
-            img.src = src
-            img.onload = () => {
-                if (mounted) {
-                    setImgSrc(src) // 替换为高清图
-                    setIsBlur(false) // 取消模糊
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setImgSrc(src || errorImg)
+                    observer.disconnect()
                 }
-            }
-            img.onerror = () => {
-                if (mounted) {
-                    setImgSrc(placeholderSrc || errorImg) // 替换为占位图
-                    setIsBlur(false) // 取消模糊
-                }
-            }
-        }
+            },
+            { threshold: 0 }
+        )
 
-        // 如果开启懒加载且支持 IntersectionObserver，则等待进入视口再加载
-        if (lazy && typeof IntersectionObserver !== 'undefined') {
-            observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        loadHighRes()
-                        observer.disconnect()
-                    }
-                })
-            })
-            if (imgRef.current) observer.observe(imgRef.current)
-        } else {
-            loadHighRes()
-        }
+        if (imgRef.current) observer.observe(imgRef.current)
 
-        return () => {
-            mounted = false
-            if (observer) observer.disconnect()
-        }
+        return () => observer.disconnect()
     }, [src, placeholderSrc, lazy])
+
+    const handleLoad = () => {
+        if (imgSrc === (src || errorImg)) setIsBlur(false)
+    }
+
+    const handleError = () => {
+        setImgSrc(placeholderSrc || errorImg)
+        setIsBlur(false)
+    }
 
     return (
         <img
@@ -109,6 +93,8 @@ const ProgressiveImage = ({
                     : undefined
             }
             src={imgSrc}
+            onLoad={handleLoad}
+            onError={handleError}
             loading={lazy ? 'lazy' : 'eager'}
             style={{
                 filter: isBlur ? 'blur(10px)' : 'none',
