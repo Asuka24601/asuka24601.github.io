@@ -1,0 +1,9 @@
+import{w as c,r as d,j as e,L as h}from"./chunk-JMJ3UQ3L-D8xUhVh8.js";import{A as s}from"./tags-DTx86MpR.js";import{C as p}from"./CRTOverlay-CMIxyTdG.js";import{T as u}from"./textJitter-CutdUL0c.js";const x=s.total,w=c(function(){const r=s.tags,i=d.useMemo(()=>r.map((a,l)=>{const o=a.count/x,t=m=>{const n=Math.sin(l+m)*1e4;return n-Math.floor(n)};return{top:Math.floor(t(1)*90),duration:15+t(2)*20,delay:t(3)*-35,size:1+o*4,color:`hsl(${Math.floor(t(5)*360)}, ${50+o*50}%, ${50+o*40}%)`,opacity:.6+t(6)*.4,...a}}),[r]);return e.jsx(e.Fragment,{children:e.jsx("div",{className:"mx-auto min-h-screen w-full",children:e.jsx("div",{className:"border-terminal mx-auto grid min-h-[inherit] max-w-6xl overflow-hidden! border-none! p-4 lg:p-6",children:e.jsxs("div",{className:"min-h-full w-full pt-(--navbar-height) transition-transform duration-500",children:[e.jsx(p,{}),e.jsxs(u,{className:"border-neutral! bg-base-200 relative min-h-full overflow-hidden border-4 border-double",children:[e.jsx("style",{children:`
+                            @keyframes danmaku {
+                                from { left: 100%; transform: translateX(0); }
+                                to { left: 0; transform: translateX(-100%); }
+                            }
+                            .danmaku-tag:hover {
+                                animation-play-state: paused !important;
+                            }
+                        `}),i.map(a=>e.jsxs(h,{to:`/tags/${a.name}`,className:"danmaku-tag hover:text-base-content absolute cursor-pointer font-bold whitespace-nowrap transition-all hover:z-50 hover:scale-125 hover:opacity-100",style:{top:`${a.top}%`,fontSize:`${a.size}rem`,color:a.color,opacity:a.opacity,animation:`danmaku ${a.duration}s linear infinite`,animationDelay:`${a.delay}s`,textShadow:"2px 2px 0px rgba(0,0,0,0.5)"},children:[a.name,e.jsx("span",{className:"text-base before:content-['_x_']",children:a.count})]},a.name))]})]})})})})});export{w as default};
