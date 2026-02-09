@@ -89,6 +89,7 @@ export default function HeaderBanner({
                         'perspective(1000px) scale(1.1) rotateX(calc(var(--banner-y, 0) * -2deg)) rotateY(calc(var(--banner-x, 0) * 2deg)) translate3d(calc(var(--banner-x, 0) * -10px), calc(var(--banner-y, 0) * -10px), 0)',
                     willChange: 'transform, filter',
                 }}
+                loading="eager"
             />
             {ImgUrl ? null : (
                 <img
@@ -108,6 +109,7 @@ export default function HeaderBanner({
                             'perspective(1000px) scale(1.1) rotateX(calc(var(--banner-y, 0) * -2deg)) rotateY(calc(var(--banner-x, 0) * 2deg)) translate3d(calc(var(--banner-x, 0) * -10px), calc(var(--banner-y, 0) * -10px), 0)',
                         willChange: 'transform',
                     }}
+                    loading="eager"
                 />
             )}
             <div

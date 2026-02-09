@@ -19,6 +19,7 @@ import BannerContent from '../components/bannerContent'
 import TextJitter from '../components/effect/textJitter'
 import CRTOverlay from '../components/effect/CRTOverlay'
 import { PageError } from '../routes/errorPage'
+import CommentsComponent from '../components/comments'
 
 function hasFrontMatter(obj: unknown): obj is { frontMatter: FrontMatter } {
     return (
@@ -27,6 +28,17 @@ function hasFrontMatter(obj: unknown): obj is { frontMatter: FrontMatter } {
         'frontMatter' in obj &&
         !!(obj as Record<string, unknown>).frontMatter
     )
+}
+
+const handleAction = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'instant',
+    })
+    // 设置页面的title
+    document.title = location.pathname.startsWith('/__dev__')
+        ? 'posts/' + location.pathname.slice(1).split('/').slice(1).join('/')
+        : location.pathname.slice(1)
 }
 
 export default function PostContent() {
@@ -47,16 +59,11 @@ export default function PostContent() {
               : undefined
         : undefined
 
-    const handleAction = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'instant',
-        })
-    }
-
     useLayoutEffect(() => {
         handleAction()
-        return () => {}
+        return () => {
+            document.title = `Asuka24601's Blog`
+        }
     }, [location.pathname])
 
     return (
@@ -115,6 +122,8 @@ export default function PostContent() {
                                     tags={frontMatter?.tags as string[]}
                                     time={frontMatter?.date as string}
                                 />
+                                <div className="border-neutral/20 w-full border-b-2 border-dashed"></div>
+                                <CommentsComponent mapping={'title'} />
                             </TextJitter>
                         </article>
 

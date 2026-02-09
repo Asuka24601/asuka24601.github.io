@@ -104,6 +104,7 @@ export default function PrologueComponent({
                     alt="wallpaper"
                     className="absolute top-0 left-0 h-full w-full object-cover object-right"
                     draggable={false}
+                    lazy={false}
                 />
             </div>
             <div className="absolute top-1/2 left-0 z-1 -translate-y-1/2">

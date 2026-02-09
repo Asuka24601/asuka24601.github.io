@@ -71,20 +71,21 @@ export default function Footer({
                             </nav>
                         </div>
 
-                        <div className="border-neutral/30 relative hidden aspect-video h-48 w-auto overflow-hidden border-l-2 border-dashed select-none lg:block [&>img]:transition-opacity [&>img]:duration-300">
-                            {/* <div className="bg-primary/10 pointer-events-none absolute inset-0 z-10 mix-blend-overlay"></div> */}
-                            <img
-                                src={snap}
-                                alt="snap"
-                                className="absolute z-1 h-full object-cover opacity-60 grayscale transition-all duration-500 hover:grayscale-0 dark:z-0 dark:opacity-0"
-                                draggable="false"
-                            />
-                            <img
-                                src={snapDark}
-                                alt="snap"
-                                className="absolute z-0 h-full object-cover opacity-0 grayscale transition-all duration-500 hover:grayscale-0 dark:z-1 dark:opacity-60"
-                                draggable="false"
-                            />
+                        <div className="border-neutral/30 relative hidden aspect-video h-48 w-auto overflow-hidden border-l-2 border-dashed py-8 select-none lg:block [&>div>img]:transition-all [&>div>img]:duration-300">
+                            <div className="relative h-full w-full">
+                                <img
+                                    src={snap}
+                                    alt="snap"
+                                    className="absolute left-1/2 z-1 h-full -translate-x-1/2 object-cover opacity-60 grayscale hover:grayscale-0 hover:transition-all hover:duration-300 dark:z-0 dark:opacity-0"
+                                    draggable="false"
+                                />
+                                <img
+                                    src={snapDark}
+                                    alt="snap"
+                                    className="absolute left-1/2 z-0 h-full -translate-x-1/2 object-cover opacity-0 grayscale hover:grayscale-0 hover:transition-all hover:duration-300 dark:z-1 dark:opacity-60"
+                                    draggable="false"
+                                />
+                            </div>
                         </div>
                     </div>
 

@@ -68,22 +68,27 @@ function createRouteTree(routes: ManifestRoute[]): RouteNode {
     return root
 }
 
-function generateRoutes(node: RouteNode, currentPath = 'posts'): any[] {
+function generateRoutes(
+    node: RouteNode,
+    currentPath = 'posts',
+    idx = 0
+): any[] {
     const routes: any[] = []
 
-    // 添加当前层级的索引节点 (Index Node)
-    routes.push(
-        index('routes/posts.$category.tsx', {
-            id: `${currentPath}/category`,
-        })
-    )
+    // 添加当前层级的索引节点 (Index Node),最顶层不添加
+    if (idx !== 0)
+        routes.push(
+            index('routes/posts.$category.tsx', {
+                id: `${currentPath}/category`,
+            })
+        )
 
     // 处理子目录 (Prefixes)
     for (const [segment, childNode] of Object.entries(node.children)) {
         routes.push(
             ...prefix(
                 segment,
-                generateRoutes(childNode, `${currentPath}/${segment}`)
+                generateRoutes(childNode, `${currentPath}/${segment}`, idx + 1)
             )
         )
     }

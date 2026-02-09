@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState, useRef } from 'react'
 import errorImg from '../assets/errorImg.webp'
+import placeholderImg from '../assets/placeholder.webp'
 import { useLightBoxStore, useNavStore } from '../lib/store'
 
 const ProgressiveImage = ({
@@ -21,7 +22,7 @@ const ProgressiveImage = ({
     draggable?: boolean | 'true' | 'false'
 }) => {
     const [imgSrc, setImgSrc] = useState(
-        lazy ? placeholderSrc || errorImg : src || errorImg
+        lazy ? placeholderSrc || placeholderImg : src || errorImg
     )
     const [isBlur, setIsBlur] = useState(true)
     const imgRef = useRef<HTMLImageElement>(null)
@@ -36,12 +37,12 @@ const ProgressiveImage = ({
         setIsBlur(true)
 
         if (!lazy) {
-            setImgSrc(src || errorImg)
+            setImgSrc(src || placeholderImg || errorImg)
             return
         }
 
         // 懒加载模式：重置为占位图
-        setImgSrc(placeholderSrc || errorImg)
+        setImgSrc(placeholderSrc || placeholderImg || errorImg)
 
         const observer = new IntersectionObserver(
             ([entry]) => {
