@@ -5,6 +5,32 @@ import CRTOverlay from '../effect/CRTOverlay'
 import TextJitter from '../effect/textJitter'
 import { Link } from 'react-router'
 
+import { create } from 'zustand'
+import type { MenuItemStore } from '../../interfaces/menuItem'
+
+const useMenuItemStore = create<MenuItemStore>()((set) => ({
+    open: true,
+    setMenuItemState: (usr) => set({ open: usr }),
+}))
+
+const MenuItem = () => {
+    const setMenuItemOpen = useMenuItemStore((state) => state.setMenuItemState)
+
+    const handleClick = () => {
+        setMenuItemOpen(true)
+    }
+
+    return (
+        <>
+            <div className="aspect-square h-full w-auto">
+                <button className="btn h-full w-full" onClick={handleClick}>
+                    P
+                </button>
+            </div>
+        </>
+    )
+}
+
 interface TagItem {
     name: string
     count?: number
@@ -56,7 +82,7 @@ function TagComponent({
 
     return (
         <div className={`w-full text-sm ${className || ''}`}>
-            <div className="border-terminal">
+            <div className="border-terminal relative">
                 <CRTOverlay />
                 <TextJitter>
                     {/* Header */}
@@ -91,3 +117,5 @@ function TagComponent({
 }
 
 export default memo(TagComponent)
+export const TagComponentMenuItem = memo(MenuItem)
+export const TagComponentStore = useMenuItemStore

@@ -118,10 +118,6 @@ export default function About() {
                     <div
                         ref={imgContentRef}
                         className="animate__animated animate__fadeIn animate__slow pointer-events-none mx-auto py-5 transition-all duration-500 select-none md:py-9 lg:py-12 xl:py-15"
-                        style={{
-                            height: 'calc(100% - var(--navbar-height))',
-                            translate: '0 var(--navbar-height)',
-                        }}
                         draggable="false"
                     >
                         <div className="relative h-full w-full transition-opacity duration-300">
@@ -213,12 +209,7 @@ export default function About() {
                             <div className="flex min-h-[60vh] flex-col lg:flex-row">
                                 {/* Sidebar (Desktop) */}
                                 <aside className="border-neutral/30 bg-base-200/10 relative hidden w-64 shrink-0 border-r-2 border-dashed lg:block">
-                                    <div
-                                        className="sticky left-0"
-                                        style={{
-                                            top: 'var(--navbar-height)',
-                                        }}
-                                    >
+                                    <div className="sticky left-0">
                                         <div className="border-b border-dashed border-white/10 p-4">
                                             <div className="text-base-content/50 mb-2 text-[10px] font-bold tracking-widest uppercase before:content-['\/\/_NAVIGATION']"></div>
                                             <NavList />

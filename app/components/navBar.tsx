@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { throttle } from 'lodash-es' // 防抖/节流
 import { useNavStore, useSearchStore } from '../lib/store'
 import SvgIcon from './SvgIcon'
@@ -25,7 +25,6 @@ export default function NavBar({
     const [scrolled, setScrolled] = useState(false)
     // const [scrollPercent, setScrollPercent] = useState(0) // Removed unused state
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const elementRef = useRef<HTMLDivElement>(null)
 
     const navShow = useNavStore((state) => state.navShow)
     const resetNav = useNavStore((state) => state.resetNavShow)
@@ -63,42 +62,23 @@ export default function NavBar({
         }
     }, [])
 
-    useEffect(() => {
-        const element = elementRef.current
-        if (!element) return
-        const observer = new ResizeObserver((entries) => {
-            const entry = entries[0]
-            if (entry) {
-                document.body.style.setProperty(
-                    '--navbar-height',
-                    entry.target.getBoundingClientRect().height + 'px'
-                )
-            }
-        })
-        observer.observe(element)
-        return () => {
-            observer.disconnect()
-        }
-    }, [elementRef])
-
     return (
         <div
-            className={`${className || ''} fixed top-0 left-0 z-50 w-full text-sm transition-all duration-500 ${navShow ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
-            ref={elementRef}
+            className={`${className || ''} static top-0 left-0 z-50 h-full w-full text-sm transition-all duration-500 ${navShow ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
         >
             <div
-                className={`border-neutral bg-base-200 relative w-full overflow-hidden border-b-4 border-double shadow-[0_4px_0px_0px_rgba(0,0,0,0.3)] transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}
+                className={`bg-base-200 relative h-full w-full overflow-hidden transition-all duration-300 ${scrolled ? '' : ''}`}
             >
                 <CRTOverlay />
-                <TextJitter>
-                    <div className="container mx-auto flex items-center justify-between px-4 lg:px-8">
+                <TextJitter className="h-full! border-none!">
+                    <div className="container mx-auto flex h-full w-full flex-col items-center justify-between px-4 lg:px-8">
                         {/* Logo */}
                         <div className="flex items-center">
                             <Link
                                 to="/"
                                 className="group text-primary hover:text-base-content flex items-center gap-2 transition-colors"
                             >
-                                <span className="text-lg font-black tracking-widest uppercase before:content-['>_']">
+                                <span className="text-[8px] font-black tracking-widest uppercase before:content-['>_']">
                                     {siteName || 'SYSTEM'}
                                 </span>
                                 <span className="bg-primary hidden h-5 w-2.5 animate-pulse lg:block"></span>
@@ -106,7 +86,7 @@ export default function NavBar({
                         </div>
 
                         {/* Desktop Menu */}
-                        <div className="hidden items-center gap-8 lg:flex">
+                        <div className="hidden items-center gap-8 lg:flex lg:flex-col">
                             {navItems.map((item) => (
                                 <Link
                                     key={item.name}
@@ -121,7 +101,7 @@ export default function NavBar({
                         </div>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-4">
+                        <div className="flex flex-col items-center gap-4">
                             <button
                                 onClick={onSearchClick}
                                 className="hover:text-primary text-base-content/70 transition-colors"

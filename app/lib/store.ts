@@ -41,7 +41,7 @@ interface DiogramDataStore {
 }
 
 // 心电图收数据
-export const useDiogramDataStore = create<DiogramDataStore>((set) => ({
+export const useDiogramDataStore = create<DiogramDataStore>()((set) => ({
     value: 0,
     setValue: (value) => set({ value }),
 }))

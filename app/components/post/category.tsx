@@ -175,7 +175,7 @@ export default function PostCategory({
         <>
             <div className="mx-auto min-h-screen w-full">
                 <div className="border-terminal mx-auto grid min-h-[inherit] max-w-6xl overflow-visible! border-none! p-4 lg:p-6">
-                    <div className="min-h-full w-full pt-(--navbar-height) transition-transform duration-500">
+                    <div className="min-h-full w-full transition-transform duration-500">
                         <CRTOverlay />
                         <TextJitter className="border-neutral! bg-base-200 relative min-h-full overflow-hidden border-4 border-double">
                             <h1 className="uppercase">

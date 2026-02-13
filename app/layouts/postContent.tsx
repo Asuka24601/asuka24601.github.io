@@ -87,9 +87,6 @@ export default function PostContent() {
                 <div
                     ref={elementRef}
                     className="fixed left-0 z-50 h-1 w-full bg-transparent"
-                    style={{
-                        top: `var(--navbar-height)`,
-                    }}
                 >
                     <div
                         className="bg-success h-full w-full origin-left transition-transform duration-150 ease-out"
@@ -101,13 +98,7 @@ export default function PostContent() {
 
                 <div className="relative block h-full min-h-[inherit] w-full overflow-visible">
                     <div className="relative z-2 mx-auto max-w-5xl overflow-visible">
-                        <article
-                            className="border-terminal bg-base-200 animate__animated animate__fadeIn animate__slow relative will-change-transform"
-                            style={{
-                                transform:
-                                    'translateY(calc(var(--scroll-percent) * -25vw))',
-                            }}
-                        >
+                        <article className="border-terminal bg-base-200 animate__animated animate__fadeIn animate__slow relative will-change-transform">
                             <CRTOverlay />
                             <TextJitter>
                                 <AriticleContene
@@ -129,12 +120,7 @@ export default function PostContent() {
 
                         <div className="border-terminal bg-base-200! absolute! top-0 right-0 hidden h-full translate-x-[calc(100%-4px)] overflow-visible! border-t-0! border-b-0! 2xl:block">
                             <CRTOverlay />
-                            <div
-                                className="sticky left-0 z-40 h-fit w-fit p-4"
-                                style={{
-                                    top: 'var(--navbar-height)',
-                                }}
-                            >
+                            <div className="sticky left-0 z-40 h-fit w-fit p-4">
                                 <TOC
                                     queryID={
                                         'article-' + md5(location.pathname)

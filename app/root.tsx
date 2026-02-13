@@ -69,7 +69,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Links />
             </head>
             <body
-                className="bg-base-100 relative transition-colors duration-300"
+                className="bg-base-100 relative grid h-dvh w-dvw grid-cols-[auto_1fr] overflow-hidden transition-colors duration-300"
                 suppressHydrationWarning
             >
                 <CRTScreen />

@@ -72,8 +72,8 @@ const ABOUT_ITEMS_CONFIG = [
 export default function Archive() {
     return (
         <>
-            <div className="flex min-h-screen min-w-full flex-col">
-                <CRTOverlay />
+            <div className="relative flex min-h-screen min-w-full flex-col">
+                {/* <CRTOverlay /> */}
                 <div className="border-neutral/20 mb-8 border-b border-dashed pb-4">
                     <div className="text-base-content mb-1 text-[10px] font-bold tracking-widest uppercase opacity-50 before:content-['\/\/_SYSTEM_BENCHMARK_CHECK']"></div>
                     <h2 className="text-primary text-xl font-black tracking-widest uppercase before:content-['OUTPUT.LOG']"></h2>
@@ -184,7 +184,7 @@ export default function Archive() {
                         />
                     </div>
 
-                    <div className="border-terminal flex w-full flex-col gap-2 text-xs break-all">
+                    <div className="border-terminal relative flex w-full flex-col gap-2 text-xs break-all">
                         <CRTOverlay className="opacity-0 transition-opacity duration-300 dark:opacity-100" />
                         <TextJitter>
                             <strong className="text-success flex flex-col gap-2">

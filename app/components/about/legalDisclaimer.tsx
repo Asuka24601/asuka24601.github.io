@@ -12,7 +12,7 @@ export default function LegalDisclaimer({
     const [title, ...clauses] = disclaimer
 
     return (
-        <div className={`border-terminal ${className || ''}`}>
+        <div className={`border-terminal relative ${className || ''}`}>
             <CRTOverlay className="opacity-0 transition-opacity duration-300 dark:opacity-100" />
             <TextJitter>
                 <div className={`flex flex-col gap-2 text-red-400`}>

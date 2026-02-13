@@ -45,21 +45,22 @@ export default function BaseLayout() {
 
     return (
         <>
-            <header className="sticky top-0 z-2 h-0 w-full" id="header">
+            <header className="sticky top-0 z-2 h-full w-40" id="header">
                 <NavBar siteName={siteName} />
             </header>
-            <main className="relative z-1">
+            <main className="relative z-1 h-full w-full overflow-hidden">
                 <Side />
                 <Outlet />
                 <ToUp />
             </main>
-            <footer className="relative z-1">
-                <Footer
-                    name={profileData.data.name}
-                    discription={profileData.data.discription}
-                    socialMedia={profileData.data.socialMedia}
-                />
-            </footer>
+
+            {/* <footer className="relative z-1">
+                    <Footer
+                        name={profileData.data.name}
+                        discription={profileData.data.discription}
+                        socialMedia={profileData.data.socialMedia}
+                    />
+                </footer> */}
             {searchShow && <Search />}
             <LightBox />
         </>

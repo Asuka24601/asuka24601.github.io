@@ -8,6 +8,31 @@ import { memo } from 'react'
 import Avatar from '../avater'
 import CRTOverlay from '../effect/CRTOverlay'
 import TextJitter from '../effect/textJitter'
+import { create } from 'zustand'
+import type { MenuItemStore } from '../../interfaces/menuItem'
+
+const useMenuItemStore = create<MenuItemStore>()((set) => ({
+    open: true,
+    setMenuItemState: (usr) => set({ open: usr }),
+}))
+
+const MenuItem = () => {
+    const setMenuItemOpen = useMenuItemStore((state) => state.setMenuItemState)
+
+    const handleClick = () => {
+        setMenuItemOpen(true)
+    }
+
+    return (
+        <>
+            <div className="aspect-square h-full w-auto">
+                <button className="btn h-full w-full" onClick={handleClick}>
+                    P
+                </button>
+            </div>
+        </>
+    )
+}
 
 function ProfileCard({
     className,
@@ -32,8 +57,8 @@ function ProfileCard({
     }
 
     return (
-        <div className={`w-full text-sm ${className || ''}`}>
-            <div className="border-terminal">
+        <div className={`min-h-fit min-w-fit text-sm ${className || ''}`}>
+            <div className="border-terminal relative">
                 <CRTOverlay />
                 <TextJitter>
                     {/* Header */}
@@ -156,3 +181,5 @@ function ProfileCard({
 }
 
 export default memo(ProfileCard)
+export const ProfileCardMenuItem = memo(MenuItem)
+export const ProfileCardStore = useMenuItemStore

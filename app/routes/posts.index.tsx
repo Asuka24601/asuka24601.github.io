@@ -103,7 +103,7 @@ export default function PostIndex() {
     }, [navigation.state])
 
     return (
-        <div className="mx-auto w-full max-w-6xl pt-(--navbar-height) text-sm">
+        <div className="mx-auto w-full max-w-6xl text-sm">
             <div
                 className="border-terminal transition-all duration-500"
                 style={{
@@ -113,8 +113,8 @@ export default function PostIndex() {
                 }}
             >
                 <CRTOverlay />
-                <TextJitter>
-                    <div className="border-neutral bg-base-200 relative flex flex-col overflow-hidden border-4 border-double">
+                <TextJitter className="min-h-screen">
+                    <div className="border-neutral bg-base-200 relative flex min-h-full flex-col overflow-hidden border-4 border-double">
                         {/* Header */}
                         <div className="border-neutral/30 bg-base-200/20 flex items-end justify-between border-b-2 border-dashed p-4">
                             <div>
